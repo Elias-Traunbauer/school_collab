@@ -3,10 +3,11 @@
 - Visit the [live-dev website](https://school-collab.ga) and navigate to the given location
 - Check if the DOD-(Definition of Done)'s requirements are met
 
-\
-\
-\
-\
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 
 ## Development
 
