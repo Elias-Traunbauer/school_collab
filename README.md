@@ -9,8 +9,15 @@
 
 ### Dependencies
 * NodeJS Server >= 16
-* PHP >= 8
 * Visual Studio Code
+* ApacheHaus x64
+* PHP x64 >= 8
+
+## Set up dev environment
+Create a run-option in `package.json`
+```bash
+next build && next export && mkdir \out\api && xcopy /s \api \out\api"
+```
 
 ## Learn More
 
