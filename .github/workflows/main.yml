@@ -9,9 +9,10 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: Connect to deploy server
+    - name: ls -a via ssh
+      uses: garygrossgarten/github-action-ssh@release
       with:
+        command: cd /home/github/school_collab & sudo sh deploy.sh
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SHH_PRIVATE_KEY }}
-        script: sh deploy.sh
+        username: github
+        privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
