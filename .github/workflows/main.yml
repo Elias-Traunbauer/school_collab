@@ -29,4 +29,4 @@ jobs:
         run: ssh staging 'sudo git -C /home/github/school_collab pull'
 
       - name: Deploy next project
-        run: ssh staging 'cd school_collab & npm run deploy'
+        run: ssh staging 'npm --prefix /home/github/school_collab run deploy'
