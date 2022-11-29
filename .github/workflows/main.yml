@@ -22,6 +22,9 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: 20.203.131.180
 
+      - name: Check SSH Connection
+        run: ssh staging 'echo "It works!"'
+
       - name: Change directory
         run: ssh staging 'cd /home/github/school_collab'
 
