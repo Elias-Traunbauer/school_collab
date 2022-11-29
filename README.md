@@ -21,11 +21,11 @@ next build && next export && mkdir \out\api && xcopy /s \api \out\api
 ```
 
 * Configure ApacheHaus
-In your ApacheHaus directory, navigate to `\conf\`.
-In this folder you should see a file called `httpd.conf`, open it.
-In this file look for `DocumentRoot` and change it to the out directory of your next app.
-The out directory consists of the path of your next app and `\out`.
-For example `C:\Path\To\Your\Next\App` + `\out`
+In your ApacheHaus directory, navigate to `\conf\`.&nbsp;
+In this folder you should see a file called `httpd.conf`, open it.&nbsp;
+In this file look for `DocumentRoot` and change it to the out directory of your next app.&nbsp;
+The out directory consists of the path of your next app and `\out`.&nbsp;
+For example `C:\Path\To\Your\Next\App` + `\out`&nbsp;
 
 ## Learn More
 
