@@ -35,4 +35,4 @@ jobs:
         run: ssh staging 'mkdir ./school_collab/out/api'
         
       - name: Copy PHP files
-        run: ssh staging 'cp -a ./school_collab/api ./school_collab/out/api'
+        run: ssh staging 'cp -a ./school_collab/api ./school_collab/out'
