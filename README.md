@@ -13,7 +13,7 @@
 * ApacheHaus x64
 * PHP x64 >= 8
 
-## Set up dev environment
+## Dev-environment setup
 ### Set up next run command
 Create a run-option in `package.json`
 ```bash
