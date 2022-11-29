@@ -9,10 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Deploy
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
     - name: Pull project
       run: cd /home/github/school_collab & git pull
     - name: Install npm dependencies
