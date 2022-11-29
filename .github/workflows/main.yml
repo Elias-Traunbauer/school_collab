@@ -31,7 +31,7 @@ jobs:
       - name: Pull project code
         run: ssh staging 'sudo git -C ./school_collab pull'
 
-      - name: Deploy next project
+      - name: Deploy next-project
         run: ssh staging 'npm --prefix ./school_collab run deploy'
         
       - name: Create PHP API folder 
