@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
     - name: Pull project
       run: cd /home/github/school_collab & git pull
     - name: Install npm dependencies
