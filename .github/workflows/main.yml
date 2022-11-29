@@ -9,6 +9,6 @@ jobs:
       uses: garygrossgarten/github-action-ssh@release
       with:
         command: cd /home/github/school_collab & sudo sh deploy.sh
-        host: ${{ secrets.HOST }}
+        host: 20.203.131.180
         username: github
         privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
