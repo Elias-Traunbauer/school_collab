@@ -29,7 +29,7 @@ jobs:
         run: ssh staging 'cd /home/github/school_collab'
 
       - name: Pull project code
-        run: ssh staging 'git pull'
+        run: ssh staging 'sudo git pull'
 
       - name: Deploy next project
         run: ssh staging 'npm run deploy'
