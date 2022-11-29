@@ -25,11 +25,8 @@ jobs:
       - name: Check SSH Connection
         run: ssh staging 'echo "It works!"'
 
-      - name: Change directory
-        run: ssh staging 'cd /home/github/school_collab'
-
       - name: Pull project code
-        run: ssh staging 'sudo git pull'
+        run: ssh staging 'sudo git -C /home/github/school_collab pull'
 
       - name: Deploy next project
         run: ssh staging 'npm run deploy'
