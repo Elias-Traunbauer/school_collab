@@ -16,7 +16,7 @@
 ## Set up dev environment
 Create a run-option in `package.json`
 ```bash
-next build && next export && mkdir \out\api && xcopy /s \api \out\api"
+next build && next export && mkdir \out\api && xcopy /s \api \out\api
 ```
 
 ## Learn More
