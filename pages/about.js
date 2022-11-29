@@ -1,4 +1,4 @@
-export default function Home() {
+const About = () => {
     return (
         <>
         <h1>About</h1>
@@ -6,3 +6,13 @@ export default function Home() {
         </>
     )
 }
+
+About.getLayout = function getLayout(page) {
+    return (
+      <Layout>
+        {page}
+      </Layout>
+    )
+}
+
+export default About
