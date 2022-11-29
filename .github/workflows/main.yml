@@ -5,7 +5,7 @@ on:
       
 jobs:
   build:
-    name: "Deploy project on dev server"
+    name: "Deploy next project on live-dev server"
     runs-on: ubuntu-latest
     steps:
       - name: Configure SSH
