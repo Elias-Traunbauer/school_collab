@@ -1,6 +1,9 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# How to verify tasks
 
-## Getting Started
+- Visit the [live-dev website](https://school-collab.ga) and navigate to the given location
+- Verify if the DOD-(Definition of Done)'s requirements are met
+
+## Development
 
 ### Dependencies
 * NodeJS Server >= 16
