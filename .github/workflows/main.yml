@@ -25,4 +25,3 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: 20.203.131.180
           REMOTE_USER: github
-          EXCLUDE: "/dist/, /node_modules/"
