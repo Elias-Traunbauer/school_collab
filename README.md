@@ -1,4 +1,4 @@
-# How to verify tasks
+## How to verify tasks
 
 - Visit the [live-dev website](https://school-collab.ga) and navigate to the given location
 - Verify if the DOD-(Definition of Done)'s requirements are met
