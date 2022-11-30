@@ -1,11 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# How to verify tasks
 
-## Getting Started
+- Visit the [live-dev website](https://school-collab.ga) and navigate to the given location
+- Check if the DOD-(Definition of Done)'s requirements are met
+
+<br>
+<br>
+
+# Development
 
 ### Dependencies
 * NodeJS Server >= 16
-* PHP >= 8
 * Visual Studio Code
+* ApacheHaus x64
+* PHP x64 >= 8
+* Configure ApacheHaus to use php (make sure to change php7 to php) [tutorial](https://www.tutorialspoint.com/php7/php7_installation_windows_apache.htm)
+* Use the `php.ini` from the repo (replace existing php-ini file with this one)
+
+## Dev-environment setup
+### Set up next run command
+Create a run-option in `package.json`, the name can be anything (just make sure you use this option when developing)
+```bash
+next build && next export && mkdir \\out\\api && xcopy /s .\\api \\out\\api
+```
+
+### Configure ApacheHaus
+* In your ApacheHaus directory, navigate to `\conf` <br>
+* In this folder you should see a file called `httpd.conf`, open it <br>
+* In this file look for `DocumentRoot` and change it to the `out` directory of your next app <br>
+* The `out` directory consists of the path of your next app and `\out` <br>
+* For example `C:\Path\To\Your\Next\App` + `\out` <br>
 
 ## Learn More
 
