@@ -83,39 +83,7 @@ export default function Home() {
 
   return (
     <>
-    <div className={styles.registercontainer}>
-    <form className={styles.registerform} onSubmit={setUser}>
-        <h1>Anmelden</h1>
-        <label htmlFor='username'>Username</label>
-        <br/>
-        <input required type='text' id='username' placeholder='Username'></input>
-        <pre id='usernameerror'></pre>
-        <br/>
-        <label htmlFor='email'>Email</label>
-        <br/>
-        <input required type='text' id='email' placeholder='Email'></input>
-        <pre id='emailerror'></pre>
-        <br/>
-        <label htmlFor='password'>Passwort</label>
-        <br/>
-        <input required type='password' id='password'placeholder='Passwort'></input>
-        <pre id='passworderror'></pre>
-        <br/>
-        <label htmlFor='password2'>Passwort wiederholen</label>
-        <br/>
-        <input required type='password' id='password2'placeholder='Passwort'></input>
-        <pre id='password2error'></pre>
-        <br/>
-        <button type='submit'>submit</button>
-        
-      </form>
-    </div>
-    <br></br>
-    <br></br>
-    <br></br>
-    <Assignment></Assignment>
-
-    
+    <Otp></Otp>
     </>
   )
 }
