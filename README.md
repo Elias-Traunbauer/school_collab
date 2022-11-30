@@ -13,14 +13,14 @@
 * Visual Studio Code
 * ApacheHaus x64
 * PHP x64 >= 8
-* Configure ApacheHaus to use php [tutorial](https://www.tutorialspoint.com/php7/php7_installation_windows_apache.htm)
+* Configure ApacheHaus to use php (make sure to change php7 to php) [tutorial](https://www.tutorialspoint.com/php7/php7_installation_windows_apache.htm)
 * Use the `php.ini` from the repo (replace existing php-ini file with this one)
 
 ## Dev-environment setup
 ### Set up next run command
 Create a run-option in `package.json`, the name can be anything (just make sure you use this option when developing)
 ```bash
-next build && next export && mkdir \out\api && xcopy /s \api \out\api
+"next build && next export && mkdir \\out\\api && xcopy /s .\\api \\out\\api"
 ```
 
 ### Configure ApacheHaus
