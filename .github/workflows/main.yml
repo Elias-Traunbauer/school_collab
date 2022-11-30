@@ -41,4 +41,8 @@ jobs:
         run: ssh staging 'cp -a ./school_collab/api ./school_collab/out'
         
       - name: Copy all deployed files to www directory
-        run: ssh staging 'sudo cp -a ./school_collab/out/ /var/www/school_collab'
+        run: ssh staging 'sudo cp -a ./school_collab/out/ /var/www'
+        
+      - name: Rename www directory
+        run: ssh staging 'sudo cp -a /var/www/out/ /var/www/school_collab'
+
