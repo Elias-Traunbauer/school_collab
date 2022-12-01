@@ -1,27 +1,35 @@
-.container {  display: grid;
-    grid-template-columns: 4.5em 9em 6em;
-    grid-template-rows: 2em 4em 5.2em 2em;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      "Subject title Time"
-      "description description description"
-      "upload upload upload"
-      "Author . button";
-      border: 1px solid white;
-  }
-  
-  .description { grid-area: description; }
-  
-  .title { grid-area: title; }
-  
-  .upload { grid-area: upload; }
-  
-  .Author { grid-area: Author; }
-  
-  .button { grid-area: button; }
-  
-  .Time { grid-area: Time; }
-  
-  .Subject { grid-area: Subject; }
-  
+.assignmentcontainer{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.assignmentcard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 40vw;
+  /*height: 25vh;*/
+  background-color: blue !important;
+  border-radius: 1em;
+}
+
+.assignmentcard:hover{
+  background-color: rgb(112, 112, 255) !important;
+}
+.assignmenthead{
+  text-align: left;
+  width: 100%;
+  margin-left: 2em;
+  padding: 0.5em;
+  padding-top: 0;
+}
+.assignmentbody{
+  padding: 0;
+}
+.assignmentfoot{
+  text-align: right !important;
+  width: 100%;
+  margin-right: 2em;
+  padding: .3em;
+}
