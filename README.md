@@ -20,7 +20,7 @@
 ### Set up next run command
 Create a run-option in `package.json`, the name can be anything (just make sure you use this option when developing)
 ```bash
-next build && next export && mkdir \\out\\api && xcopy /s .\\api \\out\\api
+next build && next export && mkdir .\\out\\api && xcopy /s api out\\api
 ```
 
 ### Configure ApacheHaus
