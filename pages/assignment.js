@@ -33,6 +33,7 @@ export default function Assignment(){
     }
 
     useEffect(()=>{
+        console.log("useEffect");
         let interval = setInterval(() => {
             if(Math.floor(datetime/1000) > 0)
             {
@@ -42,7 +43,7 @@ export default function Assignment(){
         return () => {
             
         }
-    }, []);
+    }, [datetime]);
 
     useEffect(()=>{
         setTimeout(() => {
