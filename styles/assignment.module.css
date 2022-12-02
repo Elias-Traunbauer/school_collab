@@ -10,12 +10,12 @@
   flex-direction: column;
   width: 40vw;
   /*height: 25vh;*/
-  background-color: blue !important;
+  background-color: rgb(101, 0, 101) !important;
   border-radius: 1em;
 }
 
 .assignmentcard:hover{
-  background-color: rgb(112, 112, 255) !important;
+  background-color: rgb(108, 17, 108) !important;
 }
 .assignmenthead{
   text-align: left;
