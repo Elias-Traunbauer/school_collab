@@ -45,7 +45,7 @@
 }
 .fileuploadcontainer{
   width: 100vw;
-  height: 20vh;
+  height: 40vh;
   justify-content: center;
   align-items: center;
 }
@@ -54,6 +54,10 @@
   width: 50%;
   transform: translate(50%,50%);
   text-align: center;
+  height: 50%;
+}
+.fileuploadfield p{
+  transform: translate(0,150%);
 }
 .fileslist{
   display: flex;
