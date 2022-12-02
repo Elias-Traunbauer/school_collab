@@ -2,7 +2,7 @@
 
 echo '
 {
-    [
+    "data": [
         {
             "subject": "DBI",
             "title": "JPA Lab 1: Generieren der IDs",

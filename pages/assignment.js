@@ -33,26 +33,19 @@ export default function Assignment(){
     }
 
     useEffect(()=>{
-        let i = setInterval(() => {
-            if(Math.floor(datetime/1000) > 0)
-            {
-                setDateTime(datetime-1000);
-            }
-        }, 1000);
-        return () => {
-            clearInterval(i);
-        }
-    }, [assignment]);
+        setTimeout(() => {
+            setAssignment(assignmentDummy);
+            setDateTime((assignment.deadline.getTime() - new Date().getTime()) / 1000);
+            console.log(datetime);
 
-    useEffect(()=>{
-        if (typeof window !== 'undefined') {
-            setTimeout(() => {
-                setAssignment(assignmentDummy);
-                setDateTime((assignment.deadline.getTime() - new Date().getTime()) / 1000);
-                console.log(datetime);
-            }, 100);
-        }
-    });
+            let i = setInterval(() => {
+                if(Math.floor(datetime/1000) > 0)
+                {
+                    setDateTime(datetime-1000);
+                }
+            }, 1000);
+        }, 100);
+    }, []);
    
     return(
         
