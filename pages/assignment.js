@@ -28,12 +28,11 @@ export default function Assignment(){
         const mnts = Math.floor(seconds / 60);
         seconds -= mnts * 60;
 
-        return days + " Tage " + hrs + " Stunden " + mnts + " Minuten " + seconds + " Sekunden";
+        return days + " Tage " + hrs + " Stunden " + mnts + " Minuten " + Math.floor(seconds) + " Sekunden";
 
     }
 
     useEffect(()=>{
-        console.log("useEffect");
         let interval = setInterval(() => {
             if(Math.floor(datetime/1000) > 0)
             {
@@ -43,12 +42,12 @@ export default function Assignment(){
         return () => {
             
         }
-    }, [datetime]);
+    }, []);
 
     useEffect(()=>{
         setTimeout(() => {
             setAssignment(assignmentDummy);
-            setDateTime(assignment.deadline.getTime() - new Date().getTime());
+            setDateTime((new Date().getTime() - assignment.deadline.getTime()) / 1000);
         }, 100);
     }, []);
    
