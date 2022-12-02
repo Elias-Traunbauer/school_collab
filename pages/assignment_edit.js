@@ -19,8 +19,10 @@ export default function AssignmentEdit({assignment}){
                 <h1>{assignmentDummy.title}</h1>
                 <Countdown date={assignmentDummy.deadline}></Countdown>
             </div>
-            <div className={styles.description}>
-                <p>{assignmentDummy.description}</p>
+            <div className={styles.descriptioncontainer}>
+                <div className={styles.description}>
+                    <p>{assignmentDummy.description}</p>
+                </div>
             </div>
             <div className={styles.fileuploadcontainer}>
                 <div className={styles.fileuploadfield}>

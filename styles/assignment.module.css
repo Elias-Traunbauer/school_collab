@@ -36,8 +36,12 @@
   padding: .3em;
 }
 
+.descriptioncontainer{  
+  width: 100vw;
+}
 .description{
   padding: 2em;
+  padding-left: 20%;
 }
 .fileuploadcontainer{
   width: 100vw;
@@ -68,5 +72,5 @@
   float: right !important;
 }
 .edithead h1,.edithead p{
-  padding-left: 5em;
+  padding-left: 15%;
 }
