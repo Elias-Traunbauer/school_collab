@@ -43,7 +43,7 @@ jobs:
       - name: Copy all deployed files to www directory
         run: ssh staging 'sudo cp -a ./school_collab/out/ /var/www'
         
-      - name: Move old deploy files
+      - name: Backup current deploy files
         run: ssh staging 'sudo mv /var/www/school_collab /var/www/school_collab_backup'
         
       - name: Rename www directory
