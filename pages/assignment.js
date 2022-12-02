@@ -9,9 +9,9 @@ export default function Assignment(assignment){
         title: "Hello",
         time: new Date()
     }
-    dadapüduiaisdafadsa
-    fasfud ();dsaasdad
-    const dsadas;
+    //dadapüduiaisdafadsa
+    //fasfud ();dsaasdad
+    //const dsadas;
     console.log(assignment.time)
     return(
         
