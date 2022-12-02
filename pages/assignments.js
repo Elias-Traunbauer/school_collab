@@ -8,7 +8,7 @@ export default function Assignments(){
 
     useEffect(()=>{
         (async () => {
-            const data = await fetch("/api/assignments.php");
+            const data = await fetch("/api/assignments");
             const json = await data.json();
             setAssignmentData(json.data);
         })();
