@@ -1,52 +1,55 @@
 import { useState,useEffect } from 'react'
 import styles from '../styles/assignment.module.css'
 
-export default function Assignment(assignment){
+export default function Assignment(){
 
     //mock
-    assignment = {
-        subject:"DBI",
+    let assignmentDummy = {
+        subject: "DBI",
         title: "JPA Lab 1: Generieren der IDs",
-        time: new Date(2020, 5, 19, 25, 65)
+        deadline: new Date(2023, 1, 22, 13, 40)
+    }
+
+    let assignmentStart = {
+        subject: "...",
+        title: "...",
+        deadline: new Date()
     }
     
-    const rechnen = new Date().getTime() - new Date(2020, 5, 19, 25, 45).getTime();
-    const [datetime, setDateTime] = useState(rechnen);
+    const [assignment, setAssignment] = useState(assignmentStart);
+    const [datetime, setDateTime] = useState(0);
 
-    function formatDate(milliseconds) {
-        let seconds = milliseconds/1000;
-        let days = Math.floor(seconds/86400);
-        seconds-= days*86400;
-        let hours = Math.floor(seconds/3600);
-        seconds -= hours*3600;
-        let minutes = Math.floor(seconds/60);
-        seconds -= minutes*60;
+    function formatDate(seconds) {
+        
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds -= days * 3600 * 24;
+        const hrs = Math.floor(seconds / 3600);
+        seconds -= hrs * 3600;
+        const mnts = Math.floor(seconds / 60);
+        seconds -= mnts * 60;
 
-        return `${padTo2Digits(days)}d ${padTo2Digits(hours)}h ${padTo2Digits(minutes)}m ${padTo2Digits(
-            seconds,
-          )}s`;
+        return days + " Tage " + hrs + " Stunden " + mnts + " Minuten " + seconds + " Sekunden";
 
     }
-
-    function padTo2Digits(num) {
-        return num.toString().padStart(2, '0');
-    }
-
-
 
     useEffect(()=>{
-        //setDatetime(assignment.time)
-        const id = setInterval(() => {
-            if(Math.floor(datetime/1000) != 0)
-            setDateTime(datetime-1000);
-
+        let interval = setInterval(() => {
+            if(Math.floor(datetime/1000) > 0)
+            {
+                setDateTime(datetime-1000);
+            }
         }, 1000);
         return () => {
-            clearInterval(id);
+            
         }
-    },[datetime]);
+    }, []);
 
-
+    useEffect(()=>{
+        setTimeout(() => {
+            setAssignment(assignmentDummy);
+            setDateTime(assignment.deadline.getTime() - new Date().getTime());
+        }, 100);
+    }, []);
    
     return(
         
@@ -61,7 +64,7 @@ export default function Assignment(assignment){
                 <div className={styles.assignmentfoot}>
                     <p>
                         {
-                            formatDate(datetime.toString())
+                            formatDate(datetime/1000)
                         }
                     </p>
                 </div>
