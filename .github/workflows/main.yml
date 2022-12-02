@@ -43,13 +43,8 @@ jobs:
       - name: Copy all deployed files to www directory
         run: ssh staging 'sudo cp -a ./school_collab/out/ /var/www'
         
+      - name: Delete previous deploy files
+        run: ssh staging 'sudo rm -r -d /var/www/school_collab'
+        
       - name: Rename www directory
         run: ssh staging 'sudo mv /var/www/out/ /var/www/school_collab'
-        
-      - name: Recover backup-files on failure
-        if: ${{ failure() }}
-        run: ssh staging 'sudo mv /var/www/school_collab_backup /var/www/school_collab | sudo mkdir /var/www/school_collab_backup | sudo cp -a /var/www/school_collab/ /var/www/school_collab_backup'  
-      
-      - name: Backup current deploy files
-        run: ssh staging 'sudo cp -a ./school_collab/out/ /var/www | sudo mv /var/www/out/ /var/www/school_collab_backup'
-
