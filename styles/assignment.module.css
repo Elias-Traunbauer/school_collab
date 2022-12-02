@@ -35,3 +35,19 @@
   margin-right: 2em;
   padding: .3em;
 }
+
+.description{
+  padding: 2em;
+}
+.fileuploadcontainer{
+  width: 100vw;
+  height: 20vh;
+  justify-content: center;
+  align-items: center;
+}
+.fileuploadfield{
+  border: 2px dashed red;
+  width: 50%;
+  transform: translate(50%,50%);
+  text-align: center;
+}
