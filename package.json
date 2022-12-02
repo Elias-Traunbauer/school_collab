@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "deploy": "next build && next export",
-    "test": "next build && next export && mkdir .\\out\\api && xcopy /s api out\\api"
+    "test-deploy": "next build && next export && mkdir .\\out\\api && xcopy /s api out\\api",
+    "api-only-deploy": "xcopy /s api out\\api /Y"
   },
   "dependencies": {
     "eslint": "8.28.0",
