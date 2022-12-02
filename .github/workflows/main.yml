@@ -44,7 +44,7 @@ jobs:
         run: ssh staging 'sudo cp -a ./school_collab/out/ /var/www'
         
       - name: Rename www directory
-        run: ssh staging 'sudo mv /var/www/out/ /var/www/school_collab'
+        run: ssh staging 'sudo mv /var/www/out/ /var/www/school_collab/'
         
       - name: Recover backup-files on failure
         if: ${{ failure() }}
