@@ -48,4 +48,8 @@ jobs:
         
       - name: Rename www directory
         run: ssh staging 'sudo mv /var/www/out/ /var/www/school_collab'
+        
+      - name: Recover backup-files on failure
+        if: ${{ failure() }}
+        run: ssh staging 'sudo mv /var/www/school_collab_backup /var/www/school_collab'
 
