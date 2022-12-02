@@ -15,8 +15,8 @@ export default function AssignmentEdit({assignment}){
 
     return(
         <div className={styles.editcontainer}>
-            <div className={styles.editheader}>
-                <h1>Title</h1>
+            <div className={styles.edithead}>
+                <h1>{assignmentDummy.title}</h1>
                 <Countdown date={assignmentDummy.deadline}></Countdown>
             </div>
             <div className={styles.description}>
@@ -28,10 +28,12 @@ export default function AssignmentEdit({assignment}){
                 </div>
             </div>
             <div className={styles.fileslist}>
-                <p>Files</p>
+                <button>file1</button>
+                <button>file1</button>
+                <button>file1</button>
             </div>
-            <div className={styles.editButtonarray}>
-                <button>upload</button>
+            <div className={styles.editButton}>
+                <button>Edit</button>
             </div>
         </div>
     );
