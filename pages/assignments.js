@@ -1,6 +1,6 @@
 import styles from '../styles/assignment.module.css'
 import { useState,useEffect } from 'react'
-import AssignmentCard from './assignment_card';
+import AssignmentCard from '../components/assignment_card';
 
 export default function Assignments(){
 

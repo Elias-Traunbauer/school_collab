@@ -1,5 +1,5 @@
 import { useState,useEffect, useRef } from 'react'
-import Countdown from '../components/Countdown';
+import Countdown from './Countdown';
 import styles from '../styles/assignment.module.css'
 
 export default function Assignment({assignment}){
