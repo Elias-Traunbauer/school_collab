@@ -2,7 +2,7 @@ import { useState,useEffect, useRef } from 'react'
 import Countdown from '../components/Countdown';
 import styles from '../styles/assignment.module.css'
 
-export default function Assignment(){
+export default function Assignment({assignment}){
 
     //mock
     let assignmentDummy = {
@@ -19,12 +19,12 @@ export default function Assignment(){
         set: false
     }
     
-    const [assignment, setAssignment] = useState(assignmentStart);
+    const [assignmentState, setAssignment] = useState(assignmentStart);
 
     useEffect(()=>{
         setTimeout(() => {
-            if (!assignment.set) {
-                setAssignment(assignmentDummy);
+            if (!assignmentState.set) {
+                setAssignment(assignment);
             }
         }, 1000);
     });
@@ -34,13 +34,13 @@ export default function Assignment(){
         <div className={styles.assignmentcontainer}>
             <div className={styles.assignmentcard}>
                 <div className={styles.assignmenthead}>
-                    <p>{assignment.subject}</p>
+                    <p>{assignmentState.subject}</p>
                 </div>
                 <div className={styles.assignmentbody}>
-                    <h2>{assignment.title}</h2>
+                    <h2>{assignmentState.title}</h2>
                 </div>
                 <div className={styles.assignmentfoot}>
-                    <Countdown date={assignment.deadline}></Countdown>
+                    <Countdown date={new Date(assignmentState.deadline)}></Countdown>
                 </div>
             </div>
         </div>

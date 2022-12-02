@@ -11,16 +11,15 @@ export default function Assignments(){
             const data = await fetch("/api/assignments.php");
             const json = await data.json();
             setAssignmentData(json.data);
-            
         })();
 
-    },[assignmentData]);
+    },[]);
 
     return(
         <div className={styles.assignmentcontainer}>
             {
                 assignmentData.map((element, i) => {
-                    return <AssignmentCard key={i}></AssignmentCard>
+                    return <AssignmentCard key={i} assignment={element}></AssignmentCard>
                 })
             }
         </div>
