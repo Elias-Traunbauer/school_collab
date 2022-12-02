@@ -44,7 +44,7 @@ jobs:
         run: ssh staging 'sudo cp -a ./school_collab/out/ /var/www'
         
       - name: Move old deploy files
-        run: ssh staging 'sudo mv /var/www/school_collab /var/www/school_collab_backup'
+        run: ssh staging 'sudo rm -r -d /var/www/school_collab'
         
       - name: Rename www directory
         run: ssh staging 'sudo mv /var/www/out/ /var/www/school_collab'
