@@ -2,8 +2,6 @@ import { useState, useRef, useEffect } from "react";
 
 export default function Countdown({date}) {
 
-    const [datetime, setDateTime] = useState("0 Sekunden");
-
     function formatDate(seconds) {
         
         const days = Math.floor(seconds / (3600 * 24));
@@ -22,7 +20,16 @@ export default function Countdown({date}) {
         time.current = Math.floor((date.getTime() - new Date().getTime()) / 1000);
     });
 
+    const [datetime, setDateTime] = useState("0 Tage 0 Stunden 0 Minuten 0 Sekunden");
+
     useEffect(() => {
+
+        if(Math.floor(time.current) > 0)
+        {
+            time.current -= 1;
+            setDateTime(formatDate(time.current));
+        }
+
         let i = setInterval(() => {
 
             if(Math.floor(time.current) > 0)
