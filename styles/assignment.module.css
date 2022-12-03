@@ -48,17 +48,27 @@
   height: 40vh;
   justify-content: center;
   align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 .fileuploadfield{
   border: 2px dashed red;
   width: 50%;
-  transform: translate(50%,50%);
   text-align: center;
   height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.fileuploadfield p{
-  transform: translate(0,150%);
+.fileuploadfield button{
+  width: 7em;
+  height: 2em;
+  transform: translate(0,1em);
 }
+
+
+
 .fileslist{
   display: flex;
   flex-direction: column;

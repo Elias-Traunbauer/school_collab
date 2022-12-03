@@ -25,7 +25,11 @@ export default function AssignmentEdit({assignment}){
                 </div>
             </div>
             <div className={styles.fileuploadcontainer}>
-                <input type="file" placeholder='drag' className={styles.fileuploadfield}></input>
+                <div className={styles.fileuploadfield}>
+                    <label>Drag and Drop</label>
+                    <button>Choose File</button>
+                </div>
+                
             </div>
             <div className={styles.fileslist}>
                 <button>file1</button>
