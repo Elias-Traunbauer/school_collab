@@ -67,18 +67,6 @@
   transform: translate(0,1em);
 }
 
-
-
-.fileslist{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/*should be the file (button is a placeholder)*/
-.fileslist button{
-  margin-bottom: .5em;
-}
 .editButton{
   width: 80%;
 }
@@ -90,7 +78,7 @@
 }
 
 .wrapper{
-  width: 25%;
+  width: 45%;
   background: rgb(255, 255, 255);
   border-radius: 1em;
   padding: 2em;
@@ -107,6 +95,14 @@
   border-radius: .5em;
   border: 2px dashed #6990F2;
   height: 10em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.fileinput label{
+  color: black;
+  opacity: 0.5;
 }
 
 .fileinput section .row{
@@ -173,4 +169,19 @@
 }
 .uploadedarea i.fa-check{
   font-size: 16px;
+}
+
+.fileslist li{
+  color: black;
+}
+
+.uploadfieldcontainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.activedrag{
+  background-color: rgb(231, 230, 230);
 }

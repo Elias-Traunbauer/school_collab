@@ -1,8 +1,8 @@
-import { useState,useEffect, useRef } from 'react'
+import { useState,useEffect } from 'react'
 import Countdown from '../components/Countdown';
 import styles from '../styles/assignment.module.css'
 
-export default function AssignmentEdit({assignment}){
+export default function AssignmentEdit({assignment,acceptedFiles}){
 
         //mock
         let assignmentDummy = {
@@ -13,34 +13,69 @@ export default function AssignmentEdit({assignment}){
             description: "dsasdasdadsadsad"
         }
 
+        let acceptedFilesDummy = ["pdf","txt","png"];
+        const[fileslist,setFileList] = useState([]);
         
         useEffect(() => {    
             const dropArea = document.querySelectorAll(`.${styles.fileinput}`);
-            console.log(dropArea)
-            dropArea.addEventListener("dragover",handleDragOver);
-            dropArea.addEventListener("dragleave",handleDragLeave);
-            dropArea.addEventListener("drop",handleDrop);
+            const input = document.querySelectorAll(`.${styles.wrapper} input`);
+            dropArea[0].addEventListener("dragover",handleDragOver);
+            dropArea[0].addEventListener("dragleave",handleDragLeave);
+            dropArea[0].addEventListener("drop",handleDrop);
+            dropArea[0].addEventListener("click",handleClick);
+            input[0].addEventListener("change",handleInputChange);
 
-        });
+            function handleInputChange(e){
+                let files = e.target.files;
+                showFile(files);
+            }
 
-        function handleDragOver(e){
-            e.preventDefault();
-            dropArea.classList.add(styles.activedrag)
-        }
+            function handleDrop(e){
+                e.preventDefault();
+                let files = e.dataTransfer.files;
+                console.log(e.dataTransfer.files);
+                showFile(files);
+                e.target.classList.remove(styles.activedrag);
+            }
 
-        function handleDragLeave(e){
-            e.preventDefault();
-            dropArea.classList.remove(styles.activedrag)
-        }
+            function handleClick(e){
+                e.preventDefault();
+                input[0].click();
+            }
+            
+            
+            function handleDragOver(e){
+                e.preventDefault();
+                e.target.classList.add(styles.activedrag);
+            }
+    
+            function handleDragLeave(e){
+                e.preventDefault();
+                e.target.classList.remove(styles.activedrag);
+            }
 
-        function handleDrop(e){
-            e.preventDefault();
-            let file = e.dataTransfer.files[0];
-            console.log(file);
-        }
+            return () => {
+                dropArea[0].removeEventListener("dragover",handleDragOver);
+                dropArea[0].removeEventListener("dragleave",handleDragLeave);
+                dropArea[0].removeEventListener("drop",handleDrop);
+                dropArea[0].removeEventListener("click",handleClick);
+                input[0].removeEventListener("change",handleInputChange);
+            }
 
+            function showFile(newFiles){
+                let tmpArray = [];
+                
+                for(const newFile of newFiles){
+                    
+                    const fileExtention = newFile.name.split('.');
+                    if(acceptedFilesDummy.includes(fileExtention[fileExtention.length-1]))    
+                    tmpArray.push(newFile)
+                }
 
-
+                setFileList([...fileslist,...tmpArray]);
+            }
+        
+        },[fileslist]);
 
     return(
         <div className={styles.editcontainer}>
@@ -53,33 +88,20 @@ export default function AssignmentEdit({assignment}){
                     <p>{assignmentDummy.description}</p>
                 </div>
             </div>
-
             <div className={styles.uploadfieldcontainer}>
                 <div className={styles.wrapper}>
-                    <header>File Uploader JavaScript</header>
+                    <header>File Upload</header>
                         <div id='fileinput' className={styles.fileinput} type="file" name="file">
-
+                            <label>Drag and Drop</label>
                         </div>
-                    <section className={styles.progressarea}></section>
-                    <section className={styles.uploadedarea}></section>
+                        <input type="file" hidden></input>
+                        <ul className={styles.fileslist}>
+                        {fileslist.map((file,i)=>{return <li key={i}>{file.name}</li>})}
+                        </ul>
                 </div>
+                
             </div>
             
-
-
-
-
-
-
-
-
-
-            
-            <div className={styles.fileslist}>
-                <button>file1</button>
-                <button>file1</button>
-                <button>file1</button>
-            </div>
             <div className={styles.editButton}>
                 <button>Edit</button>
             </div>
