@@ -1,3 +1,8 @@
+# School Collab
+## Introduction
+School Collab is a web-application students can use to collaborate on.
+Features like sharing info about upcoming assignments, providing data about certain topics as well as a account system for users to register are included.
+
 # How to verify tasks
 
 - Visit the [live-dev website](https://school-collab.ga) and navigate to the given location
