@@ -13,6 +13,15 @@ export default function AssignmentEdit({assignment}){
             description: "dsasdasdadsadsad"
         }
 
+        useEffect(() => {
+            const fileupload = document.getElementById("fileuploadfield");
+            fileupload.addEventListener("drop",handleOnDrop());
+        });
+
+        function handleOnDrop(e){
+            e.preve
+        }
+
     return(
         <div className={styles.editcontainer}>
             <div className={styles.edithead}>
@@ -25,7 +34,7 @@ export default function AssignmentEdit({assignment}){
                 </div>
             </div>
             <div className={styles.fileuploadcontainer}>
-                <div className={styles.fileuploadfield}>
+                <div id="fileuploadfield" className={styles.fileuploadfield}>
                     <label>Drag and Drop</label>
                     <button>Choose File</button>
                 </div>
