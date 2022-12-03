@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 export default function Otp(){
 
-    const [inputs,setInputs] = useState();
+    //const [inputs,setInputs] = useState();
 
     useEffect(() => {
         const inputs = document.querySelectorAll(`.${styles.otpcontainer} input`);
