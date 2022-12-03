@@ -13,25 +13,33 @@ export default function AssignmentEdit({assignment}){
             description: "dsasdasdadsadsad"
         }
 
-        const form = document.querySelector("form"),
-        fileInput = document.querySelector(".fileinput"),
-        progressArea = document.querySelector(".progressarea"),
-        uploadedArea = document.querySelector(".uploadedarea");
-        form.addEventListener("click", () =>{
-            fileInput.click();
+        
+        useEffect(() => {    
+            const dropArea = document.querySelectorAll(`.${styles.fileinput}`);
+            console.log(dropArea)
+            dropArea.addEventListener("dragover",handleDragOver);
+            dropArea.addEventListener("dragleave",handleDragLeave);
+            dropArea.addEventListener("drop",handleDrop);
+
         });
 
-        fileInput.onchange = ({target})=>{
-        let file = target.files[0];
-        if(file){
-            let fileName = file.name;
-            if(fileName.length >= 12){
-            let splitName = fileName.split('.');
-            fileName = splitName[0].substring(0, 13) + "... ." + splitName[1];
-            }
-            uploadFile(fileName);
+        function handleDragOver(e){
+            e.preventDefault();
+            dropArea.classList.add(styles.activedrag)
         }
+
+        function handleDragLeave(e){
+            e.preventDefault();
+            dropArea.classList.remove(styles.activedrag)
         }
+
+        function handleDrop(e){
+            e.preventDefault();
+            let file = e.dataTransfer.files[0];
+            console.log(file);
+        }
+
+
 
 
     return(
@@ -49,11 +57,9 @@ export default function AssignmentEdit({assignment}){
             <div className={styles.uploadfieldcontainer}>
                 <div className={styles.wrapper}>
                     <header>File Uploader JavaScript</header>
-                <form>
-                <input className={styles.fileinput} type="file" name="file" hidden></input>
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p>Browse File to Upload</p>
-                    </form>
+                        <div id='fileinput' className={styles.fileinput} type="file" name="file">
+
+                        </div>
                     <section className={styles.progressarea}></section>
                     <section className={styles.uploadedarea}></section>
                 </div>
