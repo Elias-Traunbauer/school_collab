@@ -185,3 +185,40 @@
 .activedrag{
   background-color: rgb(231, 230, 230);
 }
+
+.filelistitem li{
+  color: black;
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  border-radius: .3em;
+  margin-bottom: .3em;
+  text-align: center;
+  padding: .6em;
+}
+
+.filelistitem li span{
+  float: right;
+}
+.filelistitem li span:hover{
+  background-color: rgba(194, 192, 192, 0.774);
+}
+
+.filelistitem li h5{
+  width: 1em !important;
+}
+
+.filelistitem li:hover{
+  background-color: rgba(255, 255, 255, 0.774);
+}
+
+.filelistitem{
+  margin-bottom: .5em;
+  background: #E9F0FF;
+  list-style: none;
+  padding: .5em .6em;
+  border-radius: .5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}

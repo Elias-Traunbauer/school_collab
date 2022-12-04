@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
 import Countdown from '../components/Countdown';
-import styles from '../styles/assignment.module.css'
+import styles from '../styles/assignment.module.css';
 
 export default function AssignmentEdit({assignment,acceptedFiles}){
 
@@ -73,9 +73,29 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                 }
 
                 setFileList([...fileslist,...tmpArray]);
+
+                if(document.getElementById("fileul") != null && fileslist.length > 0)
+                    document.getElementById("fileul").hidden = false;
             }
         
         },[fileslist]);
+
+        function deleteItem(file){
+            let tmpList = [];
+            for(let e of fileslist){
+                console.log(e != file);
+                if(e != file)
+                tmpList.push(e);
+            }
+
+            //animation
+            setTimeout(() => {
+                setFileList(tmpList);
+                console.log("bye");
+                if(document.getElementById("fileul") != null && fileslist.length <= 0)
+                    document.getElementById("fileul").hidden = true;
+            }, 1000)     
+        }
 
     return(
         <div className={styles.editcontainer}>
@@ -95,8 +115,11 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                             <label>Drag and Drop</label>
                         </div>
                         <input type="file" hidden></input>
-                        <ul className={styles.fileslist}>
-                        {fileslist.map((file,i)=>{return <li key={i}>{file.name}</li>})}
+                        <ul id='fileul' className={styles.filelistitem} hidden>
+                            {fileslist.map((file,i)=>{return <li  key={i}>
+                                {file.name}
+                                <button onClick={(e) => {deleteItem(file),e.preventDefault()}}>X</button>
+                            </li>})}
                         </ul>
                 </div>
                 
