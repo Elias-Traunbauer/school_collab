@@ -24,6 +24,7 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
             dropArea[0].addEventListener("drop",handleDrop);
             dropArea[0].addEventListener("click",handleClick);
             input[0].addEventListener("change",handleInputChange);
+            
 
             function handleInputChange(e){
                 let files = e.target.files;
@@ -77,25 +78,46 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                 if(document.getElementById("fileul") != null && fileslist.length > 0)
                     document.getElementById("fileul").hidden = false;
             }
+
+           
         
         },[fileslist]);
 
-        function deleteItem(file){
-            let tmpList = [];
-            for(let e of fileslist){
-                console.log(e != file);
-                if(e != file)
-                tmpList.push(e);
+            function deleteItem(file,key){
+
+                console.log(key);
+                const listItems = document.querySelectorAll(`.${styles.filelistitem} li`);
+                const tmpElement = listItems[key];
+
+                tmpElement.classList.add(styles.filelistitem_close);
+
+                //setFileList(fileslist);
+    
+                let tmpList = [];
+                for(let e of fileslist){
+                    if(e != file)
+                    tmpList.push(e);
+                }
+    
+                
+                
+                //animation
+                setTimeout(() => {
+                    setFileList(tmpList);
+                    console.log("bye");
+                    if(document.getElementById("fileul") != null && fileslist.length <= 0)
+                        document.getElementById("fileul").hidden = true;
+
+                    for(let e of listItems){
+                        e.classList.remove(styles.filelistitem_close);
+                    }
+                }, 500)
+                
             }
 
-            //animation
-            setTimeout(() => {
-                setFileList(tmpList);
-                console.log("bye");
-                if(document.getElementById("fileul") != null && fileslist.length <= 0)
-                    document.getElementById("fileul").hidden = true;
-            }, 1000)     
-        }
+        
+
+       
 
     return(
         <div className={styles.editcontainer}>
@@ -118,7 +140,7 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                         <ul id='fileul' className={styles.filelistitem} hidden>
                             {fileslist.map((file,i)=>{return <li  key={i}>
                                 {file.name}
-                                <button onClick={(e) => {deleteItem(file),e.preventDefault()}}>X</button>
+                                <button onClick={(e) => {deleteItem(file,i),e.preventDefault()}}>X</button>
                             </li>})}
                         </ul>
                 </div>
