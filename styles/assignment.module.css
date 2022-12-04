@@ -213,6 +213,7 @@
 
 .filelistitem_close{
   animation-name: filelistitem_close;
+  animation: filelistitem_close 0.5s forwards;
 }
 
 @keyframes filelistitem_close {
