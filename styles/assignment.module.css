@@ -211,6 +211,23 @@
   background-color: rgba(255, 255, 255, 0.774);
 }
 
+.filelistitem_close{
+  animation-name: filelistitem_close;
+}
+
+@keyframes filelistitem_close {
+  0% {
+      clip-path: polygon(0 46%, 92% 46%, 68% 0, 74% 0, 100% 50%, 74% 100%, 68% 100%, 92% 54%, 0 54%);
+  }
+  50% {
+      /*clip-path: polygon(50% 0%, 80% 10%, 100% 36%, 100% 64%, 80% 90%, 50% 100%, 20% 90%, 0 64%, 0 36%, 20% 10%);*/
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+  }
+  100% {
+      clip-path: polygon(50% 0%, 50% 49%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+  }
+}
+
 .filelistitem{
   margin-bottom: .5em;
   background: #E9F0FF;
