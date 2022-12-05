@@ -15,6 +15,7 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
 
         let acceptedFilesDummy = ["pdf","txt","png"];
         const[fileslist,setFileList] = useState([]);
+        let currFile = 0;
         
         useEffect(() => {    
             const dropArea = document.querySelectorAll(`.${styles.fileinput}`);
@@ -84,10 +85,11 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
         },[fileslist]);
 
             function deleteItem(file,key){
-
+                currFile = null;
                 console.log(key);
                 const listItems = document.querySelectorAll(`.${styles.filelistitem} li`);
                 const tmpElement = listItems[key];
+                
 
                 tmpElement.classList.add(styles.filelistitem_close);
 
@@ -112,14 +114,59 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                         e.classList.remove(styles.filelistitem_close);
                     }
                 }, 250)
-                
             }
 
+            function openDialog(file){
+                if(currFile == null)
+                return;
+                const dialog = document.getElementById('dialog');
+                let inputs = document.querySelectorAll(`.${styles.dialogwindow} input`)
+                inputs[0].value = file.name;
+                currFile = file;
+                console.log(currFile);
+                dialog.classList.add(styles.opendialog);
 
+                dialog.showModal();
+                setTimeout(() => {
+                    dialog.classList.remove(styles.opendialog);
+                }, 300)
+            }
+
+            function closeDialog(){
+                const dialog = document.getElementById('dialog');
+                let inputs = document.querySelectorAll(`.${styles.dialogwindow} input`)
+                //currFile.name = inputs[0].value;
+
+                
+                dialog.classList.add(styles.closedialog)
+
+                setTimeout(() => {
+                    dialog.close();
+                    let tmp = [];
+                    for(let e of fileslist){
+                        if(e == currFile){
+                            e = new File([currFile], inputs[0].value, {
+                                type: currFile.type,
+                                lastModified: currFile.lastModified,
+                            });
+                            tmp.push(e);
+                        }
+                        else
+                        tmp.push(e);
+                        
+                    }
+                    console.log(tmp);
+                    dialog.classList.remove(styles.closedialog);
+                    setFileList(tmp);
+                }, 250)
+                
+            }
        
 
     return(
+        <>
         <div className={styles.editcontainer}>
+            
             <div className={styles.edithead}>
                 <h1>{assignmentDummy.title}</h1>
                 <Countdown date={assignmentDummy.deadline}></Countdown>
@@ -136,11 +183,13 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                             <label>Drag and Drop</label>
                         </div>
                         <input type="file" hidden></input>
+                            
+
                         <ul id='fileul' className={styles.filelistitem} hidden>
-                            {fileslist.map((file,i)=>{return <li  key={i}>
+                            {fileslist.map((file,i)=>{return <li onClick={()=>openDialog(file)}  key={i}>
                                 <img src="/file.svg" alt="An SVG of an eye"/>     
                                 <p>{file.name}</p>
-                                <img className={styles.cancelbutton} onClick={(e) => {deleteItem(file,i),e.preventDefault()}} src="/cancelicon.svg" alt="An SVG of an eye"/>     
+                                <img className={styles.cancelbutton} onClick={(e) => {deleteItem(file,i)}} src="/cancelicon.svg" alt="An SVG of an eye"/>     
                                 
                             </li>})}
                         </ul>
@@ -151,7 +200,18 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
             <div className={styles.editButton}>
                 <button onClick={()=>alert("uploading " + fileslist.length + " file(s)")}>Edit</button>
             </div>
+            
         </div>
+        <dialog id='dialog' className={styles.dialogwindow}>
+            <div>
+                <label>Name</label>
+                <input placeholder='name'></input>
+                <input></input>
+            </div>
+            <button onClick={closeDialog}>edit</button>
+        </dialog>
+        
+    </>
     );
     
 }

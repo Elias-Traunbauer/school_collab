@@ -93,6 +93,7 @@
   color: green;
 }
 
+
 .wrapper{
   width: 45%;
   background: rgb(255, 255, 255);
@@ -264,4 +265,74 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
+}
+
+
+.dialogwindow div{
+  width: 35vw;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dialogwindow div input{
+  border-radius: .5em;
+  background-color: #404040;
+  border: none;
+  outline: none;
+  padding: 1em;
+  width: 40vh;
+  margin-bottom: .5em;
+}
+
+.dialogwindow div label{
+  color: black;
+}
+
+.dialogwindow button{
+  float: right;
+  width: 6vw;
+  height: 4vh;
+}
+
+.dialogwindow button:focus{
+  border-bottom: 2px solid rebeccapurple;
+  transition: .5s;
+}
+
+.dialogwindow{
+  color: white;
+  border-radius: 1em;
+  background-color: rgb(255, 255, 255);
+}
+
+.closedialog{
+  animation-name: dialog_close;
+  animation: dialog_close .3s forwards;
+}
+
+.opendialog{
+  animation-name: dialog_open;
+  animation: dialog_open .3s forwards;
+}
+
+@keyframes dialog_open {
+  from {
+
+    scale: 0;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes dialog_close {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 0;
+  }
 }
