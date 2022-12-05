@@ -111,11 +111,10 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                     for(let e of listItems){
                         e.classList.remove(styles.filelistitem_close);
                     }
-                }, 500)
+                }, 250)
                 
             }
 
-        
 
        
 
@@ -139,8 +138,10 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                         <input type="file" hidden></input>
                         <ul id='fileul' className={styles.filelistitem} hidden>
                             {fileslist.map((file,i)=>{return <li  key={i}>
-                                {file.name}
-                                <button onClick={(e) => {deleteItem(file,i),e.preventDefault()}}>X</button>
+                                <img src="/file.svg" alt="An SVG of an eye"/>     
+                                <p>{file.name}</p>
+                                <img className={styles.cancelbutton} onClick={(e) => {deleteItem(file,i),e.preventDefault()}} src="/cancelicon.svg" alt="An SVG of an eye"/>     
+                                
                             </li>})}
                         </ul>
                 </div>
@@ -148,7 +149,7 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
             </div>
             
             <div className={styles.editButton}>
-                <button>Edit</button>
+                <button onClick={()=>alert("uploading " + fileslist.length + " file(s)")}>Edit</button>
             </div>
         </div>
     );

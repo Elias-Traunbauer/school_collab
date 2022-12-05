@@ -38,10 +38,16 @@
 
 .descriptioncontainer{  
   width: 100vw;
+  margin-bottom: 2em;
 }
 .description{
-  padding: 2em;
-  padding-left: 20%;
+  width: 60%;
+  margin-left: 20%;
+  padding: 1em;
+  border-radius: 1em;
+  font-size: .9em;
+  background-color: #E9F0FF;
+  color: black;
 }
 .fileuploadcontainer{
   width: 100vw;
@@ -73,8 +79,18 @@
 .editButton button{
   float: right !important;
 }
+
+.edithead{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
 .edithead h1,.edithead p{
   padding-left: 15%;
+}
+
+.edithead p{
+  color: green;
 }
 
 .wrapper{
@@ -192,24 +208,35 @@
   width: 100%;
   border-radius: .3em;
   margin-bottom: .3em;
-  text-align: center;
   padding: .6em;
   max-height: 3em;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
 }
 
-.filelistitem li span{
+.filelistitem li p{
+  order: 0;
+}
+.cancelbutton{
+  background-color: transparent;
   float: right;
-}
-.filelistitem li span:hover{
-  background-color: rgba(194, 192, 192, 0.774);
+  border-radius: 100%;
+  
 }
 
-.filelistitem li h5{
-  width: 1em !important;
+.cancelbutton:hover{
+  background-color: rgba(194, 192, 192, 0.774);
+  order: 2;
 }
+
 
 .filelistitem li:hover{
   background-color: rgba(255, 255, 255, 0.774);
+}
+
+.filelistitem li image{
+  order: -1;
 }
 
 .filelistitem_close{
