@@ -285,6 +285,17 @@
   padding: 1em;
   width: 40vh;
   margin-bottom: .5em;
+  border: 2px solid transparent;
+  transition: .3s;
+}
+
+.dialogwindow div input:hover{
+  background-color: #636363;
+}
+.dialogwindow div input:focus{
+  border-bottom: 2px solid rebeccapurple;
+  transition: .5s;
+  background-color: #636363;
 }
 
 .dialogwindow div label{
@@ -297,10 +308,7 @@
   height: 4vh;
 }
 
-.dialogwindow button:focus{
-  border-bottom: 2px solid rebeccapurple;
-  transition: .5s;
-}
+
 
 .dialogwindow{
   color: white;
