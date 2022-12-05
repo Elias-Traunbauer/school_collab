@@ -1,4 +1,5 @@
 # School Collab
+[![Push](https://github.com/Elias-Traunbauer/school_collab/blob/master/.github/workflows/deploy.yml)](https://github.com/Elias-Traunbauer/school_collab/blob/master/.github/workflows/deploy.yml)
 ## Introduction
 School Collab is a web-application students can use to collaborate on.
 Features like sharing info about upcoming assignments, providing data about certain topics as well as a account system for users to register are included.
