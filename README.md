@@ -8,6 +8,7 @@ Features like sharing info about upcoming assignments, providing data about cert
 [![Deploy](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/deploy.yml)
 [![CodeQL](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/codeql.yml)
 [![Dependency Review](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/dependency-review.yml/badge.svg?branch=master)](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/dependency-review.yml)
+[![APIsec](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/apisec-scan.yml/badge.svg?branch=master)](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/apisec-scan.yml)
 
 <br>
 
