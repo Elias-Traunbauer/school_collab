@@ -15,7 +15,7 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
 
         let acceptedFilesDummy = ["pdf","txt","png"];
         const[fileslist,setFileList] = useState([]);
-        let currFile = 0;
+        let currFile = null;
         
         useEffect(() => {    
             const dropArea = document.querySelectorAll(`.${styles.fileinput}`);
@@ -28,6 +28,7 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
             
 
             function handleInputChange(e){
+                console.log("input");
                 let files = e.target.files;
                 showFile(files);
             }
@@ -61,7 +62,7 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                 dropArea[0].removeEventListener("dragleave",handleDragLeave);
                 dropArea[0].removeEventListener("drop",handleDrop);
                 dropArea[0].removeEventListener("click",handleClick);
-                input[0].removeEventListener("change",handleInputChange);
+                input[0].removeEventListener("click",handleInputChange);
             }
 
             function showFile(newFiles){
@@ -74,6 +75,7 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                     tmpArray.push(newFile)
                 }
 
+                console.log([...fileslist,...tmpArray]);
                 setFileList([...fileslist,...tmpArray]);
 
                 if(document.getElementById("fileul") != null && fileslist.length > 0)
@@ -155,8 +157,8 @@ export default function AssignmentEdit({assignment,acceptedFiles}){
                         tmp.push(e);
                         
                     }
-                    console.log(tmp);
                     dialog.classList.remove(styles.closedialog);
+                    currFile = null;
                     setFileList(tmp);
                 }, 250)
                 
