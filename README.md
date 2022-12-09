@@ -17,7 +17,7 @@ Features like sharing info about upcoming assignments, providing data about cert
 
 <br>
 
-# Development
+# Development on Windows
 
 ### Dependencies
 * NodeJS Server >= 16
