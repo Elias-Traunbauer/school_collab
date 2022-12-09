@@ -48,7 +48,10 @@
   font-size: .9em;
   background-color: #E9F0FF;
   color: black;
+  display: flex;
+  flex-direction: column;
 }
+
 .fileuploadcontainer{
   width: 100vw;
   height: 40vh;
@@ -343,4 +346,25 @@
   to {
     scale: 0;
   }
+}
+
+.description_editbtn{
+  border-radius: .5em;
+  border: 1px solid black;
+  width: 10%;
+}
+.fiesupload_uploadbtn{
+  float: right !important;
+}
+.fileListContainer ul{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80vw;
+}
+.fileListWrapper{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
 }
