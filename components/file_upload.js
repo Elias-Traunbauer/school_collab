@@ -1,5 +1,6 @@
 import { useState,useEffect } from 'react'
 import styles from '../styles/assignment.module.css';
+import Image from 'next/image';
 
 const File_Upload =  ({handleFilesUpdated}) => {
 
@@ -7,6 +8,7 @@ const File_Upload =  ({handleFilesUpdated}) => {
 
     let acceptedFilesDummy = ["pdf","txt","png"];
     const[fileslist,setFileList] = useState([]);
+    let currFile = null;
 
     useEffect(() => {    
         const dropArea = document.querySelectorAll(`.${styles.fileinput}`);
@@ -52,7 +54,7 @@ const File_Upload =  ({handleFilesUpdated}) => {
             dropArea[0].removeEventListener("dragleave",handleDragLeave);
             dropArea[0].removeEventListener("drop",handleDrop);
             dropArea[0].removeEventListener("click",handleClick);
-            input[0].removeEventListener("click",handleInputChange);
+            input[0].removeEventListener("change",handleInputChange);
         }
 
         function showFile(newFiles){
@@ -181,9 +183,9 @@ const File_Upload =  ({handleFilesUpdated}) => {
 
                         <ul id='fileul' className={styles.filelistitem} hidden>
                             {fileslist.map((file,i)=>{return <li onClick={()=>openDialog(file)}  key={i}>
-                                <img src="/file.svg"/>     
+                                <Image width={30} height={30} src="/file.svg" alt='sadas'/>     
                                 <p>{file.name}</p>
-                                <img className={styles.cancelbutton} onClick={(e) => {deleteItem(file,i)}} src="/cancelicon.svg" alt="An SVG of an eye"/>     
+                                <Image className={styles.cancelbutton} onClick={(e) => {deleteItem(file,i)}} width="30" height="30" src="/cancelicon.svg" alt="An SVG of an eye"/>     
                                 
                             </li>})}
                         </ul>

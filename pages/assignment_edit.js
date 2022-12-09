@@ -67,21 +67,6 @@ export default function AssignmentEdit({assignment,acceptedFilextentions,uploade
                 }
                 </div>
             </div>
-
-            <div className={styles.fileListWrapper}>
-                <div  className={styles.fileListContainer}>
-                    <ul id='instructionFilesUl' className={styles.filelistitem} hidden>
-                            {instructonFiles.map((file,i)=>{return <li key={i}>
-                                <p>{file.name}</p>  
-                        </li>})}
-                    </ul>
-                </div>
-            </div>
-            <File_Upload handleFilesUpdated={(instructonFiles) => handleInstructionFilesUpdate(instructonFiles)}></File_Upload>
-            
-
-
-            
             <File_Upload handleFilesUpdated={(instructonFiles) => handleIUploadFilesUpdate(instructonFiles)}></File_Upload>
             <div className={styles.fileListWrapper}>
                 <div  className={styles.fileListContainer}>
