@@ -2,6 +2,7 @@ import { useState,useEffect } from 'react'
 import Countdown from '../components/Countdown';
 import File_Upload from '../components/file_upload';
 import styles from '../styles/assignment.module.css';
+import Image from 'next/image';
 
 
 export default function AssignmentEdit({assignment,acceptedFilextentions,uploaded,instriction}){
@@ -22,17 +23,55 @@ export default function AssignmentEdit({assignment,acceptedFilextentions,uploade
             name:"pfreyteaching",
         }
 
-        let acceptedFilesDummy = ["pdf","txt","png"];
-        const [uploadedFiles,setUploadedFiles] = useState([]);
-        const [instructonFiles,setInstructonFiles] = useState([]);
-        let currFile = null;
+        const [uploadFiles,setUploadFiles] = useState([]);
+        let deliting = false;
 
         function handleInstructionFilesUpdate(list){
-            setInstructonFiles([...instructonFiles,...list]);
+            setUploadFiles([...uploadFiles,...list]);
         }
 
-        function handleIUploadFilesUpdate(list){
-            setUploadedFiles([...uploadedFiles,...list]);
+        function deleteItem(e,file,key){
+            e.preventDefault();
+            deliting = true;
+            const tmpList = [];
+            const parent = e.target.parentElement;
+            parent.classList.add(styles.filelistitem_close);
+
+            for (let i = 0; i < uploadFiles.length; i++) {
+                if(i != key)
+                tmpList.push(uploadFiles[i]);
+            }
+            
+            
+            //animation
+            setTimeout(() => {
+                parent.classList.remove(styles.filelistitem_close);
+                setUploadFiles(tmpList);
+                deliting = false;
+            }, 250)
+        }
+
+        let currFileKey = -1;
+
+        function openDialog(file,key){
+            if(deliting)
+            return;
+            currFileKey = key;
+            const dialog = document.getElementById('dialog');
+            let inputs = document.querySelectorAll(`.${styles.dialogwindow} input`)
+            inputs[0].value = file.name;
+            dialog.classList.add(styles.opendialog);
+
+            dialog.showModal();
+            setTimeout(() => {
+                dialog.classList.remove(styles.opendialog);
+            }, 300)
+        }
+
+        function closeDialog(e){
+            const dialog = document.getElementById('dialog');
+            dialog.close();
+            
         }
         
 
@@ -47,44 +86,38 @@ export default function AssignmentEdit({assignment,acceptedFilextentions,uploade
             <div className={styles.descriptioncontainer}>
                 <div className={styles.description}>
                     <p>{assignmentDummy.description}</p>
-                    {
-                currUserDummy.name == assignmentDummy.creator.name ?
-                    (
-                        
-                        <>
-                        {console.log("sui")}
-                        <button className={styles.description_editbtn}>
-                            edit
-                        </button>
-                        </>
-                    )
-                    :
-                    (
-                        <>
-                        {console.log("hui")}
-                        </>
-                    )
-                }
                 </div>
             </div>
-            <File_Upload handleFilesUpdated={(instructonFiles) => handleIUploadFilesUpdate(instructonFiles)}></File_Upload>
+            <File_Upload handleFilesUpdated={(uploadFiles) => handleInstructionFilesUpdate(uploadFiles)}></File_Upload>
             <div className={styles.fileListWrapper}>
                 <div  className={styles.fileListContainer}>
-                    <ul id='uploadFilesUl' className={styles.filelistitem} hidden>
-                            {instructonFiles.map((file,i)=>{return <li key={i}>
-                                <p>{file.name}</p>  
+
+                    {uploadFiles.length > 0 ? (<>
+                        <ul id='uploadFilesUl' className={styles.filelistitem} hidden>
+                            {uploadFiles.map((file,i)=>{return <li onClick={() => openDialog(file,i)} key={i}>
+                                <p>{file.name}</p>
+                                <Image onClick={(e) => deleteItem(e,file,i)} className={styles.cancelbutton} src={"/cancelicon.svg"} width={20} height={20} alt="cancel"></Image>
                         </li>})}
                     </ul>
+                    </>) : (<></>)}
+                    
                 </div>
             </div>
             
             
             <div className={styles.editButton}>
-                <button onClick={()=>alert("uploading " + fileslist.length + " file(s)")}>Edit</button>
+                <button onClick={()=>alert("uploading " + uploadFiles.length + " file(s)")}>Save</button>
             </div>
             
         </div>
-        
+        <dialog id='dialog' className={styles.dialogwindow}>
+            <div>
+                <label>Name</label>
+                <input placeholder='name'></input>
+                <input></input>
+            </div>
+            <button onClick={closeDialog}>Save</button>
+        </dialog>
         
     </>
     );
