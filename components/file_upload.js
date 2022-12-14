@@ -2,31 +2,19 @@ import { useState,useEffect } from 'react'
 import styles from '../styles/assignment.module.css';
 import Image from 'next/image';
 
-const File_Upload =  ({handleFilesUpdated}) => {
-
-
-    let acceptedFilesDummy = ["pdf","txt","png"];
-    const[fileslist,setFileList] = useState([]);
-
-
-        
-
+const File_Upload =  ({handleFilesUpdated,acceptedFiles}) => {
         function showFile(newFiles){
             let tmpArray = [];
-            
             for(const newFile of newFiles){
-                
                 const fileExtention = newFile.name.split('.');
-                if(acceptedFilesDummy.includes(fileExtention[fileExtention.length-1]))    
+                if(acceptedFiles.includes(fileExtention[fileExtention.length-1])|| acceptedFiles.length == 0)
                 tmpArray.push(newFile);
             }
-
             handleUpload(tmpArray);
         }
 
 
     function handleInputChange(e){
-        console.log("input");
         let files = e.target.files;
         showFile(files);
     }
@@ -34,7 +22,6 @@ const File_Upload =  ({handleFilesUpdated}) => {
     function handleDrop(e){
         e.preventDefault();
         let files = e.dataTransfer.files;
-        console.log(e.dataTransfer.files);
         showFile(files);
         e.target.classList.remove(styles.activedrag);
     }
@@ -59,7 +46,6 @@ const File_Upload =  ({handleFilesUpdated}) => {
         
 
         function handleUpload(newFiles){
-            console.log(newFiles);
             handleFilesUpdated(newFiles);
         }
     
