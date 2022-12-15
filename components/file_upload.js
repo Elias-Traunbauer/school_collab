@@ -2,7 +2,7 @@ import { useState,useEffect } from 'react'
 import styles from '../styles/assignment.module.css';
 import Image from 'next/image';
 
-const File_Upload =  ({handleFilesUpdated,acceptedFiles}) => {
+const File_Upload =  ({handleFilesUpdated,acceptedFiles,title}) => {
         function showFile(newFiles){
             let tmpArray = [];
             for(const newFile of newFiles){
@@ -54,7 +54,7 @@ const File_Upload =  ({handleFilesUpdated,acceptedFiles}) => {
 
         <div className={styles.uploadfieldcontainer}>
                 <div className={styles.wrapper}>
-                    <header>File Upload</header>
+                    <header>{title?title:"File Upload"}</header>
                         <div onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} onClick={handleClick} id='fileinput' className={styles.fileinput} type="file" name="file">
                             <label>Drag and Drop</label>
                         </div>

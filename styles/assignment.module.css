@@ -93,12 +93,26 @@
 }
 
 .edithead{
+  width: 60%;
   display: flex;
-  justify-content: left;
   align-items: center;
+  justify-content: space-between;
 }
-.edithead h1,.edithead p{
-  padding-left: 20%; /*15*/
+
+
+.editheadContainer{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.edithead input {
+  width:25vw;
+  font-size: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
 }
 
 .edithead p{

@@ -4,11 +4,13 @@ import File_Upload from '../components/file_upload';
 import styles from '../styles/assignment.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/router'
+import {Dialog,openDialog} from '../components/Dialog';
 
 
 
 
-export default function AssignmentEdit({assignmentParam,acceptedFilextentionsParam,uploaded,instruction}){
+export default function AssignmentEdit({assignmentId}){
+        //fetchassignment
 
         //mock
         let assignmentDummy = {
@@ -34,7 +36,11 @@ export default function AssignmentEdit({assignmentParam,acceptedFilextentionsPar
         const [assignment,setAssignment] = useState(assignmentDummy);
         const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
         let deleting = false;
-        const router = useRouter()
+        let currFileIndex = null;
+        let instrictionFilesBackup = [];
+        let assignmentBackup = assignment;
+
+        const router = useRouter();
 
         function handleUploadFilesUpdate(list){
             setUploadFiles([...uploadFiles,...list]);
@@ -43,7 +49,7 @@ export default function AssignmentEdit({assignmentParam,acceptedFilextentionsPar
             setInstrictionFiles([...instrictionFiles,...list]);
         }
 
-        function deleteItem(e,file,key){
+        function deleteItem(e,key){
             e.preventDefault();
             deleting = true;
             const tmpList = [];
@@ -64,47 +70,102 @@ export default function AssignmentEdit({assignmentParam,acceptedFilextentionsPar
             }, 250)
         }
 
+        function deleteInstructionItem(e,key){
+            e.preventDefault();
+            deleting = true;
+            
+            const tmpList = [];
+            const parent = e.target.parentElement;
+            parent.classList.add(styles.filelistitem_close);
+
+            for (let i = 0; i < instrictionFiles.length; i++) {
+                if(i != key)
+                tmpList.push(instrictionFiles[i]);
+            }
+            
+            
+            //animation
+            setTimeout(() => {
+                parent.classList.remove(styles.filelistitem_close);
+                setInstrictionFiles(tmpList);
+                deleting = false;
+            }, 250)
+        }
+
         let currFileKey = -1;
 
-        function openDialog(file,key){
+        function handleSave(){
+            const tmpArr = uploadFiles;
+            tmpArr[currFileIndex] = new File([tmpArr[currFileIndex]],document.getElementById("fileName").value);
+            setUploadFiles([...tmpArr]);
+        }
+
+        function handleSaveInstruction(){
+            const tmpArr = instrictionFiles;
+            tmpArr[currFileIndex] = new File([tmpArr[currFileIndex]],document.getElementById("instructionFileName").value);
+            setInstrictionFiles([...tmpArr]);
+        }
+
+        function handleOpenDialog(id,i){
             if(deleting)
             return;
-            currFileKey = key;
-            const dialog = document.getElementById('dialog');
-            let inputs = document.querySelectorAll(`.${styles.dialogwindow} input`)
-            inputs[0].value = file.name;
-            dialog.classList.add(styles.opendialog);
-
-            dialog.showModal();
-            setTimeout(() => {
-                dialog.classList.remove(styles.opendialog);
-            }, 300)
+            currFileIndex = i;
+            openDialog(id);
+            document.getElementById("fileName").value = uploadFiles[i].name;
         }
 
-        function closeDialog(){
-            const name = document.getElementById('dialogItemName');
-            const tmpArr = uploadFiles;
-            let i = 0;
-            tmpArr[currFileKey] = new File([tmpArr[currFileKey]],name.value);
-            setUploadFiles(tmpArr);
-            dialog.close();
+        function handleOpenInstructionDialog(id,i){
+            if(deleting)
+            return;
+            currFileIndex = i;
+            openDialog(id);
+            document.getElementById("instructionFileName").value = instrictionFiles[i].name;
         }
+
+        function handleCancelEdit(){
+            console.log(assignmentBackup);
+            setEdditMode(false);
+            setAssignment(assignmentBackup);
+            setInstrictionFiles(instrictionFilesBackup);
+        }
+
+        function handleEddit(){
+            assignmentBackup = Object.create(assignment);
+            instrictionFilesBackup = instrictionFiles;
+            setEdditMode(true);
+            console.log(assignmentBackup);
+        }
+
+        function handleSaveEdit(){
+            setEdditMode(false);
+            assignment.description = document.getElementById("descriptionInput").value;
+            assignment.title = document.getElementById("titleInput").value;
+        }
+
+        function handleSaveAssignment(){
+            //backend
+            router.push("./assignments");
+        }
+
+        
         
     return(
         <>
         <div className={styles.editcontainer}>
-            <div className={styles.edithead}>
-                <h1>{assignment.title}</h1>
-                <Countdown date={assignment.deadline}></Countdown>
+            <div className={styles.editheadContainer}>
+                <div className={styles.edithead}>
+                    {
+                        !edditMode ? 
+                        (<h1>{assignment.title}</h1>) 
+                        :
+                        (<input defaultValue={assignment.title} id='titleInput'></input>)
+                    }
+                    
+                    <Countdown date={assignment.deadline}></Countdown>
+                </div>
             </div>
-            {
-                assignment.creator.name == currUserDummy.name ? 
-                (<>
-                    <button onClick={()=>setEdditMode(true)}>Edit</button>
-                    <button onClick={()=>setEdditMode(false)}>Save</button>
-                </>
-                ):(<></>)
-            }
+            
+            
             
             <div className={styles.descriptioncontainer}>
                 <div className={styles.description}>
@@ -112,7 +173,7 @@ export default function AssignmentEdit({assignmentParam,acceptedFilextentionsPar
                     {
                         edditMode ?
                         (
-                            <input defaultValue={assignment.description} onChange={(e) => {assignment.description = e.target.value}}></input>
+                            <input defaultValue={assignment.description} id='descriptionInput'></input>
                         ) : 
                         (
                             <p>{assignment.description}</p>
@@ -126,7 +187,15 @@ export default function AssignmentEdit({assignmentParam,acceptedFilextentionsPar
                             <div className={styles.instrictionfileContainer}>
                                 <ul className={styles.filelistitem}>
                                     {instrictionFiles.map((file,i) => {
-                                        return <li key={i}>{file.name}</li>
+                                        return <li key={i} onClick={()=>edditMode?handleOpenInstructionDialog("instruction",i):null}>
+                                            {file.name}
+                                            {
+                                            edditMode ? 
+                                            <Image onClick={(e) => deleteInstructionItem(e,i)} className={styles.cancelbutton} src={"/cancelicon.svg"} width={20} height={20} alt="cancel"></Image>
+                                            : null
+                                            }
+                                            
+                                        </li>
                                     })}
                                 </ul>
                             </div>
@@ -139,11 +208,11 @@ export default function AssignmentEdit({assignmentParam,acceptedFilextentionsPar
                 </div>
             </div>
 
-            <File_Upload acceptedFiles={acceptedFilextentions} handleFilesUpdated={edditMode?(instrictionFiles) => handleInstructionFilesUpdate(instrictionFiles):(uploadFiles) => handleUploadFilesUpdate(uploadFiles)}></File_Upload>
+            <File_Upload acceptedFiles={acceptedFilextentions} title={edditMode?"Upload Instructions":"Upload Files"} handleFilesUpdated={edditMode?(instrictionFiles) => handleInstructionFilesUpdate(instrictionFiles):(uploadFiles) => handleUploadFilesUpdate(uploadFiles)}></File_Upload>
             
             {
                 edditMode ? 
-                (<></>)
+                null
                 :
                 (
                     <div className={styles.fileListWrapper}>
@@ -151,9 +220,9 @@ export default function AssignmentEdit({assignmentParam,acceptedFilextentionsPar
 
                             {uploadFiles.length > 0 ? (<>
                                 <ul id='uploadFilesUl' className={styles.filelistitem} hidden>
-                                    {uploadFiles.map((file,i)=>{return <li onClick={() => openDialog(file,i)} key={i}>
+                                    {uploadFiles.map((file,i)=>{return <li onClick={() => handleOpenDialog("alo",i)} key={i}>
                                         <p>{file.name}</p>
-                                        <Image onClick={(e) => deleteItem(e,file,i)} className={styles.cancelbutton} src={"/cancelicon.svg"} width={20} height={20} alt="cancel"></Image>
+                                        <Image onClick={(e) => deleteItem(e,i)} className={styles.cancelbutton} src={"/cancelicon.svg"} width={20} height={20} alt="cancel"></Image>
                                 </li>})}
                             </ul>
                             </>) : (<></>)}
@@ -162,19 +231,46 @@ export default function AssignmentEdit({assignmentParam,acceptedFilextentionsPar
                 ) 
             }
             
+            
             <div className={styles.editButton}>
-                <button onClick={()=>alert("uploading " + uploadFiles.length + " file(s)")}>Save</button>
+                {
+                    edditMode?null:
+                    <button onClick={handleSaveAssignment}>Save</button>
+                }
+                {
+                    assignment.creator.name == currUserDummy.name ? 
+                    (<>
+                        
+                        {edditMode?
+                        (
+                            <>
+                            <button onClick={handleSaveEdit}>Save Changes</button>
+                            <button onClick={handleCancelEdit}>Cancel Changes</button>
+                            </>
+                        )
+                        :
+                        <button onClick={handleEddit}>Edit</button>
+                        }
+                        
+                    </>
+                    ):(<></>)
+                }
+                
+                
             </div>
             
         </div>
-        <dialog id='dialog' className={styles.dialogwindow}>
-            <div>
-                <label>Name</label>
-                <input placeholder='name' id='dialogItemName'></input>
-                <input></input>
-            </div>
-            <button onClick={closeDialog}>Save</button>
-        </dialog>
+
+        <Dialog title='test' id='alo' handleSave={handleSave}>
+            <label>Name</label>
+            <input id='fileName' name='fileName'></input>
+        </Dialog>
+
+        <Dialog title='test' id='instruction' handleSave={handleSaveInstruction}>
+            <label>Name</label>
+            <input id='instructionFileName' name='fileName'></input>
+        </Dialog>
+        
         
     </>
     );
