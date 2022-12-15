@@ -1,0 +1,22 @@
+name: "Compiler Check"
+
+on:
+  pull_request:
+      branches:
+            - master
+  push
+      
+jobs:
+  build:
+    name: "Deploy project on live-dev server"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure Node
+        - uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 16
+        - run: npm i
+
+      - name: Build next project
+        - run: npm deploy
