@@ -31,7 +31,7 @@ jobs:
         run: ssh staging 'echo "It works!"'
 
       - name: Pull project code
-        run: ssh staging 'sudo git -C ./school_collab fetch | sudo git -C ./school_collab reset --hard origin/master'
+        run: ssh staging 'sudo git -C ./school_collab reset --hard | sudo git -C ./school_collab pull'
 
       - name: Deploy next-project
         run: ssh staging 'npm --prefix ./school_collab run deploy'
