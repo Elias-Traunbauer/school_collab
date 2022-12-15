@@ -1,3 +1,4 @@
+import Head from "next/head";
 
 
 export default function Layout ({ children }) {
@@ -5,6 +6,10 @@ export default function Layout ({ children }) {
         <div>
             <h1>Navbar</h1>
         </div>
-        <div>{children}</div>
+        <div>
+            {children}
+        </div>
+        <footer>
+        </footer>
     </>
 }
