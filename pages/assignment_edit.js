@@ -10,7 +10,7 @@ import {Dialog,openDialog} from '../components/Dialog';
 
 
 export default function AssignmentEdit({assignmentId}){
-        //fetchassignment
+        // TODO: fetch assignment
 
         //mock
         let assignmentDummy = {
@@ -143,7 +143,7 @@ export default function AssignmentEdit({assignmentId}){
         }
 
         function handleSaveAssignment(){
-            //backend
+            // TODO: Backend anbindung
             router.push("./assignments");
         }
 

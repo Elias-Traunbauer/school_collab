@@ -17,6 +17,7 @@ export default function Assignments(){
 
     return(
         <div className={styles.assignmentcontainer}>
+            <Image className={styles.cancelbutton} src={"/cancelicon.svg"} width={20} height={20} alt="cancel"></Image>
             {
                 assignmentData.map((element, i) => {
                     return <AssignmentCard key={i} assignment={element}></AssignmentCard>
