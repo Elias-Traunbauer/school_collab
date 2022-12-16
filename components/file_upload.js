@@ -4,13 +4,13 @@ import Image from 'next/image';
 
 const File_Upload =  ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = false}) => {
 
-    const [acceptedFilextentions,setAcceptedFilextentions] = useState(["png","txt","jpg"]);
+    const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
 
         function showFile(newFiles){
             let tmpArray = [];
             for(const newFile of newFiles){
                 const fileExtention = newFile.name.split('.');
-                if(acceptedFilextentions.includes(fileExtention[fileExtention.length-1])|| acceptedFilextentions.length == 0)
+                if(acceptedFilextentions.includes(fileExtention[fileExtention.length-1])|| acceptedFilextentions.length == 0 || edittmode)
                 tmpArray.push(newFile);
             }
             handleUpload(tmpArray);
