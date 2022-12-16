@@ -28,13 +28,13 @@ export default function AssignmentEdit({assignmentId}){
             name:"pfreyteaching",
         }
 
-        const instructionDummy = ["Test1", "test 2", "test 3"];
 
         const [uploadFiles,setUploadFiles] = useState([]);
         const [instrictionFiles,setInstrictionFiles] = useState([]);
         const [edditMode,setEdditMode] = useState(false);
         const [assignment,setAssignment] = useState(assignmentDummy);
-        const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
+        //const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
+        let acceptedFilextentions = [];
         let deleting = false;
         let currFileIndex = null;
         let instrictionFilesBackup = [];
@@ -47,6 +47,10 @@ export default function AssignmentEdit({assignmentId}){
         }
         function handleInstructionFilesUpdate(list){
             setInstrictionFiles([...instrictionFiles,...list]);
+        }
+        function handleAcceptedFiles(list){
+            acceptedFilextentions = list;
+            console.log(acceptedFilextentions);
         }
 
         function deleteItem(e,key){
@@ -208,7 +212,7 @@ export default function AssignmentEdit({assignmentId}){
                 </div>
             </div>
 
-            <File_Upload acceptedFiles={acceptedFilextentions} title={edditMode?"Upload Instructions":"Upload Files"} handleFilesUpdated={edditMode?(instrictionFiles) => handleInstructionFilesUpdate(instrictionFiles):(uploadFiles) => handleUploadFilesUpdate(uploadFiles)}></File_Upload>
+            <File_Upload edittmode={edditMode} acceptedFiles={(acceptedFiles) => handleAcceptedFiles(acceptedFiles)} title={edditMode?"Upload Instructions":"Upload Files"} handleFilesUpdated={edditMode?(instrictionFiles) => handleInstructionFilesUpdate(instrictionFiles):(uploadFiles) => handleUploadFilesUpdate(uploadFiles)}></File_Upload>
             
             {
                 edditMode ? 
