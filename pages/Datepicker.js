@@ -7,6 +7,5 @@ export default function Datepicker({month = new Date().getMonth(),year = new Dat
     const displayDatesArray = [firstDateOfMonth,lastDateOfMonth];
 
     console.log(displayDatesArray);
-
    
 }
