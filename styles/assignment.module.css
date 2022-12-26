@@ -477,3 +477,89 @@
 .dropdown:hover .dropbtn {
   background-color: rgba(192, 192, 192, 0.5);
 }
+
+.wizzardWrapper{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction:column;
+}
+
+.wizzardContainer{
+ display: flex;
+ flex-direction: column;
+ background-color: #E9F0FF;
+ height: auto;
+ width: 70%;
+ padding: .5em;
+ border-radius: .5em;
+}
+
+.wizzardContainer ul{
+  align-self: center;
+  width: 80%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style: none;
+  color: black;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+ }
+
+ .wizzardContainer ul li{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10em;
+  border: #6990F2 2px solid;
+  width: 3em;
+  height: 3em;
+  z-index: 1;
+  background-color: #E9F0FF;
+ }
+
+ .wizardLine{
+  margin-left: 19%;
+  width: 0%;
+  height: 2px;
+  transform: translate(0,-1.5rem);
+  z-index: 0;
+  position: relative;
+  color: black;
+  background-color: rgba(105,144,242,1);
+}
+
+.position0{
+  width: 0%;
+  transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
+  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);
+}
+
+.position1{
+  width: 15%;
+  transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
+  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);
+}
+.position2{
+  width: 39%;
+  transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
+  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);
+}
+.position3{
+  width: 63%;
+  transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
+  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);
+}
+ 
+
+ .active{
+  background-color: #6990F2 !important;
+  color: white;
+  transition: .5s;
+ }
