@@ -4,23 +4,18 @@ import { object } from 'prop-types';
 export default function AssignmentWizzard(){
 
     let currentIndex = 0;
-    const positions = [styles.position0,styles.position1,styles.position2,styles.position3];
 
     function nextSection(){
         const items = document.querySelectorAll('.'+styles.wizzardContainer + ' ul li');
-        const line = document.getElementById('line');
+        const lines = document.querySelectorAll('.'+styles.wizardLine);
+        
         if(currentIndex >= items.length-1)
         return;
 
-        if(currentIndex-2 >= 0)
-            line.classList.remove(positions[currentIndex]);
-            line.classList.add(positions[currentIndex+1]);    
-
-        setTimeout(() => {
             items[currentIndex].classList.remove(styles.active);
             currentIndex++;
             items[currentIndex].classList.add(styles.active);
-        }, 900)
+            lines[currentIndex-1].classList.add(styles.activeLine);
         
         
     
@@ -28,15 +23,15 @@ export default function AssignmentWizzard(){
 
     function previousSection(){
         const items = document.querySelectorAll('.'+styles.wizzardContainer + ' ul li');
+        const lines = document.querySelectorAll('.'+styles.wizardLine);
         if(currentIndex <= 0)
         return;
-
-            line.classList.remove(positions[currentIndex]);
-            line.classList.add(positions[currentIndex-1]);
 
         items[currentIndex].classList.remove(styles.active);
         currentIndex--;
         items[currentIndex].classList.add(styles.active);
+        lines[currentIndex].classList.remove(styles.activeLine);
+
     }
 
     
@@ -46,14 +41,27 @@ export default function AssignmentWizzard(){
             <div className={styles.wizzardContainer}>
                 <ul>
                     <li className={styles.active}>1</li>
+                    <div className={styles.wizardLine}></div>
                     <li>2</li>
+                    <div className={styles.wizardLine}></div>
                     <li>3</li>
+                    <div className={styles.wizardLine}></div>
                     <li>4</li>
                 </ul>
-                <div id='line' className={styles.wizardLine}></div>
-                <div>
-                    <button onClick={nextSection}>next</button>
-                    <button onClick={previousSection}>back</button>
+                <div className={(styles.wizardContent,styles.displayContent)}>
+                    <form>
+                        <div className={styles.inputContainer}>
+                            <label>Name</label>
+                            <input></input>
+                        </div>
+                        <label>Name</label>
+                        <input></input>
+                        
+                    </form>
+                    <div>
+                        <button onClick={nextSection} className={styles.btnNext}>Next</button>
+                        <button onClick={previousSection} className={styles.btnback}>Back</button>
+                    </div>
                 </div>
             </div>
         </div>

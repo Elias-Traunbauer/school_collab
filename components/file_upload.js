@@ -94,6 +94,7 @@ const File_Upload =  ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = 
                         {
                             edittmode ? 
                             (<>
+                                <div className={styles.extentionContainer}>
                                 <div className={styles.dropdown}>
                                     <button onClick={handleDropDownOnClick} className={styles.dropbtn}>Extentions</button>
                                     <div className={styles.dropdownContent}>
@@ -103,6 +104,7 @@ const File_Upload =  ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = 
                                             </a>})}
                                             <input onKeyUp={(e) => addItem(e)} id='fileExtentionInput' placeholder='new Extention'></input>
                                     </div>
+                                </div>
                                 </div>
                             </>)
                             :

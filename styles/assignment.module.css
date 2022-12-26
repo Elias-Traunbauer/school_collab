@@ -45,8 +45,8 @@
   padding: 1em;
   border-radius: 1em;
   font-size: .9em;
-  background-color: #E9F0FF;
-  color: black;
+  background-color: #181818;
+  color: rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
 }
@@ -70,7 +70,7 @@
   flex-direction: column;
 }
 .fileuploadfield{
-  border: 2px dashed red;
+  border: 2px dashed rgb(49, 49, 49);
   width: 50%;
   text-align: center;
   height: 50%;
@@ -116,15 +116,20 @@
 }
 
 .edithead p{
-  color: green;
+  color: rgb(3, 230, 3);
 }
 
 
 .wrapper{
   width: 45%;
-  background: rgb(255, 255, 255);
+  background: #181818;
+  color: #fff;
   border-radius: 1em;
   padding: 2em;
+}
+
+.wrapper:hover{
+  background-color: #202020;
 }
 
 .headerContainer{
@@ -135,14 +140,14 @@
 }
 
 .fileExtention{
-  color: #404040;
+  color: #ffffff;
   text-align: center;
   opacity: .5;
   margin: 0;
 }
 
 .wrapper header{
-  color: #6990F2;
+  color: purple;
   font-weight: 600;
   font-size: 1.6em;
   text-align: center;
@@ -152,7 +157,7 @@
   cursor: pointer;
   margin: 1em 0;
   border-radius: .5em;
-  border: 2px dashed #6990F2;
+  border: 2px dashed purple;
   height: 10em;
   justify-content: center;
   align-items: center;
@@ -160,78 +165,8 @@
 }
 
 .fileinput label{
-  color: black;
+  color: rgb(255, 255, 255);
   opacity: 0.5;
-}
-
-.fileinput section .row{
-  margin-bottom: 10px;
-  background: #E9F0FF;
-  list-style: none;
-  padding: 15px 20px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.fileinput section .row i{
-  color: #6990F2;
-  font-size: 30px;
-}
-
-
-.fileinput section .details span{
-  font-size: 14px;
-}
-
-.progressarea .row .content{
-  width: 100%;
-  margin-left: 15px;
-}
-.progressarea .details{
-  display: flex;
-  align-items: center;
-  margin-bottom: 7px;
-  justify-content: space-between;
-}
-.progressarea .content .progress-bar{
-  height: 6px;
-  width: 100%;
-  margin-bottom: 4px;
-  background: #fff;
-  border-radius: 30px;
-}
-
-.uploadedarea{
-  max-height: 232px;
-  overflow-y: scroll;
-}
-.uploadedarea.onprogress{
-  max-height: 150px;
-}
-.uploadedarea::-webkit-scrollbar{
-  width: 0px;
-}
-.uploadedarea .row .content{
-  display: flex;
-  align-items: center;
-}
-.uploadedarea .row .details{
-  display: flex;
-  margin-left: 15px;
-  flex-direction: column;
-}
-.uploadedarea .row .details .size{
-  color: #404040;
-  font-size: 11px;
-}
-.uploadedarea i.fa-check{
-  font-size: 16px;
-}
-
-.fileslist li{
-  color: black;
 }
 
 .uploadfieldcontainer{
@@ -242,12 +177,13 @@
 }
 
 .activedrag{
-  background-color: rgb(231, 230, 230);
+  background-color: #404040;
+  color: #fff;
 }
 
 .filelistitem li{
-  color: black;
-  background-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  background-color: #606060;
   width: 100%;
   border-radius: .3em;
   margin-bottom: .3em;
@@ -269,13 +205,13 @@
 }
 
 .cancelbutton:hover{
-  background-color: rgba(179, 177, 177, 0.774);
+  background-color: #4040405b;
   order: 2;
 }
 
 
 .filelistitem li:hover{
-  background-color: rgba(239, 239, 239, 0.774);
+  background-color: #808080;
 }
 
 .filelistitem_close{
@@ -295,7 +231,7 @@
 
 .filelistitem{
   margin-bottom: .5em;
-  background: #E9F0FF;
+  background: #404040;
   list-style: none;
   padding: .5em .6em;
   border-radius: .5em;
@@ -415,17 +351,22 @@
 }
 
 .dropbtn {
-  background-color: rgba(192, 192, 192, 0.2);
-  color: #6990F2;
+  background-color: #202020;
+  border: 1px solid rgba(255, 255, 255, 0.295);
+  color: purple;
   padding: .7em;
   font-size: 1em;
-  border: none;
   cursor: pointer;
   border-radius: .5em;
   outline: none;
+  float: right;
+}
+.extentionContainer{
+  width: 100%;
 }
 
 .dropdown {
+  float: right !important;
   position: relative;
   display: flex;
   justify-content: center;
@@ -441,6 +382,7 @@
   border-radius: .5em;
   z-index: 1;
   padding: .5em;
+  float: right;
 }
 
 .dropdownContent a, .dropdownContent input {
@@ -488,8 +430,10 @@
 }
 
 .wizzardContainer{
- display: flex;
- flex-direction: column;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
  background-color: #E9F0FF;
  height: auto;
  width: 70%;
@@ -498,7 +442,6 @@
 }
 
 .wizzardContainer ul{
-  align-self: center;
   width: 80%;
   height: 100%;
   display: flex;
@@ -520,46 +463,78 @@
   border: #6990F2 2px solid;
   width: 3em;
   height: 3em;
-  z-index: 1;
+  z-index: 0;
   background-color: #E9F0FF;
+  padding: 1.5em;
  }
 
  .wizardLine{
-  margin-left: 19%;
-  width: 0%;
-  height: 2px;
-  transform: translate(0,-1.5rem);
-  z-index: 0;
+  width: 80%;
+  z-index: 1;
+  height: .1rem;
   position: relative;
   color: black;
-  background-color: rgba(105,144,242,1);
+  transition: 1s;
+  background: linear-gradient(to left, rgb(228, 228, 228) 50%, #6990F2 50%) right;
+  background-size: 200%;
+  transition: 1s ease-out;
 }
 
-.position0{
-  width: 0%;
-  transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
-  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);
+.activeLine{
+  transition: 1s;
+  background-position: left;
+  /*transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
+  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);*/
 }
 
-.position1{
-  width: 15%;
-  transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
-  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);
-}
-.position2{
-  width: 39%;
-  transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
-  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);
-}
-.position3{
-  width: 63%;
-  transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
-  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);
-}
- 
 
  .active{
   background-color: #6990F2 !important;
   color: white;
   transition: .5s;
+  transition-delay: 1s;
  }
+
+ .wizardContent{
+  display: none;
+ }
+
+.displayContent label{
+  color: black;
+}
+
+.displayContent{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.displayContent form{
+  margin-left: 25%;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+.displayContent input,.displayContent button{
+  outline: none;
+  border: none;
+  border-radius: .1em;
+}
+
+.inputContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+.displayContent button{
+  width: 4em;
+  
+  margin-top: .2em;
+}
+.btnNext{
+  float: right;
+}
+
+.btnBack{
+  float: left;
+}
