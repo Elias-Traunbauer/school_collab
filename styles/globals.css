@@ -1,3 +1,7 @@
+:root {
+  --color_purple: #59097b;
+}
+
 html,
 body {
   padding: 0;
@@ -21,6 +25,6 @@ a {
   }
   body {
     color: white;
-    background: black;
+    background: rgb(17, 17, 17);
   }
 }
