@@ -4,7 +4,7 @@ var datetime = "Build " + currentdate.getDate() + "/"
                 + currentdate.getFullYear() + "-"  
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
+                + currentdate.getSeconds() + " GMT";
 
 const fs = require('fs');
 
