@@ -11,9 +11,8 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     (async () => {
       const res = await fetch('/api/version.php');
-      const data = await res.json();
       const dev_info = document.getElementById('dev_info');
-      dev_info.innerHTML = "<p>" + data.dev_info + "</p>";
+      dev_info.innerHTML = "<p>" + res + "</p>";
     })();
     return () => {
       
