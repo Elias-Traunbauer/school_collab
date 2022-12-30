@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
     (async () => {
       const res = await fetch('/api/version.php');
       const dev_info = document.getElementById('dev_info');
-      dev_info.innerHTML = "<p>" + res + "</p>";
+      dev_info.innerHTML = "<p>" + res.content + "</p>";
     })();
     return () => {
       
