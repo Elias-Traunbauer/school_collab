@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }) {
             <link rel="icon" href={icon.src} />
         </Head>
         <div id="dialog_container"></div>
-        <div id="dev_info"><p>No build date available</p></div>
+        <div id="dev_info"><p>No build number</p></div>
       {
         getLayout(<Component {...pageProps} />)
       }
