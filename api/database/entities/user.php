@@ -1,6 +1,8 @@
 <?php
 
-class User implements Validateable {
+require "IValidateable.php";
+
+class User implements IValidateable {
     public string $username;
     public string $firstName;
     public string $lastName;
