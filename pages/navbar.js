@@ -1,15 +1,19 @@
 import styles from '../styles/navbar.module.css'
-import Link from 'next/link'
+import Link from "next/link"
 
 export default function navbar(){
+
     return(
+        <>
         <div className={styles.container}>
-            <Link href="/about" legacyBehavior>
-                <a>About</a>
+            <Link href="/navbar" className={styles.navactive}>
+                Navbar
             </Link>
-            <Link href="/navbar" legacyBehavior>
-                <a>navbar</a>
+            <Link href="/about">
+                About
             </Link>
         </div>
+        <div className={styles.underline}></div>
+        </>        
     )
 }
