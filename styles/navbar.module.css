@@ -1,7 +1,7 @@
 .container{
     background-color: rgb(101, 0, 101);;
     display: flex;
-    height: 70% !important;
+    height: 2.5em;
 }
 
 .container a:link{
@@ -21,8 +21,6 @@
     width:  2.5em;
     background-color: white;
     transform:translate(1.3em,-0.6em);
-    /*margin-left: 1.3em;
-    margin-top: -0.6em;*/
 }
 
 
