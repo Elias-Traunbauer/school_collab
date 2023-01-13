@@ -29,9 +29,9 @@ export default function AssignmentWizzard(){
         
         formIndex == inputList.length?setIsLastPage(true):setIsLastPage(false);
         setIsFirstPage(false);
-        checkFormFilled();
         setCurrentIndex(currentIndex+1);
         setFormIndex(formIndex+1);
+        checkFormFilled();
     }
 
     function previousSection(){
@@ -58,13 +58,19 @@ export default function AssignmentWizzard(){
     }
 
     function checkFormFilled(){
-        const formList = document.querySelectorAll('.' + styles.wizardContent);
-        inputList = formList[0].querySelectorAll('input');
+        if(inputList.length == 0){
+            const formList = document.querySelectorAll('.' + styles.wizardContent);
+            inputList = formList[0].querySelectorAll('input');
+            console.log(null);
+        }
 
         for (let item of inputList) {
             console.log(item.hasAttribute('required') && item.value.length <= 0)
-            if(item.hasAttribute('required') && item.value.length <= 0)
-            return;
+            if(item.hasAttribute('required') && item.value.length <= 0){
+                document.getElementById('btnNextPage').classList.add(styles.disabeldBtn);
+                return;
+            }
+            
         }
 
         //console.log(document.getElementById('btnNextPage'))
