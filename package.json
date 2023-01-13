@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "update_build_date": "sudo node set_dev_description",
     "deploy": "next build && next export",
     "test-deploy": "next build && next export && mkdir .\\out\\api && xcopy /s api out\\api",
     "api-only-deploy": "xcopy /s api out\\api /Y"
