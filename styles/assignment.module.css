@@ -432,21 +432,20 @@
 .wizzardContainer{
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
   background-color: #E9F0FF;
-  height: auto;
-  width: 60%;
   padding: .5em;
   border-radius: .5em;
-  scale: 1.3;
   background-color: #1e1e1e;
   color: #fff;
+
+  height: 50%;
+  width: 60%;
 }
 
 .wizzardContainer ul{
   width: 80%;
-  height: 100%;
+  height:20%;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -457,7 +456,6 @@
   margin: 0;
   padding: 0;
   color: white;
-  
  }
 
  .wizzardContainer ul li{
@@ -500,7 +498,6 @@
  }
 
 .wizardContent{
-  margin-top: 1em;
   display: flex;
   flex-direction: column;
   color: white;
@@ -553,5 +550,8 @@
   background-color: gray !important;
 }
 .hidden{
-display: none;
+  display: none;
+}
+.bumper{
+  height: 1em;
 }

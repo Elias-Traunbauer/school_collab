@@ -2,83 +2,105 @@ import styles from '../styles/assignment.module.css';
 import { useState,useEffect } from 'react'
 export default function AssignmentWizzard(){
 
-    const [currentIndex,setCurrentIndex] = useState(0);
-    const [formIndex,setFormIndex] = useState(0)
-    let inputList = [];
+    useEffect(() => {
+        const formList = document.querySelectorAll('input');
 
-    const [isLastPage,setIsLastPage] = useState(false);
-    const [isFirstPage,setIsFirstPage] = useState(true);
+        for (let item of formList) {
+            item.addEventListener("keydown",(e)=>handleKeyDown(e));
+        }
+
+        function handleKeyDown(e){
+            if(e.keyCode == 13){
+                console.log(document.getElementById('btnNextPage').classList.contains(styles.disabeldBtn));
+                document.getElementById('btnNextPage').classList.contains(styles.disabeldBtn)?"":document.getElementById('btnNextPage').click()
+            }
+        }
+    });
+
+    const [stateData,setStateData] = useState({
+        currIndex: 0,
+        isLastPage: false,
+        isFirstPage:true,
+    });
+    let inputList = [];
     
     function nextSection(){
-        
         const items = document.querySelectorAll('.'+styles.wizzardContainer + ' ul li');
         const lines = document.querySelectorAll('.'+styles.wizardLine);
-        
-        if(currentIndex >= items.length-1)
+        const formList = document.querySelectorAll('.' + styles.wizardContent);
+
+        if(stateData.currIndex >= items.length-1)
         return;
 
-        items[currentIndex].classList.remove(styles.active);
-        items[currentIndex+1].classList.add(styles.active);
-        lines[currentIndex].classList.add(styles.activeLine);
+        items[stateData.currIndex].classList.remove(styles.active);
+        items[stateData.currIndex+1].classList.add(styles.active);
+        lines[stateData.currIndex].classList.add(styles.activeLine);
 
-        const formList = document.querySelectorAll('.' + styles.wizardContent);
-        console.log(formIndex);
-        formList[formIndex].classList.add(styles.hidden);
-        formList[formIndex+1].classList.remove(styles.hidden);
-        inputList = formList[formIndex+1].querySelectorAll('input');
+        formList[stateData.currIndex].classList.add(styles.hidden);
+        formList[stateData.currIndex+1].classList.remove(styles.hidden);
         
-        formIndex == inputList.length?setIsLastPage(true):setIsLastPage(false);
-        setIsFirstPage(false);
-        setCurrentIndex(currentIndex+1);
-        setFormIndex(formIndex+1);
-        checkFormFilled();
+        checkFormFilled(stateData.currIndex+1);
+        focusInputField(stateData.currIndex+1);
+        setStateData({
+            currIndex: stateData.currIndex+1,
+            isFirstPage: false,
+            isLastPage: stateData.currIndex == inputList.length?true:false
+        });
     }
 
     function previousSection(){
         const items = document.querySelectorAll('.'+ styles.wizzardContainer + ' ul li');
         const lines = document.querySelectorAll('.'+styles.wizardLine);
-        
-        if(currentIndex <= 0)
+        const formList = document.querySelectorAll('.' + styles.wizardContent);
+
+        if(stateData.currIndex <= 0)
         return;
 
-        items[currentIndex].classList.remove(styles.active);
-        items[currentIndex-1].classList.add(styles.active);
-        lines[currentIndex-1].classList.remove(styles.activeLine);
-
-        const formList = document.querySelectorAll('.' + styles.wizardContent);
+        items[stateData.currIndex].classList.remove(styles.active);
+        items[stateData.currIndex-1].classList.add(styles.active);
+        lines[stateData.currIndex-1].classList.remove(styles.activeLine);
         
-        formList[formIndex].classList.add(styles.hidden);
-        formList[formIndex-1].classList.remove(styles.hidden);
+        formList[stateData.currIndex].classList.add(styles.hidden);
+        formList[stateData.currIndex-1].classList.remove(styles.hidden);
 
-        inputList = formList[formIndex-1].querySelectorAll('input');
-        formIndex-1==0?setIsFirstPage(true):"";
-        setIsLastPage(false);
-        setCurrentIndex(currentIndex-1);
-        setFormIndex(formIndex-1);
+        checkFormFilled(stateData.currIndex-1);
+        focusInputField(stateData.currIndex-1)
+        setStateData({
+            currIndex: stateData.currIndex-1,
+            isFirstPage: stateData.currIndex-1==0?true:false,
+            isLastPage: false
+        });
+    }
+    function focusInputField(index){
+        const formList = document.querySelectorAll('.' + styles.wizardContent);
+        inputList = formList[index].querySelectorAll('input');
+        inputList[0].focus();
     }
 
-    function checkFormFilled(){
-        if(inputList.length == 0){
-            const formList = document.querySelectorAll('.' + styles.wizardContent);
-            inputList = formList[0].querySelectorAll('input');
-            console.log(null);
-        }
+    function checkFormFilled(index){
+        const formList = document.querySelectorAll('.' + styles.wizardContent);
+        inputList = formList[index].querySelectorAll('input');
 
         for (let item of inputList) {
-            console.log(item.hasAttribute('required') && item.value.length <= 0)
             if(item.hasAttribute('required') && item.value.length <= 0){
                 document.getElementById('btnNextPage').classList.add(styles.disabeldBtn);
                 return;
             }
-            
         }
-
-        //console.log(document.getElementById('btnNextPage'))
+        
         document.getElementById('btnNextPage').classList.remove(styles.disabeldBtn);
     }
 
     function finishWizard(){
+        const formList = document.querySelectorAll('.' + styles.wizardContent);
+        const buttons = document.querySelectorAll('.'+styles.wizardButtonContainer)
 
+        formList[formList.length-1].classList.add(styles.hidden);
+
+        for (const item of buttons) {
+            item.classList.add(styles.hidden);
+        }
+        
     }
     function CancelWizard(){
 
@@ -90,6 +112,7 @@ export default function AssignmentWizzard(){
         <>
         <div className={styles.wizzardWrapper}>
             <div className={styles.wizzardContainer}>
+                <div className={styles.bumper}></div>
                 <ul>
                     <li className={styles.active}>1</li>
                     <div className={styles.wizardLine}></div>
@@ -104,52 +127,52 @@ export default function AssignmentWizzard(){
                     <form className={styles.wizardContent}>
                         <div className={styles.inputContainer}>
                             <label>1</label>
-                            <input onInput={checkFormFilled} required></input>
+                            <input onInput={() => checkFormFilled(stateData.currIndex)} required></input>
                         </div>
                         
                         <div className={styles.inputContainer}>
                             <label>1</label>
-                            <input onInput={checkFormFilled} required></input>
+                            <input onInput={() => checkFormFilled(stateData.currIndex)} required></input>
                         </div>
                     </form>
                     <form className={`${styles.wizardContent} ${styles.hidden}`}>
                         <div className={styles.inputContainer}>
                             <label>2</label>
-                            <input onInput={checkFormFilled} required></input>
+                            <input onInput={() => checkFormFilled(stateData.currIndex)} required></input>
                         </div>
                         
                         <div className={styles.inputContainer}>
                             <label>2</label>
-                            <input onInput={checkFormFilled} required></input>
+                            <input onInput={() => checkFormFilled(stateData.currIndex)} required></input>
                         </div>
                     </form>
                     <form className={`${styles.wizardContent} ${styles.hidden}`}>
                         <div className={styles.inputContainer}>
                             <label>3</label>
-                            <input onInput={checkFormFilled} required></input>
+                            <input onInput={() => checkFormFilled(stateData.currIndex)} required></input>
                         </div>
                         
                         <div className={styles.inputContainer}>
                             <label>3</label>
-                            <input onInput={checkFormFilled} required></input>
+                            <input onInput={() => checkFormFilled(stateData.currIndex)} required></input>
                         </div>
                     </form>
                     <form className={`${styles.wizardContent} ${styles.hidden}`}>
                         <div className={styles.inputContainer}>
                             <label>4</label>
-                            <input onInput={checkFormFilled} required></input>
+                            <input onInput={() => checkFormFilled(stateData.currIndex)} required></input>
                         </div>
                         
                         <div className={styles.inputContainer}>
                             <label>4</label>
-                            <input onInput={checkFormFilled} required></input>
+                            <input onInput={() => checkFormFilled(stateData.currIndex)} required></input>
                         </div>
                     </form>
                 </div>
 
                 <div className={styles.wizardButtonContainer}>
-                    <button onClick={isFirstPage? CancelWizard: previousSection}>{isFirstPage?"Cancel":"Back"}</button>
-                    <button id='btnNextPage' onClick={isLastPage ? finishWizard : nextSection} className={styles.disabeldBtn}>{isLastPage? "Finish" : "Next"}</button>
+                    <button onClick={stateData.isFirstPage? CancelWizard: previousSection}>{stateData.isFirstPage?"Cancel":"Back"}</button>
+                    <button id='btnNextPage' onClick={stateData.isLastPage ? finishWizard : nextSection} className={styles.disabeldBtn}>{stateData.isLastPage? "Finish" : "Next"}</button>
                 </div>
             </div>
         </div>
