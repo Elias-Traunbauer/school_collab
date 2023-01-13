@@ -430,15 +430,18 @@
 }
 
 .wizzardContainer{
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column;
- background-color: #E9F0FF;
- height: auto;
- width: 70%;
- padding: .5em;
- border-radius: .5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #E9F0FF;
+  height: auto;
+  width: 60%;
+  padding: .5em;
+  border-radius: .5em;
+  scale: 1.3;
+  background-color: #1e1e1e;
+  color: #fff;
 }
 
 .wizzardContainer ul{
@@ -453,6 +456,8 @@ flex-direction: column;
   text-align: center;
   margin: 0;
   padding: 0;
+  color: white;
+  
  }
 
  .wizzardContainer ul li{
@@ -464,7 +469,6 @@ flex-direction: column;
   width: 3em;
   height: 3em;
   z-index: 0;
-  background-color: #E9F0FF;
   padding: 1.5em;
  }
 
@@ -495,46 +499,59 @@ flex-direction: column;
   transition-delay: 1s;
  }
 
- .wizardContent{
-  display: none;
- }
-
-.displayContent label{
-  color: black;
-}
-
-.displayContent{
+.wizardContent{
+  margin-top: 1em;
   display: flex;
   flex-direction: column;
-  width: 100%;
-}
-
-.displayContent form{
-  margin-left: 25%;
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-}
-.displayContent input,.displayContent button{
-  outline: none;
-  border: none;
-  border-radius: .1em;
+  color: white;
+  justify-content: center;
+  align-items: center;
 }
 
 .inputContainer{
   display: flex;
   flex-direction: column;
+  margin-bottom: .5em;
 }
 
-.displayContent button{
-  width: 4em;
-  
-  margin-top: .2em;
-}
-.btnNext{
-  float: right;
+.wizardContent input{
+  background-color: rgb(59, 59, 59);
+  border-radius: .3em;
+  font-size: 1em;
+  color: rgb(255, 255, 255);
+  outline: 0;
+  padding: .3em;
+  border: 0;
+  width: 15em;
 }
 
-.btnBack{
-  float: left;
+.wizardContentContainer{
+  display: flex;
+  color: rgb(255, 255, 255);
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+.wizardButtonContainer{
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 80%;
+}
+
+.wizardButtonContainer button{
+  background-color: #6990F2;
+  border: 0;
+  padding:  .5em 1em .5em 1em ;
+}
+.disabeldBtn{
+  pointer-events: none;
+  opacity: .7;
+  user-select: none;
+  background-color: gray !important;
+}
+.hidden{
+display: none;
 }
