@@ -91,25 +91,28 @@ const File_Upload =  ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = 
                 <div className={styles.wrapper}>
                     <div className={styles.headerContainer}>
                         <header>{title?title:"File Upload"}</header>
-                        {
-                            edittmode ? 
-                            (<>
-                                <div className={styles.extentionContainer}>
-                                <div className={styles.dropdown}>
-                                    <button onClick={handleDropDownOnClick} className={styles.dropbtn}>Extentions</button>
-                                    <div className={styles.dropdownContent}>
-                                        {acceptedFilextentions.map((extention,i) => {return <a key={i}>
-                                            <p>{extention}</p>
-                                            <Image onClick={(e) => deleteItem(e,i)} className={styles.cancelbutton} src={"/cancelicon.svg"} width={20} height={20} alt="cancel"></Image>
-                                            </a>})}
-                                            <input onKeyUp={(e) => addItem(e)} id='fileExtentionInput' placeholder='new Extention'></input>
+                        <div className={styles.extentionWrapper}>
+                            {
+                                edittmode ? 
+                                (<>
+                                    <div className={styles.extentionContainer}>
+                                    <div className={styles.dropdown}>
+                                        <button onClick={handleDropDownOnClick} className={styles.dropbtn}>Extentions</button>
+                                        <div className={styles.dropdownContent}>
+                                            {acceptedFilextentions.map((extention,i) => {return <a key={i}>
+                                                <p>{extention}</p>
+                                                <Image onClick={(e) => deleteItem(e,i)} className={styles.cancelbutton} src={"/cancelicon.svg"} width={20} height={20} alt="cancel"></Image>
+                                                </a>})}
+                                                <input onKeyUp={(e) => addItem(e)} id='fileExtentionInput' placeholder='new Extention'></input>
+                                        </div>
                                     </div>
-                                </div>
-                                </div>
-                            </>)
-                            :
-                            (<p className={styles.fileExtention}>{acceptedFilextentions.join(',')}</p>)
-                        }
+                                    </div>
+                                </>)
+                                :
+                                (<p className={styles.fileExtention}>{acceptedFilextentions.length == 0?"no Restrictions":acceptedFilextentions.join(',')}</p>)
+                            }
+                        </div>
+                        
                     </div>
                         
                         

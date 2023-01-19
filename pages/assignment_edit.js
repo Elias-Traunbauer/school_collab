@@ -158,14 +158,8 @@ export default function AssignmentEdit({assignmentId}){
         <div className={styles.editcontainer}>
             <div className={styles.editheadContainer}>
                 <div className={styles.edithead}>
-                    {
-                        !edditMode ? 
-                        (<h1>{assignment.title}</h1>) 
-                        :
-                        (<input defaultValue={assignment.title} id='titleInput'></input>)
-                    }
-                    
-                    <Countdown date={assignment.deadline}></Countdown>
+                    <input className={`${edditMode?styles.edditOn:styles.edditOff}`} defaultValue={assignment.title} id='titleInput'></input>
+                <Countdown date={assignment.deadline}></Countdown>
                 </div>
             </div>
             
@@ -173,16 +167,7 @@ export default function AssignmentEdit({assignmentId}){
             
             <div className={styles.descriptioncontainer}>
                 <div className={styles.description}>
-
-                    {
-                        edditMode ?
-                        (
-                            <input defaultValue={assignment.description} id='descriptionInput'></input>
-                        ) : 
-                        (
-                            <p>{assignment.description}</p>
-                        )
-                    }
+                    <input className={`${edditMode?styles.descriptionOn:styles.descriptionOff}`} defaultValue={assignment.description} id='descriptionInput'></input>
                     {
                         instrictionFiles.length>0 ?
                         (
