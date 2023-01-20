@@ -33,7 +33,7 @@ jobs:
       - name: Pull project code
         run: ssh staging 'sudo git -C ./school_collab reset --hard | sudo git -C ./school_collab pull'
 
-      - name: Set build time
+      - name: Set build time for web display
         run: ssh staging 'npm --prefix ./school_collab run update_build_date'
 
       - name: Deploy next-project
