@@ -2,15 +2,15 @@
 require "../db.php";
 require "../entities/user.php";
 
-echo (UserRepository::login("e", "l")->firstName);
+echo (UserRepository::login("e", "l"));
 
 class UserRepository {
 
-    public static function login($email, $pw) : User | bool {
+    public static function login($email, $pw) : User|bool {
         $pdo = Database::createPDOConnection();
 
         $pw_hash = self::getPwHash($pw, $email);
-
+        
         $stmt = $pdo->prepare("select username, first_name, last_name, email, permissions from users where email = ? and pw_hash = ?");
         $stmt->execute([ $email, $pw_hash ]);
 
