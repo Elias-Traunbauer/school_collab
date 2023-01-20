@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-top: 1em;
 }
 .assignmentcard{
   display: flex;
@@ -10,12 +11,13 @@
   flex-direction: column;
   width: 40vw;
   /*height: 25vh;*/
-  background-color: blue !important;
+  background-color: rgb(101, 0, 101) !important;
   border-radius: 1em;
+  margin-bottom: 1em;
 }
 
 .assignmentcard:hover{
-  background-color: rgb(112, 112, 255) !important;
+  background-color: rgb(108, 17, 108) !important;
 }
 .assignmenthead{
   text-align: left;
@@ -32,4 +34,366 @@
   width: 100%;
   margin-right: 2em;
   padding: .3em;
+}
+
+.descriptioncontainer{  
+  margin-bottom: 2em;
+}
+.description{
+  width: 60%;
+  margin-left: 20%;
+  padding: 1em;
+  border-radius: 1em;
+  font-size: .9em;
+  background-color: #E9F0FF;
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+.description input{
+  padding: .3em;
+  margin-top: .8em;
+  margin-bottom: .8em;
+  background-color: #E9F0FF;;
+  color: black;
+  border: .5px solid rgb(0, 0, 0,0.5);
+  border-radius: .5em;
+  outline: none;
+}
+
+.fileuploadcontainer{
+  width: 100vw;
+  height: 40vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.fileuploadfield{
+  border: 2px dashed red;
+  width: 50%;
+  text-align: center;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.fileuploadfield button{
+  width: 7em;
+  height: 2em;
+  transform: translate(0,1em);
+}
+
+.editButton{
+  width: 80%;
+}
+.editButton button{
+  float: right !important;
+}
+
+.edithead{
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.editheadContainer{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.edithead input {
+  width:25vw;
+  font-size: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+
+.edithead p{
+  color: green;
+}
+
+
+.wrapper{
+  width: 45%;
+  background: rgb(255, 255, 255);
+  border-radius: 1em;
+  padding: 2em;
+}
+.wrapper header{
+  color: #6990F2;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.6em;
+}
+.fileinput{
+  cursor: pointer;
+  margin: 2em 0;
+  border-radius: .5em;
+  border: 2px dashed #6990F2;
+  height: 10em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.fileinput label{
+  color: black;
+  opacity: 0.5;
+}
+
+.fileinput section .row{
+  margin-bottom: 10px;
+  background: #E9F0FF;
+  list-style: none;
+  padding: 15px 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fileinput section .row i{
+  color: #6990F2;
+  font-size: 30px;
+}
+
+
+.fileinput section .details span{
+  font-size: 14px;
+}
+
+.progressarea .row .content{
+  width: 100%;
+  margin-left: 15px;
+}
+.progressarea .details{
+  display: flex;
+  align-items: center;
+  margin-bottom: 7px;
+  justify-content: space-between;
+}
+.progressarea .content .progress-bar{
+  height: 6px;
+  width: 100%;
+  margin-bottom: 4px;
+  background: #fff;
+  border-radius: 30px;
+}
+
+.uploadedarea{
+  max-height: 232px;
+  overflow-y: scroll;
+}
+.uploadedarea.onprogress{
+  max-height: 150px;
+}
+.uploadedarea::-webkit-scrollbar{
+  width: 0px;
+}
+.uploadedarea .row .content{
+  display: flex;
+  align-items: center;
+}
+.uploadedarea .row .details{
+  display: flex;
+  margin-left: 15px;
+  flex-direction: column;
+}
+.uploadedarea .row .details .size{
+  color: #404040;
+  font-size: 11px;
+}
+.uploadedarea i.fa-check{
+  font-size: 16px;
+}
+
+.fileslist li{
+  color: black;
+}
+
+.uploadfieldcontainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.activedrag{
+  background-color: rgb(231, 230, 230);
+}
+
+.filelistitem li{
+  color: black;
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  border-radius: .3em;
+  margin-bottom: .3em;
+  padding: .6em;
+  max-height: 3em;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+}
+
+.filelistitem li p{
+  order: 0;
+}
+.cancelbutton{
+  background-color: transparent;
+  float: right;
+  border-radius: 100%;
+  
+}
+
+.cancelbutton:hover{
+  background-color: rgba(179, 177, 177, 0.774);
+  order: 2;
+}
+
+
+.filelistitem li:hover{
+  background-color: rgba(239, 239, 239, 0.774);
+}
+
+.filelistitem_close{
+  animation-name: filelistitem_close;
+  animation: filelistitem_close .5s forwards;
+}
+
+@keyframes filelistitem_close {
+  from {
+
+    scale: 1;
+  }
+  to {
+    scale: 0;
+  }
+}
+
+.filelistitem{
+  margin-bottom: .5em;
+  background: #E9F0FF;
+  list-style: none;
+  padding: .5em .6em;
+  border-radius: .5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+
+.dialogwindow div{
+  width: 35vw;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dialogwindow div input{
+  border-radius: .5em;
+  background-color: #404040;
+  border: none;
+  outline: none;
+  padding: 1em;
+  width: 40vh;
+  margin-bottom: .5em;
+  border: 2px solid transparent;
+  transition: .3s;
+}
+
+.dialogwindow div input:hover{
+  background-color: #636363;
+}
+.dialogwindow div input:focus{
+  border-bottom: 2px solid rebeccapurple;
+  transition: .5s;
+  background-color: #636363;
+}
+
+.dialogwindow div label{
+  color: black;
+}
+
+.dialogwindow button{
+  float: right;
+  width: 6vw;
+  height: 4vh;
+}
+
+
+
+.dialogwindow{
+  color: white;
+  border-radius: 1em;
+  background-color: rgb(255, 255, 255);
+}
+
+.closedialog{
+  animation-name: dialog_close;
+  animation: dialog_close .3s forwards;
+}
+
+.opendialog{
+  animation-name: dialog_open;
+  animation: dialog_open .3s forwards;
+}
+
+@keyframes dialog_open {
+  from {
+
+    scale: 0;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes dialog_close {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 0;
+  }
+}
+
+.description_editbtn{
+  border-radius: .5em;
+  border: 1px solid black;
+  width: 10%;
+}
+.fiesupload_uploadbtn{
+  float: right !important;
+}
+.fileListContainer ul{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60vw;
+}
+.fileListWrapper{
+  display: flex;
+  justify-content: center;
+}
+
+.descriptionSection{
+  border-bottom: 1px solid rgb(0, 0, 0,.3);
+}
+
+.instrictionfileContainer ul{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

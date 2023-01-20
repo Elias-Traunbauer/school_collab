@@ -1,12 +1,23 @@
+# School Collab
+
+## Introduction
+School Collab is a web-application students can use to collaborate on.
+Features like sharing info about upcoming assignments, providing data about certain topics as well as a account system for users to register are included.
+<br>
+<br>
+[![Deploy](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/deploy.yml)
+[![CodeQL](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/codeql.yml)
+
+<br>
+
 # How to verify tasks
 
 - Visit the [live-dev website](https://school-collab.ga) and navigate to the given location
 - Check if the DOD-(Definition of Done)'s requirements are met
 
 <br>
-<br>
 
-# Development
+# Development on Windows
 
 ### Dependencies
 * NodeJS Server >= 16
