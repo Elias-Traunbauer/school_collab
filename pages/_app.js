@@ -10,10 +10,12 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch('/api/version.php');
-      const data = await res.text();
-      const dev_info = document.getElementById('dev_info');
-      dev_info.innerHTML = "<p>" + data + "</p>";
+        const res = await fetch('/api/version.php');
+        if (res.ok) {
+          const data = await res.text();
+          const dev_info = document.getElementById('dev_info');
+          dev_info.innerHTML = "<p>" + data + "</p>";
+          }
     })();
     return () => {
       
