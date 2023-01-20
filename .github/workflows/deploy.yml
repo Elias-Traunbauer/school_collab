@@ -1,3 +1,5 @@
+name: "Deploy"
+
 on:
   push:
       branches:
@@ -29,7 +31,10 @@ jobs:
         run: ssh staging 'echo "It works!"'
 
       - name: Pull project code
-        run: ssh staging 'sudo git -C ./school_collab pull'
+        run: ssh staging 'sudo git -C ./school_collab reset --hard | sudo git -C ./school_collab pull'
+
+      - name: Set build time for web display
+        run: ssh staging 'npm --prefix ./school_collab run update_build_date'
 
       - name: Deploy next-project
         run: ssh staging 'npm --prefix ./school_collab run deploy'
@@ -39,3 +44,12 @@ jobs:
         
       - name: Copy PHP files
         run: ssh staging 'cp -a ./school_collab/api ./school_collab/out'
+        
+      - name: Copy all deployed files to www directory
+        run: ssh staging 'sudo cp -a ./school_collab/out/ /var/www'
+        
+      - name: Delete previous deploy files
+        run: ssh staging 'sudo rm -r -d /var/www/school_collab'
+        
+      - name: Rename www directory
+        run: ssh staging 'sudo mv /var/www/out/ /var/www/school_collab'

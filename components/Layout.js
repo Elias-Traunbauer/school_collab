@@ -1,10 +1,16 @@
+import Head from "next/head";
+import Navbar from "./navbar";
 
 
 export default function Layout ({ children }) {
     return <>
         <div>
-            <h1>Navbar</h1>
+            <Navbar></Navbar>
         </div>
-        <div>{children}</div>
+        <div>
+            {children}
+        </div>
+        <footer>
+        </footer>
     </>
 }

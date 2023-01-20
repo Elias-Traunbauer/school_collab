@@ -249,16 +249,6 @@ export default function AssignmentEdit({assignmentId}){
             </div>
             
         </div>
-
-        <Dialog title='test' id='alo' handleSave={handleSave}>
-            <label>Name</label>
-            <input id='fileName' name='fileName'></input>
-        </Dialog>
-
-        <Dialog title='test' id='instruction' handleSave={handleSaveInstruction}>
-            <label>Name</label>
-            <input id='instructionFileName' name='fileName'></input>
-        </Dialog>
         
         
     </>
