@@ -2,8 +2,6 @@ import styles from '../styles/navbar.module.css'
 import Link from "next/link"
 
 export default function Navbar(){
-
-export default function Navbar(){
     return(
         <>
         <div className={styles.container}>
@@ -16,5 +14,5 @@ export default function Navbar(){
         </div>
         <div className={styles.underline} id="underline"></div>
         </>        
-    )
+    );
 }
