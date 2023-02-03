@@ -37,7 +37,7 @@ jobs:
         run: ssh staging 'npm --prefix ./school_collab run update_build_date'
 
       - name: Deploy next-project
-        run: ssh staging 'npm --prefix ./school_collab run deploy'
+        run: ssh staging 'npm i & npm --prefix ./school_collab run deploy'
         
       - name: Create PHP API folder 
         run: ssh staging 'mkdir ./school_collab/out/api'
