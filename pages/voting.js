@@ -57,7 +57,8 @@ export default function Voting({VoteId}){
             },
             
         });
-            chart = tmpChart;
+            // wtf is this, id does nothing
+            // -> chart = tmpChart;
             setChart(tmpChart);
         }
 
