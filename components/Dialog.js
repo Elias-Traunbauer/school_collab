@@ -1,32 +1,60 @@
-import styles from '../styles/assignment.module.css';
-export function Dialog({children,title = "",handleSave = undefined,id = "dialog"}){
-    
+import styles from '../styles/Dialog.module.css';
+import { createRoot } from "react-dom/client";
 
-    function closeDialog(){
+/// DecisionDialog Component
+/// @param {string} title - Title of the dialog
+/// @param {string} message - Message of the dialog
+/// @param {function} confirmCallback - Callback function for the confirm button
+/// @param {function} cancelCallback - Callback function for the cancel button
+/// @param {string} type - Type of the dialog (info, warning, error, success)
+/// @param {string} id - Id of the dialog
+export function DecisionDialog({children, title = "Information", confirmCallback, cancelCallback, type = "info", id = "dialog"}) {
+
+    function finishDialog(accepted) {
         const dialog = document.getElementById(id);
-        if(handleSave != undefined)
-            handleSave();
-
-        dialog.close();
+        dialog.classList.add(styles.invisible);
+        if (accepted) {
+            if (confirmCallback != undefined)
+                confirmCallback();
+        }
+        else {
+            if (cancelCallback != undefined)
+                cancelCallback();
+        }
     }
 
-    return(
-        <dialog id={id} className={styles.dialogwindow}>
-            <h1>{title}</h1>
-            <div>
-                {children}
-            </div>
-            <button onClick={closeDialog}>{handleSave==undefined?"close":"Save"}</button>
-        </dialog>
-    )
+    let color = type == "info" ? "#502ff6" : type == "warning" ? "yellow" : type == "error" ? "red" : "green";
 
+    return (
+        <>
+        <div className={styles.dialog_background} id={id} onMouseDown={(event) => { window.dialog_click_outside = event.target == document.getElementById(id); }} onClick={(event) => {if (event.target == document.getElementById(id) && window.dialog_click_outside) finishDialog(false)}}>
+            <div className={styles.dialog}>
+                <h1 className={styles.dialog_title} style={{backgroundColor: color}}>{title}</h1>
+                <div className={styles.dialog_content}>
+                    {children}
+                </div>
+                <div className={styles.dialog_buttons}>
+                    <button onClick={() => finishDialog(true)}>Confirm</button>
+                    <button onClick={() => finishDialog(false)}>Cancel</button>
+                </div>
+            </div>
+        </div>
+        </>
+    );
 }
 
-export function openDialog(id){
-        const dialog = document.getElementById(id);
-
-        dialog.showModal();
-        setTimeout(() => {
-            dialog.classList.remove(styles.opendialog);
-        }, 300)
+export function showDecisionDialog(title, message, confirmCallback, cancelCallback) {
+    window.dialog_click_outside = false;
+    const dialog_container = document.getElementById("dialog_container");
+    if (window.dialog_id == undefined) {
+        window.dialog_id = 0;
+    }
+    let id = "dialog" + window.dialog_id;
+    window.dialog_id = window.dialog_id + 1;
+    const dialog_root = createRoot(dialog_container);
+    dialog_root.render(
+        <DecisionDialog title={title} confirmCallback={confirmCallback} cancelCallback={cancelCallback} id={id}>
+            {message}
+        </DecisionDialog>
+    );
 }

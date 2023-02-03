@@ -28,13 +28,13 @@ export default function AssignmentEdit({assignmentId}){
             name:"pfreyteaching",
         }
 
-        const instructionDummy = ["Test1", "test 2", "test 3"];
 
         const [uploadFiles,setUploadFiles] = useState([]);
         const [instrictionFiles,setInstrictionFiles] = useState([]);
         const [edditMode,setEdditMode] = useState(false);
         const [assignment,setAssignment] = useState(assignmentDummy);
-        const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
+        //const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
+        let acceptedFilextentions = [];
         let deleting = false;
         let currFileIndex = null;
         let instrictionFilesBackup = [];
@@ -47,6 +47,10 @@ export default function AssignmentEdit({assignmentId}){
         }
         function handleInstructionFilesUpdate(list){
             setInstrictionFiles([...instrictionFiles,...list]);
+        }
+        function handleAcceptedFiles(list){
+            acceptedFilextentions = list;
+            console.log(acceptedFilextentions);
         }
 
         function deleteItem(e,key){
@@ -154,14 +158,8 @@ export default function AssignmentEdit({assignmentId}){
         <div className={styles.editcontainer}>
             <div className={styles.editheadContainer}>
                 <div className={styles.edithead}>
-                    {
-                        !edditMode ? 
-                        (<h1>{assignment.title}</h1>) 
-                        :
-                        (<input defaultValue={assignment.title} id='titleInput'></input>)
-                    }
-                    
-                    <Countdown date={assignment.deadline}></Countdown>
+                    <input className={`${edditMode?styles.edditOn:styles.edditOff}`} defaultValue={assignment.title} id='titleInput'></input>
+                <Countdown date={assignment.deadline}></Countdown>
                 </div>
             </div>
             
@@ -169,16 +167,7 @@ export default function AssignmentEdit({assignmentId}){
             
             <div className={styles.descriptioncontainer}>
                 <div className={styles.description}>
-
-                    {
-                        edditMode ?
-                        (
-                            <input defaultValue={assignment.description} id='descriptionInput'></input>
-                        ) : 
-                        (
-                            <p>{assignment.description}</p>
-                        )
-                    }
+                    <input className={`${edditMode?styles.descriptionOn:styles.descriptionOff}`} defaultValue={assignment.description} id='descriptionInput'></input>
                     {
                         instrictionFiles.length>0 ?
                         (
@@ -208,7 +197,7 @@ export default function AssignmentEdit({assignmentId}){
                 </div>
             </div>
 
-            <File_Upload acceptedFiles={acceptedFilextentions} title={edditMode?"Upload Instructions":"Upload Files"} handleFilesUpdated={edditMode?(instrictionFiles) => handleInstructionFilesUpdate(instrictionFiles):(uploadFiles) => handleUploadFilesUpdate(uploadFiles)}></File_Upload>
+            <File_Upload edittmode={edditMode} acceptedFiles={(acceptedFiles) => handleAcceptedFiles(acceptedFiles)} title={edditMode?"Upload Instructions":"Upload Files"} handleFilesUpdated={edditMode?(instrictionFiles) => handleInstructionFilesUpdate(instrictionFiles):(uploadFiles) => handleUploadFilesUpdate(uploadFiles)}></File_Upload>
             
             {
                 edditMode ? 
@@ -260,16 +249,6 @@ export default function AssignmentEdit({assignmentId}){
             </div>
             
         </div>
-
-        <Dialog title='test' id='alo' handleSave={handleSave}>
-            <label>Name</label>
-            <input id='fileName' name='fileName'></input>
-        </Dialog>
-
-        <Dialog title='test' id='instruction' handleSave={handleSaveInstruction}>
-            <label>Name</label>
-            <input id='instructionFileName' name='fileName'></input>
-        </Dialog>
         
         
     </>

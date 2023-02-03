@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
+/// Countdown Component
+/// @param {Date} date - Date to count down to
 export default function Countdown({date}) {
 
     function formatDate(seconds) {
