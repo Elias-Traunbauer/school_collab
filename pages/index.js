@@ -14,6 +14,12 @@ const Home = () => {
         <br></br>
         <Link href="/assignments">Assignments</Link>
         <br></br>
+        <Link href="/assignment_wizard">Assignment Wizard</Link>
+        <br></br>
+        <Link href="/Datepicker">Datepicker</Link>
+        <br></br>
+        <Link href="/dialog_test">Dialog Test</Link>
+        <br></br>
         <Link href="/about">About</Link>
     </div>
   )
