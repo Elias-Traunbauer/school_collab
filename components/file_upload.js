@@ -1,8 +1,8 @@
-import { useState,useEffect } from 'react'
+import { useState } from 'react'
 import styles from '../styles/assignment.module.css';
 import Image from 'next/image';
 
-const File_Upload =  ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = false}) => {
+const File_Upload = ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = false}) => {
 
     const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
 
