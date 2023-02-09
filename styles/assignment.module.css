@@ -584,3 +584,34 @@
   border: 1px solid transparent;
   background-color: transparent;
 }
+
+.plus img{
+  width: 100%;
+  height: 100%;
+}
+
+.plusContainer{
+  width: 60%;
+  height: 4em;
+  background-color: #202020;
+  border-radius: .3em;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1em;
+}
+
+.plus{
+  width: 3em;
+  height: 3em;
+  float: right;
+  padding: .3em;
+  background-color: #E9F0FF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: .3em;
+}
+.plus:hover{
+  opacity: .7;
+}
