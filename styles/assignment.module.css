@@ -417,7 +417,6 @@
 
 .wizzardWrapper{
   height: 100vh;
-  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -503,7 +502,7 @@
 .inputContainer{
   display: flex;
   flex-direction: column;
-  margin-bottom: .5em;
+  margin-bottom: 1em;
 }
 
 .wizardContent input{
@@ -521,16 +520,19 @@
   display: flex;
   color: rgb(255, 255, 255);
   flex-direction: column;
-  justify-content: center;
   width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .wizardButtonContainer{
   margin-top: 1em;
+  justify-self: flex-end;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
   width: 80%;
+  padding-bottom: 2em;
 }
 
 .wizardButtonContainer button{
@@ -596,9 +598,9 @@
   background-color: #202020;
   border-radius: .3em;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   padding: 1em;
+  justify-content: space-between;
 }
 
 .plus{
@@ -606,7 +608,7 @@
   height: 3em;
   float: right;
   padding: .3em;
-  background-color: #E9F0FF;
+  background-color: purple;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -614,4 +616,14 @@
 }
 .plus:hover{
   opacity: .7;
+}
+
+.plusContainer h1{
+  text-align: center;
+}
+
+.inputHeader{
+  padding-right: 1em;
+  display: flex;
+  justify-content: space-between;
 }
