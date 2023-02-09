@@ -12,7 +12,7 @@ export default function Datepicker({dateParam = new Date()}){
     useEffect(() => { 
         calc();
         console.log(date);
-    },[date]);
+    },[date, displayDatesArray]);
 
     function changeToNextMonth(){
         const nextMonth = GetNextMonth();

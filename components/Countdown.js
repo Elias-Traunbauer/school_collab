@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 
 /// Countdown Component
-/// @param {Date} date - Date to count down to
-export default function Countdown({date}) {
+/// @param {deadline} date - Date to count down to
+export default function Countdown({deadline}) {
 
     function formatDate(seconds) {
         
@@ -19,7 +19,7 @@ export default function Countdown({date}) {
     var time = useRef(0);
 
     useEffect(()=>{
-        time.current = Math.floor((date.getTime() - new Date().getTime()) / 1000);
+        time.current = Math.floor((deadline.getTime() - new Date().getTime()) / 1000);
     });
 
     const [datetime, setDateTime] = useState("0 Tage 0 Stunden 0 Minuten 0 Sekunden");
@@ -41,7 +41,7 @@ export default function Countdown({date}) {
             }
         }, 1000);
         return () => clearInterval(i);
-    });
+    }, [datetime]);
 
     return <p>{datetime}</p>;
 }
