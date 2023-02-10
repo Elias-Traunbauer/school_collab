@@ -57,8 +57,7 @@ export default function Voting({VoteId}){
             },
             
         });
-            // wtf is this, id does nothing
-            // -> chart = tmpChart;
+            chart = tmpChart;
             setChart(tmpChart);
         }
 
@@ -70,7 +69,7 @@ export default function Voting({VoteId}){
         chart.data.datasets[0].borderWidth = 2;
 
         chart.update();
-    }, [chart, chart.data.datasets, chart.data.votes, data.chartColors, data.chartlabels, votes]);
+    });
 
     function finishVote(){
         document.getElementById('voteBtn').classList.add(styles.disabeld);
