@@ -6,19 +6,20 @@ export default function Chart(){
         name: 'tedadsadst',
         value: 10,
         color: 'red',
-        backgroundColor: 'red',
+        backgroundColor: 'rgba(255, 0, 0, 0.6)',
+        borderColor: 'rgba(255, 0, 0)',
     },
     {
         name: 'tdadsadadasdest',
         value: 3,
-        color: 'blue',
-        backgroundColor: 'blue',
+        backgroundColor: 'rgba(0, 0, 255, 0.6)',
+        borderColor: 'rgba(0, 0, 255)',
     },
     {
         name: 'tedadsadsadast',
         value: 20,
-        color: 'green',
-        backgroundColor: 'green',
+        backgroundColor: 'rgba(0,255, 0, 0.6)',
+        borderColor: 'rgba(0,255, 0)',
     }]);
 
 
@@ -35,7 +36,7 @@ export default function Chart(){
 
         const step = max/5;
         let cnt = max;
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 4; i++) {
             steps.push(cnt);
             cnt -= step;
         }
@@ -60,20 +61,20 @@ export default function Chart(){
         const newChardata = [{
             name: 'test',
             value: 1,
-            color: 'red',
-            backgroundColor: 'red',
+            backgroundColor: 'rgba(255, 0, 0, 0.5)',
+            borderColor: 'rgba(255, 0, 0)',
         },
         {
             name: 'test',
-            value: 5,
-            color: 'blue',
-            backgroundColor: 'blue',
+            value: 10,
+            backgroundColor: 'rgba(0, 0, 255, 0.5)',
+            borderColor: 'rgba(0, 0, 255)',
         },
         {
             name: 'test',
             value: 30,
-            color: 'green',
-            backgroundColor: 'green',
+            backgroundColor: 'rgba(0,255, 0, 0.5)',
+            borderColor: 'rgba(0,255, 0)',
         }];
         setChartData(newChardata);
     }
@@ -96,6 +97,7 @@ export default function Chart(){
                             )
                         })
                     }
+                    <div className={styles.horizontalLine}/>
                 </div>
             </div>
             {
@@ -103,6 +105,7 @@ export default function Chart(){
                     const designData = {
                         height: calcPercent(chartData.value) + 'rem',
                         backgroundColor: chartData.backgroundColor,
+                        border : '2.5px solid ' + chartData.borderColor,
                     }
                     return(
                         <div className={styles.chart} key={index}>

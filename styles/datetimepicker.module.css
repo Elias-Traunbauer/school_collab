@@ -83,3 +83,16 @@
     border-radius: 10em;
     background-color: gray;
 }
+.unfocusedInput{
+    background-color: transparent;
+    color: black;
+    padding: .5em;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 0;
+    width: fit-content;
+}

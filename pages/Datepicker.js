@@ -7,21 +7,21 @@ export default function Datepicker({dateParam = new Date()}){
     const [displayDatesArray,setDisplayDatesArray] = useState([]);
     //const displayDatesArray = [];
     const[date,setDate] = useState(dateParam);
-    const monthNames = ["Jan","Feb","Mar","Apr","Mai","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
     useEffect(() => { 
         calc();
-        console.log(date);
-    },[date]);
+        document.getElementById('monthInput').value = monthNames[date.getMonth()];
+     },[date]);
 
     function changeToNextMonth(){
         const nextMonth = GetNextMonth();
-        setDate(new Date(nextMonth.getFullYear(),nextMonth.getMonth(),date.getDate()));
+        setDate(nextMonth);
     }
 
     function changeToPreviousMonth(){
         const previousMonth = GetPreviusMonth();
-        setDate(new Date(previousMonth.getFullYear(),previousMonth.getMonth(),date.getDate()));
+        setDate(previousMonth);
     }
 
     function handleDateClicked(day, currmonth){
@@ -77,15 +77,22 @@ export default function Datepicker({dateParam = new Date()}){
     }
 
     function GetPreviusMonth(){
-        var tempDateObj = new Date(date);
+        var tempDateObj = new Date(date.getFullYear(), date.getMonth(), 1);
 
-	    if(tempDateObj.getMonth) {
-		    tempDateObj.setMonth(tempDateObj.getMonth() - 1);
-	        } else {
-		    tempDateObj.setYear(tempDateObj.getYear() - 1);
-		    tempDateObj.setMonth(12);
-	    }
-	    return new Date(date.getFullYear(), date.getMonth(), 0);
+	   if (tempDateObj.getMonth() == 0) {
+            tempDateObj.setFullYear(tempDateObj.getFullYear() - 1);
+            tempDateObj.setMonth(11);
+        } else {
+            tempDateObj.setMonth(tempDateObj.getMonth() - 1);
+        }
+
+        var maxDaysOfNextMonth = new Date(tempDateObj.getFullYear(), tempDateObj.getMonth() + 1, 0).getDate();
+        if(date.getDate() > maxDaysOfNextMonth)
+            tempDateObj.setDate(maxDaysOfNextMonth);
+        else
+            tempDateObj.setDate(date.getDate());
+
+	    return tempDateObj;
     }
 
     function GetNextMonth(){
@@ -95,11 +102,38 @@ export default function Datepicker({dateParam = new Date()}){
             var nextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
         }
 
+        var maxDaysOfNextMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0).getDate();
+        console.log(maxDaysOfNextMonth + "-->" + date.getDate());
+
+        if (date.getDate() > maxDaysOfNextMonth)
+            nextMonth.setDate(maxDaysOfNextMonth);
+
+        else
+        nextMonth.setDate(date.getDate());
+
         return nextMonth;
     }
 
     function GetDaysOfCurrentMonth(){
         return new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
+    }
+
+    var handleMonthChange = function(e) {
+        var newMonth = monthNames.find((element) => element.toLowerCase() == e.target.value.toLowerCase());
+        if(newMonth != undefined)
+        date.setMonth(monthNames.indexOf(newMonth));
+        setDate(date);
+
+        console.log(date);
+    };
+
+    function handleFocus(e){
+        e.target.classList.remove(styles.unfocusedInput);
+    }
+
+    function handleFocusout(e){
+        e.target.classList.add(styles.unfocusedInput);
+        e.target.value = monthNames[date.getMonth()];
     }
 
     return(
@@ -108,7 +142,9 @@ export default function Datepicker({dateParam = new Date()}){
             <div className={styles.container}>
                 <div className={styles.dateHeader}>
                     <svg onClick={changeToPreviousMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="M28.05 36 16 23.95 28.05 11.9l2.15 2.15-9.9 9.9 9.9 9.9Z"/></svg>
-                    <h1>{monthNames[date.getMonth()]} {date.getFullYear()}</h1>
+                    <div>
+                        <input className={styles.unfocusedInput} onFocus={(e) => handleFocus(e)} onFocusOut={(e) => handleFocusout(e)} type='text' onChange={handleMonthChange} id='monthInput'/>
+                    </div>
                     <svg onClick={changeToNextMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="m18.75 36-2.15-2.15 9.9-9.9-9.9-9.9 2.15-2.15L30.8 23.95Z"/></svg>
                 </div>
                 <div className={styles.dateContainer}>
