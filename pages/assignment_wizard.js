@@ -127,11 +127,14 @@ export default function AssignmentWizzard(){
                     <form className={styles.wizardContent}>
                         <div className={styles.inputContainer}>
                             <label>1</label>
-                            <input onInput={() => checkFormFilled(stateData.currIndex)} required></input>
+                            <input onInput={() => checkFormFilled(stateData.currIndex)}></input>
                         </div>
                         
                         <div className={styles.inputContainer}>
-                            <label>1</label>
+                            <div className={styles.inputHeader}>
+                                <label>2</label>
+                            <label>required</label>
+                            </div>
                             <input onInput={() => checkFormFilled(stateData.currIndex)} required></input>
                         </div>
                     </form>
