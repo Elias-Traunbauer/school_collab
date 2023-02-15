@@ -4,7 +4,7 @@ require "credentials.php";
 Database::createPDOConnection();
 class Database {
 
-    public static string $hashAlgo = "sha256";
+    public static string $hashAlgo = "sha512";
 
     public static function createPDOConnection() : PDO {
         $credentials = Credentials::loadConfig(Credential_Data::$credential_string);
