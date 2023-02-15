@@ -41,3 +41,14 @@ a {
   color: white;
   z-index: 9999;
 }
+
+.main_container {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-grow : 1;
+}

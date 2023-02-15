@@ -46,7 +46,6 @@ export default function Site() {
     const movementMultiplier = 0.3;
 
     return (
-        <>
             <div className={style.container}>
                 <div className={style.rot}>
                     <div className={style.view}>
@@ -64,7 +63,6 @@ export default function Site() {
                     </div>
                 </div>
             </div>
-        </>
     )
 }
 

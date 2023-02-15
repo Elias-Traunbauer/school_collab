@@ -11,8 +11,8 @@ export default function Navbar(){
             <Link href="/about">
                 About
             </Link>
+            <div className={styles.underline} id="underline"></div>
         </div>
-        <div className={styles.underline} id="underline"></div>
         </>        
     );
 }
