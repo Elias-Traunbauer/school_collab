@@ -52,7 +52,7 @@
 
 .imgcon {
     transform-style: preserve-3d;
-    transform: translateZ(-50px);
+    transform: translateZ(-25px);
 }
 
 .image {
