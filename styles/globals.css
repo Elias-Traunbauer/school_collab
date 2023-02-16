@@ -1,5 +1,6 @@
 :root {
   --color_purple: #59097b;
+  --background: rgb(17, 17, 17);
 }
 
 html,
@@ -25,7 +26,7 @@ a {
   }
   body {
     color: white;
-    background: rgb(17, 17, 17);
+    background: var(--background);
   }
 }
 
@@ -40,4 +41,15 @@ a {
   user-select: none;
   color: white;
   z-index: 9999;
+}
+
+.main_container {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-grow : 1;
 }
