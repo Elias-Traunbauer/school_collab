@@ -1,5 +1,6 @@
 :root {
   --color_purple: #59097b;
+  --background: rgb(17, 17, 17);
 }
 
 html,
@@ -25,7 +26,7 @@ a {
   }
   body {
     color: white;
-    background: rgb(17, 17, 17);
+    background: var(--background);
   }
 }
 

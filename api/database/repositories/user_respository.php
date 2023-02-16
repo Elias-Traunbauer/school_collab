@@ -4,15 +4,17 @@ require "../entities/user.php";
 
 echo (UserRepository::login("e", "l"));
 
-class UserRepository {
+class UserRepository
+{
 
-    public static function login($email, $pw) : User|bool {
+    public static function login($email, $pw): User|bool
+    {
         $pdo = Database::createPDOConnection();
 
         $pw_hash = self::getPwHash($pw, $email);
-        
+
         $stmt = $pdo->prepare("select username, first_name, last_name, email, permissions from users where email = ? and pw_hash = ?");
-        $stmt->execute([ $email, $pw_hash ]);
+        $stmt->execute([$email, $pw_hash]);
 
         if ($row = $stmt->fetch()) {
             $user = new User();
@@ -23,14 +25,13 @@ class UserRepository {
             $user->permissions = $row->permissions;
             $stmt->closeCursor();
             return $user;
-        }
-        else {
+        } else {
             $stmt->closeCursor();
             return false;
         }
     }
 
-    public static function register($username, $firstName, $lastName, $email, $pw) : bool|array
+    public static function register($username, $firstName, $lastName, $email, $pw): bool|array
     {
         $pdo = Database::createPDOConnection();
 
@@ -54,12 +55,13 @@ class UserRepository {
         }
 
         $stmt = $pdo->prepare("insert into users (username, first_name, last_name, email, pw_hash) values (?, ?, ?, ?, ?)");
-        $stmt->execute([ $username, $firstName, $lastName, $email, $pw_hash ]);
+        $stmt->execute([$username, $firstName, $lastName, $email, $pw_hash]);
 
         return true;
     }
 
-    public static function getPwHash($pw, $salt) : string {
+    public static function getPwHash($pw, $salt): string
+    {
         return hash(Database::$hashAlgo, hash(Database::$hashAlgo, $salt) . $pw);
     }
 }
