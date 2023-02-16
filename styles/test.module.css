@@ -39,11 +39,13 @@
     cursor: pointer;
     transition: 0.5s;
     transform-style: preserve-3d;
+    outline: var(--background) solid 1vw;
 }
 
 .item:hover {
     transform: scale(1.08) translateZ(1em);
     /*box-shadow: 0px 0px 14px 0px #535353;*/
+    outline: black solid 0.4vw;
 }
 
 .item:hover .description {
