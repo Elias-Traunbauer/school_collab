@@ -4,7 +4,7 @@ var datetime = "Build " + (currentdate.getDate().toString().length == 1 ? "0" + 
                   (currentdate.getFullYear().toString().length == 1 ? "0" + currentdate.getFullYear() : currentdate.getFullYear())  + " " +
                   (currentdate.getHours().toString().length == 1 ? "0" + currentdate.getHours() : currentdate.getHours())  + ":" +
                   (currentdate.getMinutes().toString().length == 1 ? "0" + currentdate.getMinutes() : currentdate.getMinutes())  + ":" +
-                  (currentdate.getSeconds().toString().length == 1 ? "0" + currentdate.getSeconds() : currentdate.getSeconds());
+                  (currentdate.getSeconds().toString().length == 1 ? "0" + currentdate.getSeconds() : currentdate.getSeconds()) + " UTC";
 
 const fs = require('fs');
 
