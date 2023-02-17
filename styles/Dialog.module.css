@@ -42,7 +42,7 @@
 }
 
 .dialog_background > .dialog {
-    background-color: var(--color_purple);
+    background-color: var(--color_main);
     border-radius: 1em;
     min-width: 30em;
     display: flex;
