@@ -65,7 +65,7 @@ export default function Chart(){
         },
         {
             name: 'test',
-            value: 20,
+            value: 10,
             backgroundColor: 'rgba(0, 0, 255, 0.5)',
             borderColor: 'rgba(0, 0, 255)',
         },

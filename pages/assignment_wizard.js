@@ -99,14 +99,12 @@ export default function AssignmentWizzard(){
 
         for (const item of buttons) {
             item.classList.add(styles.hidden);
-        }
-        
+        }        
     }
+
     function CancelWizard(){
 
     }
-
-    
 
     return(
         <>

@@ -403,6 +403,8 @@
   color: white;
   justify-content: center;
   align-items: center;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .inputContainer{
@@ -438,7 +440,7 @@
   align-items: center;
   flex-direction: row;
   width: 80%;
-  padding-bottom: 2em;
+  padding-bottom: 1em;
 }
 
 .wizardButtonContainer button{
