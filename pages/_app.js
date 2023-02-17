@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
         <div id="dialog_container"></div>
         <div id="dev_info"><p>No build number</p></div>
         {
-          getLayout(<div className='content'><Component {...pageProps} /></div>)
+          getLayout(<div><Component {...pageProps} /></div>)
         }
     </div>
   )
