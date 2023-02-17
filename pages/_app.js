@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Layout from '../components/Layout'
-import '../styles/globals.css'
+import '../styles/globals.scss'
 import icon from '../public/icon.jpg'
 import { useEffect } from 'react'
 
