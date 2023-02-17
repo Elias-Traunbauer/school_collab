@@ -1,19 +1,24 @@
 import styles from '../styles/datetimepicker.module.css';
 import React, { useState ,useEffect, useMemo} from 'react';
 import Image from 'next/image';
+import { func } from 'prop-types';
 
 export default function Datepicker({dateParam = new Date()}){
 
     const [displayDatesArray,setDisplayDatesArray] = useState([]);
     //const displayDatesArray = [];
     const[date,setDate] = useState(dateParam);
-    const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const monthNames = getMonths();
 
     useEffect(() => { 
         calc();
         document.getElementById('monthInput').value = monthNames[date.getMonth()];
         document.getElementById('yearInput').value = date.getFullYear();
-     },[date]);
+     },[date, calc, monthNames]);
+
+     function getMonths() {
+        return ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+     }
 
     function changeToNextMonth(){
         const nextMonth = GetNextMonth();
