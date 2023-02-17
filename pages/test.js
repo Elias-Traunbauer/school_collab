@@ -35,27 +35,29 @@ export default function Site() {
     const movementMultiplier = 0.3;
 
     return (
-        <div className={style.container}>
-            <div className={style.rot}>
-                <div className={style.view}>
-                    {images.map((_, i) => (
-                        <div key={i} className={style.item}>
-                            <div className={style.imgcon}>
-                                <Image
-                                    src={images[i]}
-                                    alt="album"
-                                    className={style.image}
-                                    width={25}
-                                    height={25}
-                                    style={{ "--factor": movementFactor[i] * movementMultiplier }}
-                                />
+        <div className="container">
+            <div className={style.container}>
+                <div className={style.rot}>
+                    <div className={style.view}>
+                        {images.map((_, i) => (
+                            <div key={i} className={style.item}>
+                                <div className={style.imgcon}>
+                                    <Image
+                                        src={images[i]}
+                                        alt="album"
+                                        className={style.image}
+                                        width={25}
+                                        height={25}
+                                        style={{ "--factor": movementFactor[i] * movementMultiplier }}
+                                    />
+                                </div>
+                                <div className={style.description}>
+                                    <h3>{names[i]}</h3>
+                                    <h4>Imagine Dragons</h4>
+                                </div>
                             </div>
-                            <div className={style.description}>
-                                <h3>{names[i]}</h3>
-                                <h4>Imagine Dragons</h4>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

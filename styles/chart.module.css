@@ -21,6 +21,7 @@
     width: 3em;
     transition: 1s;
     position: relative;
+    border-bottom: 0 !important;
 }
 
 .chartElement:hover{
@@ -89,7 +90,7 @@
 .horizontalLines div{
     height: .01em;
     width: 100%;
-    background-color: var(--line_color);
+    background-color: rgb(255, 255, 255,.1);
     z-index: 1; 
 }
 
