@@ -90,7 +90,7 @@
 .horizontalLines div{
     height: .01em;
     width: 100%;
-    background-color: rgb(255, 255, 255,.1);
+    background-color: rgba(255, 255, 255, 0.462);
     z-index: 1; 
 }
 
@@ -113,5 +113,5 @@
     position: absolute;
     margin-top: -.7em;
     margin-left: -1.8em;
-    color: white !important;
+    color: var(--color_text) !important;
 }

@@ -20,6 +20,11 @@ export default function Datepicker({dateParam = new Date()}){
         setDate(nextMonth);
     }
 
+    function changeToNextMonth(){
+        const nextMonth = GetNextMonth();
+        setDate(nextMonth);
+    }
+
     function changeToPreviousMonth(){
         const previousMonth = GetPreviusMonth();
         setDate(previousMonth);
@@ -30,17 +35,19 @@ export default function Datepicker({dateParam = new Date()}){
             setDate(new Date(date.getFullYear(),date.getMonth(),day));
         }
         else if(day >= 20){
-            const tmpDate = GetPreviusMonth() 
-            setDate(new Date(tmpDate.getFullYear(),tmpDate.getMonth(),day));
+            const previousMonth = GetPreviusMonth();
+            previousMonth.setDate(day);
+            setDate(previousMonth);
         }
         else{
-            const tmpDate = GetNextMonth() 
-            setDate(new Date(tmpDate.getFullYear(),tmpDate.getMonth(),day));
+            const nextMonth = GetNextMonth();
+            nextMonth.setDate(day);
+            setDate(nextMonth);
         }
     }
 
     function calc(){
-        let daysOfPreviousMonth = GetPreviusMonth().getDate();
+        let daysOfPreviousMonth = GetDaysOfPreviousMonth().getDate();
         const daysOfCurrentMonth = GetDaysOfCurrentMonth();
         let previousdays = GetWeekdayOfFirstDay();
         const tmpArray = [];
@@ -73,6 +80,15 @@ export default function Datepicker({dateParam = new Date()}){
         setDisplayDatesArray(...[tmpArray]);        
     }
 
+    function GetDaysOfPreviousMonth(){
+        if(date.getMonth() == 0){
+            return new Date(date.getFullYear()-1,11,31);
+        }
+        else{
+            return new Date(date.getFullYear(),date.getMonth(),0);
+        }
+    }
+
     function GetWeekdayOfFirstDay(){
         return new Date(date.getFullYear(),date.getMonth(),1).getDay();
     }
@@ -80,7 +96,7 @@ export default function Datepicker({dateParam = new Date()}){
     function GetPreviusMonth(){
         var tempDateObj = new Date(date.getFullYear(), date.getMonth(), 1);
 
-	   if (tempDateObj.getMonth() == 0) {
+	    if (tempDateObj.getMonth() == 0) {
             tempDateObj.setFullYear(tempDateObj.getFullYear() - 1);
             tempDateObj.setMonth(11);
         } else {

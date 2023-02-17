@@ -78,6 +78,15 @@ export default function Chart(){
         setChartData(newChardata);
     }
 
+    function getPersentage(value){
+        let sum = 0;
+        for (const iterator of chartData) {
+            sum += iterator.value;
+        }
+
+        return parseFloat(value * 100/sum).toFixed(2);
+    }
+
     return(
         <div className={styles.wrapper}>
             <button onClick={() => changevalues()}>change</button>
@@ -96,7 +105,7 @@ export default function Chart(){
                             )
                         })
                     }
-                    <div className={styles.horizontalLine}>
+                    <div style={{opacity:0}} className={styles.horizontalLine}>
                             <div className={styles.horizontalLineText}>
                             </div>
                     </div>
@@ -112,7 +121,7 @@ export default function Chart(){
                     }
                     return(
                         <div className={styles.chart} key={index}>
-                            <div data-value={chartData.value + " " + chartData.name} className={styles.chartElement} style={designData}></div>
+                            <div data-value={chartData.value + " (" + getPersentage(chartData.value) + "%)"} className={styles.chartElement} style={designData}></div>
                         </div>
                     )
                 })}            

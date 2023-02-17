@@ -46,7 +46,7 @@
   border-radius: 1em;
   font-size: .9em;
   background-color: var(--background_1);
-  color: rgb(255, 255, 255);
+  color: var(--color_text);
   display: flex;
   flex-direction: column;
 }
@@ -147,7 +147,7 @@
 }
 
 .fileinput label{
-  color: rgb(255, 255, 255);
+  color: var(--color_text);
   opacity: 0.5;
 }
 
@@ -164,7 +164,7 @@
 }
 
 .filelistitem li{
-  color: rgb(255, 255, 255);
+  color: var(--color_text);
   width: 100%;
   border-radius: .3em;
   margin-bottom: .3em;
@@ -288,7 +288,7 @@
 }
 
 .dropdownContent a, .dropdownContent input {
-  color: white;
+  color: var(--color_text);
   background-color: var(--background_3);
   outline: none;
   border: none;
@@ -355,7 +355,7 @@
   text-align: center;
   margin: 0;
   padding: 0;
-  color: white;
+  color: var(--color_text);
  }
 
  .wizzardContainer ul li{
@@ -377,7 +377,7 @@
   position: relative;
   color: black;
   transition: 1s;
-  background: linear-gradient(to left, rgb(228, 228, 228) 50%, var(--color_main) 50%) right;
+  background: linear-gradient(to left, rgba(228, 228, 228, 0.43) 50%, var(--color_main) 50%) right;
   background-size: 200%;
   transition: 1s ease-out;
 }
@@ -385,14 +385,12 @@
 .activeLine{
   transition: 1s;
   background-position: left;
-  /*transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
-  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);*/
 }
 
 
  .active{
   background-color: var(--color_main) !important;
-  color: white;
+  color: var(--color_text);
   transition: .5s;
   transition-delay: 1s;
  }
@@ -400,7 +398,7 @@
 .wizardContent{
   display: flex;
   flex-direction: column;
-  color: white;
+  color: var(--color_text);
   justify-content: center;
   align-items: center;
   margin-top: auto;
@@ -417,7 +415,7 @@
   background-color: var(--background_2);
   border-radius: .3em;
   font-size: 1em;
-  color: rgb(255, 255, 255);
+  color: var(--color_text);
   outline: 0;
   padding: .3em;
   border: 0;
@@ -426,7 +424,7 @@
 
 .wizardContentContainer{
   display: flex;
-  color: rgb(255, 255, 255);
+  color: var(--color_text);
   flex-direction: column;
   width: 100%;
   margin-top: auto;
@@ -539,7 +537,7 @@
 .fileExtention{
   border-radius: 1rem;
   background-color: var(--background);
-  color: white;
+  color: var(--color_text);
   padding: .1em 1em .1em 1em;
   display: flex;
   justify-content: center;

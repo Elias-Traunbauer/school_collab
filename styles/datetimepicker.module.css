@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(19, 19, 19);
+    background-color: var(--background);
     width: 100vw;
     height: 100vh;
 }
@@ -15,15 +15,15 @@
     grid-template-rows: 3em 3em 3em 3em 3em 3em;
     width: 25em;
     height:20em;
-    color: black;
+    color: white;
     text-align: center;
-    background-color: transparent !important;
+    background-color: var(--background_1) !important;
     justify-content: center;
 }
 
 .datepickerItem{
     background-color: transparent !important;
-    border-top: 1px solid rgb(0, 0, 0,0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
     text-align: center;
     display: flex;
     align-items: center;
@@ -45,31 +45,33 @@
 
 .dateHeader svg{
     border-radius: 100em;
+    fill: white;
 }
 
 .datepickerItem p:hover,.dateHeader svg:hover{
-    background-color: rgb(233, 233, 233);
+    background-color: #ffffff54;
 }
 
 .container{
-    background-color: rgb(255, 255, 255);
-    color: black;
+    background-color: var(--background_1);
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: .5em;
+    --day_secondary: #ffffff54;
 }
 
 .container h2{
     padding: 0;
 }
 .otherMonth{
-    color: rgb(0, 0, 0,.3);
+    color: var(--day_secondary);
     opacity: .7;
 }
 .currMonth p{
-    background-color: purple !important;
+    background-color: var(--color_main) !important;
     color: white;
 }
 .dateHeader{
@@ -81,7 +83,6 @@
 }
 .dateHeader img{
     border-radius: 10em;
-    background-color: gray;
 }
 .dateHeader div{
     display: flex;
@@ -94,7 +95,7 @@
 .dateHeader div input{
     background-color: transparent;
     padding: .3em 0;
-    color: black;
+    color: white;
     width: 100%;
     height: 100%;
     display: flex;
