@@ -2,14 +2,16 @@
 
 require "IValidateable.php";
 
-class User implements IValidateable {
+class User implements IValidateable
+{
     public string $username;
     public string $firstName;
     public string $lastName;
     public string $email;
     public string $permissions;
 
-    public function validate() :array|bool {
+    public function validate(): array|bool
+    {
         $errors = array();
 
         if (strlen(self::$username) < 5) {
@@ -22,7 +24,8 @@ class User implements IValidateable {
         return count($errors) == 0 ? true : $errors;
     }
 
-    public static function validatePassword($pw) : array|bool {
+    public static function validatePassword($pw): array|bool
+    {
         $errors = array();
 
         if (strlen($pw) < 6) {

@@ -5,7 +5,6 @@ export default function Chart(){
     const[chartData, setChartData] = useState([{
         name: 'tedadsadst',
         value: 10,
-        color: 'red',
         backgroundColor: 'rgba(255, 0, 0, 0.6)',
         borderColor: 'rgba(255, 0, 0)',
     },
@@ -97,7 +96,10 @@ export default function Chart(){
                             )
                         })
                     }
-                    <div className={styles.horizontalLine}/>
+                    <div className={styles.horizontalLine}>
+                            <div className={styles.horizontalLineText}>
+                            </div>
+                    </div>
                 </div>
             </div>
             {
@@ -105,7 +107,8 @@ export default function Chart(){
                     const designData = {
                         height: calcPercent(chartData.value) + 'rem',
                         backgroundColor: chartData.backgroundColor,
-                        border : '2.5px solid ' + chartData.borderColor,
+                        border: '3px solid ' + chartData.borderColor,
+                        borderBottom: 'none',
                     }
                     return(
                         <div className={styles.chart} key={index}>
