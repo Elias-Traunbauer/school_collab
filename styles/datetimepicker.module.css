@@ -87,14 +87,14 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    width: 80%;
+    justify-content: center;
+    width: 50%;
     padding: 1em;
 }
-.unfocusedInput{
+.dateHeader div input{
     background-color: transparent;
+    padding: .3em 0;
     color: black;
-    padding: .5em;
     width: 100%;
     height: 100%;
     display: flex;
@@ -105,19 +105,5 @@
     width: 4em;
     text-align: center;
     font-size: 1.5em;
-}
-.focusedInput{
-    font-size: 1.5em;
-    background-color: rgb(255, 255, 255);
-    color: black;
-    padding: .5em;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: 0;
-    width: 4em;
-    text-align: center;
+    border-radius: .2em;
 }
