@@ -14,7 +14,7 @@ export default function Datepicker({dateParam = new Date()}){
         calc();
         document.getElementById('monthInput').value = monthNames[date.getMonth()];
         document.getElementById('yearInput').value = date.getFullYear();
-     },[date, calc, monthNames]);
+     },[date]);
 
      function getMonths() {
         return ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];

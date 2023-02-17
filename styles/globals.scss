@@ -47,15 +47,20 @@ a {
 
 #dev_info {
   position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 0 1rem 0.5rem 0;
+  bottom: 1.5vh;
+  right: 1vw;
+  padding: 0;
   background: transparent;
   opacity: 0.5;
   pointer-events: none;
   user-select: none;
   color: white;
   z-index: 9999;
+
+  & p {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .main_container {
