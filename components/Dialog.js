@@ -10,7 +10,9 @@ import { createRoot } from "react-dom/client";
 /// @param {string} id - Id of the dialog
 export function DecisionDialog({children, title = "Information", confirmCallback, cancelCallback, type = "info", id = "dialog"}) {
 
-    function finishDialog(accepted) {
+    function finishDialog(e, accepted) {
+        setTimeout(() => document.getElementById(id).remove(), 1000);
+
         const dialog = document.getElementById(id);
         dialog.classList.add(styles.invisible);
         if (accepted) {
@@ -34,8 +36,8 @@ export function DecisionDialog({children, title = "Information", confirmCallback
                     {children}
                 </div>
                 <div className={styles.dialog_buttons}>
-                    <button onClick={() => finishDialog(true)}>Confirm</button>
-                    <button onClick={() => finishDialog(false)}>Cancel</button>
+                    <button onClick={(e) => finishDialog(e, true)}>Confirm</button>
+                    <button onClick={(e) => finishDialog(e, false)}>Cancel</button>
                 </div>
             </div>
         </div>
