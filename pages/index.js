@@ -1,11 +1,10 @@
 import Link from 'next/link'
-import Layout from '../components/Layout'
 
 const Home = () => {
   return (
     <div>
         <h1>
-          Welcome to school-collbab!
+          Welcome to school-collab!
         </h1>
         <h2>Useful links:</h2>
         <Link href="/login">Login</Link>

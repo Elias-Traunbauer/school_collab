@@ -3,12 +3,15 @@
   --background: rgb(17, 17, 17);
 }
 
+@font-face {
+  font-family: 'HeavyCaps';
+  src: url("/Uni Sans Heavy Caps.ttf");
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -18,6 +21,7 @@ a {
 
 * {
   box-sizing: border-box;
+  font-family: 'HeavyCaps';
 }
 
 @media (prefers-color-scheme: dark) {
