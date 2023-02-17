@@ -47,9 +47,6 @@ a {
   display: flex;
   flex-flow: column;
   min-height: 100vh;
-}
-
-.content {
   display: flex;
   flex-grow : 1;
 }
