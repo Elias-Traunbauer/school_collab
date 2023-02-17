@@ -24,7 +24,7 @@ export default function Assignments(){
                 <h1>Open Assignments</h1>
                 <div className={styles.plus}>
                     <Image src="/plus.svg" alt="plus" width="100" height="100" onClick={()=>router.push("./assignment_wizard")}/>
-                </div>  
+                </div>
             </div>
             {
                 assignmentData.map((element, i) => {
