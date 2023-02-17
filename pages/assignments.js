@@ -23,7 +23,7 @@ export default function Assignments(){
             <div className={styles.plusContainer}>
                 <h1>Open Assignments</h1>
                 <div className={styles.plus}>
-                    <Image src="/Plus.svg" alt="plus" width="100" height="100" onClick={()=>router.push("./assignment_wizard")}/>
+                    <Image src="/plus.svg" alt="plus" width="100" height="100" onClick={()=>router.push("./assignment_wizard")}/>
                 </div>
             </div>
             {
