@@ -29,26 +29,21 @@ export default function Chart(){
         let max = 0;
         const steps = [];
         for (const iterator of chartData) {
-            if (iterator.value > max)
-                max = iterator.value;
+            max += iterator.value;
         }
 
         const step = max/5;
         let cnt = max;
         for (let i = 0; i < 4; i++) {
-            steps.push(cnt);
+            steps.push(Math.round(cnt));
             cnt -= step;
         }
 
         return steps;
     }
 
-    function calcPercent(value){
-        let max = 0;
-        for (const iterator of chartData) {
-            if (iterator.value > max)
-                max = iterator.value;
-        }
+    function calcHeight(value){
+        let max = calcMaxValue();
 
         if (max <= 20)
         return (20*(value / max));
@@ -78,18 +73,22 @@ export default function Chart(){
         setChartData(newChardata);
     }
 
-    function getPersentage(value){
-        let sum = 0;
-        for (const iterator of chartData) {
-            sum += iterator.value;
-        }
+    function getValueInPersentage(value){
+        let sum = calcMaxValue();
 
         return parseFloat(value * 100/sum).toFixed(2);
     }
 
+    function  calcMaxValue(){
+        let sum = 0;
+        for (const iterator of chartData) {
+            sum += iterator.value;
+        }
+        return sum;
+    }
+
     return(
         <div className={styles.wrapper}>
-            <button onClick={() => changevalues()}>change</button>
             <div className={styles.chartContainer}>
             <div className={styles.chartScale}>
                 <div className={styles.verticalLine}></div>
@@ -105,7 +104,7 @@ export default function Chart(){
                             )
                         })
                     }
-                    <div style={{opacity:0}} className={styles.horizontalLine}>
+                    <div className={styles.horizontalLine}>
                             <div className={styles.horizontalLineText}>
                             </div>
                     </div>
@@ -114,18 +113,19 @@ export default function Chart(){
             {
                 chartData.map((chartData, index) => {
                     const designData = {
-                        height: calcPercent(chartData.value) + 'rem',
+                        height: calcHeight(chartData.value) + 'rem',
                         backgroundColor: chartData.backgroundColor,
                         border: '3px solid ' + chartData.borderColor,
                         borderBottom: 'none',
                     }
                     return(
                         <div className={styles.chart} key={index}>
-                            <div data-value={chartData.value + " (" + getPersentage(chartData.value) + "%)"} className={styles.chartElement} style={designData}></div>
+                            <div data-value={chartData.value + " (" + getValueInPersentage(chartData.value) + "%)"} className={styles.chartElement} style={designData}></div>
                         </div>
                     )
                 })}            
             </div>
+            <button className={styles.changeBtn} onClick={() => changevalues()}>change</button>
         </div> 
     );
 }
