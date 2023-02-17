@@ -12,6 +12,7 @@ export default function Datepicker({dateParam = new Date()}){
     useEffect(() => { 
         calc();
         document.getElementById('monthInput').value = monthNames[date.getMonth()];
+        document.getElementById('yearInput').value = date.getFullYear();
      },[date]);
 
     function changeToNextMonth(){
@@ -118,23 +119,63 @@ export default function Datepicker({dateParam = new Date()}){
         return new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
     }
 
+    function handleFocus(e){
+        setTimeout(function(){ 
+            e.target.setSelectionRange(e.target.value.length, e.target.value.length)
+        }, 1);
+
+        e.target.classList.remove(styles.unfocusedInput);
+        e.target.classList.add(styles.focusedInput);
+    }
+
+    function handleFocusoutMonth(e){
+        e.target.classList.add(styles.unfocusedInput);
+        e.target.classList.remove(styles.focusedInput);
+        let found = false;
+        for (const iterator of monthNames) {
+            if(iterator.toLowerCase().includes(e.target.value.toLowerCase())){
+                e.target.value = iterator;
+                found = true;
+                break;
+            }
+        }
+
+        if(found){
+            date.setMonth(monthNames.indexOf(e.target.value));
+            calc();
+        }
+        else{
+            e.target.value = monthNames[date.getMonth()];
+        }
+        setDate(date);
+    }
+
+    function handleFocusoutYear(e){
+        e.target.classList.add(styles.unfocusedInput);
+        e.target.classList.remove(styles.focusedInput);
+        if(e.target.value.length == 4){
+            date.setFullYear(e.target.value);
+            calc();
+        }
+        else{
+            e.target.value = date.getFullYear();
+        }
+        setDate(date);
+    }
+
+    function handleYearChange(e){
+        var newYear = e.target.value;
+        if(newYear.length == 4){
+            date.setFullYear(newYear);
+            setDate(date);
+        }
+    }
     var handleMonthChange = function(e) {
         var newMonth = monthNames.find((element) => element.toLowerCase() == e.target.value.toLowerCase());
         if(newMonth != undefined)
         date.setMonth(monthNames.indexOf(newMonth));
         setDate(date);
-
-        console.log(date);
     };
-
-    function handleFocus(e){
-        e.target.classList.remove(styles.unfocusedInput);
-    }
-
-    function handleFocusout(e){
-        e.target.classList.add(styles.unfocusedInput);
-        e.target.value = monthNames[date.getMonth()];
-    }
 
     return(
         <>
@@ -143,7 +184,8 @@ export default function Datepicker({dateParam = new Date()}){
                 <div className={styles.dateHeader}>
                     <svg onClick={changeToPreviousMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="M28.05 36 16 23.95 28.05 11.9l2.15 2.15-9.9 9.9 9.9 9.9Z"/></svg>
                     <div>
-                        <input className={styles.unfocusedInput} onFocus={(e) => handleFocus(e)} onFocusOut={(e) => handleFocusout(e)} type='text' onChange={handleMonthChange} id='monthInput'/>
+                        <input className={styles.unfocusedInput} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutMonth(e)} type='text' onChange={handleMonthChange} id='monthInput'/>
+                        <input className={styles.unfocusedInput} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutYear(e)} type='text' onChange={handleYearChange} id='yearInput'/>
                     </div>
                     <svg onClick={changeToNextMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="m18.75 36-2.15-2.15 9.9-9.9-9.9-9.9 2.15-2.15L30.8 23.95Z"/></svg>
                 </div>
