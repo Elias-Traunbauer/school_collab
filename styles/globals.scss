@@ -1,6 +1,16 @@
 :root {
-  --color_purple: #59097b;
-  --background: rgb(17, 17, 17);
+  --color_main: #bb8dfa;
+  --color_main_hover: #ba8dfa95;
+  --color_countdown_running: #029b0e;
+  --color_countdown_stopped: #850202;
+  --background: #0f0f10;
+  --background_1: #202225;
+  --background_2: #292b2f;
+  --background_3: #2f3136;
+  --background_4: #40444b;
+  --background_5: #666d76;
+  --background_disabled: #3f444a;
+  --line_color: #ffffffa1;
 }
 
 @font-face {

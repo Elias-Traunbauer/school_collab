@@ -9,7 +9,7 @@
 
 .chartContainer{
     width: 50%;
-    background-color: aliceblue;
+    background-color: var(--background_1);
     padding: 2em 2em 0 2em;
     display: flex;
     align-items: flex-end;
@@ -33,13 +33,11 @@
     font-size: .8em;
     pointer-events: none;
     opacity: 0;
-    
-    width: 3em;
     font-size: auto;
     text-align: center;
-    margin-top: -2em;
-    padding: .3em;
-    background-color: rgba(57, 57, 57);
+    margin-top: -2.5em;
+    padding: .3em .5em .3em .5em !important;	
+    background-color: var(--background_4);
     border-radius: .5em;
     overflow: hidden;
     white-space: nowrap;
@@ -51,15 +49,15 @@
 }
 
 .chartScale{
-    background-color: black;
+    background-color: white;
     width: 100%;
 }
 
 .verticalLine{
     height: 100%;
-    background-color: rgb(255, 0, 0);
+    background-color: white;
     width: .1em;
-    z-index: 1; 
+    z-index: 1;
 }
 
 .chartScale{
@@ -88,7 +86,7 @@
 .horizontalLines div{
     height: .1em;
     width: 100%;
-    background-color: rgb(0, 0, 0, .2);
+    background-color: var(--line_color);
     z-index: 1; 
 }
 .chart{
@@ -96,7 +94,7 @@
 }
 .horizontalLineText{
     position: absolute;
-    color: black;
+    color: white;
     font-size: .8em;
     z-index: 1;
     width: 2em;
@@ -108,5 +106,5 @@
     position: absolute;
     margin-top: -.7em;
     margin-left: -1.8em;
-    color: black !important;
+    color: white !important;
 }
