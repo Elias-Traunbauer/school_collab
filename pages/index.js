@@ -1,25 +1,19 @@
 import Link from 'next/link'
-import Layout from '../components/Layout'
+import style from '../styles/index.module.scss'
 
 const Home = () => {
   return (
-    <div>
-        <h1>
-          Welcome to school-collbab!
+    <div className={style.container}>
+        <h1 className='special' style={{fontSize: 3 + 'em'}}>
+          Welcome to school-collab!
         </h1>
         <h2>Useful links:</h2>
         <Link href="/login">Login</Link>
-        <br></br>
         <Link href="/profile">Profile</Link>
-        <br></br>
         <Link href="/assignments">Assignments</Link>
-        <br></br>
         <Link href="/assignment_wizard">Assignment Wizard</Link>
-        <br></br>
         <Link href="/Datepicker">Datepicker</Link>
-        <br></br>
         <Link href="/dialog_test">Dialog Test</Link>
-        <br></br>
         <Link href="/about">About</Link>
     </div>
   )
