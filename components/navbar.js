@@ -5,8 +5,8 @@ export default function Navbar(){
     return(
         <>
         <div className={styles.container}>
-            <Link href="/navbar" className={styles.navactive}>
-                Navbar
+            <Link href="/" className={styles.navactive}>
+                Home
             </Link>
             <Link href="/about">
                 About

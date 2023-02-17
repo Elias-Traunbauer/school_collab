@@ -66,7 +66,7 @@ a {
   flex-grow : 1;
 }
 
-.special {
+[type="special"] {
   background: linear-gradient(90deg, rgba(144,0,175,1) 0%, rgba(205,0,146,1) 50%, rgba(144,0,175,1) 100%);
   color: transparent;
   background-clip: text;
@@ -81,4 +81,12 @@ a {
   100% {
       background-position: 10em 0;
   }
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
