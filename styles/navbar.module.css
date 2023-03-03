@@ -7,12 +7,10 @@
 .container a:link{
     display: flex;
     justify-content: center;
-    padding:0 1em 0 1em;
+    height: 2.5em;
+    width: 6em;
     align-items: center;
-}
-
-.navactive{
-    background-color: red !important;
+    transition: 0.25s ease-out;
 }
 
 .underline{
@@ -20,12 +18,14 @@
     height: 0.1em;
     width:  2.5em;
     background-color: white;
-    transform:translate(1.3em,-0.6em);
+    transform:translate(var(--transform),-0.6em);
+    margin-left: var(--line);
+    transition: 0.25s ease-in;
 }
 
-
-
-
+.navactive{
+    
+}
 
 
 /*.container_right{
