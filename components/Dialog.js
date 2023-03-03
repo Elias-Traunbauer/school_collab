@@ -1,9 +1,18 @@
 import styles from '../styles/Dialog.module.css';
 import { createRoot } from "react-dom/client";
 
+/// DecisionDialog Component
+/// @param {string} title - Title of the dialog
+/// @param {string} message - Message of the dialog
+/// @param {function} confirmCallback - Callback function for the confirm button
+/// @param {function} cancelCallback - Callback function for the cancel button
+/// @param {string} type - Type of the dialog (info, warning, error, success)
+/// @param {string} id - Id of the dialog
 export function DecisionDialog({children, title = "Information", confirmCallback, cancelCallback, type = "info", id = "dialog"}) {
 
-    function finishDialog(accepted) {
+    function finishDialog(e, accepted) {
+        setTimeout(() => document.getElementById(id).remove(), 1000);
+
         const dialog = document.getElementById(id);
         dialog.classList.add(styles.invisible);
         if (accepted) {
@@ -27,8 +36,8 @@ export function DecisionDialog({children, title = "Information", confirmCallback
                     {children}
                 </div>
                 <div className={styles.dialog_buttons}>
-                    <button onClick={() => finishDialog(true)}>Confirm</button>
-                    <button onClick={() => finishDialog(false)}>Cancel</button>
+                    <button onClick={(e) => finishDialog(e, true)}>Confirm</button>
+                    <button onClick={(e) => finishDialog(e, false)}>Cancel</button>
                 </div>
             </div>
         </div>

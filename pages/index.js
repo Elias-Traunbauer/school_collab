@@ -1,19 +1,19 @@
 import Link from 'next/link'
-import Layout from '../components/Layout'
+import style from '../styles/index.module.scss'
 
 const Home = () => {
   return (
-    <div>
-        <h1>
-          Welcome to school-collbab!
+    <div className="container">
+        <h1 type="special" style={{fontSize: 3 + 'em'}}>
+          Welcome to school-collab!
         </h1>
         <h2>Useful links:</h2>
         <Link href="/login">Login</Link>
-        <br></br>
         <Link href="/profile">Profile</Link>
-        <br></br>
-        <Link href="/assignments">Assignments</Link>
-        <br></br>
+        <Link type="special" href="/assignments">Assignments</Link>
+        <Link href="/assignment_wizard">Assignment Wizard</Link>
+        <Link type="special" special href="/Datepicker">Datepicker</Link>
+        <Link type="special" href="/dialog_test">Dialog Test</Link>
         <Link href="/about">About</Link>
     </div>
   )
