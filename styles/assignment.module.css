@@ -45,8 +45,8 @@
   padding: 1em;
   border-radius: 1em;
   font-size: .9em;
-  background-color: #E9F0FF;
-  color: black;
+  background-color: #181818;
+  color: rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
 }
@@ -54,10 +54,6 @@
   padding: .3em;
   margin-top: .8em;
   margin-bottom: .8em;
-  background-color: #E9F0FF;;
-  color: black;
-  border: .5px solid rgb(0, 0, 0,0.5);
-  border-radius: .5em;
   outline: none;
 }
 
@@ -70,7 +66,7 @@
   flex-direction: column;
 }
 .fileuploadfield{
-  border: 2px dashed red;
+  border: 2px dashed rgb(49, 49, 49);
   width: 50%;
   text-align: center;
   height: 50%;
@@ -109,34 +105,54 @@
 }
 
 .edithead input {
-  width:25vw;
   font-size: 2em;
   margin-top: .5em;
   margin-bottom: .5em;
 }
 
 .edithead p{
-  color: green;
+  color: rgb(3, 230, 3);
 }
 
 
 .wrapper{
   width: 45%;
-  background: rgb(255, 255, 255);
+  background: #181818;
+  color: #fff;
   border-radius: 1em;
   padding: 2em;
 }
-.wrapper header{
-  color: #6990F2;
-  font-weight: 600;
-  text-align: center;
-  font-size: 1.6em;
+
+.wrapper:hover{
+  background-color: #202020;
 }
+
+.headerContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.extentionWrapper{
+  display: flex;
+  justify-content: right;
+  width: 100%;
+  height: 2.8em;
+}
+
+.wrapper header{
+  color: purple;
+  font-weight: 600;
+  font-size: 1.6em;
+  text-align: center;
+}
+
 .fileinput{
   cursor: pointer;
-  margin: 2em 0;
+  margin: 1em 0;
   border-radius: .5em;
-  border: 2px dashed #6990F2;
+  border: 2px dashed purple;
   height: 10em;
   justify-content: center;
   align-items: center;
@@ -144,78 +160,8 @@
 }
 
 .fileinput label{
-  color: black;
+  color: rgb(255, 255, 255);
   opacity: 0.5;
-}
-
-.fileinput section .row{
-  margin-bottom: 10px;
-  background: #E9F0FF;
-  list-style: none;
-  padding: 15px 20px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.fileinput section .row i{
-  color: #6990F2;
-  font-size: 30px;
-}
-
-
-.fileinput section .details span{
-  font-size: 14px;
-}
-
-.progressarea .row .content{
-  width: 100%;
-  margin-left: 15px;
-}
-.progressarea .details{
-  display: flex;
-  align-items: center;
-  margin-bottom: 7px;
-  justify-content: space-between;
-}
-.progressarea .content .progress-bar{
-  height: 6px;
-  width: 100%;
-  margin-bottom: 4px;
-  background: #fff;
-  border-radius: 30px;
-}
-
-.uploadedarea{
-  max-height: 232px;
-  overflow-y: scroll;
-}
-.uploadedarea.onprogress{
-  max-height: 150px;
-}
-.uploadedarea::-webkit-scrollbar{
-  width: 0px;
-}
-.uploadedarea .row .content{
-  display: flex;
-  align-items: center;
-}
-.uploadedarea .row .details{
-  display: flex;
-  margin-left: 15px;
-  flex-direction: column;
-}
-.uploadedarea .row .details .size{
-  color: #404040;
-  font-size: 11px;
-}
-.uploadedarea i.fa-check{
-  font-size: 16px;
-}
-
-.fileslist li{
-  color: black;
 }
 
 .uploadfieldcontainer{
@@ -226,12 +172,13 @@
 }
 
 .activedrag{
-  background-color: rgb(231, 230, 230);
+  background-color: #404040;
+  color: #fff;
 }
 
 .filelistitem li{
-  color: black;
-  background-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  background-color: #606060;
   width: 100%;
   border-radius: .3em;
   margin-bottom: .3em;
@@ -253,13 +200,13 @@
 }
 
 .cancelbutton:hover{
-  background-color: rgba(179, 177, 177, 0.774);
+  background-color: #4040405b;
   order: 2;
 }
 
 
 .filelistitem li:hover{
-  background-color: rgba(239, 239, 239, 0.774);
+  background-color: #808080;
 }
 
 .filelistitem_close{
@@ -279,7 +226,7 @@
 
 .filelistitem{
   margin-bottom: .5em;
-  background: #E9F0FF;
+  background: #404040;
   list-style: none;
   padding: .5em .6em;
   border-radius: .5em;
@@ -396,4 +343,244 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.dropbtn {
+  background-color: #202020;
+  border: 1px solid rgba(255, 255, 255, 0.295);
+  color: purple;
+  padding: .7em;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: .5em;
+  outline: none;
+  float: right;
+}
+.extentionContainer{
+  width: 100%;
+}
+
+.dropdown {
+  float: right !important;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.dropdownContent {
+  transform: translate(0,2.5em);
+  display: none;
+  position: absolute;
+  background-color: rgb(219, 219, 219);
+  min-width: 6em;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: .5em;
+  z-index: 1;
+  padding: .5em;
+  float: right;
+}
+
+.dropdownContent a, .dropdownContent input {
+  color: black;
+  background-color: white;
+  outline: none;
+  border: none;
+  padding: .3em;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3em;
+  border-radius: .3em;
+  margin-bottom: .1em;
+}
+
+.dropdownContent input::placeholder{
+  text-align: center;
+}
+
+.dropdownContent a p{
+  padding: .5em !important;
+}
+
+.dropdownContent a:hover,.dropdownContent input:hover {background-color: #f1f1f1}
+
+
+
+.dropdown:hover .dropdownContent {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: rgba(192, 192, 192, 0.5);
+}
+
+.wizzardWrapper{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction:column;
+}
+
+.wizzardContainer{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #E9F0FF;
+  padding: .5em;
+  border-radius: .5em;
+  background-color: #1e1e1e;
+  color: #fff;
+
+  height: 50%;
+  width: 60%;
+}
+
+.wizzardContainer ul{
+  width: 80%;
+  height:20%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style: none;
+  color: black;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  color: white;
+ }
+
+ .wizzardContainer ul li{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10em;
+  border: #6990F2 2px solid;
+  width: 3em;
+  height: 3em;
+  z-index: 0;
+  padding: 1.5em;
+ }
+
+ .wizardLine{
+  width: 80%;
+  z-index: 1;
+  height: .1rem;
+  position: relative;
+  color: black;
+  transition: 1s;
+  background: linear-gradient(to left, rgb(228, 228, 228) 50%, #6990F2 50%) right;
+  background-size: 200%;
+  transition: 1s ease-out;
+}
+
+.activeLine{
+  transition: 1s;
+  background-position: left;
+  /*transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
+  transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);*/
+}
+
+
+ .active{
+  background-color: #6990F2 !important;
+  color: white;
+  transition: .5s;
+  transition-delay: 1s;
+ }
+
+.wizardContent{
+  display: flex;
+  flex-direction: column;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputContainer{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: .5em;
+}
+
+.wizardContent input{
+  background-color: rgb(59, 59, 59);
+  border-radius: .3em;
+  font-size: 1em;
+  color: rgb(255, 255, 255);
+  outline: 0;
+  padding: .3em;
+  border: 0;
+  width: 15em;
+}
+
+.wizardContentContainer{
+  display: flex;
+  color: rgb(255, 255, 255);
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+.wizardButtonContainer{
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 80%;
+}
+
+.wizardButtonContainer button{
+  background-color: #6990F2;
+  border: 0;
+  padding:  .5em 1em .5em 1em ;
+}
+.disabeldBtn{
+  pointer-events: none;
+  opacity: .7;
+  user-select: none;
+  background-color: gray !important;
+}
+.hidden{
+  display: none;
+}
+.bumper{
+  height: 1em;
+}
+
+.edditOff{
+  width: 50%;
+  overflow:visible;
+  border: 1px solid transparent;
+  display: inline;
+  font-family: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  outline: 0;
+}
+.edditOn{
+  width: 50%;
+  overflow:visible;
+  border: 1px solid #404040;
+  display: inline;
+  font-family: inherit;
+  font-size: inherit;
+  background-color: rgb(29, 29, 29);
+  outline: 0;
+  border-radius: .3em;
+}
+
+.descriptionOn{
+  width: fit-content;
+  border: 1px solid #404040;
+  background-color: rgb(29, 29, 29);
+  border-radius: .3em;
+}
+.descriptionOff{
+  width: fit-content;
+  border: 1px solid transparent;
+  background-color: transparent;
 }
