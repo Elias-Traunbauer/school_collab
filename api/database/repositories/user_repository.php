@@ -48,9 +48,9 @@ class UserRepository
         if (!($user_valid === true && $pw_valid === true)) {
             $errors = array();
             if ($user_valid !== true)
-                array_push($errors, $user_valid);
+                $errors[] = $user_valid;
             if ($pw_valid !== true)
-                array_push($errors, $pw_valid);
+                $errors[] = $pw_valid;
             return $errors;
         }
 
