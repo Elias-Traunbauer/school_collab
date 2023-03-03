@@ -6,16 +6,15 @@ const File_Upload =  ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = 
 
     const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
 
-        function showFile(newFiles){
-            let tmpArray = [];
-            for(const newFile of newFiles){
-                const fileExtention = newFile.name.split('.');
-                if(acceptedFilextentions.includes(fileExtention[fileExtention.length-1])|| acceptedFilextentions.length == 0 || edittmode)
-                tmpArray.push(newFile);
-            }
-            handleUpload(tmpArray);
+    function showFile(newFiles){
+        let tmpArray = [];
+        for(const newFile of newFiles){
+            const fileExtention = newFile.name.split('.');
+            if(acceptedFilextentions.includes(fileExtention[fileExtention.length-1])|| acceptedFilextentions.length == 0 || edittmode)
+            tmpArray.push(newFile);
         }
-
+        handleUpload(tmpArray);
+    }
 
     function handleInputChange(e){
         let files = e.target.files;
