@@ -1,6 +1,6 @@
 import styles from '../styles/assignment.module.css';
 import { useState,useEffect } from 'react'
-export default function Wizzard({callBack,contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
+export default function Wizard({callBack,contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
     
     const [stateData,setStateData] = useState({
         currIndex: 0,
@@ -16,8 +16,9 @@ export default function Wizzard({callBack,contentData=[{firstname: false,lastnam
 
         function handleKeyDown(e){
             if(e.keyCode == 13){
-                console.log(document.getElementById('btnNextPage').classList.contains(styles.disabeldBtn));
-                document.getElementById('btnNextPage').classList.contains(styles.disabeldBtn)?"":document.getElementById('btnNextPage').click()
+                console.log('enter');
+                e.preventDefault();
+                stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection();
             }
         }
     });
@@ -130,7 +131,7 @@ export default function Wizzard({callBack,contentData=[{firstname: false,lastnam
                         contentData.map((item,index) => {
                             return(
                             <>
-                                <li className={index == 0?styles.filled:""}>{index+1}</li>
+                                <li key={'wizzard_'+index} className={index == 0?styles.filled:""}>{index+1}</li>
                                 {index != contentData.length-1?
                                     <div className={styles.wizardLine}></div>
                                     :<></>
@@ -147,7 +148,7 @@ export default function Wizzard({callBack,contentData=[{firstname: false,lastnam
                     {
                         contentData.map((item,index) => {
                             return(
-                                <form key={index} className={`${styles.wizardContent} ${index != 0?styles.hidden:""}`}>
+                                <form key={'wizard_content_'+index} className={`${styles.wizardContent} ${index != 0?styles.hidden:""}`}>
                                     {
                                         Object.keys(item).map((key,index) => {
                                             return(
