@@ -14,10 +14,16 @@ class User implements IValidateable
     {
         $errors = array();
 
-        if (strlen(self::$username) < 5) {
+        if (strlen($this->username) < 5) {
             $errors[] = "Username has to have a minimum length of 5 characters";
         }
-        if (!preg_match("^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", self::$email)) {
+        if (strlen($this->firstName) < 1) {
+            $errors[] = "First name is required";
+        }
+        if (strlen($this->lastName) < 1) {
+            $errors[] = "Last name is required";
+        }
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "Email has to be a valid email address";
         }
 
@@ -31,7 +37,7 @@ class User implements IValidateable
         if (strlen($pw) < 6) {
             $errors[] = "Password has to have a minimum length of 6 characters";
         }
-        if (!preg_match("^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]*$", $pw)) {
+        if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]*$/", $pw)) {
             $errors[] = "Password has to contain one uppercase letter, one number and one special character";
         }
 

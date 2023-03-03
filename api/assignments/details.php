@@ -1,5 +1,9 @@
 <?php
 
+require_once dirname(__FILE__, 2) . "/database/authentication.php";
+apiStart();
+authenticate_and_authorize();
+
 echo '
 {
     "subject": "DBI",

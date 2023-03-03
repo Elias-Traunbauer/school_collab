@@ -1,5 +1,5 @@
 <?php
-require "credentials.php";
+require_once "credentials.php";
 
 Database::createPDOConnection();
 class Database
