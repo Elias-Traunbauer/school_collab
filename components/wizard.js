@@ -100,11 +100,12 @@ export default function Wizzard({contentData=[{firstname: false,lastname: true,e
             item.classList.add(styles.hidden);
         }        
 
+        //backend code
         console.log("Wizard Finished");
     }
 
     function CancelWizard(){
-
+        //backend code
     }
 
     return(
