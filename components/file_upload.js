@@ -109,7 +109,15 @@ const File_Upload =  ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = 
                                     </div>
                                 </>)
                                 :
-                                (<p className={styles.fileExtention}>{acceptedFilextentions.length == 0?"no Restrictions":acceptedFilextentions.join(',')}</p>)
+                                (
+                                    <>
+                                        {
+                                            acceptedFilextentions.length == 0 ? <p>no Restrictions</p> : acceptedFilextentions.map((extention,i) => {return <div key={i} className={styles.fileExtention}>
+                                                <p>.{extention}</p>
+                                                </div>})
+                                        }
+                                    </>
+                                )
                             }
                         </div>
                         

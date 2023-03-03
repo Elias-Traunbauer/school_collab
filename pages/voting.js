@@ -23,7 +23,7 @@ export default function Voting({VoteId}){
     }
 
     const [votes, setVotes] = useState(data.chartData);
-    const [votingIndexes,setVotingIndexes] = useState([]);
+    const [votingIndices,setvotingIndices] = useState([]);
     let [chart, setChart] = useState();
 
     useEffect(() => {
@@ -80,28 +80,28 @@ export default function Voting({VoteId}){
         let index = 0
         let removedObj = 0;
 
-        for (const i of votingIndexes) {
+        for (const i of votingIndices) {
             votes[i]--
         }
 
-        if(votingIndexes.includes(key)){
+        if(votingIndices.includes(key)){
             e.target.classList.remove(styles.activeAnswer);
-            index = votingIndexes.indexOf(key);
-            removedObj = votingIndexes.splice(index,1);
+            index = votingIndices.indexOf(key);
+            removedObj = votingIndices.splice(index,1);
         }
         else{
-            if(votingIndexes.length == data.countOfMaxAnswers)
-            RemoveAtIndex(votingIndexes.shift());
+            if(votingIndices.length == data.countOfMaxAnswers)
+            RemoveAtIndex(votingIndices.shift());
 
             e.target.classList.add(styles.activeAnswer);
-            votingIndexes.push(key);
+            votingIndices.push(key);
         }
 
         console.log(key)
-        if(votingIndexes.length >= data.countOfMinAnswers)
+        if(votingIndices.length >= data.countOfMinAnswers)
         document.getElementById('voteBtn').classList.remove(styles.disabeld);
 
-        for (const i of votingIndexes) {
+        for (const i of votingIndices) {
             votes[i]++
         }
 

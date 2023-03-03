@@ -4,12 +4,8 @@ import Navbar from ".//navbar.js"
 
 export default function Layout ({ children }) {
     return <>
-        <div>
             <Navbar></Navbar>
-        </div>
-        <div>
             {children}
-        </div>
         <footer>
         </footer>
     </>

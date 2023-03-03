@@ -72,7 +72,6 @@ export default function Navbar(){
                 Profile
             </Link>
         </div>
-        <div className={styles.underline} id="underline"></div>
         </>        
     )
 } 

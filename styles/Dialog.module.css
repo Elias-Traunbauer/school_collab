@@ -34,6 +34,14 @@
     opacity: 0;
     pointer-events: none;
     transition: 0.3s;
+    animation: makeInvisible 0s linear 0.3s;
+}
+
+@keyframes makeInvisible {
+    100% {
+        overflow: hidden;
+        height: 0;
+    }
 }
 
 .invisible > .dialog {
@@ -42,7 +50,7 @@
 }
 
 .dialog_background > .dialog {
-    background-color: var(--color_purple);
+    background-color: var(--color_main);
     border-radius: 1em;
     min-width: 30em;
     display: flex;

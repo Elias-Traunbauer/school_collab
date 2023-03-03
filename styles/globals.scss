@@ -1,0 +1,97 @@
+:root {
+  --color_main: #59097b;
+  --background: #000000;
+  --background_1: #202225;
+  --background_2: #292b2f;
+  --background_3: #2f3136;
+  --background_4: #40444b;
+  --background_5: #666d76;
+  --disabled_filter: #373737bc;
+}
+
+@font-face {
+  font-family: 'HeavyCaps';
+  src: url("/Uni Sans Heavy Caps.ttf");
+}
+
+h1::selection {
+  background-color: var(--color_main);
+  color: white;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'HeavyCaps';
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: var(--background);
+  }
+}
+
+#dev_info {
+  position: fixed;
+  bottom: 1.5vh;
+  right: 1vw;
+  padding: 0;
+  background: transparent;
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+  color: white;
+  z-index: 9999;
+
+  & p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.main_container {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
+  display: flex;
+  flex-grow : 1;
+}
+
+[type="special"] {
+  background: linear-gradient(90deg, rgba(144,0,175,1) 0%, rgba(205,0,146,1) 50%, rgba(144,0,175,1) 100%);
+  color: transparent;
+  background-clip: text;
+  background-size: 10em 10em;
+  animation: bgPos 2s linear infinite;
+}
+
+@keyframes bgPos {
+  0% {
+      background-position: 0 0;
+  }
+  100% {
+      background-position: 10em 0;
+  }
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
