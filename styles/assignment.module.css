@@ -340,8 +340,7 @@
   border-radius: .5em;
   background-color: var(--background_1);
   color: #fff;
-  height: 50%;
-  width: 60%;
+  min-width: var(--container_width);
 }
 
 .wizzardContainer ul{
@@ -356,6 +355,12 @@
   margin: 0;
   padding: 0;
   color: white;
+  margin-bottom: 1.5em;
+ }
+
+ .wizardheading{
+  margin: 0;
+  padding-top: .5em;
  }
 
  .wizzardContainer ul li{
@@ -371,7 +376,7 @@
  }
 
  .wizardLine{
-  width: 80%;
+  width: 100%;
   z-index: 1;
   height: .1rem;
   position: relative;
@@ -388,9 +393,7 @@
   /*transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
   transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);*/
 }
-
-
- .active{
+ .filled{
   background-color: var(--color_main) !important;
   color: white;
   transition: .5s;
@@ -403,8 +406,6 @@
   color: white;
   justify-content: center;
   align-items: center;
-  margin-top: auto;
-  margin-bottom: auto;
 }
 
 .inputContainer{
@@ -424,10 +425,13 @@
   width: 15em;
 }
 
+
 .wizardContentContainer{
   display: flex;
+  align-items: center;
+  justify-content: center;
   color: rgb(255, 255, 255);
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   margin-top: auto;
   margin-bottom: auto;
@@ -452,11 +456,13 @@
   pointer-events: none;
   opacity: .7;
   user-select: none;
-  background-color: var(--background_disabled) !important;
+  background-color: var(--disabled_filter) !important;
 }
-.hidden{
+.hidden>*,.hidden, .hidden >*>*{
   display: none;
 }
+
+
 .bumper{
   height: 1em;
 }
