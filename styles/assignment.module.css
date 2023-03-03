@@ -554,3 +554,8 @@
   min-width: 2.5em;
   user-select: none;
 }
+
+.blur{
+  filter: blur(2px) grayscale(.7);
+  background-color: var(--disabled_filter);
+}

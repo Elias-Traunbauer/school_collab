@@ -1,6 +1,6 @@
 import styles from '../styles/assignment.module.css';
 import { useState,useEffect } from 'react'
-export default function Wizard({callBack,contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
+export default function Wizard({callback,contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
     
     const [stateData,setStateData] = useState({
         currIndex: 0,
@@ -91,18 +91,22 @@ export default function Wizard({callBack,contentData=[{firstname: false,lastname
     }
 
     function finishWizard(){
-        const formList = document.querySelectorAll('.' + styles.wizardContent);
-        const buttons = document.querySelectorAll('.'+styles.wizardButtonContainer)
-
-        formList[formList.length-1].classList.add(styles.hidden);
-
-        for (const item of buttons) {
-            item.classList.add(styles.hidden);
-        }
-
-        //backend code
-        callBack(getResult());
+        //animation
+        document.getElementById('wizzardContainer').classList.add(styles.blur);
+        
+        
+        callback(getResult(),setLoadingText,finishLoading);
         console.log("Wizard Finished");
+
+        //TODO: backend code
+    }
+
+    function setLoadingText(text){
+        
+    }
+
+    function finishLoading(){
+        document.getElementById('wizzardContainer').classList.remove(styles.blur);
     }
 
     function getResult(){
@@ -124,8 +128,8 @@ export default function Wizard({callBack,contentData=[{firstname: false,lastname
 
     return(
         <>
-        <div className={styles.wizzardWrapper}>
-            <div style={{minWidth:containerWidth+'%'}} className={styles.wizzardContainer}>
+        <div id='wizzardWrapper' className={styles.wizzardWrapper}>
+            <div id='wizzardContainer' style={{minWidth:containerWidth+'%'}} className={styles.wizzardContainer}>
                 <h1 className={styles.wizardheading}>{title}</h1>
                 <ul>
                     {
