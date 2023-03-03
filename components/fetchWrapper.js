@@ -1,15 +1,10 @@
-
-
-
 async function secureFetch(url, options) {
     const update = { ...options };
-    if (localStorage.jwt) {
-      update.headers = {
+    update.headers = {
         ...update.headers,
-        anti_csrf_token: getCookie('anti_csrf_token'),
-      };
-    }
-    return fetch(url, options);
+        'anti_csrf_token': getCookie('anti_csrf_token'),
+    };
+    return fetch(url, update);
 }
 
 function getCookie(name) {
