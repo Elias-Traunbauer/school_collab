@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__, 2) . "/database/authentication.php";
+require_once dirname(__FILE__, 2) . "/database/identification.php";
 apiStart();
 
 require_once dirname(__FILE__, 2) . "/database/credentials.php";
@@ -31,7 +31,8 @@ $payload = json_encode([
     'firstName' => $res->firstName,
     'lastName' => $res->lastName,
     'permissions' => $res->permissions,
-    'exp' => time() + 60 * 15
+    'exp' => time() + 60 * 15,
+    'anti_csrf_token' => $_SERVER["HTTP_ANTI_CSRF_TOKEN"]
     ]);
 
 $base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));

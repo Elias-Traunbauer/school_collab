@@ -4,6 +4,12 @@ require_once 'credentials.php';
 
 function authenticate_and_authorize($terminateOnUnAuthenticated = true) : void
 {
+    // authentication not possible without csrf token, ONLY occurs in the first request
+    if (!isset($_SERVER["HTTP_ANTI_CSRF_TOKEN"])) {
+        $_REQUEST["authenticated"] = false;
+        return;
+    }
+
     $jwt_config_json = json_decode(Credential_Data::$jwt_config);
 
     if (!isset($_COOKIE["jwt"])) {
@@ -48,15 +54,10 @@ function authenticate_and_authorize($terminateOnUnAuthenticated = true) : void
         die();
     }
 
-    if (isset($_SERVER["HTTP_ANTI_CSRF_TOKEN"]) && $_SERVER['HTTP_ANTI_CSRF_TOKEN'] !== $payload_json->anti_csrf_token) {
+    if ($_SERVER['HTTP_ANTI_CSRF_TOKEN'] !== $payload_json->anti_csrf_token) {
         // request forgery
         http_response_code(401);
         die();
-    }
-
-    if (!isset($_SERVER["HTTP_ANTI_CSRF_TOKEN"])) {
-        $_REQUEST["authenticated"] = false;
-        return;
     }
 
     $_REQUEST["authenticated"] = true;
@@ -65,9 +66,12 @@ function authenticate_and_authorize($terminateOnUnAuthenticated = true) : void
 
 function apiStart() : void
 {
+    header('Access-Control-Allow-Origin: http://localhost');
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
     if (!isset($_SERVER["HTTP_ANTI_CSRF_TOKEN"])) {
         $anti_csrf_token = bin2hex(random_bytes(32));
-        setcookie("anti_csrf_token", $anti_csrf_token, time() + 3600 * 24 * 356, "/anti_csrf_token_storage");
+        $_SERVER["HTTP_ANTI_CSRF_TOKEN"] = $anti_csrf_token;
+        setcookie("anti_csrf_token", $anti_csrf_token, time() + 3600 * 24 * 356, '/6df6131a8dd4632dba3634e04462bd79b772f0858cc4025813fd3995d59e29d8');
     }
     if (strtoupper($_SERVER["REQUEST_METHOD"]) === "OPTIONS") {
         http_response_code(200);

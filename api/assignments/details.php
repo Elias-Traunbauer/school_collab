@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__, 2) . "/database/authentication.php";
+require_once dirname(__FILE__, 2) . "/database/identification.php";
 apiStart();
 authenticate_and_authorize();
 
