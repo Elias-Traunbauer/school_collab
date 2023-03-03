@@ -7,12 +7,12 @@ function authenticate_and_authorize($terminateOnUnAuthenticated = true) : void
     $jwt_config_json = json_decode(Credential_Data::$jwt_config);
 
     if (!isset($_COOKIE["jwt"])) {
-        $_REQUEST["authenticated"] = false;
-
         if ($terminateOnUnAuthenticated) {
             http_response_code(401);
             die();
         }
+
+        $_REQUEST["authenticated"] = false;
         return;
     }
 
@@ -29,11 +29,11 @@ function authenticate_and_authorize($terminateOnUnAuthenticated = true) : void
     $valid_until = $payload_json->exp;
     if ($valid_until < time()) {
         // expired
-        $_REQUEST["authenticated"] = false;
         if ($terminateOnUnAuthenticated) {
             http_response_code(401);
             die();
         }
+        $_REQUEST["authenticated"] = false;
         return;
     }
     // payload that claims to be valid in regard to expiry time
@@ -48,12 +48,27 @@ function authenticate_and_authorize($terminateOnUnAuthenticated = true) : void
         die();
     }
 
+    if (isset($_SERVER["HTTP_ANTI_CSRF_TOKEN"]) && $_SERVER['HTTP_ANTI_CSRF_TOKEN'] !== $payload_json->anti_csrf_token) {
+        // request forgery
+        http_response_code(401);
+        die();
+    }
+
+    if (!isset($_SERVER["HTTP_ANTI_CSRF_TOKEN"])) {
+        $_REQUEST["authenticated"] = false;
+        return;
+    }
+
     $_REQUEST["authenticated"] = true;
     $_REQUEST["user"] = $payload_json;
 }
 
-function apiStart(): void
+function apiStart() : void
 {
+    if (!isset($_SERVER["HTTP_ANTI_CSRF_TOKEN"])) {
+        $anti_csrf_token = bin2hex(random_bytes(32));
+        setcookie("anti_csrf_token", $anti_csrf_token, time() + 3600 * 24 * 356, "/anti_csrf_token_storage");
+    }
     if (strtoupper($_SERVER["REQUEST_METHOD"]) === "OPTIONS") {
         http_response_code(200);
         die();
