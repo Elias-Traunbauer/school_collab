@@ -355,6 +355,12 @@
   margin: 0;
   padding: 0;
   color: white;
+  margin-bottom: 1.5em;
+ }
+
+ .wizardheading{
+  margin: 0;
+  padding-top: .5em;
  }
 
  .wizzardContainer ul li{
@@ -422,8 +428,10 @@
 
 .wizardContentContainer{
   display: flex;
+  align-items: center;
+  justify-content: center;
   color: rgb(255, 255, 255);
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   margin-top: auto;
   margin-bottom: auto;
@@ -450,9 +458,11 @@
   user-select: none;
   background-color: var(--disabled_filter) !important;
 }
-.hidden{
+.hidden>*,.hidden, .hidden >*>*{
   display: none;
 }
+
+
 .bumper{
   height: 1em;
 }

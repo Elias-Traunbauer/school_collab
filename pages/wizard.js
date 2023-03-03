@@ -1,6 +1,6 @@
 import styles from '../styles/assignment.module.css';
 import { useState,useEffect } from 'react'
-export default function AssignmentWizzard({data}){
+export default function AssignmentWizzard({data,title="Wizard",width=60}){
     
     const [stateData,setStateData] = useState({
         currIndex: 0,
@@ -19,7 +19,6 @@ export default function AssignmentWizzard({data}){
             email: false,
         }
     ];
-
 
     useEffect(() => {
         const formList = document.querySelectorAll('input');
@@ -74,8 +73,9 @@ export default function AssignmentWizzard({data}){
         items[stateData.currIndex].classList.remove(styles.filled);
         lines[stateData.currIndex-1].classList.remove(styles.activeLine);
         
-        formList[stateData.currIndex].classList.add(styles.hidden);
         formList[stateData.currIndex-1].classList.remove(styles.hidden);
+        formList[stateData.currIndex].classList.add(styles.hidden);
+        
 
         checkFormFilled(stateData.currIndex-1);
         focusInputField(stateData.currIndex-1)
@@ -124,7 +124,7 @@ export default function AssignmentWizzard({data}){
         <>
         <div className={styles.wizzardWrapper}>
             <div className={styles.wizzardContainer}>
-                <div className={styles.bumper}></div>
+                <h1 className={styles.wizardheading}>{title}</h1>
                 <ul>
                     {
                         mockData.map((item,index) => {
