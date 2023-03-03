@@ -340,7 +340,7 @@
   border-radius: .5em;
   background-color: var(--background_1);
   color: #fff;
-  min-width: 50%;
+  min-width: var(--container_width);
 }
 
 .wizzardContainer ul{

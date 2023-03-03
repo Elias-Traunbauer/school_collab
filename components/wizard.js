@@ -1,24 +1,11 @@
 import styles from '../styles/assignment.module.css';
 import { useState,useEffect } from 'react'
-export default function AssignmentWizzard({data,title="Wizard",width=60}){
+export default function Wizzard({contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
     
     const [stateData,setStateData] = useState({
         currIndex: 0,
     });
     let inputList = [];
-    const mockData = [
-        {
-            firstname: false,
-            lastname: true,
-            email: true,
-        }
-    ,
-        {
-            firstname: false,
-            lastname: false,
-            email: false,
-        }
-    ];
 
     useEffect(() => {
         const formList = document.querySelectorAll('input');
@@ -45,7 +32,7 @@ export default function AssignmentWizzard({data,title="Wizard",width=60}){
         const lines = document.querySelectorAll('.'+styles.wizardLine);
         const formList = document.querySelectorAll('.' + styles.wizardContent);
 
-        if(stateData.currIndex == mockData.length-1)
+        if(stateData.currIndex == contentData.length-1)
         return;
         console.log(stateData.currIndex);
 
@@ -123,15 +110,15 @@ export default function AssignmentWizzard({data,title="Wizard",width=60}){
     return(
         <>
         <div className={styles.wizzardWrapper}>
-            <div className={styles.wizzardContainer}>
+            <div style={{minWidth:containerWidth+'%'}} className={styles.wizzardContainer}>
                 <h1 className={styles.wizardheading}>{title}</h1>
                 <ul>
                     {
-                        mockData.map((item,index) => {
+                        contentData.map((item,index) => {
                             return(
                             <>
                                 <li className={index == 0?styles.filled:""}>{index+1}</li>
-                                {index != mockData.length-1?
+                                {index != contentData.length-1?
                                     <div className={styles.wizardLine}></div>
                                     :<></>
                                 }
@@ -143,9 +130,9 @@ export default function AssignmentWizzard({data,title="Wizard",width=60}){
                     }
                 </ul>
 
-                <div className={styles.wizardContentContainer}>
+                <div style={{minWidth: containerWidth + '%'}} className={styles.wizardContentContainer}>
                     {
-                        mockData.map((item,index) => {
+                        contentData.map((item,index) => {
                             return(
                                 <form key={index} className={`${styles.wizardContent} ${index != 0?styles.hidden:""}`}>
                                     {
@@ -164,7 +151,7 @@ export default function AssignmentWizzard({data,title="Wizard",width=60}){
                 </div>  
                 <div className={styles.wizardButtonContainer}>
                     <button onClick={stateData.currIndex == 0? CancelWizard: previousSection}>{stateData.currIndex == 0?"Cancel":"Back"}</button>
-                    <button id='btnNextPage' onClick={(e)=>stateData.currIndex == mockData.length-1 ? finishWizard() : nextSection()} className={styles.disabeldBtn}>{stateData.currIndex == mockData.length-1? "Finish" : "Next"}</button>
+                    <button id='btnNextPage' onClick={(e)=>stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection()} className={styles.disabeldBtn}>{stateData.currIndex == contentData.length-1? "Finish" : "Next"}</button>
                 </div>              
             </div>
             
