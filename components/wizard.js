@@ -1,6 +1,6 @@
 import styles from '../styles/assignment.module.css';
 import { useState,useEffect } from 'react'
-export default function Wizzard({contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
+export default function Wizzard({callBack,contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
     
     const [stateData,setStateData] = useState({
         currIndex: 0,
@@ -21,11 +21,10 @@ export default function Wizzard({contentData=[{firstname: false,lastname: true,e
             }
         }
     });
+    
     useEffect(() => {
         checkFormFilled(stateData.currIndex);
     },[stateData]);
-
-    
     
     function nextSection(){
         const items = document.querySelectorAll('.'+styles.wizzardContainer + ' ul li');
@@ -98,9 +97,23 @@ export default function Wizzard({contentData=[{firstname: false,lastname: true,e
 
         for (const item of buttons) {
             item.classList.add(styles.hidden);
-        }        
+        }
 
+        callBack(getResult());
         console.log("Wizard Finished");
+    }
+
+    function getResult(){
+        const formList = document.querySelectorAll('.' + styles.wizardContent);
+        let result = [];
+        for (let item of formList) {
+            let obj = {};
+            for (let input of item.querySelectorAll('input')) {
+                obj[input.previousElementSibling.innerText] = input.value;
+            }
+            result.push(obj);
+        }
+        return result;
     }
 
     function CancelWizard(){
