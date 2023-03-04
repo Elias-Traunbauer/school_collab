@@ -17,6 +17,8 @@ export default function Login() {
   }
 
   return (
-    <Wizard callback={callback} containerWidth={40} contentData={contentData} title='Login'></Wizard>
-  )
+    <div className={styles.wizardWrapper}>
+      <Wizard callback={callback} containerWidth={40} contentData={contentData} title='Login'></Wizard>
+    </div>
+    )
 }

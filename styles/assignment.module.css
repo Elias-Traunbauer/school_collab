@@ -458,8 +458,10 @@
   user-select: none;
   background-color: var(--disabled_filter) !important;
 }
-.hidden>*,.hidden, .hidden >*>*{
+.hidden,.hidden>*, .hidden >*>*{
   display: none;
+  pointer-events: none;
+  cursor: loading;
 }
 
 
@@ -558,4 +560,27 @@
 .blur{
   filter: blur(2px) grayscale(.7);
   background-color: var(--disabled_filter);
+}
+
+.loader{
+  width: 100%;
+  height: 95%;
+  margin-top:5%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--background_1)+ '7e';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  filter: blur(0) grayscale(0) !important;
+  z-index: 100;
+}
+
+.loader div{
+  width: 8em;
+  height: 8em;
+  border-radius: 10em;
+  background-color: var(--background_3);
 }

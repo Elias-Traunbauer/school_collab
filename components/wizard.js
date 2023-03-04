@@ -93,7 +93,8 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
     function finishWizard(){
         //animation
         document.getElementById('wizzardContainer').classList.add(styles.blur);
-        
+        document.getElementById('loaderContainer').classList.remove(styles.hidden);
+
         
         callback(getResult(),setLoadingText,finishLoading);
         console.log("Wizard Finished");
@@ -102,11 +103,12 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
     }
 
     function setLoadingText(text){
-        
+
     }
 
     function finishLoading(){
         document.getElementById('wizzardContainer').classList.remove(styles.blur);
+        documentgetElementById('loaderContainer').classList.add(styles.hidden);
     }
 
     function getResult(){
@@ -128,53 +130,58 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
     return(
         <>
-        <div id='wizzardWrapper' className={styles.wizzardWrapper}>
             <div id='wizzardContainer' style={{minWidth:containerWidth+'%'}} className={styles.wizzardContainer}>
-                <h1 className={styles.wizardheading}>{title}</h1>
-                <ul>
-                    {
-                        contentData.map((item,index) => {
-                            return(
-                            <>
-                                <li key={'wizzard_'+index} className={index == 0?styles.filled:""}>{index+1}</li>
-                                {index != contentData.length-1?
-                                    <div className={styles.wizardLine}></div>
-                                    :<></>
-                                }
-                                
-                            </>
-                            )
-                        })
 
-                    }
-                </ul>
+                <div id='loaderContainer' className={`${styles.loader} ${styles.hidden}`}>
+                    <div id='loader'></div>
+                </div>
 
-                <div style={{minWidth: containerWidth + '%'}} className={styles.wizardContentContainer}>
-                    {
-                        contentData.map((item,index) => {
-                            return(
-                                <form key={'wizard_content_'+index} className={`${styles.wizardContent} ${index != 0?styles.hidden:""}`}>
-                                    {
-                                        Object.keys(item).map((key,index) => {
-                                            return(
-                                                <div key={index} className={styles.inputContainer}>
-                                                    <label>{key}{item[key]?' *':""}</label>
-                                                    <input onInput={() => checkFormFilled(stateData.currIndex)} required={item[key]}></input>
-                                                </div>
-                                            )
-                                        })
+
+                    <h1 className={styles.wizardheading}>{title}</h1>
+                    <ul>
+                        {
+                            contentData.map((item,index) => {
+                                return(
+                                <>
+                                    <li key={'wizzard_'+index} className={index == 0?styles.filled:""}>{index+1}</li>
+                                    {index != contentData.length-1?
+                                        <div className={styles.wizardLine}></div>
+                                        :<></>
                                     }
-                                </form>
-                        )}
-                    )}	
-                </div>  
-                <div className={styles.wizardButtonContainer}>
-                    <button onClick={stateData.currIndex == 0? CancelWizard: previousSection}>{stateData.currIndex == 0?"Cancel":"Back"}</button>
-                    <button id='btnNextPage' onClick={(e)=>stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection()} className={styles.disabeldBtn}>{stateData.currIndex == contentData.length-1? "Finish" : "Next"}</button>
-                </div>              
-            </div>
-            
-        </div>
+                                    
+                                </>
+                                )
+                            })
+
+                        }
+                    </ul>
+
+                    <div style={{minWidth: containerWidth + '%'}} className={styles.wizardContentContainer}>
+                        {
+                            contentData.map((item,index) => {
+                                return(
+                                    <form key={'wizard_content_'+index} className={`${styles.wizardContent} ${index != 0?styles.hidden:""}`}>
+                                        {
+                                            Object.keys(item).map((key,index) => {
+                                                return(
+                                                    <div key={index} className={styles.inputContainer}>
+                                                        <label>{key}{item[key]?' *':""}</label>
+                                                        <input onInput={() => checkFormFilled(stateData.currIndex)} required={item[key]}></input>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </form>
+                            )}
+                        )}	
+                    </div>  
+                    <div className={styles.wizardButtonContainer}>
+                        <button onClick={stateData.currIndex == 0? CancelWizard: previousSection}>{stateData.currIndex == 0?"Cancel":"Back"}</button>
+                        <button id='btnNextPage' onClick={(e)=>stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection()} className={styles.disabeldBtn}>{stateData.currIndex == contentData.length-1? "Finish" : "Next"}</button>
+                    </div>              
+
+
+                    </div>            
         </> 
     )
 }
