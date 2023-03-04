@@ -15,10 +15,15 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
         }
 
         function handleKeyDown(e){
-            if(e.keyCode == 13){
-                console.log('enter');
+            if(document.getElementById('wizzardContainer').classList.contains(styles.blur)){
                 e.preventDefault();
-                stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection();
+            }
+            else if(e.keyCode == 13){
+                e.preventDefault();
+
+                if(!document.getElementById('btnNextPage').classList.contains(styles.disabeldBtn)){
+                    stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection();
+                }
             }
         }
     });
@@ -34,7 +39,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
         if(stateData.currIndex == contentData.length-1)
         return;
-        console.log(stateData.currIndex);
 
         items[stateData.currIndex+1].classList.add(styles.filled);
         lines[stateData.currIndex].classList.add(styles.activeLine);
@@ -80,7 +84,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
         const formList = document.querySelectorAll('.' + styles.wizardContent);
         inputList = formList[index].querySelectorAll('input');
         for (let item of inputList) {
-            console.log(stateData.currIndex);
             if(item.hasAttribute('required') && item.value.length <= 0){
                 document.getElementById('btnNextPage').classList.add(styles.disabeldBtn);
                 return;
@@ -96,7 +99,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
         
         
         callback(getResult(),setLoadingText,finishLoading);
-        console.log("Wizard Finished");
 
         //TODO: backend code
     }
