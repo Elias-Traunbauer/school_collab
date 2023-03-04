@@ -13,12 +13,20 @@ export default function Login() {
   function callback(data,setText,finishLoading){
     console.log(data);
 
+
+    setTimeout(() => {
+      setText("almost done");
+    }, 1000);
+
+    setTimeout(() => {
+      finishLoading();
+    }, 4000);
     //backend
   }
 
   return (
     <div className={styles.wizardWrapper}>
-      <Wizard callback={callback} containerWidth={40} contentData={contentData} title='Login'></Wizard>
+      <Wizard callback={callback} containerWidth={20} contentData={contentData} title='Login'></Wizard>
     </div>
     )
 }

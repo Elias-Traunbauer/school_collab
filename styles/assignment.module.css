@@ -333,17 +333,28 @@
 }
 
 .wizzardContainer{
+  scale: 1.5;
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: .5em;
   border-radius: .5em;
   background-color: var(--background_1);
   color: #fff;
   min-width: var(--container_width);
+  box-shadow: 0 -2px 10px rgb(7, 7, 7);
+}
+.contenWrapper{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: #fff;
+  padding: .5em;
 }
 
-.wizzardContainer ul{
+.contenWrapper ul{
   width: 80%;
   height:20%;
   display: flex;
@@ -356,14 +367,15 @@
   padding: 0;
   color: white;
   margin-bottom: 1.5em;
+  padding-top: 2em;
  }
 
  .wizardheading{
   margin: 0;
-  padding-top: .5em;
+  padding-top: .1em;
  }
 
- .wizzardContainer ul li{
+ .contenWrapper ul li{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -400,29 +412,35 @@
   transition-delay: 1s;
  }
 
-.wizardContent{
+ .wizardContent{
   display: flex;
   flex-direction: column;
   color: white;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .inputContainer{
   display: flex;
   flex-direction: column;
   margin-bottom: 1em;
+  width: 100%;
 }
 
 .wizardContent input{
   background-color: var(--background_2);
   border-radius: .3em;
-  font-size: 1em;
+  font-size: .9em;
   color: rgb(255, 255, 255);
   outline: 0;
-  padding: .3em;
   border: 0;
-  width: 15em;
+  padding: .3em;
+  width: 100%;
+}
+
+.wizardContent label{
+  font-size: .8em;
 }
 
 
@@ -432,9 +450,10 @@
   justify-content: center;
   color: rgb(255, 255, 255);
   flex-direction: row;
-  width: 100%;
   margin-top: auto;
   margin-bottom: auto;
+  width: 80%;
+  height: auto;
 }
 .wizardButtonContainer{
   margin-top: 1em;
@@ -459,7 +478,7 @@
   background-color: var(--disabled_filter) !important;
 }
 .hidden,.hidden>*, .hidden >*>*{
-  display: none;
+  display: none !important;
   pointer-events: none;
   cursor: loading;
 }
@@ -558,29 +577,96 @@
 }
 
 .blur{
-  filter: blur(2px) grayscale(.7);
+  filter: blur(2px) grayscale(.5);
   background-color: var(--disabled_filter);
 }
 
 .loader{
   width: 100%;
-  height: 95%;
-  margin-top:5%;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  background-color: var(--background_1)+ '7e';
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
-  filter: blur(0) grayscale(0) !important;
-  z-index: 100;
+  flex-direction: column;
+  z-index: 99;
 }
 
 .loader div{
+  margin-top: 10%;
   width: 8em;
   height: 8em;
   border-radius: 10em;
-  background-color: var(--background_3);
+  background-color: var(--background_4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader div::after{
+  content: '';
+  background-color: var(--color_main);
+  transition: 1s;
+  width: 80%;
+  height: 80%;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+}
+.loading{
+  cursor: wait;
+}
+.loading::after {
+  animation: loading_start 1s forwards, 2s loading 1s infinite;
+}
+
+.finished {
+  cursor: pointer;
+}
+
+.finished::after {
+  animation: finish .5s forwards;
+}
+
+@keyframes loading_start {
+  0% {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+  }
+  50% {
+      /*clip-path: polygon(50% 0%, 80% 10%, 100% 36%, 100% 64%, 80% 90%, 50% 100%, 20% 90%, 0 64%, 0 36%, 20% 10%);*/
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+  }
+  100% {
+      clip-path: polygon(50% 0%, 50% 49%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+  }
+}
+
+@keyframes loading {
+  0% {
+      clip-path: polygon(50% 0%, 50% 49%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+  }
+  25% {
+      clip-path: polygon(50% 0%, 100% 50%, 50% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+  }
+  50% {
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+  }
+  75% {
+      clip-path: polygon(50% 50%, 100% 50%, 50% 100%, 0 50%, 0 50%, 0 50%, 0 50%, 0 50%, 0 50%);
+  }
+  100% {
+      clip-path: polygon(50% 0%, 50% 49%, 50% 100%, 0% 50%, 0 50%, 0 50%, 0 50%, 0 50%, 0 50%);
+  }
+}
+
+@keyframes finish {
+  0% {
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+  }
+  100% {
+      /*clip-path: polygon(8% 56%, 44% 85%, 92% 14%, 100% 21%, 45% 100%, 0 63%, 0 63%, 0 63%, 0 63%);*/
+      /*clip-path: polygon(43% 82%, 90% 12%, 100% 19%, 45% 100%, 0 62%, 9% 54%, 9% 54%, 9% 54%, 9% 54%);*/
+      /*clip-path: polygon(90% 12%, 100% 19%, 45% 100%, 0 62%, 9% 54%, 9% 54%, 9% 54%, 9% 54%, 43% 82%);*/
+      clip-path: polygon(28% 38%, 41% 53%, 75% 24%,75% 24%, 86% 38%,86% 38%, 40% 78%,40% 78% ,15% 50%);
+  }
 }

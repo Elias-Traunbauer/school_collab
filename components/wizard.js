@@ -7,6 +7,8 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
     });
     let inputList = [];
 
+    const [loadingText,setLaodingText] = useState("loading...");
+
     useEffect(() => {
         const formList = document.querySelectorAll('input');
 
@@ -92,9 +94,9 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
     function finishWizard(){
         //animation
-        document.getElementById('wizzardContainer').classList.add(styles.blur);
+        document.getElementById('contentWrapper').classList.add(styles.blur);
         document.getElementById('loaderContainer').classList.remove(styles.hidden);
-
+        document.getElementById('loader').classList.add(styles.loading);
         
         callback(getResult(),setLoadingText,finishLoading);
         console.log("Wizard Finished");
@@ -103,12 +105,12 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
     }
 
     function setLoadingText(text){
-
+        setLaodingText(text);
     }
 
     function finishLoading(){
-        document.getElementById('wizzardContainer').classList.remove(styles.blur);
-        documentgetElementById('loaderContainer').classList.add(styles.hidden);
+        document.getElementById('loader').classList.remove(styles.loading);
+        document.getElementById('loader').classList.add(styles.finished);
     }
 
     function getResult(){
@@ -134,9 +136,9 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
                 <div id='loaderContainer' className={`${styles.loader} ${styles.hidden}`}>
                     <div id='loader'></div>
+                    <p>{loadingText}</p>
                 </div>
-
-
+                <div id='contentWrapper' className={styles.contenWrapper}>
                     <h1 className={styles.wizardheading}>{title}</h1>
                     <ul>
                         {
@@ -178,10 +180,9 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
                     <div className={styles.wizardButtonContainer}>
                         <button onClick={stateData.currIndex == 0? CancelWizard: previousSection}>{stateData.currIndex == 0?"Cancel":"Back"}</button>
                         <button id='btnNextPage' onClick={(e)=>stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection()} className={styles.disabeldBtn}>{stateData.currIndex == contentData.length-1? "Finish" : "Next"}</button>
-                    </div>              
-
-
-                    </div>            
+                    </div>     
+                </div>         
+            </div>            
         </> 
     )
 }
