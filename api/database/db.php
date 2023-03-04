@@ -1,11 +1,11 @@
 <?php
-require "credentials.php";
+require_once "credentials.php";
 
 Database::createPDOConnection();
 class Database
 {
 
-    public static string $hashAlgo = "sha256";
+    public static string $hashAlgo = "sha512";
 
     /// <summary>
     /// Creates a PDO connection to the database.
