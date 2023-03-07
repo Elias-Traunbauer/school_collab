@@ -25,7 +25,7 @@ jobs:
         env:
           SSH_USER: github
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_HOST: 194.13.82.207
+          SSH_HOST: 194.13.82.207:22222
 
       - name: Check SSH Connection
         run: ssh staging 'echo "It works!"'
