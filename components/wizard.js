@@ -1,7 +1,7 @@
 import styles from '../styles/assignment.module.css';
 import { useState,useEffect } from 'react'
 import Datepicker from '../pages/Datepicker';
-export default function Wizard({callback,contentData=[{firstname: false,lastname: true},{email: new Date(),phone:{title:"checkBox",text:"sueee",value:true}}],title="Wizard",containerWidth=50}){
+export default function Wizard({callback,contentData=[{firstname: false,lastname: true},{email: new Date(),phone:{title:"checkBoxReal",text:"sueee",value:true}}],title="Wizard",containerWidth=50}){
     
     const [stateData,setStateData] = useState({
         currIndex: 0,
@@ -116,6 +116,9 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
             for (let input of item.querySelectorAll('input[type="text"]:not([id*="monthInput"]):not([id*="yearInput"])')) {
                 obj[input.previousSibling.innerText.replace(' *','')] = input.value;
             }
+            for (let input of item.querySelectorAll('input[type="checkbox"]')) {
+                obj[input.name] = input.checked;
+            }
             if(Object.keys(obj).length != 0)
             result.push(obj);
         }
@@ -139,8 +142,8 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
         return (<>
             <div key={index} className={styles.inputContainer}>
                 <div className={styles.chekBoxContainer}>
-                    <input type="checkbox" defaultChecked={item[key][2]}></input>
-                    <p>{item[key][1]}</p>
+                    <input name={item[key][Object.keys(item[key])[0]]} type="checkbox" defaultChecked={item[key][Object.keys(item[key])[2]]}></input>
+                    <p>{item[key][Object.keys(item[key])[1]]}</p>
                 </div>
             </div>
         </>);
