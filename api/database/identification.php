@@ -1,16 +1,14 @@
 <?php
 
-require_once 'credentials.php';
-
 function authenticate_and_authorize($terminateOnUnAuthenticated = true) : void
 {
+    $config = json_decode(file_get_contents("credentials.json"));
+
     // authentication not possible without csrf token, ONLY occurs in the first request
     if (!isset($_SERVER["HTTP_ANTI_CSRF_TOKEN"])) {
         $_REQUEST["authenticated"] = false;
         return;
     }
-
-    $jwt_config_json = json_decode(Credential_Data::$jwt_config);
 
     if (!isset($_COOKIE["jwt"])) {
         if ($terminateOnUnAuthenticated) {
@@ -45,7 +43,7 @@ function authenticate_and_authorize($terminateOnUnAuthenticated = true) : void
     // payload that claims to be valid in regard to expiry time
     $base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
     $base64UrlPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
-    $signature = hash_hmac('sha512', $base64UrlHeader . "." . $base64UrlPayload, $jwt_config_json->key, true);
+    $signature = hash_hmac('sha512', $base64UrlHeader . "." . $base64UrlPayload, $config->jwt->key, true);
     $base64UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
 
     if ($base64UrlSignature != $signatureProvided) {
