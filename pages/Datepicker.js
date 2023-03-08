@@ -43,9 +43,14 @@ export default function Datepicker({dateParam = new Date()}){
             setDate(new Date(tmpDate.getFullYear(),tmpDate.getMonth(),day));
         }
     }
-
+    
+    function GetMaxDaysOfPreviousMonth(){
+        let preMonth = GetPreviusMonth();
+        return new Date(preMonth.getFullYear(),preMonth.getMonth()+1,0).getDate();
+    }
     function calc(){
-        let daysOfPreviousMonth = GetPreviusMonth().getDate();
+        let daysOfPreviousMonth = GetMaxDaysOfPreviousMonth();
+        console.log('maxdays '+daysOfPreviousMonth);
         const daysOfCurrentMonth = GetDaysOfCurrentMonth();
         let previousdays = GetWeekdayOfFirstDay();
         const tmpArray = [];
@@ -204,7 +209,6 @@ export default function Datepicker({dateParam = new Date()}){
                         {displayDatesArray.map(({day,currMonth},i) => {
                            return <div onClick={()=>handleDateClicked(day,currMonth)} key={i} className={`${styles.datepickerItem} ${!currMonth?styles.otherMonth:""} ${currMonth && day == date.getDate() ?styles.currMonth:""}`}>  <p>{day}</p> </div>
                         })}
-                    
                 </div>
             </div>
         </div>
