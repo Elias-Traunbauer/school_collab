@@ -53,7 +53,7 @@
 }
 
 .dialog_background > .dialog {
-    background-color: var(--color_main);
+    background-color: var(--background_3);
     border-radius: 1em;
     min-width: 30em;
     display: flex;
@@ -88,11 +88,11 @@
     cursor: pointer;
     color: black;
     transition: 0.5s;
-    background-color: rgb(233, 233, 233);
+    background-color: rgb(220, 220, 220);
 }
 
 .dialog_background > .dialog > .dialog_buttons > button:hover {
-    background-color: rgb(160, 160, 160);
+    background-color: white;
 }
 
 .dialog_background > .dialog > .dialog_buttons > :nth-child(1) {
