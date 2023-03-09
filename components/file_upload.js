@@ -2,9 +2,9 @@ import { useState,useEffect } from 'react'
 import styles from '../styles/assignment.module.css';
 import Image from 'next/image';
 
-const File_Upload =  ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = false}) => {
+const File_Upload =  ({fileExtentions = [],handleFilesUpdated,handleAcceptedFiles,title,edittmode = false}) => {
 
-    const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
+    const [acceptedFilextentions,setAcceptedFilextentions] = useState([fileExtentions]);
 
     function showFile(newFiles){
         let tmpArray = [];
@@ -15,7 +15,6 @@ const File_Upload =  ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = 
         }
         handleUpload(tmpArray);
     }
-
 
     function handleInputChange(e){
         let files = e.target.files;

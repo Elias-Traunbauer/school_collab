@@ -1,6 +1,6 @@
 import styles from '../styles/assignment.module.css';
 import { useState,useEffect } from 'react'
-export default function Wizzard({contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
+export default function Wizard({callback,contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
     
     const [stateData,setStateData] = useState({
         currIndex: 0,
@@ -16,16 +16,16 @@ export default function Wizzard({contentData=[{firstname: false,lastname: true,e
 
         function handleKeyDown(e){
             if(e.keyCode == 13){
-                console.log(document.getElementById('btnNextPage').classList.contains(styles.disabeldBtn));
-                document.getElementById('btnNextPage').classList.contains(styles.disabeldBtn)?"":document.getElementById('btnNextPage').click()
+                console.log('enter');
+                e.preventDefault();
+                stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection();
             }
         }
     });
+    
     useEffect(() => {
         checkFormFilled(stateData.currIndex);
     },[stateData]);
-
-    
     
     function nextSection(){
         const items = document.querySelectorAll('.'+styles.wizzardContainer + ' ul li');
@@ -91,33 +91,52 @@ export default function Wizzard({contentData=[{firstname: false,lastname: true,e
     }
 
     function finishWizard(){
-        const formList = document.querySelectorAll('.' + styles.wizardContent);
-        const buttons = document.querySelectorAll('.'+styles.wizardButtonContainer)
-
-        formList[formList.length-1].classList.add(styles.hidden);
-
-        for (const item of buttons) {
-            item.classList.add(styles.hidden);
-        }        
-
+        //animation
+        document.getElementById('wizzardContainer').classList.add(styles.blur);
+        
+        
+        callback(getResult(),setLoadingText,finishLoading);
         console.log("Wizard Finished");
+
+        //TODO: backend code
+    }
+
+    function setLoadingText(text){
+        
+    }
+
+    function finishLoading(){
+        document.getElementById('wizzardContainer').classList.remove(styles.blur);
+    }
+
+    function getResult(){
+        const formList = document.querySelectorAll('.' + styles.wizardContent);
+        let result = [];
+        for (let item of formList) {
+            let obj = {};
+            for (let input of item.querySelectorAll('input')) {
+                obj[input.previousElementSibling.innerText] = input.value;
+            }
+            result.push(obj);
+        }
+        return result;
     }
 
     function CancelWizard(){
-
+        //backend code
     }
 
     return(
         <>
-        <div className={styles.wizzardWrapper}>
-            <div style={{minWidth:containerWidth+'%'}} className={styles.wizzardContainer}>
+        <div id='wizzardWrapper' className={styles.wizzardWrapper}>
+            <div id='wizzardContainer' style={{minWidth:containerWidth+'%'}} className={styles.wizzardContainer}>
                 <h1 className={styles.wizardheading}>{title}</h1>
                 <ul>
                     {
                         contentData.map((item,index) => {
                             return(
                             <>
-                                <li className={index == 0?styles.filled:""}>{index+1}</li>
+                                <li key={'wizzard_'+index} className={index == 0?styles.filled:""}>{index+1}</li>
                                 {index != contentData.length-1?
                                     <div className={styles.wizardLine}></div>
                                     :<></>
@@ -134,7 +153,7 @@ export default function Wizzard({contentData=[{firstname: false,lastname: true,e
                     {
                         contentData.map((item,index) => {
                             return(
-                                <form key={index} className={`${styles.wizardContent} ${index != 0?styles.hidden:""}`}>
+                                <form key={'wizard_content_'+index} className={`${styles.wizardContent} ${index != 0?styles.hidden:""}`}>
                                     {
                                         Object.keys(item).map((key,index) => {
                                             return(

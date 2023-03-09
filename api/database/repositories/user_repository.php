@@ -1,8 +1,6 @@
 <?php
-require "../db.php";
-require "../entities/user.php";
-
-echo (UserRepository::login("e", "l"));
+require_once dirname(__FILE__, 2) . "/db.php";
+require_once dirname(__FILE__, 2) . "/entities/user.php";
 
 class UserRepository
 {
@@ -18,11 +16,11 @@ class UserRepository
 
         if ($row = $stmt->fetch()) {
             $user = new User();
-            $user->username = $row->username;
-            $user->firstName = $row->first_name;
-            $user->lastName = $row->last_name;
-            $user->email = $row->email;
-            $user->permissions = $row->permissions;
+            $user->username = $row["username"];
+            $user->firstName = $row["first_name"];
+            $user->lastName = $row["last_name"];
+            $user->email = $row["email"];
+            $user->permissions = $row["permissions"];
             $stmt->closeCursor();
             return $user;
         } else {
@@ -45,12 +43,13 @@ class UserRepository
 
         $user_valid = $user->validate();
         $pw_valid = User::validatePassword($pw);
+
         if (!($user_valid === true && $pw_valid === true)) {
             $errors = array();
             if ($user_valid !== true)
-                array_push($errors, $user_valid);
+                array_push($errors, ...$user_valid);
             if ($pw_valid !== true)
-                array_push($errors, $pw_valid);
+                array_push($errors, ...$pw_valid);
             return $errors;
         }
 
