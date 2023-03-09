@@ -3,7 +3,7 @@ import React, { useState ,useEffect, useMemo} from 'react';
 import Image from 'next/image';
 import { func } from 'prop-types';
 
-export default function Datepicker({dateParam = new Date()}){
+export default function Datepicker({title='date',dateParam = new Date()}){
 
     const [displayDatesArray,setDisplayDatesArray] = useState([]);
     //const displayDatesArray = [];
@@ -14,11 +14,12 @@ export default function Datepicker({dateParam = new Date()}){
         calc();
         document.getElementById('monthInput').value = monthNames[date.getMonth()];
         document.getElementById('yearInput').value = date.getFullYear();
-     },[date]);
+        document.getElementById('datetimeInput').value = date.getDate();
+    },[date]);
 
-     function getMonths() {
+    function getMonths() {
         return ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-     }
+    }
 
     function changeToNextMonth(){
         const nextMonth = GetNextMonth();
@@ -31,17 +32,16 @@ export default function Datepicker({dateParam = new Date()}){
     }
 
     function handleDateClicked(day, currmonth){
+        let tmpDate = new Date(date.getFullYear(),date.getMonth(),day);
         if(currmonth){
-            setDate(new Date(date.getFullYear(),date.getMonth(),day));
-        }
+        }   
         else if(day >= 20){
-            const tmpDate = GetPreviusMonth() 
-            setDate(new Date(tmpDate.getFullYear(),tmpDate.getMonth(),day));
+            tmpDate = GetPreviusMonth() 
         }
         else{
-            const tmpDate = GetNextMonth() 
-            setDate(new Date(tmpDate.getFullYear(),tmpDate.getMonth(),day));
+            tmpDate = GetNextMonth() 
         }
+        setDate(new Date(tmpDate.getFullYear(),tmpDate.getMonth(),day));
     }
     
     function GetMaxDaysOfPreviousMonth(){
@@ -193,10 +193,41 @@ export default function Datepicker({dateParam = new Date()}){
         }   
     }
 
+    function showDatepicker(){
+        const datepickerContainer = document.getElementById('datepickerContainer');
+
+        if(datepickerContainer.classList.contains(styles.hidden)){
+            datepickerContainer.classList.remove(styles.hidden);
+        }
+        else{
+            datepickerContainer.classList.add(styles.hidden);
+        }
+    }
+
+    function handleInputChange(e,input){
+        if(input && e.key != 'enter'){
+            return;
+        }
+
+        const datetimeSplit = e.target.value.split(' ');
+        const date = datetimeSplit[0];
+        const time = datetimeSplit[1];
+    }
+
     return(
         <>
-        <div className={styles.datepickerTestingContainer}>
-            <div className={styles.container}>
+            <div className={styles.overviewContainer}>
+                <div className={styles.inputContainer}>
+                    <label>{title}</label>
+                    <input onInput={(e)=>handleInputChange(e,true)} id='datetimeInput'></input>
+                </div>
+                <div className={styles.inputContainer}>
+                    <label> </label>
+                    <button onClick={showDatepicker} id='pickerPopup Button'>Picker</button>
+                </div>
+            </div>
+
+            <div id='datepickerContainer' className={`${styles.container} ${styles.hidden}`}>
                 <div className={styles.dateHeader}>
                     <svg onClick={changeToPreviousMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="M28.05 36 16 23.95 28.05 11.9l2.15 2.15-9.9 9.9 9.9 9.9Z"/></svg>
                     <div>
@@ -211,7 +242,6 @@ export default function Datepicker({dateParam = new Date()}){
                         })}
                 </div>
             </div>
-        </div>
         </>
     );
 }
