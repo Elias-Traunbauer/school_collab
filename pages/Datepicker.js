@@ -116,9 +116,9 @@ export default function Datepicker({title='date',dateParam = new Date()}){
 
     function GetNextMonth(){
         if (date.getMonth() == 11) {
-            var nextMonth = new Date(date.getFullYear() + 1, 0, 1);
+            var nextMonth = new Date(date.getFullYear() + 1, 0, 1,date.getHours(), date.getMinutes());
         } else {
-            var nextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+            var nextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1,date.getHours(), date.getMinutes());
         }
 
         var maxDaysOfNextMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0).getDate();
