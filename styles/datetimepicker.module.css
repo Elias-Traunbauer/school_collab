@@ -9,12 +9,10 @@
 }
 
 /*real :)*/
-.dateContainer{
+.dateGridContainer{
     display: grid;
-    grid-template-columns: 3em 3em 3em 3em 3em 3em 3em;
-    grid-template-rows: 3em 3em 3em 3em 3em 3em;
-    width: 25em;
-    height:20em;
+    grid-template-columns: 10% 10% 10% 10% 10% 10% 10%;
+    grid-template-rows: 10% 10%  10%  10%  10%  10%;
     color: black;
     text-align: center;
     background-color: transparent !important;
@@ -33,11 +31,11 @@
 
 
 .datepickerItem p{
-    border-radius: 100em;
+    border-radius: 10em;
     padding: 1em;
-    width: 50%;
-    height: 50%;
-    font-size: .8em;
+    width: 15%;
+    height: 15%;
+    font-size: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,16 +50,13 @@
 }
 
 .container{
-    scale: .6;
+    scale: .9;
     position: absolute;
     background-color: rgb(255, 255, 255);
     color: black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     border-radius: .5em;
-    transform: translate(100%, -30%);
+    transform: translate(50%, 3%);
+    z-index: 100;
 }
 
 .container h2{
@@ -74,6 +69,14 @@
 .currMonth p{
     background-color: purple !important;
     color: white;
+}
+
+.dateHeaderContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 .dateHeader{
     width: 80%;
@@ -122,4 +125,12 @@
 .overviewContainer{
     display: flex;
     flex-direction: row;
+}
+.errorInput{
+    border-color: red !important;
+}
+
+.inputContainer input{
+    outline: 0;
+    border: 1px solid var(--background_5);
 }
