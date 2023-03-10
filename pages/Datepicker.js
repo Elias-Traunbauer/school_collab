@@ -9,7 +9,7 @@ export default function Datepicker({title='date',dateParam = new Date()}){
     //const displayDatesArray = [];
     const[date,setDate] = useState(initDate(dateParam));
     const monthNames = getMonths();
-    const weekdays = ["Mo","Di","Mi","Do","Fr","Sa","So"];
+    const weekdays = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
     function initDate(dateParam){
         let tmpDate = new Date(dateParam.getFullYear(),dateParam.getMonth(),dateParam.getDate(), dateParam.getHours(), dateParam.getMinutes());
