@@ -9,6 +9,7 @@ export default function Datepicker({title='date',dateParam = new Date()}){
     //const displayDatesArray = [];
     const[date,setDate] = useState(initDate(dateParam));
     const monthNames = getMonths();
+    const weekdays = ["Mo","Di","Mi","Do","Fr","Sa","So"];
 
     function initDate(dateParam){
         let tmpDate = new Date(dateParam.getFullYear(),dateParam.getMonth(),dateParam.getDate(), dateParam.getHours(), dateParam.getMinutes());
@@ -265,11 +266,19 @@ export default function Datepicker({title='date',dateParam = new Date()}){
                         </div>
                     </div>
 
-                    <div className={styles.dateGridContainer}>
-                            {displayDatesArray.map(({day,currMonth},i) => {
-                            return <div onClick={()=>handleDateClicked(day,currMonth)} key={i} className={`${styles.datepickerItem} ${!currMonth?styles.otherMonth:""} ${currMonth && day == date.getDate() ?styles.currMonth:""}`}>  <p>{day}</p> </div>
+                    <div className={styles.dateWrapper}>
+                        <div className={styles.weekdayContainer}>
+                            {weekdays.map((name,i) => {
+                                return <div key={i} className={styles.weekdayItem}> <p>{name}</p> </div>
                             })}
+                        </div>
+                        <div className={styles.dateGridContainer}>
+                            {displayDatesArray.map(({day,currMonth},i) => {
+                                return <div onClick={()=>handleDateClicked(day,currMonth)} key={i} className={`${styles.datepickerItem} ${!currMonth?styles.otherMonth:""} ${currMonth && day == date.getDate() ?styles.currMonth:""}`}>  <p>{day}</p> </div>
+                            })}
+                        </div>
                     </div>
+                    
                 </div>
             </div>
         </>
