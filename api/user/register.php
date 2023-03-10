@@ -3,7 +3,8 @@
 require_once dirname(__FILE__, 2) . "/database/identification.php";
 apiStart();
 
-require_once dirname(__FILE__, 2) . "/database/credentials.php";
+$config = json_decode(dirname(__FILE__, 2) . "/database/credentials.php");
+
 require_once dirname(__FILE__, 2) . "/database/repositories/user_repository.php";
 
 $requestBody = file_get_contents("php://input");

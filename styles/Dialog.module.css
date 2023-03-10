@@ -34,13 +34,10 @@
     opacity: 0;
     pointer-events: none;
     transition: 0.3s;
-    animation: makeInvisible 0s linear 0.3s once;
+    animation: makeInvisible 0s linear 0.3s;
 }
 
 @keyframes makeInvisible {
-    0% {
-
-    }
     100% {
         overflow: hidden;
         height: 0;

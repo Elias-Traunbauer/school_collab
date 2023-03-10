@@ -2,20 +2,19 @@ import { useState,useEffect } from 'react'
 import styles from '../styles/assignment.module.css';
 import Image from 'next/image';
 
-const File_Upload =  ({handleFilesUpdated,handleAcceptedFiles,title,edittmode = false}) => {
+const File_Upload =  ({fileExtentions = [],handleFilesUpdated,handleAcceptedFiles,title,edittmode = false}) => {
 
-    const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
+    const [acceptedFilextentions,setAcceptedFilextentions] = useState([fileExtentions]);
 
-        function showFile(newFiles){
-            let tmpArray = [];
-            for(const newFile of newFiles){
-                const fileExtention = newFile.name.split('.');
-                if(acceptedFilextentions.includes(fileExtention[fileExtention.length-1])|| acceptedFilextentions.length == 0 || edittmode)
-                tmpArray.push(newFile);
-            }
-            handleUpload(tmpArray);
+    function showFile(newFiles){
+        let tmpArray = [];
+        for(const newFile of newFiles){
+            const fileExtention = newFile.name.split('.');
+            if(acceptedFilextentions.includes(fileExtention[fileExtention.length-1])|| acceptedFilextentions.length == 0 || edittmode)
+            tmpArray.push(newFile);
         }
-
+        handleUpload(tmpArray);
+    }
 
     function handleInputChange(e){
         let files = e.target.files;
