@@ -1,9 +1,13 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once dirname(__FILE__, 2) . "/database/identification.php";
 apiStart();
 
-$config = json_decode(dirname(__FILE__, 2) . "/database/credentials.php");
+$config = json_decode(file_get_contents(dirname(__FILE__, 2) . "/database/credentials.php"));
 
 require_once dirname(__FILE__, 2) . "/database/repositories/user_repository.php";
 

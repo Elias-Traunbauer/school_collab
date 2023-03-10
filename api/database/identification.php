@@ -48,12 +48,14 @@ function authenticate_and_authorize($terminateOnUnAuthenticated = true) : void
 
     if ($base64UrlSignature != $signatureProvided) {
         // invalid token
+        echo("tokn");
         http_response_code(401);
         die();
     }
 
     if ($_SERVER['HTTP_ANTI_CSRF_TOKEN'] !== $payload_json->anti_csrf_token) {
         // request forgery
+        echo("rf");
         http_response_code(401);
         die();
     }
