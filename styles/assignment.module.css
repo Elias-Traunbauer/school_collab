@@ -11,13 +11,15 @@
   flex-direction: column;
   width: 40vw;
   /*height: 25vh;*/
-  background-color: var(--color_main) !important;
+  background-color: var(--background_1);
   border-radius: 1em;
   margin-bottom: 1em;
 }
 
 .assignmentcard:hover{
-  background-color: var(--color_main_hover) !important;
+  /*background: linear-gradient(131deg, var(--color_main) 0%, var(--background_2) 35%);
+  */
+  background-color: var(--background_2);
 }
 .assignmenthead{
   text-align: left;
@@ -38,6 +40,11 @@
 
 .descriptioncontainer{  
   margin-bottom: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
 }
 .description{
   width: 60%;
@@ -163,21 +170,7 @@
   color: #fff;
 }
 
-.filelistitem li{
-  color: rgb(255, 255, 255);
-  width: 100%;
-  border-radius: .3em;
-  margin-bottom: .3em;
-  padding: .6em;
-  max-height: 3em;
-  display:flex;
-  align-items:center;
-  justify-content: space-between;
-}
 
-.filelistitem li p{
-  order: 0;
-}
 .cancelbutton{
   background-color: transparent;
   float: right;
@@ -190,9 +183,14 @@
   order: 2;
 }
 
-
-.filelistitem li:hover{
-  background-color: var(--background_2);
+.filelistitem{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 3em;
+  background-color: var(--background_1);
+  padding: .5em;
 }
 
 .filelistitem_close{
@@ -208,18 +206,6 @@
   to {
     scale: 0;
   }
-}
-
-.filelistitem{
-  margin-bottom: .5em;
-  background: var(--background_1);
-  list-style: none;
-  padding: .5em .6em;
-  border-radius: .5em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
 }
 
 .description_editbtn{
@@ -512,18 +498,6 @@
   border-radius: .3em;
 }
 
-.descriptionOn{
-  width: fit-content;
-  border: 1px solid var(--background_3);
-  background-color: var(--background_1);
-  border-radius: .3em;
-}
-.descriptionOff{
-  width: fit-content;
-  border: 1px solid transparent;
-  background-color: transparent;
-}
-
 .plus img{
   width: 100%;
   height: 100%;
@@ -688,4 +662,68 @@
 .chekBoxContainer p{
   width: max-content;
 
+}
+
+.descriptionExpander{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: .2em;
+  padding:.3em;
+}
+.seperator{
+  width: 100% !important;
+  height: 1em !important;
+  background-color: aqua;
+}
+.descriptionExpander p{
+  margin: 0;
+  padding: .2em;
+}
+
+.descriptionExpander img{
+  fill: white;
+  color: #fff;
+  width: 1.5em; 
+}
+
+.descriptionInputContainer{
+  border-top: 1px solid var(--background_4);
+  background-color: var(--background_2);
+  width: 100%;
+}
+
+.descriptionInputContainer input{
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: .2em;
+  font-size: large;
+  padding: .2em;
+}
+.descriptionwrapper{
+  width: 70%;
+  background-color: var(--background_1);
+  border-radius: .2em;
+  margin-bottom: .7em;
+}
+.descriptionwrapper:hover{
+  background-color: var(--background_2);
+}
+
+
+.descriptionOn{
+  border: 1px solid var(--background_3) !important;
+  background-color: var(--background_2) !important;
+  border-radius: .3em;
+}
+.descriptionOff{
+  border: 1px solid transparent;
+  background-color: transparent;
+  background-color: transparent !important;
+  outline: none;
+}
+
+.descriptionExpander >*{
+  user-select: none;
 }

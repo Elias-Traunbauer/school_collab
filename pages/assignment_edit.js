@@ -8,7 +8,6 @@ import {Dialog,openDialog} from '../components/Dialog';
 
 
 
-
 export default function AssignmentEdit({assignmentId}){
         // TODO: fetch assignment
 
@@ -28,7 +27,8 @@ export default function AssignmentEdit({assignmentId}){
             name:"pfreyteaching",
         }
 
-
+        const [instructionHidden,setInstructionHidden] = useState(false);
+        const [descriptionHidden,setDescriptionHidden] = useState(true);
         const [uploadFiles,setUploadFiles] = useState([]);
         const [instrictionFiles,setInstrictionFiles] = useState([]);
         const [edditMode,setEdditMode] = useState(false);
@@ -151,7 +151,31 @@ export default function AssignmentEdit({assignmentId}){
             router.push("./assignments");
         }
 
-        
+        function ExpandDescription(){
+            const description = document.getElementById("descriptionInputContainer");
+            if(description.classList.contains(styles.hidden))
+            {
+                description.classList.remove(styles.hidden);
+                setDescriptionHidden(false);
+            }
+            else{
+                description.classList.add(styles.hidden);
+                setDescriptionHidden(true);
+            }
+        }
+
+        function ExpandInstruction(){
+            const description = document.getElementById("instructionInputContainer");
+            if(description.classList.contains(styles.hidden))
+            {
+                description.classList.remove(styles.hidden);
+                setInstructionHidden(false);
+            }
+            else{
+                description.classList.add(styles.hidden);
+                setInstructionHidden(true);
+            }
+        }
         
     return(
         <>
@@ -159,42 +183,71 @@ export default function AssignmentEdit({assignmentId}){
             <div className={styles.editheadContainer}>
                 <div className={styles.edithead}>
                     <input className={`${edditMode?styles.edditOn:styles.edditOff}`} readOnly={!edditMode} defaultValue={assignment.title} id='titleInput'></input>
-                <Countdown date={assignment.deadline}></Countdown>
+                    <Countdown date={assignment.deadline}></Countdown>
                 </div>
             </div>
             
             
             
             <div className={styles.descriptioncontainer}>
-                <div className={styles.description}>
-                    <input className={`${edditMode?styles.descriptionOn:styles.descriptionOff}`} readOnly={!edditMode} defaultValue={assignment.description} id='descriptionInput'></input>
+                <div className={styles.descriptionwrapper}>
+                    <div onClick={()=>ExpandDescription()} className={styles.descriptionExpander}>
+                        <p>Description</p>
+                        <Image className={styles.expandImg} alt='expand' src='/expand.svg' width={20} height={20}></Image>
+                    </div>
                     {
-                        instrictionFiles.length>0 ?
-                        (
-                        <>
-                            <section className={styles.descriptionSection}></section>
-                            <div className={styles.instrictionfileContainer}>
-                                <ul className={styles.filelistitem}>
-                                    {instrictionFiles.map((file,i) => {
-                                        return <li key={i} onClick={()=>edditMode?handleOpenInstructionDialog("instruction",i):null}>
-                                            {file.name}
-                                            {
-                                            edditMode ? 
-                                            <Image onClick={(e) => deleteInstructionItem(e,i)} className={styles.cancelbutton} src={"/cancelicon.svg"} width={20} height={20} alt="cancel"></Image>
-                                            : null
-                                            }
-                                            
-                                        </li>
-                                    })}
-                                </ul>
-                            </div>
-                        </>)
-                        :
-                        (<></>)
+                        descriptionHidden?"":<div clasName={styles.seperator}></div>
                     }
                     
-                   
+                    <div id='descriptionInputContainer' className={`${styles.hidden} ${styles.descriptionInputContainer}`}>
+                        <input className={` ${edditMode?styles.descriptionOn:styles.descriptionOff}`} readOnly={!edditMode} defaultValue={assignment.description} id='descriptionInput'></input>
+                    </div>
+
+                    
+
                 </div>
+
+                {
+                    instrictionFiles.length == 0?
+                    <div className={styles.descriptionwrapper}>
+                        <div  className={styles.descriptionExpander}>
+                            <p>No Instructions</p>
+                        </div>
+                    </div>
+                    :
+                    <div className={styles.descriptionwrapper}>
+                        <div onClick={()=>ExpandInstruction()}  className={styles.descriptionExpander}>
+                            <p>Instructions</p>
+                            <Image className={styles.expandImg} alt='expand' src='/expand.svg' width={20} height={20}></Image>
+                        </div>
+
+                    {
+                        instructionHidden?"":<div clasName={styles.seperator}></div>
+                    }
+                    
+
+                    <div id='instructionInputContainer' className={`${styles.descriptionInputContainer}`}>
+                    {
+                        instrictionFiles.map((file,i)=>{
+                            return (
+                                <div className={styles.filelistitem} key={i}>
+                                    <p onClick={() => handleOpenInstructionDialog("instructionDialog",i)}>{file.name}</p>
+                                    {
+                                        edditMode?<Image onClick={(e) => deleteInstructionItem(e,i)} className={styles.deleteImg} alt='delete' src='/cancelicon.svg' width={20} height={20}></Image>
+                                        :""
+                                    }
+                                </div>
+                            );
+                            
+                        })
+                    }
+                    </div>
+                    
+                    </div>
+                }
+                    
+
+                
             </div>
 
             <File_Upload edittmode={edditMode} acceptedFiles={(acceptedFiles) => handleAcceptedFiles(acceptedFiles)} title={edditMode?"Upload Instructions":"Upload Files"} handleFilesUpdated={edditMode?(instrictionFiles) => handleInstructionFilesUpdate(instrictionFiles):(uploadFiles) => handleUploadFilesUpdate(uploadFiles)}></File_Upload>

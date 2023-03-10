@@ -3,8 +3,7 @@ import styles from '../styles/assignment.module.css';
 import Image from 'next/image';
 
 const File_Upload =  ({fileExtentions = [],handleFilesUpdated,handleAcceptedFiles,title,edittmode = false}) => {
-
-    const [acceptedFilextentions,setAcceptedFilextentions] = useState([fileExtentions]);
+    const [acceptedFilextentions,setAcceptedFilextentions] = useState(fileExtentions);
 
     function showFile(newFiles){
         let tmpArray = [];
@@ -85,7 +84,6 @@ const File_Upload =  ({fileExtentions = [],handleFilesUpdated,handleAcceptedFile
     
     return(
         <>
-
         <div className={styles.uploadfieldcontainer}>
                 <div className={styles.wrapper}>
                     <div className={styles.headerContainer}>
