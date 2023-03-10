@@ -3,7 +3,8 @@
 require_once dirname(__FILE__, 2) . "/database/identification.php";
 apiStart();
 
-require_once dirname(__FILE__, 2) . "/database/credentials.php";
+$config = json_decode(dirname(__FILE__, 2) . "/database/credentials.php");
+
 require_once dirname(__FILE__, 2) . "/database/repositories/user_repository.php";
 
 $requestBody = file_get_contents("php://input");
@@ -21,9 +22,7 @@ if ($res === false) {
     die();
 }
 
-$jwt_config_json = json_decode(Credential_Data::$jwt_config);
-
-$header = json_encode(['typ' => 'JWT', 'alg' => 'HS512', 'issuer' => $jwt_config_json->issuer]);
+$header = json_encode(['typ' => 'JWT', 'alg' => 'HS512', 'issuer' => $config->jwt->issuer]);
 
 $payload = json_encode([
     'username' => $res->username,
@@ -37,7 +36,7 @@ $payload = json_encode([
 
 $base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
 $base64UrlPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
-$signature = hash_hmac('sha512', $base64UrlHeader . "." . $base64UrlPayload, $jwt_config_json->key, true);
+$signature = hash_hmac('sha512', $base64UrlHeader . "." . $base64UrlPayload, $config->jwt->key, true);
 $base64UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
 
 $jwt = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
