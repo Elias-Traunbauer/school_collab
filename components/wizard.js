@@ -1,11 +1,14 @@
 import styles from '../styles/assignment.module.css';
 import { useState,useEffect } from 'react'
-export default function Wizard({callback,contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
+import Datepicker from '../pages/Datepicker';
+export default function Wizard({callback,contentData=[{firstname: false,lastname: true},{email: new Date(),phone:{title:"checkBoxReal",text:"sueee",value:true}}],title="Wizard",containerWidth=50}){
     
     const [stateData,setStateData] = useState({
         currIndex: 0,
     });
     let inputList = [];
+
+    
 
     useEffect(() => {
         const formList = document.querySelectorAll('input');
@@ -16,7 +19,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
         function handleKeyDown(e){
             if(e.keyCode == 13){
-                console.log('enter');
                 e.preventDefault();
                 stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection();
             }
@@ -34,7 +36,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
         if(stateData.currIndex == contentData.length-1)
         return;
-        console.log(stateData.currIndex);
 
         items[stateData.currIndex+1].classList.add(styles.filled);
         lines[stateData.currIndex].classList.add(styles.activeLine);
@@ -80,7 +81,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
         const formList = document.querySelectorAll('.' + styles.wizardContent);
         inputList = formList[index].querySelectorAll('input');
         for (let item of inputList) {
-            console.log(stateData.currIndex);
             if(item.hasAttribute('required') && item.value.length <= 0){
                 document.getElementById('btnNextPage').classList.add(styles.disabeldBtn);
                 return;
@@ -96,7 +96,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
         
         
         callback(getResult(),setLoadingText,finishLoading);
-        console.log("Wizard Finished");
 
         //TODO: backend code
     }
@@ -114,9 +113,13 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
         let result = [];
         for (let item of formList) {
             let obj = {};
-            for (let input of item.querySelectorAll('input')) {
-                obj[input.previousElementSibling.innerText] = input.value;
+            for (let input of item.querySelectorAll('input[type="text"]:not([id*="monthInput"]):not([id*="yearInput"])')) {
+                obj[input.previousSibling.innerText.replace(' *','')] = input.value;
             }
+            for (let input of item.querySelectorAll('input[type="checkbox"]')) {
+                obj[input.name] = input.checked;
+            }
+            if(Object.keys(obj).length != 0)
             result.push(obj);
         }
         return result;
@@ -124,6 +127,33 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
     function CancelWizard(){
         //backend code
+    }
+
+    function printInput(key,item,index){
+
+        if(item[key] instanceof Date)
+        return (
+            <div key={index} className={styles.inputContainer}>
+                <label>{key}</label>
+                <Datepicker></Datepicker>
+            </div>
+        );
+        else if (typeof item[key] == "object")
+        return (<>
+            <div key={index} className={styles.inputContainer}>
+                <div className={styles.chekBoxContainer}>
+                    <input name={item[key][Object.keys(item[key])[0]]} type="checkbox" defaultChecked={item[key][Object.keys(item[key])[2]]}></input>
+                    <p>{item[key][Object.keys(item[key])[1]]}</p>
+                </div>
+            </div>
+        </>);
+        else
+        return(
+            <div key={index} className={styles.inputContainer}>
+                <label>{key}{item[key]?' *':""}</label>
+                <input type='text' onInput={() => checkFormFilled(stateData.currIndex)} required={item[key]}></input>
+            </div>
+        )
     }
 
     return(
@@ -157,10 +187,7 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
                                     {
                                         Object.keys(item).map((key,index) => {
                                             return(
-                                                <div key={index} className={styles.inputContainer}>
-                                                    <label>{key}{item[key]?' *':""}</label>
-                                                    <input onInput={() => checkFormFilled(stateData.currIndex)} required={item[key]}></input>
-                                                </div>
+                                                printInput(key,item,index)
                                             )
                                         })
                                     }

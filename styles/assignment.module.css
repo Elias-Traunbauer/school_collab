@@ -411,7 +411,10 @@
 .inputContainer{
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 1em;
+  width: 100%;
 }
 
 .wizardContent input{
@@ -558,4 +561,20 @@
 .blur{
   filter: blur(2px) grayscale(.7);
   background-color: var(--disabled_filter);
+}
+
+.chekBoxContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+}
+
+.chekBoxContainer input[type="checkbox"]{
+  width: auto;
+}
+
+.chekBoxContainer p{
+  width: max-content;
 }

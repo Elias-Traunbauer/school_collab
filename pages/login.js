@@ -17,6 +17,6 @@ export default function Login() {
   }
 
   return (
-    <Wizard callback={callback} containerWidth={40} contentData={contentData} title='Login'></Wizard>
+    <Wizard callback={callback} containerWidth={40} title='Login'></Wizard>
   )
 }
