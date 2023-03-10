@@ -25,7 +25,7 @@ export function DecisionDialog({children, title = "Information", confirmCallback
         }
     }
 
-    let color = type == "info" ? "#502ff6" : type == "warning" ? "yellow" : type == "error" ? "red" : "green";
+    let color = type == "info" ? "#727272" : type == "warning" ? "#c87b24" : type == "error" ? "red" : "green";
 
     return (
         <>
@@ -45,7 +45,7 @@ export function DecisionDialog({children, title = "Information", confirmCallback
     );
 }
 
-export function showDecisionDialog(title, message, confirmCallback, cancelCallback) {
+export function showDecisionDialog(title, message, type, confirmCallback, cancelCallback) {
     window.dialog_click_outside = false;
     const dialog_container = document.getElementById("dialog_container");
     if (window.dialog_id == undefined) {
@@ -55,7 +55,7 @@ export function showDecisionDialog(title, message, confirmCallback, cancelCallba
     window.dialog_id = window.dialog_id + 1;
     const dialog_root = createRoot(dialog_container);
     dialog_root.render(
-        <DecisionDialog title={title} confirmCallback={confirmCallback} cancelCallback={cancelCallback} id={id}>
+        <DecisionDialog title={title} confirmCallback={confirmCallback} cancelCallback={cancelCallback} id={id} type={type}>
             {message}
         </DecisionDialog>
     );
