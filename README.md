@@ -24,7 +24,7 @@ Features, like sharing info about upcoming assignments, providing data about cer
 * Visual Studio Code
 * ApacheHaus x64
 * PHP x64 >= 8
-* Configure ApacheHaus to use php (make sure to change php7 to php) [tutorial](https://www.tutorialspoint.com/php7/php7_installation_windows_apache.htm)
+* Configure ApacheHaus to use php (make sure to change php7.x to php) [tutorial](https://www.tutorialspoint.com/php7/php7_installation_windows_apache.htm)
 * Use the `php.ini` from the repo (replace existing php-ini file with this one)
 
 ## Dev-environment setup
