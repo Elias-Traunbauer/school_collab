@@ -2,48 +2,42 @@ import File_Upload from "../components/file_upload";
 import {openDialog} from '../components/Dialog';
 import styles from "../styles/profilepic.module.css"
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Profile ({ children }) {
     const fileExtensions = ["jpeg", "jpg", "png"];
     const [showFileUpload, setShowFileUpload] = useState(false);
     const [uploadFile, setUploadFile] = useState([]);
-    const onClick = () => setShowFileUpload(!showFileUpload);
     const [fileUploaded, setFileUploaded] = useState(false);
 
+    const onClick = () => 
+    {
+        setUploadFile([]);
+        setFileUploaded(!fileUploaded);
+    }
+
     
-function handleFileUpdate(list){
+    function handleFileUpdate(list){
         if(list != null)
         {
             setUploadFile([...uploadFile, ...list]);
-            setFileUploaded(false);
+            setFileUploaded(true);
         }
     }
 
-    /*function handleOpenDialog(id){
-        
-
-
-        openDialog(id);
-        document.getElementById("fileName").value = uploadFile.name;
+    /*function getImage(){
+        var e = 
     }*/
+    /*{fileUploaded ? <Image src={getImage()}/> : null}*/
 
     return( 
         <>
-            <div className={styles.container} onClick={onClick}></div>
-            {showFileUpload ? <File_Upload fileExtentions={fileExtensions} title={"Profile Picture"} handleFilesUpdated={fileUploaded ? (uploadFile) => handleFileUpdate(uploadFile) : handleFileUpdate(null)}/> : null}
-            
-            <div>
-                <div>
-                    {uploadFile.length > 0 ? 
-                    (<>
-                        <ul>
-                            <li id="fileName" onClick={() => handleOpenDialog("alo")}>
-                                <p>{fileUploaded ? null : uploadFile}</p>                                        
-                            </li>
-                        </ul>
-                    </>) : (<></>)}
-                </div>
+            <div className={styles.container} onClick={onClick}>
+                
             </div>
+            {(showFileUpload && !fileUploaded) ? <File_Upload fileExtentions={fileExtensions} title={"Profile Picture"} handleFilesUpdated={fileUploaded ? "" : (uploadFile) => handleFileUpdate(uploadFile)}/> : null} 
+        
+            
         </>
     )
 }
