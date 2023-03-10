@@ -13,7 +13,6 @@ export default function Login() {
   function callback(data,setText,finishLoading){
     console.log(data);
 
-
     setTimeout(() => {
       setText("almost done");
     }, 1000);

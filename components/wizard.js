@@ -161,7 +161,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
     return(
         <>
             <div id='wizzardContainer' style={{minWidth:containerWidth+'%'}} className={styles.wizzardContainer}>
-
                 <div id='loaderContainer' className={`${styles.loader} ${styles.hidden}`}>
                     <div id='loader'></div>
                     <p>{loadingText}</p>
@@ -177,26 +176,15 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
                                     {index != contentData.length-1?
                                         <div className={styles.wizardLine}></div>
                                         :<></>
-                <h1 className={styles.wizardheading}>{title}</h1>
-                <ul>
-                    {
-                        contentData.map((item,index) => {
-                            return(
-                            <>
-                                <li key={'wizzard_'+index} className={index == 0?styles.filled:""}>{index+1}</li>
-                                {index != contentData.length-1?
-                                    <div className={styles.wizardLine}></div>
-                                    :<></>
-                                }
-                                
-                            </>
-                            )
-                        })
+                                    }
+                                </>
+                                )
+                                    
+                            })
+                        }
+                    </ul>
 
-                    }
-                </ul>
-
-                <div style={{minWidth: containerWidth + '%'}} className={styles.wizardContentContainer}>
+                    <div style={{minWidth: containerWidth + '%'}} className={styles.wizardContentContainer}>
                     {
                         contentData.map((item,index) => {
                             return(
@@ -210,32 +198,12 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
                                     }
                                     
-                                </>
+                                </form>
                                 )
                             })
 
                         }
-                    </ul>
-
-                    <div style={{minWidth: containerWidth + '%'}} className={styles.wizardContentContainer}>
-                        {
-                            contentData.map((item,index) => {
-                                return(
-                                    <form key={'wizard_content_'+index} className={`${styles.wizardContent} ${index != 0?styles.hidden:""}`}>
-                                        {
-                                            Object.keys(item).map((key,index) => {
-                                                return(
-                                                    <div key={index} className={styles.inputContainer}>
-                                                        <label>{key}{item[key]?' *':""}</label>
-                                                        <input onInput={() => checkFormFilled(stateData.currIndex)} required={item[key]}></input>
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                    </form>
-                            )}
-                        )}	
-                    </div>  
+                </div> 
                     <div className={styles.wizardButtonContainer}>
                         <button onClick={stateData.currIndex == 0? CancelWizard: previousSection}>{stateData.currIndex == 0?"Cancel":"Back"}</button>
                         <button id='btnNextPage' onClick={(e)=>stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection()} className={styles.disabeldBtn}>{stateData.currIndex == contentData.length-1? "Finish" : "Next"}</button>
