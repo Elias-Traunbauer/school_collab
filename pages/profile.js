@@ -1,17 +1,24 @@
 import File_Upload from "../components/file_upload";
-import {openDialog} from '../components/Dialog';
-import styles from "../styles/profilepic.module.css"
+import Wizard from '../components/wizard';
+import styles from "../styles/profile.module.css"
 import { useState } from "react";
-import Image from "next/image";
 
-export default function Profile ({ children }) {
+export default function Profile() {
+    let userDummy = {
+        userName: "bedabinguin",
+        firstName: "Peter",
+        lastName: "Frey",
+    }
+
     const fileExtensions = ["jpeg", "jpg", "png"];
     const [showFileUpload, setShowFileUpload] = useState(false);
     const [uploadFile, setUploadFile] = useState([]);
     const [fileUploaded, setFileUploaded] = useState(false);
+    const [passwordChange, setPasswordChange] = useState(false);
 
-    const onClick = () => 
+    function picOnClick()
     {
+        setShowFileUpload(true);
         setUploadFile([]);
         setFileUploaded(!fileUploaded);
     }
@@ -25,19 +32,39 @@ export default function Profile ({ children }) {
         }
     }
 
-    /*function getImage(){
-        var e = 
-    }*/
-    /*{fileUploaded ? <Image src={getImage()}/> : null}*/
+    function changePassword(e){
+        e.preventDefault();
+        setPasswordChange(true);
+    }
+
+    const contentData = [{
+        password: true,
+      },
+      {
+        repassword: true,
+      }];
+
+      function callback(data,setText,finishLoading){
+        console.log(data);
+    
+        //backend
+      }
 
     return( 
         <>
-            <div className={styles.container} onClick={onClick}>
-                
-            </div>
-            {(showFileUpload && !fileUploaded) ? <File_Upload fileExtentions={fileExtensions} title={"Profile Picture"} handleFilesUpdated={fileUploaded ? "" : (uploadFile) => handleFileUpdate(uploadFile)}/> : null} 
-        
+            <div className={styles.container}>
+                <div className={styles.pic} onClick={picOnClick}></div>
+
+                <form className={styles.infos}>
+                    <label>Username: {userDummy.userName}</label>
+                    <label>Firstname: {userDummy.firstName}</label>
+                    <label>Lastname: {userDummy.lastName}</label>
+                    <button onClick={(e) => changePassword(e)}>change password</button>
+                </form> 
+            </div>   
+            {passwordChange ? <Wizard contentData={contentData} title='Change password' callBack={callback} containerWidth={25}/> : null} 
             
+            {(showFileUpload && !fileUploaded) ? <File_Upload fileExtentions={fileExtensions} title={"Profile Picture"} handleFilesUpdated={fileUploaded ? "" : (uploadFile) => handleFileUpdate(uploadFile)}/> : null}        
         </>
     )
 }
