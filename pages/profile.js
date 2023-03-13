@@ -41,19 +41,23 @@ export default function Profile() {
         password: true,
       },
       {
-        repassword: true,
+        new_password: true,
+        retype_new_password: true
       }];
 
       function callback(data,setText,finishLoading){
         console.log(data);
     
         setTimeout(() => {
-           setText("Almost done.");
+           setText("almost done");
           }, 1000);
 
           setTimeout(() => {
-            finishLoading("Finish");
-          }, 1000);
+            finishLoading();
+            setTimeout(() => {
+                setPasswordChange(false);
+              }, 500);
+          }, 4000);
 
         //backend
       }
@@ -69,8 +73,9 @@ export default function Profile() {
                     <label>Lastname: {userDummy.lastName}</label>
                     <button onClick={(e) => changePassword(e)}>change password</button>
                 </form> 
+
+                {passwordChange ? <Wizard callback={callback} containerWidth={20} contentData={contentData} title='Change password'/> : null} 
             </div>   
-            {passwordChange ? <Wizard contentData={contentData} title='Change password' callBack={callback()} containerWidth={25}/> : null} 
             
             {(showFileUpload && !fileUploaded) ? <File_Upload fileExtentions={fileExtensions} title={"Profile Picture"} handleFilesUpdated={fileUploaded ? "" : (uploadFile) => handleFileUpdate(uploadFile)}/> : null}        
         </>

@@ -10,7 +10,7 @@
     width: 6em;
     margin-top: .5em;
     margin-bottom: .5em;
-    border: .1em solid #59097b;
+    border: .1em solid var(--color_main);
     border-radius: 6em;
 }
 
@@ -18,7 +18,7 @@
     padding: .7em 1em .9em 1em;
     display: flex;
     flex-direction: column;
-    border: .1em solid #59097b;
+    border: .1em solid var(--color_main);
     border-radius: 1em;
 }
 
@@ -29,6 +29,6 @@
 .infos button{
     background-color: black;
     margin-top: .5em;
-    border: .1em solid #59097b;
+    border: .1em solid var(--color_main);
     border-radius: 1em;
 }
