@@ -47,6 +47,14 @@ export default function Profile() {
       function callback(data,setText,finishLoading){
         console.log(data);
     
+        setTimeout(() => {
+           setText("Almost done.");
+          }, 1000);
+
+          setTimeout(() => {
+            finishLoading("Finish");
+          }, 1000);
+
         //backend
       }
 
@@ -62,7 +70,7 @@ export default function Profile() {
                     <button onClick={(e) => changePassword(e)}>change password</button>
                 </form> 
             </div>   
-            {passwordChange ? <Wizard contentData={contentData} title='Change password' callBack={callback} containerWidth={25}/> : null} 
+            {passwordChange ? <Wizard contentData={contentData} title='Change password' callBack={callback()} containerWidth={25}/> : null} 
             
             {(showFileUpload && !fileUploaded) ? <File_Upload fileExtentions={fileExtensions} title={"Profile Picture"} handleFilesUpdated={fileUploaded ? "" : (uploadFile) => handleFileUpdate(uploadFile)}/> : null}        
         </>
