@@ -1,11 +1,14 @@
 import styles from '../styles/assignment.module.css';
 import { useState,useEffect } from 'react'
-export default function Wizard({callback,contentData=[{firstname: false,lastname: true,email: true,}],title="Wizard",containerWidth=50}){
+import Datepicker from '../pages/Datepicker';
+export default function Wizard({callback,contentData=[{firstname: false,lastname: true},{email: new Date(),phone:{title:"checkBoxReal",text:"sueee",value:true}}],title="Wizard",containerWidth=50}){
     
     const [stateData,setStateData] = useState({
         currIndex: 0,
     });
     let inputList = [];
+
+    const [loadingText,setLaodingText] = useState("loading...");
 
     useEffect(() => {
         const formList = document.querySelectorAll('input');
@@ -16,7 +19,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
         function handleKeyDown(e){
             if(e.keyCode == 13){
-                console.log('enter');
                 e.preventDefault();
                 stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection();
             }
@@ -34,7 +36,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
         if(stateData.currIndex == contentData.length-1)
         return;
-        console.log(stateData.currIndex);
 
         items[stateData.currIndex+1].classList.add(styles.filled);
         lines[stateData.currIndex].classList.add(styles.activeLine);
@@ -80,7 +81,6 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
         const formList = document.querySelectorAll('.' + styles.wizardContent);
         inputList = formList[index].querySelectorAll('input');
         for (let item of inputList) {
-            console.log(stateData.currIndex);
             if(item.hasAttribute('required') && item.value.length <= 0){
                 document.getElementById('btnNextPage').classList.add(styles.disabeldBtn);
                 return;
@@ -92,21 +92,22 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
 
     function finishWizard(){
         //animation
-        document.getElementById('wizzardContainer').classList.add(styles.blur);
-        
+        document.getElementById('contentWrapper').classList.add(styles.blur);
+        document.getElementById('loaderContainer').classList.remove(styles.hidden);
+        document.getElementById('loader').classList.add(styles.loading);
         
         callback(getResult(),setLoadingText,finishLoading);
-        console.log("Wizard Finished");
 
         //TODO: backend code
     }
 
     function setLoadingText(text){
-        
+        setLaodingText(text);
     }
 
     function finishLoading(){
-        document.getElementById('wizzardContainer').classList.remove(styles.blur);
+        document.getElementById('loader').classList.remove(styles.loading);
+        document.getElementById('loader').classList.add(styles.finished);
     }
 
     function getResult(){
@@ -114,9 +115,13 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
         let result = [];
         for (let item of formList) {
             let obj = {};
-            for (let input of item.querySelectorAll('input')) {
-                obj[input.previousElementSibling.innerText] = input.value;
+            for (let input of item.querySelectorAll('input[type="text"]:not([id*="monthInput"]):not([id*="yearInput"])')) {
+                obj[input.previousSibling.innerText.replace(' *','')] = input.value;
             }
+            for (let input of item.querySelectorAll('input[type="checkbox"]')) {
+                obj[input.name] = input.checked;
+            }
+            if(Object.keys(obj).length != 0)
             result.push(obj);
         }
         return result;
@@ -126,30 +131,60 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
         //backend code
     }
 
+    function printInput(key,item,index){
+
+        if(item[key] instanceof Date)
+        return (
+            <div key={index} className={styles.inputContainer}>
+                <label>{key}</label>
+                <Datepicker></Datepicker>
+            </div>
+        );
+        else if (typeof item[key] == "object")
+        return (<>
+            <div key={index} className={styles.inputContainer}>
+                <div className={styles.chekBoxContainer}>
+                    <input name={item[key][Object.keys(item[key])[0]]} type="checkbox" defaultChecked={item[key][Object.keys(item[key])[2]]}></input>
+                    <p>{item[key][Object.keys(item[key])[1]]}</p>
+                </div>
+            </div>
+        </>);
+        else
+        return(
+            <div key={index} className={styles.inputContainer}>
+                <label>{key}{item[key]?' *':""}</label>
+                <input type='text' onInput={() => checkFormFilled(stateData.currIndex)} required={item[key]}></input>
+            </div>
+        )
+    }
+
     return(
         <>
-        <div id='wizzardWrapper' className={styles.wizzardWrapper}>
             <div id='wizzardContainer' style={{minWidth:containerWidth+'%'}} className={styles.wizzardContainer}>
-                <h1 className={styles.wizardheading}>{title}</h1>
-                <ul>
-                    {
-                        contentData.map((item,index) => {
-                            return(
-                            <>
-                                <li key={'wizzard_'+index} className={index == 0?styles.filled:""}>{index+1}</li>
-                                {index != contentData.length-1?
-                                    <div className={styles.wizardLine}></div>
-                                    :<></>
-                                }
-                                
-                            </>
-                            )
-                        })
+                <div id='loaderContainer' className={`${styles.loader} ${styles.hidden}`}>
+                    <div id='loader'></div>
+                    <p>{loadingText}</p>
+                </div>
+                <div id='contentWrapper' className={styles.contenWrapper}>
+                    <h1 className={styles.wizardheading}>{title}</h1>
+                    <ul>
+                        {
+                            contentData.map((item,index) => {
+                                return(
+                                <>
+                                    <li key={'wizzard_'+index} className={index == 0?styles.filled:""}>{index+1}</li>
+                                    {index != contentData.length-1?
+                                        <div className={styles.wizardLine}></div>
+                                        :<></>
+                                    }
+                                </>
+                                )
+                                    
+                            })
+                        }
+                    </ul>
 
-                    }
-                </ul>
-
-                <div style={{minWidth: containerWidth + '%'}} className={styles.wizardContentContainer}>
+                    <div style={{minWidth: containerWidth + '%'}} className={styles.wizardContentContainer}>
                     {
                         contentData.map((item,index) => {
                             return(
@@ -157,24 +192,24 @@ export default function Wizard({callback,contentData=[{firstname: false,lastname
                                     {
                                         Object.keys(item).map((key,index) => {
                                             return(
-                                                <div key={index} className={styles.inputContainer}>
-                                                    <label>{key}{item[key]?' *':""}</label>
-                                                    <input onInput={() => checkFormFilled(stateData.currIndex)} required={item[key]}></input>
-                                                </div>
+                                                printInput(key,item,index)
                                             )
                                         })
+
                                     }
+                                    
                                 </form>
-                        )}
-                    )}	
-                </div>  
-                <div className={styles.wizardButtonContainer}>
-                    <button onClick={stateData.currIndex == 0? CancelWizard: previousSection}>{stateData.currIndex == 0?"Cancel":"Back"}</button>
-                    <button id='btnNextPage' onClick={(e)=>stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection()} className={styles.disabeldBtn}>{stateData.currIndex == contentData.length-1? "Finish" : "Next"}</button>
-                </div>              
-            </div>
-            
-        </div>
+                                )
+                            })
+
+                        }
+                </div> 
+                    <div className={styles.wizardButtonContainer}>
+                        <button onClick={stateData.currIndex == 0? CancelWizard: previousSection}>{stateData.currIndex == 0?"Cancel":"Back"}</button>
+                        <button id='btnNextPage' onClick={(e)=>stateData.currIndex == contentData.length-1 ? finishWizard() : nextSection()} className={styles.disabeldBtn}>{stateData.currIndex == contentData.length-1? "Finish" : "Next"}</button>
+                    </div>     
+                </div>         
+            </div>            
         </> 
     )
 }
