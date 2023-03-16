@@ -20,7 +20,10 @@ export default function AssignmentEdit({assignmentId}){
             description: "dsasdasdadsadsad",
             creator: {
                 name:"pfreyteaching",
-            }
+            },
+            instrictionFiles: [],
+            uploadFiles: [],
+            edditMode: false,
         }
         
         const currUserDummy = {
@@ -29,9 +32,8 @@ export default function AssignmentEdit({assignmentId}){
 
         const [instructionHidden,setInstructionHidden] = useState(false);
         const [descriptionHidden,setDescriptionHidden] = useState(true);
+
         const [uploadFiles,setUploadFiles] = useState([]);
-        const [instrictionFiles,setInstrictionFiles] = useState([]);
-        const [edditMode,setEdditMode] = useState(false);
         const [assignment,setAssignment] = useState(assignmentDummy);
         //const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
         let acceptedFilextentions = [];
@@ -43,10 +45,14 @@ export default function AssignmentEdit({assignmentId}){
         const router = useRouter();
 
         function handleUploadFilesUpdate(list){
-            setUploadFiles([...uploadFiles,...list]);
+            tmpAssignment = assignment;
+            tmpAssignment.uploadFiles = [...tmpAssignment.uploadFiles,...list];
+            setAssignment(tmpAssignment);
         }
         function handleInstructionFilesUpdate(list){
-            setInstrictionFiles([...instrictionFiles,...list]);
+            tmpAssignment = assignment;
+            tmpAssignment.instrictionFiles = [...tmpAssignment.instrictionFiles,...list];
+            setAssignment(tmpAssignment);
         }
         function handleAcceptedFiles(list){
             acceptedFilextentions = list;
@@ -69,7 +75,9 @@ export default function AssignmentEdit({assignmentId}){
             //animation
             setTimeout(() => {
                 parent.classList.remove(styles.filelistitem_close);
-                setUploadFiles(tmpList);
+                tmpAssignment = assignment;
+                tmpAssignment.uploadFiles = tmpList;
+                setAssignment(tmpAssignment);
                 deleting = false;
             }, 250)
         }
@@ -82,7 +90,7 @@ export default function AssignmentEdit({assignmentId}){
             const parent = e.target.parentElement;
             parent.classList.add(styles.filelistitem_close);
 
-            for (let i = 0; i < instrictionFiles.length; i++) {
+            for (let i = 0; i < assignment.instrictionFiles.length; i++) {
                 if(i != key)
                 tmpList.push(instrictionFiles[i]);
             }
@@ -91,7 +99,10 @@ export default function AssignmentEdit({assignmentId}){
             //animation
             setTimeout(() => {
                 parent.classList.remove(styles.filelistitem_close);
-                setInstrictionFiles(tmpList);
+
+                tmpAssignment = assignment;
+                tmpAssignment.instrictionFiles = tmpList;
+                setAssignment(tmpAssignment)
                 deleting = false;
             }, 250)
         }
@@ -101,13 +112,17 @@ export default function AssignmentEdit({assignmentId}){
         function handleSave(){
             const tmpArr = uploadFiles;
             tmpArr[currFileIndex] = new File([tmpArr[currFileIndex]],document.getElementById("fileName").value);
-            setUploadFiles([...tmpArr]);
+            tmpAssignment = assignment;
+            tmpAssignment.uploadFiles = [...tmpArr];
+            setAssignment(tmpAssignment);
         }
 
         function handleSaveInstruction(){
             const tmpArr = instrictionFiles;
             tmpArr[currFileIndex] = new File([tmpArr[currFileIndex]],document.getElementById("instructionFileName").value);
-            setInstrictionFiles([...tmpArr]);
+            tmpAssignment = assignment;
+            tmpAssignment.instrictionFiles = [...tmpArr];
+            setAssignment(tmpAssignment);
         }
 
         function handleOpenDialog(id,i){
@@ -126,24 +141,25 @@ export default function AssignmentEdit({assignmentId}){
             document.getElementById("instructionFileName").value = instrictionFiles[i].name;
         }
 
-        function handleCancelEdit(){
+        function usehandleCancelEdit(){
             console.log(assignmentBackup);
-            setEdditMode(false);
             setAssignment(assignmentBackup);
-            setInstrictionFiles(instrictionFilesBackup);
         }
 
         function handleEddit(){
-            assignmentBackup = Object.create(assignment);
-            instrictionFilesBackup = instrictionFiles;
-            setEdditMode(true);
+            assignmentBackup = assignment;
+            tmpAssignment = assignment;
+            tmpAssignment.edditMode = true;
+            setAssignment(tmpAssignment);
             console.log(assignmentBackup);
         }
 
         function handleSaveEdit(){
-            setEdditMode(false);
-            assignment.description = document.getElementById("descriptionInput").value;
-            assignment.title = document.getElementById("titleInput").value;
+            tmpAssignment = assignment;
+            tmpAssignment.edditMode = false;
+            tmpAssignment.description = document.getElementById("descriptionInput").value;
+            tmpAssignment.title = document.getElementById("titleInput").value;
+            setAssignment(tmpAssignment);
         }
 
         function handleSaveAssignment(){
@@ -163,7 +179,6 @@ export default function AssignmentEdit({assignmentId}){
                 setDescriptionHidden(true);
             }
         }
-
         function ExpandInstruction(){
             const description = document.getElementById("instructionInputContainer");
             if(description.classList.contains(styles.hidden))
@@ -176,39 +191,35 @@ export default function AssignmentEdit({assignmentId}){
                 setInstructionHidden(true);
             }
         }
-        
     return(
         <>
         <div className={styles.editcontainer}>
             <div className={styles.editheadContainer}>
                 <div className={styles.edithead}>
-                    <input className={`${edditMode?styles.edditOn:styles.edditOff}`} readOnly={!edditMode} defaultValue={assignment.title} id='titleInput'></input>
+                    <input className={`${assignment.edditMode?styles.edditOn:styles.edditOff}`} readOnly={!assignment.edditMode} defaultValue={assignment.title} id='titleInput'></input>
                     <Countdown date={assignment.deadline}></Countdown>
                 </div>
             </div>
-            
-            
-            
             <div className={styles.descriptioncontainer}>
                 <div className={styles.descriptionwrapper}>
-                    <div onClick={()=>ExpandDescription()} className={styles.descriptionExpander}>
-                        <p>Description</p>
-                        <Image className={styles.expandImg} alt='expand' src='/expand.svg' width={20} height={20}></Image>
+                    <div onClick={assignment.description.length == 0 && !assignment.edditMode ? (e)=>e.preventDefault():()=>ExpandDescription()} className={styles.descriptionExpander}>
+                        <p>{assignment.description.length == 0?"No " : ""}Description</p>
+                        {
+                            assignment.description.length == 0 && !assignment.edditMode ?"":<Image className={styles.expandImg} alt='expand' src='/expand.svg' width={20} height={20}></Image>
+                        }
                     </div>
                     {
-                        descriptionHidden?"":<div clasName={styles.seperator}></div>
+                        descriptionHidden || assignment.description.length == 0 && !assignment.edditMode ?"":<div clasName={styles.seperator}></div>
                     }
-                    
-                    <div id='descriptionInputContainer' className={`${styles.hidden} ${styles.descriptionInputContainer}`}>
-                        <input className={` ${edditMode?styles.descriptionOn:styles.descriptionOff}`} readOnly={!edditMode} defaultValue={assignment.description} id='descriptionInput'></input>
-                    </div>
-
-                    
-
+                    {
+                        assignment.description.length == 0 && !assignment.edditMode?"":
+                        <div id='descriptionInputContainer' className={`${styles.hidden} ${styles.descriptionInputContainer}`}>
+                            <input className={` ${assignment.edditMode?styles.descriptionOn:styles.descriptionOff}`} readOnly={!assignment.edditMode} defaultValue={assignment.description} id='descriptionInput'></input>
+                        </div>
+                    }
                 </div>
-
                 {
-                    instrictionFiles.length == 0?
+                    assignment.instrictionFiles.length == 0?
                     <div className={styles.descriptionwrapper}>
                         <div  className={styles.descriptionExpander}>
                             <p>No Instructions</p>
@@ -233,7 +244,7 @@ export default function AssignmentEdit({assignmentId}){
                                 <div className={styles.filelistitem} key={i}>
                                     <p onClick={() => handleOpenInstructionDialog("instructionDialog",i)}>{file.name}</p>
                                     {
-                                        edditMode?<Image onClick={(e) => deleteInstructionItem(e,i)} className={styles.deleteImg} alt='delete' src='/cancelicon.svg' width={20} height={20}></Image>
+                                        assignment.edditMode?<Image onClick={(e) => deleteInstructionItem(e,i)} className={styles.deleteImg} alt='delete' src='/cancelicon.svg' width={20} height={20}></Image>
                                         :""
                                     }
                                 </div>
@@ -250,10 +261,10 @@ export default function AssignmentEdit({assignmentId}){
                 
             </div>
 
-            <File_Upload edittmode={edditMode} acceptedFiles={(acceptedFiles) => handleAcceptedFiles(acceptedFiles)} title={edditMode?"Upload Instructions":"Upload Files"} handleFilesUpdated={edditMode?(instrictionFiles) => handleInstructionFilesUpdate(instrictionFiles):(uploadFiles) => handleUploadFilesUpdate(uploadFiles)}></File_Upload>
+            <File_Upload edittmode={assignment.edditMode} acceptedFiles={(acceptedFiles) => handleAcceptedFiles(acceptedFiles)} title={assignment.edditMode?"Upload Instructions":"Upload Files"} handleFilesUpdated={assignment.edditMode?(instrictionFiles) => handleInstructionFilesUpdate(instrictionFiles):(uploadFiles) => handleUploadFilesUpdate(uploadFiles)}></File_Upload>
             
             {
-                edditMode ? 
+                assignment.edditMode ? 
                 null
                 :
                 (
@@ -276,14 +287,14 @@ export default function AssignmentEdit({assignmentId}){
             
             <div className={styles.editButton}>
                 {
-                    edditMode?null:
+                    assignment.edditMode?null:
                     <button onClick={handleSaveAssignment}>Save</button>
                 }
                 {
                     assignment.creator.name == currUserDummy.name ? 
                     (<>
                         
-                        {edditMode?
+                        {assignment.edditMode?
                         (
                             <>
                             <button onClick={handleSaveEdit}>Save Changes</button>

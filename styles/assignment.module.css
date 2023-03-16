@@ -692,6 +692,13 @@
   border-top: 1px solid var(--background_4);
   background-color: var(--background_2);
   width: 100%;
+  border-bottom-left-radius: .3em;
+  border-bottom-right-radius: .3em;
+  padding: .3em;
+  min-height: 2em !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .descriptionInputContainer input{
@@ -699,7 +706,7 @@
   border: 1px solid transparent;
   border-radius: .2em;
   font-size: large;
-  padding: .2em;
+  padding: .3em;
 }
 .descriptionwrapper{
   width: 70%;
