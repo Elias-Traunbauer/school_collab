@@ -25,10 +25,10 @@
 }
 
 .infos label{
-    text-align: center;
     border: .1em solid var(--color_main);
     border-radius: 1em;
     margin: 0 0 .125em 0;	
+    padding: 0 0 0 .5em;
 }
 
 .infos button{
@@ -46,14 +46,15 @@
 }
 
 .Link{
-    text-align: center;
     border: .1em solid var(--color_main);
     border-radius: 1em;
     margin: 0 0 .125em 0;
+    padding: 0 0 0 .5em;
 }
 
-.infobutton button{
+.button{
     width: 50%;
+    justify-self: center;
 }
 
 .userData{
@@ -62,6 +63,20 @@
     gap: .5em;
     align-items: center;
 }
+
+.cancelbutton{
+    background-color: transparent;
+    float: right;
+    border-radius: 100%;
+    height: 100%;
+    width: 10%;
+    
+  }
+  
+  .cancelbutton:hover{
+    background-color: #4b49495b;
+    order: 2;
+  }
 
 /*.fileUpload{
     position: absolute;

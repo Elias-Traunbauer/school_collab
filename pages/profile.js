@@ -1,5 +1,5 @@
 import File_Upload from "../components/file_upload";
-import Image from "next/image";
+import { showDecisionDialog } from "../components/Dialog";
 import Wizard from '../components/wizard';
 import styles from "../styles/profile.module.css"
 import { useState } from "react";
@@ -41,7 +41,7 @@ export default function Profile() {
         }
     }
 
-    function changePassword(e){
+    function changePasswordOnClick(e){
         e.preventDefault();
         setPasswordChange(true);
     }
@@ -71,35 +71,63 @@ export default function Profile() {
         //backend
       }
 
+        /*{ linkDeleted ? <button className={styles.cancelbutton} onClick={(e) => deleteAccount(e, links.indexOf(link))}/> : null } */
+
       function printLinks(){
             return links.map((link) => {
                 if(link != null)
-                    return <div><Link className={styles.Link} key={link} href={link} rel="noopener noreferrer" target="_blank">{link}</Link> 
-                                { linkDeleted ? <Image onClick={(e) => deleteItem(e,i)} className={styles.cancelbutton} src={"/cancelicon.svg"} width={20} height={20} alt="cancel"/> : null }
+                    return <div className={styles.Link}>
+                                <Link key={link} href={link} rel="noopener noreferrer" target="_blank">{link}</Link>
+                                { linkDeleted ? <button className={styles.cancelbutton} onClick={(e) => {
+                                    deleteAccount(e, links.indexOf(link)); 
+                                    links == [] ? setLinkDeleted(false) : null;}}/> 
+                                    : null }
                             </div>
             })
       }
 
-      function addLink(e){
+      function deleteAccount(e, key){
         e.preventDefault();
-        /*newAccount = prompt("Enter link");
-        addAccount(newAccount);*/
+
+        const tmpList = [];
+        for (let i = 0; i < links.length; i++) {
+            if(i != key)
+            tmpList.push(links[i]);
+        }
+        setLinks(tmpList);
+        
+      }
+
+
+      function addLinkOnClick(e){
+        e.preventDefault();
 
         setLinkAdded(true);
       }
 
-      function addLink(e){
+      function deleteLinkOnClick(e){
         e.preventDefault();
 
-        setLinkDeleted(true);
+        if(links != [])
+            setLinkDeleted(true);
       }
 
-      function addAccount(newAcc){
-            setLinks([...links, newAcc]);
+      function addAccountOnClick(newAcc){
+            const pattern = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+            
+            if(pattern.test(newAcc)){
+                setLinks([...links, newAcc]);
+            }
             setLinkAdded(false);
       }
-      function stopAddAccount(){
+      function stopAddAccountOnClick(e){
+            e.preventDefault();
             setLinkAdded(false);
+      }
+
+      function submitDeleteOnClick(e){
+            e.preventDefault();
+            setLinkDeleted(false);
       }
 
     return( 
@@ -110,26 +138,27 @@ export default function Profile() {
                 <div>
                     <div className={styles.userData}>
                         <form className={styles.infos}>
-                            <button onClick={(e) => changePassword(e)}>change password</button>
+                            <button onClick={(e) => changePasswordOnClick(e)}>change password</button>
                             <label>Username: {userDummy.userName}</label>
                             <label>Firstname: {userDummy.firstName}</label>
                             <label>Lastname: {userDummy.lastName}</label>
                         </form> 
 
                         <form className={styles.infos}>
-                            <div className={styles.infobutton}>
-                                <button onClick={(e) => addLink(e)}>link acc</button>
-                                <button onClick={(e) => deleteLink(e)}>delete acc</button>
+                            <div>
+                                <button className={styles.button} onClick={(e) => addLinkOnClick(e)}>link acc</button>
+                                <button className={styles.button} onClick={(e) => deleteLinkOnClick(e)}>delete acc</button>
                             </div>
                             
                             {links != [] ? printLinks() : null}
                             {linkAdded ? <div><input type="text" placeholder="Enter link" onChange={(e) => newAccount = e.target.value}/>
-                                <button onClick={() => addAccount(newAccount)}>add</button>
-                                <button onClick={() => stopAddAccount()}>cancel</button></div> : null}
+                                <button onClick={() => addAccountOnClick(newAccount)}>add</button>
+                                <button onClick={(e) => stopAddAccountOnClick(e)}>cancel</button></div> : null}
                             
+                            {linkDeleted ? <div className={styles.submit}><button className={styles.button} onClick={(e) => submitDeleteOnClick(e)}>submit</button></div> : null}
                         </form>
                     </div>
-                    {passwordChange ? <Wizard callback={callback} containerWidth={20} contentData={contentData} title='Change password'/> : null}
+                    {passwordChange ? <Wizard callback={callback} containerWidth={5} contentData={contentData} title='Change password'/> : null}
                 </div>
 
             </div>      
