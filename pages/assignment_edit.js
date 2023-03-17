@@ -212,6 +212,11 @@ export default function AssignmentEdit({ assignmentId }) {
             ></input>
           </div>
         </div>
+        <div className={styles.countdownContainer}>
+            <div>
+                <Countdown date={assignment.deadline}></Countdown>
+            </div>
+        </div>
         <div className={styles.descriptioncontainer}>
           <div className={styles.descriptionwrapper}>
             <div
@@ -335,18 +340,7 @@ export default function AssignmentEdit({ assignmentId }) {
           }
         ></File_Upload>
 
-        <div className={styles.tableContainer}>
-          <table>
-            <tbody>
-              <tr>
-                <th>Verbleibende Zeit</th>
-                <td>
-                  <Countdown date={assignment.deadline} />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
+        <div className={styles.uploadFileContainer}>
           <div className={styles.filesWrapper}>
             <div onClick={() => ExpandFiles()} className={styles.filesExpander}>
                 <p>{assignment.uploadFiles.length == 0 ? "no Files": "your Files"}</p>

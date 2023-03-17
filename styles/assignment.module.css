@@ -735,7 +735,8 @@
   user-select: none;
 }
 
-.tableContainer{
+.uploadFileContainer{
+  margin-top: 1em;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -743,7 +744,7 @@
   align-items: center;
 }
 
-.tableContainer table{
+.uploadFileContainer table{
   margin-top: 2em;
   width: 60%;
   text-align: left;
@@ -751,17 +752,17 @@
   border-radius: .5em !important;
 }
 
-.tableContainer table th{
+.uploadFileContainer table th{
   padding: 1em 0 1em 0  ;
 }
 
-.tableContainer table th,.tableContainer table td{
+.uploadFileContainer table th,.uploadFileContainer table td{
   border-top: 1px solid var(--background_3);
   border-bottom: 1px solid var(--background_3);
   padding-left: .5em;
 }
 
-.tableContainer table tr:hover{
+.uploadFileContainer table tr:hover{
   background-color: var(--background_2) !important;
 }
 
@@ -789,4 +790,24 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.countdownContainer{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0 .3em 0 .3em;
+  flex-wrap: nowrap;
+}
+
+.countdownContainer div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  border-top: 1px solid var(--background_3);
+  border-bottom: 1px solid var(--background_3);
+  margin-bottom: 1em;
 }
