@@ -15,6 +15,8 @@
 }
 
 .infos{ 
+    height: 12em;
+    width: 20.5em;
     padding: .7em 1em .9em 1em;
     display: flex;
     flex-direction: column;
@@ -23,12 +25,46 @@
 }
 
 .infos label{
+    text-align: center;
+    border: .1em solid var(--color_main);
     border-radius: 1em;
+    margin: 0 0 .125em 0;	
 }
 
 .infos button{
     background-color: black;
-    margin-top: .5em;
-    border: .1em solid var(--color_main);
+    margin-bottom: .5em;
+    cursor: pointer;
+    /*border: .1em solid var(--color_main);*/
     border-radius: 1em;
 }
+
+.infos input{
+    border: .1em solid var(--color_main);
+    border-radius: 1em;
+    background-color: black;
+}
+
+.Link{
+    text-align: center;
+    border: .1em solid var(--color_main);
+    border-radius: 1em;
+    margin: 0 0 .125em 0;
+}
+
+.infobutton button{
+    width: 50%;
+}
+
+.userData{
+    display: flex;
+    flex-direction: line;
+    gap: .5em;
+    align-items: center;
+}
+
+/*.fileUpload{
+    position: absolute;
+    overflow: hidden;
+    
+}*/
