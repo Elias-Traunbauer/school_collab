@@ -41,7 +41,7 @@ export default function Countdown({date}) {
             }
         }, 1000);
         return () => clearInterval(i);
-    });
+    }, []);
 
     return <p>{datetime}</p>;
 }
