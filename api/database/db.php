@@ -11,7 +11,7 @@ class Database
     /// <returns>A PDO connection to the database.</returns>
     public static function createPDOConnection(): PDO
     {
-        $config = json_decode(file_get_contents("credentials.json"));
+        $config = json_decode(file_get_contents(__DIR__ . "/credentials.json"));
 
         $credentials = Credentials::loadConfig($config->db);
         return new PDO("mysql:host=" . $credentials->ip . ";dbname=" . $credentials->db, $credentials->name, $credentials->pw);
@@ -31,10 +31,8 @@ class Credentials
     /// </summary>
     /// <param name="string">The JSON string to load the credentials from.</param>
     /// <returns>The credentials loaded from the JSON string.</returns>
-    public static function loadConfig($string): Credentials
+    public static function loadConfig($data): Credentials
     {
-        $data = json_decode($string);
-
         $newCredentials = new Credentials();
         $newCredentials->name = $data->name;
         $newCredentials->pw = $data->pw;

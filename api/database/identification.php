@@ -2,7 +2,7 @@
 
 function authenticate_and_authorize($terminateOnUnAuthenticated = true) : void
 {
-    $config = json_decode(file_get_contents("credentials.json"));
+    $config = json_decode(file_get_contents(__DIR__ . "/credentials.json"));
 
     // authentication not possible without csrf token, ONLY occurs in the first request
     if (!isset($_SERVER["HTTP_ANTI_CSRF_TOKEN"])) {

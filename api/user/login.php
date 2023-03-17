@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 require_once dirname(__FILE__, 2) . "/database/identification.php";
 apiStart();
 
-$config = json_decode(file_get_contents(dirname(__FILE__, 2) . "/database/credentials.php"));
+$config = json_decode(file_get_contents(dirname(__DIR__) . "/database/credentials.json"));
 
 require_once dirname(__FILE__, 2) . "/database/repositories/user_repository.php";
 
@@ -26,7 +26,7 @@ if ($res === false) {
     die();
 }
 
-$header = json_encode(['typ' => 'JWT', 'alg' => 'HS512', 'issuer' => $config->jwt->issuer]);
+$header = json_encode(['type' => 'JWT', 'alg' => 'HS512', 'issuer' => $config->jwt->issuer]);
 
 $payload = json_encode([
     'username' => $res->username,
