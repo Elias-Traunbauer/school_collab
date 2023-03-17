@@ -1,5 +1,5 @@
 /node_modules
 /.next
 /out
-/api/database/credentials.php
+/api/database/credentials.json
 /.idea
