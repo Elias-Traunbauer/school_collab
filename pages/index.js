@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import style from '../styles/index.module.scss'
+import style from '../styles/Index.module.scss'
 import Countdown from '../components/Countdown'
 
 const Home = () => {
