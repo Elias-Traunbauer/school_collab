@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Dialog, openDialog } from "../components/Dialog";
 import { FileUpload } from "../components/FileUpload";
-import { FileList } from "../components/FileList";
+import { FileListObject } from "../components/FileListObject";
 
 export default function AssignmentEdit({ assignmentId }) {
   // TODO: fetch assignment
