@@ -8,7 +8,7 @@ import { createRoot } from "react-dom/client";
 /// @param {function} cancelCallback - Callback function for the cancel button
 /// @param {string} type - Type of the dialog (info, warning, error, success)
 /// @param {string} id - Id of the dialog
-export function DecisionDialog({ children, title = "Information", confirmCallback, cancelCallback, type = "info", id = "dialog" }) {
+function DecisionDialog({ children, title = "Information", confirmCallback, cancelCallback, type = "info", id = "dialog" }) {
 
     function finishDialog(e, accepted) {
         setTimeout(() => document.getElementById(id).remove(), 1000);
