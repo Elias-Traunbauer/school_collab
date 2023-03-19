@@ -4,8 +4,8 @@ import styles from "../styles/Assignment.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Dialog, openDialog } from "../components/Dialog";
-import { FileUpload } from "../components/FileUpload";
-import { FileListObject } from "../components/FileListObject";
+import {FileListObject} from "../components/FileListObject";
+import {FileUpload} from "../components/FileUpload";
 
 export default function AssignmentEdit({ assignmentId }) {
   // TODO: fetch assignment
@@ -326,6 +326,7 @@ export default function AssignmentEdit({ assignmentId }) {
               : (uploadFiles) => handleUploadFilesUpdate(uploadFiles)
           }
         ></FileUpload>
+        
 
         <div className={styles.uploadFileContainer}>
           <div className={styles.filesWrapper}>
