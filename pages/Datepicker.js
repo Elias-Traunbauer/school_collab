@@ -3,49 +3,63 @@ import React, { useState ,useEffect, useMemo} from 'react';
 import Image from 'next/image';
 import { func } from 'prop-types';
 
-export default function Datepicker({dateParam = new Date()}){
+export default function Datepicker({title='date',dateParam = new Date()}){
 
     const [displayDatesArray,setDisplayDatesArray] = useState([]);
     //const displayDatesArray = [];
-    const[date,setDate] = useState(dateParam);
+    const[date,setDate] = useState(initDate(dateParam));
     const monthNames = getMonths();
+    const weekdays = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+    function initDate(dateParam){
+        let tmpDate = new Date(dateParam.getFullYear(),dateParam.getMonth(),dateParam.getDate(), dateParam.getHours(), dateParam.getMinutes());
+        tmpDate.setHours(23,59,0,0);
+        return tmpDate;
+    }
 
     useEffect(() => { 
         calc();
         document.getElementById('monthInput').value = monthNames[date.getMonth()];
         document.getElementById('yearInput').value = date.getFullYear();
-     },[date]);
+        document.getElementById('datetimeInput').value = PrintDateTime();
+    },[date]);
 
-     function getMonths() {
+    function getMonths() {
         return ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-     }
+    }
 
     function changeToNextMonth(){
-        const nextMonth = GetNextMonth();
-        setDate(nextMonth);
+        setDate(GetNextMonth());
     }
 
     function changeToPreviousMonth(){
-        const previousMonth = GetPreviusMonth();
-        setDate(previousMonth);
+        setDate(GetPreviusMonth());
     }
 
     function handleDateClicked(day, currmonth){
+        let tmpDate = new Date(date.getFullYear(),date.getMonth(),day, date.getHours(), date.getMinutes());
         if(currmonth){
-            setDate(new Date(date.getFullYear(),date.getMonth(),day));
-        }
+        }   
         else if(day >= 20){
-            const tmpDate = GetPreviusMonth() 
-            setDate(new Date(tmpDate.getFullYear(),tmpDate.getMonth(),day));
+            tmpDate = GetPreviusMonth() 
         }
         else{
-            const tmpDate = GetNextMonth() 
-            setDate(new Date(tmpDate.getFullYear(),tmpDate.getMonth(),day));
+            tmpDate = GetNextMonth() 
         }
+        setDate(new Date(tmpDate.getFullYear(),tmpDate.getMonth(),day, date.getHours(), date.getMinutes()));
     }
 
+    function PrintDateTime(){
+        return date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+    }
+    
+    function GetMaxDaysOfPreviousMonth(){
+        let preMonth = GetPreviusMonth();
+        return new Date(preMonth.getFullYear(),preMonth.getMonth()+1,0).getDate();
+    }
     function calc(){
-        let daysOfPreviousMonth = GetPreviusMonth().getDate();
+        let daysOfPreviousMonth = GetMaxDaysOfPreviousMonth();
+        console.log('maxdays '+daysOfPreviousMonth);
         const daysOfCurrentMonth = GetDaysOfCurrentMonth();
         let previousdays = GetWeekdayOfFirstDay();
         const tmpArray = [];
@@ -83,7 +97,7 @@ export default function Datepicker({dateParam = new Date()}){
     }
 
     function GetPreviusMonth(){
-        var tempDateObj = new Date(date.getFullYear(), date.getMonth(), 1);
+        var tempDateObj = new Date(date.getFullYear(), date.getMonth(), 1, date.getHours(), date.getMinutes());
 
 	   if (tempDateObj.getMonth() == 0) {
             tempDateObj.setFullYear(tempDateObj.getFullYear() - 1);
@@ -103,9 +117,9 @@ export default function Datepicker({dateParam = new Date()}){
 
     function GetNextMonth(){
         if (date.getMonth() == 11) {
-            var nextMonth = new Date(date.getFullYear() + 1, 0, 1);
+            var nextMonth = new Date(date.getFullYear() + 1, 0, 1,date.getHours(), date.getMinutes());
         } else {
-            var nextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+            var nextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1,date.getHours(), date.getMinutes());
         }
 
         var maxDaysOfNextMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0).getDate();
@@ -188,26 +202,85 @@ export default function Datepicker({dateParam = new Date()}){
         }   
     }
 
+    function showDatepicker(){
+        const datepickerContainer = document.getElementById('datepickerContainer');
+
+        if(datepickerContainer.classList.contains(styles.hidden)){
+            datepickerContainer.classList.remove(styles.hidden);
+        }
+        else{
+            datepickerContainer.classList.add(styles.hidden);
+        }
+    }
+
+    function handleInputChange(e,input){
+        if(input && e.key != 'Enter'){
+            return;
+        }
+        const datetimeSplit = e.target.value.split(' ');
+        const dateSplit = datetimeSplit[0].split('.');
+        const timeSplit = datetimeSplit[1].split(':');
+        const matches = e.target.value.match(/^^(\d{1,2}).(\d{1,2}).(\d{2,4}) (\d{2}):(\d{2})$/);
+        if(matches == null){
+            return;
+        }
+        const tmpdate = new Date(dateSplit[2],dateSplit[1]-1,dateSplit[0],timeSplit[0],timeSplit[1]);
+
+        if(tmpdate == "Invalid Date" || tmpdate.getMonth() != dateSplit[1]-1 || tmpdate.getFullYear() != dateSplit[2]){
+            e.target.classList.add(styles.errorInput);
+
+            //optional
+            e.target.value = PrintDateTime(date);
+
+            console.log("invalid date");
+            return;
+        }
+
+        e.target.classList.remove(styles.errorInput);
+        console.log("set date");
+        setDate(tmpdate);
+    }
+
     return(
         <>
-        <div className={styles.datepickerTestingContainer}>
-            <div className={styles.container}>
-                <div className={styles.dateHeader}>
-                    <svg onClick={changeToPreviousMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="M28.05 36 16 23.95 28.05 11.9l2.15 2.15-9.9 9.9 9.9 9.9Z"/></svg>
-                    <div>
-                        <input className={styles.unfocusedInput} onKeyUp={(e)=>handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutMonth(e)} type='text' onChange={handleMonthChange} id='monthInput'/>
-                        <input className={styles.unfocusedInput} onKeyUp={(e)=>handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutYear(e)} type='text' onChange={handleYearChange} id='yearInput'/>
-                    </div>
-                    <svg onClick={changeToNextMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="m18.75 36-2.15-2.15 9.9-9.9-9.9-9.9 2.15-2.15L30.8 23.95Z"/></svg>
+            <div className={styles.overviewContainer}>
+                <div className={styles.inputContainer}>
+                    <label>{title}</label>
+                    <input onBlur={(e)=>handleInputChange(e,false)} onKeyDown={(e)=>handleInputChange(e,true)} id='datetimeInput'></input>
                 </div>
-                <div className={styles.dateContainer}>
-                        {displayDatesArray.map(({day,currMonth},i) => {
-                           return <div onClick={()=>handleDateClicked(day,currMonth)} key={i} className={`${styles.datepickerItem} ${!currMonth?styles.otherMonth:""} ${currMonth && day == date.getDate() ?styles.currMonth:""}`}>  <p>{day}</p> </div>
-                        })}
+                <div className={styles.inputContainer}>
+                    <label> </label>
+                    <button onClick={showDatepicker} id='pickerPopup Button'>Picker</button>
+                </div>
+            
+
+                <div id='datepickerContainer' className={`${styles.container} ${styles.hidden}`}>
+                    <div className={styles.dateHeaderContainer}>
+                        <div className={styles.dateHeader}>
+                            <svg onClick={changeToPreviousMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="M28.05 36 16 23.95 28.05 11.9l2.15 2.15-9.9 9.9 9.9 9.9Z"/></svg>
+                            <div>
+                                <input className={styles.unfocusedInput} onKeyUp={(e)=>handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutMonth(e)} type='text' onChange={handleMonthChange} id='monthInput'/>
+                                <input className={styles.unfocusedInput} onKeyUp={(e)=>handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutYear(e)} type='text' onChange={handleYearChange} id='yearInput'/>
+                            </div>
+                            <svg onClick={changeToNextMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="m18.75 36-2.15-2.15 9.9-9.9-9.9-9.9 2.15-2.15L30.8 23.95Z"/></svg>
+                        </div>
+                    </div>
+
+                    <div className={styles.dateWrapper}>
+                        <div className={styles.weekdayContainer}>
+                            {weekdays.map((name,i) => {
+                                return <div key={i} className={styles.weekdayItem}> <p>{name}</p> </div>
+                            })}
+                        </div>
+                        <div className={styles.dateGridContainer}>
+                            {displayDatesArray.map(({day,currMonth},i) => {
+                                return <div onClick={()=>handleDateClicked(day,currMonth)} key={i} className={`${styles.datepickerItem} ${!currMonth?styles.otherMonth:""} ${currMonth && day == date.getDate() ?styles.currMonth:""}`}>  <p>{day}</p> </div>
+                            })}
+                        </div>
+                    </div>
                     
                 </div>
             </div>
-        </div>
         </>
     );
 }
