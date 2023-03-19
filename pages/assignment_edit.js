@@ -174,6 +174,10 @@ export default function AssignmentEdit({ assignmentId }) {
     router.push("./assignments");
   }
 
+  function handleCancelAssignment() {
+    router.push("./assignments");
+  }
+
   function ExpandDescription() {
     const description = document.getElementById("descriptionInputContainer");
     if (description.classList.contains(styles.hidden)) {
@@ -300,27 +304,11 @@ export default function AssignmentEdit({ assignmentId }) {
               >
                 {assignment.instrictionFiles.map((file, i) => {
                   return (
-                    <div className={styles.filelistitem} key={i}>
-                      <p
-                        onClick={() =>
-                          handleOpenInstructionDialog("instructionDialog", i)
-                        }
-                      >
-                        {file.name}
-                      </p>
-                      {edditMode ? (
-                        <Image
-                          onClick={(e) => deleteInstructionItem(e, i)}
-                          className={styles.deleteImg}
-                          alt="delete"
-                          src="/cancelicon.svg"
-                          width={20}
-                          height={20}
-                        ></Image>
-                      ) : (
-                        ""
-                      )}
-                    </div>
+                    <FileListObject
+                      key={i}
+                      file={{ name: file.name }}
+                      asCard={true}
+                    ></FileListObject>
                   );
                 })}
               </div>
@@ -344,13 +332,17 @@ export default function AssignmentEdit({ assignmentId }) {
           <div className={styles.filesWrapper}>
             <div onClick={() => ExpandFiles()} className={styles.filesExpander}>
                 <p>{assignment.uploadFiles.length == 0 ? "no Files": "your Files"}</p>
-                <Image
-                  className={styles.expandImg}
-                  alt="expand"
-                  src="/expand.svg"
-                  width={20}
-                  height={20}
-                ></Image>
+                {
+                    assignment.uploadFiles.length == 0 ? "" :
+                    <Image
+                    className={styles.expandImg}
+                    alt="expand"
+                    src="/expand.svg"
+                    width={20}
+                    height={20}
+                  ></Image>
+                }
+                
             </div>
             {uploadHidden || assignment.uploadFiles == 0 ? "" : 
             <>
@@ -376,24 +368,31 @@ export default function AssignmentEdit({ assignmentId }) {
         </div>
 
         <div className={styles.editButton}>
-          {edditMode ? null : (
-            <button onClick={handleSaveAssignment}>Save</button>
-          )}
-          {assignment.creator.name == currUserDummy.name ? (
-            <>
-              {edditMode ? (
-                <>
-                  <button onClick={handleSaveEdit}>Save Changes</button>
-                  <button onClick={handleCancelEdit}>Cancel Changes</button>
-                </>
-              ) : (
-                <button onClick={handleEddit}>Edit</button>
-              )}
-            </>
-          ) : (
-            <></>
-          )}
+          <div >
+                    {edditMode ? null : (
+                      <>
+                        <button className="btn btn-primary" type="right"  onClick={handleSaveAssignment}>Save</button>
+                        <button className="btn btn-cancel" type="right" onClick={handleCancelAssignment}>Cancel</button>
+                      </>
+                      
+                    )}
+                    {assignment.creator.name == currUserDummy.name ? (
+                      <>
+                        {edditMode ? (
+                          <>
+                            <button  className="btn btn-primary" type="right" onClick={handleSaveEdit}>Change</button>
+                            <button className="btn btn-cancel" type="right" onClick={handleCancelEdit}>Discard</button>
+                          </>
+                        ) : (
+                          <button className="btn btn-seconday" type="left" onClick={handleEddit}>Edit</button>
+                        )}
+                      </>
+                    ) : (
+                      <></>
+                    )}
+          </div>
         </div>
+        
       </div>
     </>
   );
