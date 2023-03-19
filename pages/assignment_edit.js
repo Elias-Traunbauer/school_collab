@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import Countdown from "../components/Countdown";
-import File_Upload from "../components/file_upload";
-import styles from "../styles/assignment.module.css";
+import styles from "../styles/Assignment.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Dialog, openDialog } from "../components/Dialog";
-import FileListObject from "../components/fileListObject";
+import { FileUpload } from "../components/FileUpload";
+import { FileList } from "../components/FileList";
 
 export default function AssignmentEdit({ assignmentId }) {
   // TODO: fetch assignment
@@ -315,7 +315,7 @@ export default function AssignmentEdit({ assignmentId }) {
           )}
         </div>
 
-        <File_Upload
+        <FileUpload
           edittmode={edditMode}
           acceptedFiles={(acceptedFiles) => handleAcceptedFiles(acceptedFiles)}
           title={edditMode ? "Upload Instructions" : "Upload Files"}
@@ -325,7 +325,7 @@ export default function AssignmentEdit({ assignmentId }) {
                 handleInstructionFilesUpdate(instrictionFiles)
               : (uploadFiles) => handleUploadFilesUpdate(uploadFiles)
           }
-        ></File_Upload>
+        ></FileUpload>
 
         <div className={styles.uploadFileContainer}>
           <div className={styles.filesWrapper}>

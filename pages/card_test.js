@@ -1,5 +1,5 @@
 import React from 'react'
-import AssignmentCard from '../components/assignment_card'
+import AssignmentCard from '../components/AssignmentCard'
 
 export default function CardTest() {
     return (

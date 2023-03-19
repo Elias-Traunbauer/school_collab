@@ -1,8 +1,8 @@
-import styles from '../styles/chart.module.css';
-import { useState,useEffect } from 'react'
+import styles from '../styles/Chart.module.css';
+import { useState, useEffect } from 'react'
 
-export default function Chart(){
-    const[chartData, setChartData] = useState([{
+export default function Chart() {
+    const [chartData, setChartData] = useState([{
         name: 'tedadsadst',
         value: 10,
         backgroundColor: 'rgba(255, 0, 0, 0.6)',
@@ -25,7 +25,7 @@ export default function Chart(){
     useEffect(() => {
     }, [chartData]);
 
-    function displayScale(){
+    function displayScale() {
         let max = 0;
         const steps = [];
         for (const iterator of chartData) {
@@ -33,7 +33,7 @@ export default function Chart(){
                 max = iterator.value;
         }
 
-        const step = max/5;
+        const step = max / 5;
         let cnt = max;
         for (let i = 0; i < 4; i++) {
             steps.push(cnt);
@@ -43,7 +43,7 @@ export default function Chart(){
         return steps;
     }
 
-    function calcPercent(value){
+    function calcPercent(value) {
         let max = 0;
         for (const iterator of chartData) {
             if (iterator.value > max)
@@ -51,12 +51,12 @@ export default function Chart(){
         }
 
         if (max <= 20)
-        return (20*(value / max));
+            return (20 * (value / max));
 
-        return value * 20/max;
+        return value * 20 / max;
     }
 
-    function changevalues(){
+    function changevalues() {
         const newChardata = [{
             name: 'test',
             value: 1,
@@ -78,45 +78,45 @@ export default function Chart(){
         setChartData(newChardata);
     }
 
-    return(
+    return (
         <div className={styles.wrapper}>
             <button onClick={() => changevalues()}>change</button>
             <div className={styles.chartContainer}>
-            <div className={styles.chartScale}>
-                <div className={styles.verticalLine}></div>
-                <div className={styles.horizontalLines}>
-                    {
-                        displayScale().map((item, index) => {
-                            return(
-                                <div key={index} className={styles.horizontalLine}>
-                                    <div className={styles.horizontalLineText}>
-                                        <p>{item}</p>
+                <div className={styles.chartScale}>
+                    <div className={styles.verticalLine}></div>
+                    <div className={styles.horizontalLines}>
+                        {
+                            displayScale().map((item, index) => {
+                                return (
+                                    <div key={index} className={styles.horizontalLine}>
+                                        <div className={styles.horizontalLineText}>
+                                            <p>{item}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            )
-                        })
-                    }
-                    <div className={styles.horizontalLine}>
+                                )
+                            })
+                        }
+                        <div className={styles.horizontalLine}>
                             <div className={styles.horizontalLineText}>
                             </div>
+                        </div>
                     </div>
                 </div>
+                {
+                    chartData.map((chartData, index) => {
+                        const designData = {
+                            height: calcPercent(chartData.value) + 'rem',
+                            backgroundColor: chartData.backgroundColor,
+                            border: '3px solid ' + chartData.borderColor,
+                            borderBottom: 'none',
+                        }
+                        return (
+                            <div className={styles.chart} key={index}>
+                                <div data-value={chartData.value + " " + chartData.name} className={styles.chartElement} style={designData}></div>
+                            </div>
+                        )
+                    })}
             </div>
-            {
-                chartData.map((chartData, index) => {
-                    const designData = {
-                        height: calcPercent(chartData.value) + 'rem',
-                        backgroundColor: chartData.backgroundColor,
-                        border: '3px solid ' + chartData.borderColor,
-                        borderBottom: 'none',
-                    }
-                    return(
-                        <div className={styles.chart} key={index}>
-                            <div data-value={chartData.value + " " + chartData.name} className={styles.chartElement} style={designData}></div>
-                        </div>
-                    )
-                })}            
-            </div>
-        </div> 
+        </div>
     );
 }

@@ -1,15 +1,14 @@
 import Link from 'next/link'
-import Wizard from '../components/wizard'
-import Wizzard from '../components/wizard'
+import Wizard from '../components/Wizard'
 
 export default function WzTest() {
-    function callback(data){
+    function callback(data) {
         console.log(data);
     };
-    const testData = [{name:true,lastname:true},{email:false}];
+    const testData = [{ name: true, lastname: true }, { email: false }];
 
-    return(
-        <Wizard contentData={testData} title='Test' callBack={(data)=>callback(data)}></Wizard>
+    return (
+        <Wizard contentData={testData} title='Test' callBack={(data) => callback(data)}></Wizard>
     );
-    
+
 }
