@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="container">
         <h1 type="special" style={{fontSize: 3 + 'em'}}>
-          Welcome to school-collab!
+          Welcome to graduater!
         </h1>
         <h2>Useful links:</h2>
         <Link href="/login">Login</Link>
