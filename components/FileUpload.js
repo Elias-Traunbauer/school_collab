@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import styles from '../styles/Assignment.module.css';
 import Image from 'next/image';
 
-export default function FileUpload ({ fileExtentions = [], handleFilesUpdated, handleAcceptedFiles, title, edittmode = false }){
+export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, title, edittmode = false, fileExtentions = [] })
+{
     const [acceptedFilextentions, setAcceptedFilextentions] = useState(fileExtentions);
 
     function showFile(newFiles) {

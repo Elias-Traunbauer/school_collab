@@ -3,9 +3,9 @@ import Countdown from "../components/Countdown";
 import styles from "../styles/Assignment.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Dialog, openDialog } from "../components/Dialog";
-import {FileListObject} from "../components/FileListObject";
-import {FileUpload} from "../components/FileUpload";
+import { openDialog } from "../components/Dialog";
+import FileListObject from "../components/FileListObject";
+import FileUpload from "../components/FileUpload";
 
 export default function AssignmentEdit({ assignmentId }) {
   // TODO: fetch assignment
@@ -317,7 +317,7 @@ export default function AssignmentEdit({ assignmentId }) {
 
         <FileUpload
           edittmode={edditMode}
-          acceptedFiles={(acceptedFiles) => handleAcceptedFiles(acceptedFiles)}
+          handleAcceptedFiles={(acceptedFiles) => handleAcceptedFiles(acceptedFiles)}
           title={edditMode ? "Upload Instructions" : "Upload Files"}
           handleFilesUpdated={
             edditMode
