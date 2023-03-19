@@ -1,4 +1,4 @@
-.Cardcontainer{
+.Cardcontainer {
     width: 5em;
     height: 5em;
     padding: 1em !important;
@@ -12,15 +12,16 @@
     filter: brightness(0.9);
 }
 
-.Cardcontainer p{
+.Cardcontainer p {
     margin: 0;
 }
-.Cardcontainer:hover{
+
+.Cardcontainer:hover {
     cursor: pointer;
     filter: brightness(0.7);
 }
 
-.Listcontainer{
+.Listcontainer {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -29,30 +30,32 @@
     align-items: center;
 }
 
-.ListContentcontainer{
+.ListContentcontainer {
     position: relative;
     width: 100%;
     vertical-align: middle;
     border-radius: .2em;
+
     & * {
         display: inline-block;
         margin: 0;
     }
 }
-.ListContentcontainer *{
+
+.ListContentcontainer * {
     vertical-align: middle;
 }
 
-.ListContentcontainer:hover{
+.ListContentcontainer:hover {
     background-color: var(--background_4);
 }
 
-.ListContentcontainer p{
+.ListContentcontainer p {
     margin-left: .5em;
 }
 
-.deletContainer{
-    position: absolute; 
+.deletContainer {
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 0;
@@ -61,6 +64,6 @@
     width: fit-content;
 }
 
-.deletContainer:hover{
+.deletContainer:hover {
     background-color: rgba(255, 255, 255, 0.205);
 }

@@ -64,30 +64,30 @@ export default function AssignmentEdit({ assignmentId }) {
     console.log(acceptedFilextentions);
   }
 
-    function handleUploadFilesDelete(e,key) {
-        e.preventDefault();
+  function handleUploadFilesDelete(e, key) {
+    e.preventDefault();
 
-        //style delete
-        const parent = e.target.parentElement.parentElement.parentElement;
-        parent.classList.add(styles.filelistitem_close);
+    //style delete
+    const parent = e.target.parentElement.parentElement.parentElement;
+    parent.classList.add(styles.filelistitem_close);
 
-        //delete Item
-        setTimeout(() => {
-            
-            const tmpList = [];
-        for (let i = 0; i < assignment.uploadFiles.length; i++) {
-            if (i != key) tmpList.push(uploadFiles[i]);
-        }
-        let tmpAssignment = assignment;
-        tmpAssignment.uploadFiles = tmpList;
+    //delete Item
+    setTimeout(() => {
 
-        setAssignment({
-            ...assignment,
-            uploadFiles: tmpList,
-        });
+      const tmpList = [];
+      for (let i = 0; i < assignment.uploadFiles.length; i++) {
+        if (i != key) tmpList.push(uploadFiles[i]);
+      }
+      let tmpAssignment = assignment;
+      tmpAssignment.uploadFiles = tmpList;
 
-        }, 500);
-    }
+      setAssignment({
+        ...assignment,
+        uploadFiles: tmpList,
+      });
+
+    }, 500);
+  }
 
   function deleteInstructionItem(e, key) {
     e.preventDefault();
@@ -217,9 +217,9 @@ export default function AssignmentEdit({ assignmentId }) {
           </div>
         </div>
         <div className={styles.countdownContainer}>
-            <div>
-                <Countdown date={assignment.deadline}></Countdown>
-            </div>
+          <div>
+            <Countdown date={assignment.deadline}></Countdown>
+          </div>
         </div>
         <div className={styles.descriptioncontainer}>
           <div className={styles.descriptionwrapper}>
@@ -247,7 +247,7 @@ export default function AssignmentEdit({ assignmentId }) {
               )}
             </div>
             {descriptionHidden ||
-            (assignment.description.length == 0 && !edditMode) ? (
+              (assignment.description.length == 0 && !edditMode) ? (
               ""
             ) : (
               <div className={styles.seperator}></div>
@@ -260,9 +260,8 @@ export default function AssignmentEdit({ assignmentId }) {
                 className={`${styles.hidden} ${styles.descriptionInputContainer}`}
               >
                 <input
-                  className={` ${
-                    edditMode ? styles.descriptionOn : styles.descriptionOff
-                  }`}
+                  className={` ${edditMode ? styles.descriptionOn : styles.descriptionOff
+                    }`}
                   readOnly={!edditMode}
                   defaultValue={assignment.description}
                   id="descriptionInput"
@@ -323,7 +322,7 @@ export default function AssignmentEdit({ assignmentId }) {
           handleFilesUpdated={
             edditMode
               ? (instrictionFiles) =>
-                  handleInstructionFilesUpdate(instrictionFiles)
+                handleInstructionFilesUpdate(instrictionFiles)
               : (uploadFiles) => handleUploadFilesUpdate(uploadFiles)
           }
         ></File_Upload>
@@ -331,68 +330,68 @@ export default function AssignmentEdit({ assignmentId }) {
         <div className={styles.uploadFileContainer}>
           <div className={styles.filesWrapper}>
             <div onClick={() => ExpandFiles()} className={styles.filesExpander}>
-                <p>{assignment.uploadFiles.length == 0 ? "no Files": "your Files"}</p>
-                {
-                    assignment.uploadFiles.length == 0 ? "" :
-                    <Image
+              <p>{assignment.uploadFiles.length == 0 ? "no Files" : "your Files"}</p>
+              {
+                assignment.uploadFiles.length == 0 ? "" :
+                  <Image
                     className={styles.expandImg}
                     alt="expand"
                     src="/expand.svg"
                     width={20}
                     height={20}
                   ></Image>
-                }
-                
+              }
+
             </div>
-            {uploadHidden || assignment.uploadFiles == 0 ? "" : 
-            <>
+            {uploadHidden || assignment.uploadFiles == 0 ? "" :
+              <>
                 <div className={styles.seperator}></div>
                 <div className={styles.fileDisplayContainer}>
-                {assignment.uploadFiles.map((file, i) => {
+                  {assignment.uploadFiles.map((file, i) => {
                     return (
-                    <FileListObject
+                      <FileListObject
                         deleteFunction={handleUploadFilesDelete}
                         key={i}
                         file={{ name: file.name }}
                         asCard={false}
-                    ></FileListObject>
+                      ></FileListObject>
                     );
-                })}
+                  })}
                 </div>
-            </>
-            
-            
+              </>
+
+
             }
-            
+
           </div>
         </div>
 
         <div className={styles.editButton}>
           <div >
-                    {edditMode ? null : (
-                      <>
-                        <button className="btn btn-primary" type="right"  onClick={handleSaveAssignment}>Save</button>
-                        <button className="btn btn-cancel" type="right" onClick={handleCancelAssignment}>Cancel</button>
-                      </>
-                      
-                    )}
-                    {assignment.creator.name == currUserDummy.name ? (
-                      <>
-                        {edditMode ? (
-                          <>
-                            <button  className="btn btn-primary" type="right" onClick={handleSaveEdit}>Change</button>
-                            <button className="btn btn-cancel" type="right" onClick={handleCancelEdit}>Discard</button>
-                          </>
-                        ) : (
-                          <button className="btn btn-seconday" type="left" onClick={handleEddit}>Edit</button>
-                        )}
-                      </>
-                    ) : (
-                      <></>
-                    )}
+            {edditMode ? null : (
+              <>
+                <button className="btn btn-primary" type="right" onClick={handleSaveAssignment}>Save</button>
+                <button className="btn btn-cancel" type="right" onClick={handleCancelAssignment}>Cancel</button>
+              </>
+
+            )}
+            {assignment.creator.name == currUserDummy.name ? (
+              <>
+                {edditMode ? (
+                  <>
+                    <button className="btn btn-primary" type="right" onClick={handleSaveEdit}>Change</button>
+                    <button className="btn btn-cancel" type="right" onClick={handleCancelEdit}>Discard</button>
+                  </>
+                ) : (
+                  <button className="btn btn-seconday" type="left" onClick={handleEddit}>Edit</button>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
-        
+
       </div>
     </>
   );
