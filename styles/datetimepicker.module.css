@@ -11,8 +11,8 @@
 /*real :)*/
 .dateGridContainer{
     display: grid;
-    grid-template-columns: 16% 16% 16% 16% 16% 16% 16%;
-    grid-template-rows: 16% 16%  16%  16%  16%  16%;
+    grid-template-columns: 3em 3em 3em 3em 3em 3em 3em;
+    grid-template-rows: 3em 3em  3em  3em  3em  3em;
     color: black;
     text-align: center;
     background-color: transparent !important;
@@ -70,8 +70,7 @@
     border-radius: .5em;
     transform: translate(50%, 7%);
     z-index: 100;
-    padding: 0 2em 0 2em;
-    height: 70%;
+    padding: 0 2em 1em 2em;
 }
 .weekday{
     border-top: 0 !important;
