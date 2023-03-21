@@ -28,7 +28,7 @@ export default function Wizard({ callback, contentData = [{ firstname: false, la
 
     useEffect(() => {
         checkFormFilled(stateData.currIndex);
-    }, [stateData]);
+    }, [checkFormFilled, stateData]);
 
     function nextSection() {
         const items = document.querySelectorAll('.' + styles.wizzardContainer + ' ul li');
