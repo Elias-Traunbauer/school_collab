@@ -1,0 +1,47 @@
+.header{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header > div{
+    width: 70%;
+    background-color: var(--background_1);
+}
+
+.header > div > *{
+    display: inline-block;
+}
+.header > div > div{
+    position: relative;
+    float: right;
+    height: 100%;
+
+    & button {
+        height: 100%;
+        font-size: 1.5rem;
+        padding: .8em 1rem;
+        background-color: var(--background_2);
+        border: 0;
+    }
+}
+
+.header > div > div:hover > div{
+    display: block;
+}
+
+.header > div > div > div{
+    display: none;
+    position: absolute;
+}
+
+.header > div > div > div > *{
+    width: 100%;
+}
+
+.header div h2{	
+    padding: 0;
+    width: fit-content;
+}
