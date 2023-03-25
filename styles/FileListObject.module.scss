@@ -1,24 +1,27 @@
 .Cardcontainer {
-    width: 5em;
-    height: 5em;
-    padding: 1em !important;
+    padding: .4em .8em;
     border-radius: .5em;
     gap: .3em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--background_1);
+    background-color: var(--background_2);
     filter: brightness(0.9);
 }
 
 .Cardcontainer p {
     margin: 0;
+    color: var(--color_link);
+}
+
+.Cardcontainer:hover p{
+    text-decoration: underline 1px;
 }
 
 .Cardcontainer:hover {
     cursor: pointer;
-    filter: brightness(0.7);
+    filter: brightness(130%);
 }
 
 .Listcontainer {
@@ -40,6 +43,10 @@
         display: inline-block;
         margin: 0;
     }
+
+    & p {
+        color: var(--color_link);
+    }
 }
 
 .ListContentcontainer * {
@@ -48,6 +55,10 @@
 
 .ListContentcontainer:hover {
     background-color: var(--background_4);
+
+    & p {
+        text-decoration: underline 1px;
+    }
 }
 
 .ListContentcontainer p {

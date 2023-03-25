@@ -1,3 +1,14 @@
+/*Test*/
+.testContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+/*SummaryList*/
 .header{
     width: 100%;
     display: flex;
@@ -44,4 +55,79 @@
 .header div h2{	
     padding: 0;
     width: fit-content;
+}
+
+/*Post*/
+.post{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    border-radius: .5em;
+    padding: .7em  .7em  .2em .7em;
+    background-color: var(--background_1);
+}
+
+.post:hover{
+    Filter: brightness(120%);
+}
+
+.postHeader{
+    display: flex;
+    align-items: flex-start;
+}
+.postHeader img{
+    width: 3em;
+    height: 3em;
+    border-radius: 10em;
+    margin-right: 1rem;
+}
+
+.postHeader span{
+    float: right;
+    font-size: .7em;
+    opacity: .7;
+
+    /*Not sure*/
+    margin-top: .3em;
+}
+
+.post:hover .postHeader span{
+    Filter: brightness(80%);
+}
+
+.postContent{
+    display: flex;
+    flex-direction: column;
+}
+.postContent > div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: .2em;
+}
+
+.postFooter{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.postFooter div{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .5em;
+}
+
+.postFooter img{
+    border-radius: 10em;
+    padding: .3em;
+}
+
+.postFooter img:hover{
+    background-color: var(--background_2);
 }
