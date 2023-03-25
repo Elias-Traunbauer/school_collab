@@ -71,19 +71,21 @@ export default function Profile() {
         //backend
       }
 
-        /*{ linkDeleted ? <button className={styles.cancelbutton} onClick={(e) => deleteAccount(e, links.indexOf(link))}/> : null } */
-
       function printLinks(){
             return links.map((link) => {
                 if(link != null)
                     return <div className={styles.Link}>
-                                <Link key={link} href={link} rel="noopener noreferrer" target="_blank">{link}</Link>
+                                <Link key={link} href={link} rel="noopener noreferrer" target="_blank">{cutLink(link)}</Link>
                                 { linkDeleted ? <button className={styles.cancelbutton} onClick={(e) => {
                                     deleteAccount(e, links.indexOf(link)); 
                                     links == [] ? setLinkDeleted(false) : null;}}/> 
                                     : null }
                             </div>
             })
+      }
+      
+      function cutLink(link){
+        return link.split("/")[2].split(".")[1];
       }
 
       function deleteAccount(e, key){
@@ -94,8 +96,8 @@ export default function Profile() {
             if(i != key)
             tmpList.push(links[i]);
         }
+
         setLinks(tmpList);
-        
       }
 
 
@@ -155,7 +157,9 @@ export default function Profile() {
                                 <button onClick={() => addAccountOnClick(newAccount)}>add</button>
                                 <button onClick={(e) => stopAddAccountOnClick(e)}>cancel</button></div> : null}
                             
-                            {linkDeleted ? <div className={styles.submit}><button className={styles.button} onClick={(e) => submitDeleteOnClick(e)}>submit</button></div> : null}
+                            <div className={styles.submit}>
+                                {linkDeleted ? <button className={styles.button} onClick={(e) => submitDeleteOnClick(e)}>submit</button>: null}
+                            </div> 
                         </form>
                     </div>
                     {passwordChange ? <Wizard callback={callback} containerWidth={5} contentData={contentData} title='Change password'/> : null}
