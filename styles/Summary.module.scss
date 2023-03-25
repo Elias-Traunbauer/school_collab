@@ -9,52 +9,107 @@
 }
 
 /*SummaryList*/
-.header{
-    width: 100%;
+.listContainer{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-.header > div{
-    width: 70%;
-    background-color: var(--background_1);
-}
-
-.header > div > *{
-    display: inline-block;
-}
-.header > div > div{
-    position: relative;
-    float: right;
+    width: 100%;
     height: 100%;
+    gap: .5em;
+    margin-bottom: 2em;
+}
 
-    & button {
-        height: 100%;
-        font-size: 1.5rem;
-        padding: .8em 1rem;
-        background-color: var(--background_2);
-        border: 0;
+.listHeader{
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5em;
+    background-color: var(--background_1);
+    border-radius: .2em;
+    user-select: none;
+
+    & > p{
+        font-size: 1.2em;
+        font-weight: 600;
+        margin-left: .5em;
+        
+    }
+
+    & > img:hover{
+       background-color: var(--background_2);
+       opacity: .7;
+       filter: brightness(120%);
+    }
+
+    & > img{
+        width: 2.5em;
+        height: 2.5em;
+        border-radius: 10em;
+        margin-right: .5em;
+        border-radius: 10em;
+        user-select: none;
+        transition: transform 0.2s ease-in-out;
     }
 }
 
-.header > div > div:hover > div{
-    display: block;
+.rotateExpandImage{
+    transform: rotate(90deg);
 }
 
-.header > div > div > div{
-    display: none;
-    position: absolute;
+.listHeader:hover{
+    filter: brightness(120%);
 }
 
-.header > div > div > div > *{
+.postContentContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    gap: .5em;
+
+    & > *{
+        opacity: 1;
+        visibility: visible;
+        transition: opacity .5s ease-in-out, visibility 0s linear 0s;
+    }
+
+    &>button{
+        width: 60%;
+        height: 3em;
+        border-radius: .5em;
+        border: 0;
+        outline: 0;
+        background-color: var(--color_main);
+        color: white;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: filter .2s ease-in-out;
+    }
+    &>button:hover{
+        filter: brightness(120%);
+    }
 }
 
-.header div h2{	
-    padding: 0;
-    width: fit-content;
+.hiddenElement{
+    opacity: 0;
+    visibility: hidden;
+    display: none !important;
+    transition: opacity .5s ease-in-out, visibility 0s linear .5s;
+}
+  
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
 }
 
 /*Post*/

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import styles from '../styles/Summary.module.scss'
 import FileListObject from './FileListObject'
 import { useState } from 'react'
-export default function SummaryPost({ post = {author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date()}}) {
+export default function SummaryPost({ post = {author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"}}) {
 
     const userDummy = {
         name: 'Yannie',
