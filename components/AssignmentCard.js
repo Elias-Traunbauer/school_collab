@@ -1,18 +1,9 @@
-import { useState,useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Countdown from './Countdown';
-import styles from '../styles/assignment.module.css'
+import styles from '../styles/Assignment.module.css'
 import { useRouter } from 'next/router'
 
-export default function Assignment({assignment}){
-
-    //mock
-    let assignmentDummy = {
-        subject: "DBI",
-        title: "JPA Lab 1: Generieren der IDs",
-        deadline: new Date(2023, 1, 22, 13, 40),
-        set: true
-    }
-
+export default function Assignment({ assignment = { subject: "DBI", title: "JPA Lab 1: Generieren der IDs", deadline: new Date(2023, 1, 22, 13, 40), set: true } }) {
     const router = useRouter();
 
     let assignmentStart = {
@@ -21,10 +12,9 @@ export default function Assignment({assignment}){
         deadline: new Date(),
         set: false
     }
-    
     const [assignmentState, setAssignment] = useState(assignmentStart);
 
-    useEffect(()=>{
+    useEffect(() => {
         setTimeout(() => {
             if (!assignmentState.set) {
                 setAssignment(assignment);
@@ -32,9 +22,8 @@ export default function Assignment({assignment}){
         }, 300);
     });
 
-    return(
-        
-        <div className={styles.assignmentcontainer} onClick={()=>router.push("./assignment_edit?assignmentId=1")}>
+    return (
+        <div className={styles.assignmentcontainer} onClick={() => router.push("./assignment_edit?assignmentId=1")}>
             <div className={styles.assignmentcard}>
                 <div className={styles.assignmenthead}>
                     <p>{assignmentState.subject}</p>
@@ -47,6 +36,6 @@ export default function Assignment({assignment}){
                 </div>
             </div>
         </div>
-        
+
     );
 }

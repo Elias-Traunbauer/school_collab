@@ -1,45 +1,57 @@
-.assignmentcontainer{
+.assignmentcontainer {
   display: flex;
   align-items: center;
   flex-direction: column;
   margin-top: 1em;
 }
-.assignmentcard{
+
+.assignmentcard {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 40vw;
   /*height: 25vh;*/
-  background-color: var(--color_main) !important;
+  background-color: var(--background_1);
   border-radius: 1em;
   margin-bottom: 1em;
 }
 
-.assignmentcard:hover{
-  background-color: var(--color_main_hover) !important;
+.assignmentcard:hover {
+  /*background: linear-gradient(131deg, var(--color_main) 0%, var(--background_2) 35%);
+  */
+  background-color: var(--background_2);
 }
-.assignmenthead{
+
+.assignmenthead {
   text-align: left;
   width: 100%;
   margin-left: 2em;
   padding: 0.5em;
   padding-top: 0;
 }
-.assignmentbody{
+
+.assignmentbody {
   padding: 0;
 }
-.assignmentfoot{
+
+.assignmentfoot {
   text-align: right !important;
   width: 100%;
   margin-right: 2em;
   padding: .3em;
 }
 
-.descriptioncontainer{  
+.descriptioncontainer {
   margin-bottom: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
 }
-.description{
+
+.description {
   width: 60%;
   margin-left: 20%;
   padding: 1em;
@@ -50,14 +62,15 @@
   display: flex;
   flex-direction: column;
 }
-.description input{
+
+.description input {
   padding: .3em;
   margin-top: .8em;
   margin-bottom: .8em;
   outline: none;
 }
 
-.fileuploadcontainer{
+.fileuploadcontainer {
   width: 100vw;
   height: 40vh;
   justify-content: center;
@@ -66,23 +79,37 @@
   flex-direction: column;
 }
 
-.editButton{
-  width: 80%;
+.editButton {
+  margin-top: 1em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
-.editButton button{
+
+.editButton div {
+  width: 70%;
+}
+
+.editButton div button[type="right"] {
   float: right !important;
 }
 
-.edithead{
-  width: 60%;
+.editButton div button[type="left"] {
+  float: left !important;
+}
+
+.edithead {
+  width: 70%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 
-.editheadContainer{
-  width: 100vw;
+.editheadContainer {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,14 +121,15 @@
   font-size: 2em;
   margin-top: .5em;
   margin-bottom: .5em;
+  width: 100%;
 }
 
-.edithead p{
+.edithead p {
   color: var(--color_countdown_running);
 }
 
 
-.wrapper{
+.wrapper {
   width: 45%;
   background: var(--background_1);
   color: #fff;
@@ -109,18 +137,18 @@
   padding: 2em;
 }
 
-.wrapper:hover{
+.wrapper:hover {
   background-color: var(--background_2);
 }
 
-.headerContainer{
+.headerContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
 
-.extentionWrapper{
+.extentionWrapper {
   display: flex;
   justify-content: right;
   width: 100%;
@@ -128,14 +156,14 @@
   padding: .5em .5em .5em 0;
 }
 
-.wrapper header{
+.wrapper header {
   color: var(--color_main);
   font-weight: 600;
   font-size: 1.6em;
   text-align: center;
 }
 
-.fileinput{
+.fileinput {
   cursor: pointer;
   margin: 1em 0;
   border-radius: .5em;
@@ -146,111 +174,86 @@
   display: flex;
 }
 
-.fileinput label{
+.fileinput label {
   color: rgb(255, 255, 255);
   opacity: 0.5;
 }
 
-.uploadfieldcontainer{
+.uploadfieldcontainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.activedrag{
+.activedrag {
   background-color: var(--background_3);
   color: #fff;
 }
 
-.filelistitem li{
-  color: rgb(255, 255, 255);
-  width: 100%;
-  border-radius: .3em;
-  margin-bottom: .3em;
-  padding: .6em;
-  max-height: 3em;
-  display:flex;
-  align-items:center;
-  justify-content: space-between;
-}
 
-.filelistitem li p{
-  order: 0;
-}
-.cancelbutton{
+.cancelbutton {
   background-color: transparent;
   float: right;
   border-radius: 100%;
-  
+
 }
 
-.cancelbutton:hover{
+.cancelbutton:hover {
   background-color: #4040405b;
   order: 2;
 }
 
-
-.filelistitem li:hover{
-  background-color: var(--background_2);
+.filelistitem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 3em;
+  background-color: var(--background_1);
+  padding: .5em;
 }
 
-.filelistitem_close{
+.filelistitem_close {
   animation-name: filelistitem_close;
   animation: filelistitem_close .5s forwards;
 }
 
 @keyframes filelistitem_close {
   from {
-
     scale: 1;
   }
+
   to {
     scale: 0;
   }
 }
 
-.filelistitem{
-  margin-bottom: .5em;
-  background: var(--background_1);
-  list-style: none;
-  padding: .5em .6em;
-  border-radius: .5em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-}
-
-.description_editbtn{
+.description_editbtn {
   border-radius: .5em;
   border: 1px solid black;
   width: 10%;
 }
-.fiesupload_uploadbtn{
+
+.fiesupload_uploadbtn {
   float: right !important;
 }
-.fileListContainer ul{
+
+.fileListContainer ul {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 60vw;
 }
-.fileListWrapper{
+
+.fileListWrapper {
   display: flex;
   justify-content: center;
 }
 
-.descriptionSection{
-  border-bottom: 1px solid rgb(0, 0, 0,.3);
-}
-
-.instrictionfileContainer ul{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.descriptionSection {
+  border-bottom: 1px solid rgb(0, 0, 0, .3);
 }
 
 .dropbtn {
@@ -264,7 +267,8 @@
   outline: none;
   float: right;
 }
-.extentionContainer{
+
+.extentionContainer {
   width: 100%;
 }
 
@@ -276,7 +280,7 @@
 }
 
 .dropdownContent {
-  transform: translate(0,2.5em);
+  transform: translate(0, 2.5em);
   display: none;
   position: absolute;
   background-color: transparent;
@@ -287,7 +291,8 @@
   float: right;
 }
 
-.dropdownContent a, .dropdownContent input {
+.dropdownContent a,
+.dropdownContent input {
   color: white;
   background-color: var(--background_3);
   outline: none;
@@ -302,16 +307,19 @@
   margin-bottom: .1em;
 }
 
-.dropdownContent input::placeholder{
+.dropdownContent input::placeholder {
   text-align: center;
-  color: rgb(255, 255, 255,0.5);
+  color: rgb(255, 255, 255, 0.5);
 }
 
-.dropdownContent a p{
+.dropdownContent a p {
   padding: .5em !important;
 }
 
-.dropdownContent a:hover,.dropdownContent input:hover {background-color: var(--background_4);}
+.dropdownContent a:hover,
+.dropdownContent input:hover {
+  background-color: var(--background_4);
+}
 
 
 
@@ -323,16 +331,16 @@
   background-color: var(--background_4);
 }
 
-.wizzardWrapper{
+.wizzardWrapper {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction:column;
+  flex-direction: column;
   background-color: var(--background);
 }
 
-.wizzardContainer{
+.wizzardContainer {
   scale: 1.5;
   position: relative;
   display: flex;
@@ -344,7 +352,8 @@
   min-width: var(--container_width);
   box-shadow: 0 -2px 10px rgb(7, 7, 7);
 }
-.contenWrapper{
+
+.contenWrapper {
   width: 100%;
   height: 100%;
   display: flex;
@@ -354,9 +363,9 @@
   padding: .5em;
 }
 
-.contenWrapper ul{
+.contenWrapper ul {
   width: 80%;
-  height:20%;
+  height: 20%;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -368,14 +377,14 @@
   color: white;
   margin-bottom: 1.5em;
   padding-top: 2em;
- }
+}
 
- .wizardheading{
+.wizardheading {
   margin: 0;
   padding-top: .1em;
- }
+}
 
- .contenWrapper ul li{
+.contenWrapper ul li {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -385,9 +394,9 @@
   height: 3em;
   z-index: 0;
   padding: 1.5em;
- }
+}
 
- .wizardLine{
+.wizardLine {
   width: 100%;
   z-index: 1;
   height: .1rem;
@@ -399,20 +408,21 @@
   transition: 1s ease-out;
 }
 
-.activeLine{
+.activeLine {
   transition: 1s;
   background-position: left;
   /*transition: all 1500ms cubic-bezier(0.290, 0.870, 0.160, 0.925);
   transition-timing-function: cubic-bezier(0.290, 0.870, 0.160, 0.925);*/
 }
- .filled{
+
+.filled {
   background-color: var(--color_main) !important;
   color: white;
   transition: .5s;
   transition-delay: 1s;
- }
+}
 
- .wizardContent{
+.wizardContent {
   display: flex;
   flex-direction: column;
   color: white;
@@ -421,7 +431,7 @@
   width: 100%;
 }
 
-.inputContainer{
+.inputContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -430,7 +440,7 @@
   width: 100%;
 }
 
-.wizardContent input{
+.wizardContent input {
   background-color: var(--background_2);
   border-radius: .3em;
   font-size: .9em;
@@ -441,12 +451,12 @@
   width: 100%;
 }
 
-.wizardContent label{
+.wizardContent label {
   font-size: .8em;
 }
 
 
-.wizardContentContainer{
+.wizardContentContainer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -457,7 +467,8 @@
   width: 80%;
   height: auto;
 }
-.wizardButtonContainer{
+
+.wizardButtonContainer {
   margin-top: 1em;
   justify-self: flex-end;
   display: flex;
@@ -468,31 +479,35 @@
   padding-bottom: 1em;
 }
 
-.wizardButtonContainer button{
+.wizardButtonContainer button {
   background-color: var(--color_main);
   border: 0;
-  padding:  .5em 1em .5em 1em ;
+  padding: .5em 1em .5em 1em;
 }
-.disabeldBtn{
+
+.disabeldBtn {
   pointer-events: none;
   opacity: .7;
   user-select: none;
   background-color: var(--disabled_filter) !important;
 }
-.hidden,.hidden>*, .hidden >*>*{
+
+.hidden,
+.hidden>*,
+.hidden>*>* {
   display: none !important;
   pointer-events: none;
   cursor: loading;
 }
 
 
-.bumper{
+.bumper {
   height: 1em;
 }
 
-.edditOff{
+.edditOff {
   width: 50%;
-  overflow:visible;
+  overflow: visible;
   border: 1px solid transparent;
   display: inline;
   font-family: inherit;
@@ -500,9 +515,10 @@
   background-color: transparent;
   outline: 0;
 }
-.edditOn{
+
+.edditOn {
   width: 50%;
-  overflow:visible;
+  overflow: visible;
   border: 1px solid var(--background_2);
   display: inline;
   font-family: inherit;
@@ -512,24 +528,12 @@
   border-radius: .3em;
 }
 
-.descriptionOn{
-  width: fit-content;
-  border: 1px solid var(--background_3);
-  background-color: var(--background_1);
-  border-radius: .3em;
-}
-.descriptionOff{
-  width: fit-content;
-  border: 1px solid transparent;
-  background-color: transparent;
-}
-
-.plus img{
+.plus img {
   width: 100%;
   height: 100%;
 }
 
-.plusContainer{
+.plusContainer {
   width: 60%;
   height: 4em;
   background-color: var(--background_1);
@@ -540,7 +544,7 @@
   justify-content: space-between;
 }
 
-.plus{
+.plus {
   width: 3em;
   height: 3em;
   float: right;
@@ -551,21 +555,22 @@
   align-items: center;
   border-radius: .3em;
 }
-.plus:hover{
+
+.plus:hover {
   opacity: .7;
 }
 
-.plusContainer h1{
+.plusContainer h1 {
   text-align: center;
 }
 
-.inputHeader{
+.inputHeader {
   padding-right: 1em;
   display: flex;
   justify-content: space-between;
 }
 
-.fileExtention{
+.fileExtention {
   border-radius: 1rem;
   background-color: var(--background);
   color: white;
@@ -578,12 +583,12 @@
   user-select: none;
 }
 
-.blur{
+.blur {
   filter: blur(2px) grayscale(.5);
   background-color: var(--disabled_filter);
 }
 
-.loader{
+.loader {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -596,7 +601,7 @@
   z-index: 99;
 }
 
-.loader div{
+.loader div {
   margin-top: 10%;
   width: 8em;
   height: 8em;
@@ -607,7 +612,7 @@
   justify-content: center;
 }
 
-.loader div::after{
+.loader div::after {
   content: '';
   background-color: var(--color_main);
   transition: 1s;
@@ -615,9 +620,11 @@
   height: 80%;
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
 }
-.loading{
+
+.loading {
   cursor: wait;
 }
+
 .loading::after {
   animation: loading_start 1s forwards, 2s loading 1s infinite;
 }
@@ -634,46 +641,53 @@
   0% {
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
   }
+
   50% {
-      /*clip-path: polygon(50% 0%, 80% 10%, 100% 36%, 100% 64%, 80% 90%, 50% 100%, 20% 90%, 0 64%, 0 36%, 20% 10%);*/
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+    /*clip-path: polygon(50% 0%, 80% 10%, 100% 36%, 100% 64%, 80% 90%, 50% 100%, 20% 90%, 0 64%, 0 36%, 20% 10%);*/
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
   }
+
   100% {
-      clip-path: polygon(50% 0%, 50% 49%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+    clip-path: polygon(50% 0%, 50% 49%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
   }
 }
 
 @keyframes loading {
   0% {
-      clip-path: polygon(50% 0%, 50% 49%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+    clip-path: polygon(50% 0%, 50% 49%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
   }
+
   25% {
-      clip-path: polygon(50% 0%, 100% 50%, 50% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
   }
+
   50% {
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
   }
+
   75% {
-      clip-path: polygon(50% 50%, 100% 50%, 50% 100%, 0 50%, 0 50%, 0 50%, 0 50%, 0 50%, 0 50%);
+    clip-path: polygon(50% 50%, 100% 50%, 50% 100%, 0 50%, 0 50%, 0 50%, 0 50%, 0 50%, 0 50%);
   }
+
   100% {
-      clip-path: polygon(50% 0%, 50% 49%, 50% 100%, 0% 50%, 0 50%, 0 50%, 0 50%, 0 50%, 0 50%);
+    clip-path: polygon(50% 0%, 50% 49%, 50% 100%, 0% 50%, 0 50%, 0 50%, 0 50%, 0 50%, 0 50%);
   }
 }
 
 @keyframes finish {
   0% {
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%);
   }
+
   100% {
-      /*clip-path: polygon(8% 56%, 44% 85%, 92% 14%, 100% 21%, 45% 100%, 0 63%, 0 63%, 0 63%, 0 63%);*/
-      /*clip-path: polygon(43% 82%, 90% 12%, 100% 19%, 45% 100%, 0 62%, 9% 54%, 9% 54%, 9% 54%, 9% 54%);*/
-      /*clip-path: polygon(90% 12%, 100% 19%, 45% 100%, 0 62%, 9% 54%, 9% 54%, 9% 54%, 9% 54%, 43% 82%);*/
-      clip-path: polygon(28% 38%, 41% 53%, 75% 24%,75% 24%, 86% 38%,86% 38%, 40% 78%,40% 78% ,15% 50%);
+    /*clip-path: polygon(8% 56%, 44% 85%, 92% 14%, 100% 21%, 45% 100%, 0 63%, 0 63%, 0 63%, 0 63%);*/
+    /*clip-path: polygon(43% 82%, 90% 12%, 100% 19%, 45% 100%, 0 62%, 9% 54%, 9% 54%, 9% 54%, 9% 54%);*/
+    /*clip-path: polygon(90% 12%, 100% 19%, 45% 100%, 0 62%, 9% 54%, 9% 54%, 9% 54%, 9% 54%, 43% 82%);*/
+    clip-path: polygon(28% 38%, 41% 53%, 75% 24%, 75% 24%, 86% 38%, 86% 38%, 40% 78%, 40% 78%, 15% 50%);
   }
 }
 
-.chekBoxContainer{
+descriptionExpander .chekBoxContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -681,11 +695,178 @@
   width: 80%;
 }
 
-.chekBoxContainer input[type="checkbox"]{
+.chekBoxContainer input[type="checkbox"] {
   width: auto;
 }
 
-.chekBoxContainer p{
+.chekBoxContainer p {
   width: max-content;
+
+}
+
+.descriptionExpander {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: .2em;
+  padding: .5em;
+}
+
+.seperator {
+  width: 100% !important;
+  height: 1px !important;
+  background-color: var(--background_4);
+}
+
+.descriptionExpander p {
+  margin: 0;
+  padding: .2em;
+}
+
+.descriptionExpander img {
+  fill: white;
+  color: #fff;
+  width: 1.5em;
+}
+
+.descriptionInputContainer {
+  border-top: 1px solid var(--background_4);
+  background-color: var(--background_2);
+  width: 100%;
+  border-bottom-left-radius: .3em;
+  border-bottom-right-radius: .3em;
+  padding: .3em;
+  min-height: 2em !important;
+  gap: .5em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.descriptionInputContainer input {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: .2em;
+  font-size: large;
+  padding: .3em;
+}
+
+.descriptionwrapper {
+  width: 70%;
+  background-color: var(--background_1);
+  border-radius: .2em;
+  margin-bottom: .7em;
+}
+
+.descriptionwrapper:hover {
+  background-color: var(--background_2);
+}
+
+
+.descriptionOn {
+  border: 1px solid var(--background_3) !important;
+  background-color: var(--background_2) !important;
+  border-radius: .3em;
+}
+
+.descriptionOff {
+  border: 1px solid transparent;
+  background-color: transparent;
+  background-color: transparent !important;
+  outline: none;
+}
+
+.descriptionExpander>* {
+  user-select: none;
+}
+
+.uploadFileContainer {
+  margin-top: 1em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.uploadFileContainer table {
+  margin-top: 2em;
+  width: 60%;
+  text-align: left;
+  border-collapse: collapse;
+  border-radius: .5em !important;
+}
+
+.uploadFileContainer table th {
+  padding: 1em 0 1em 0;
+}
+
+.uploadFileContainer table th,
+.uploadFileContainer table td {
+  border-top: 1px solid var(--background_3);
+  border-bottom: 1px solid var(--background_3);
+  padding-left: .5em;
+}
+
+.uploadFileContainer table tr:hover {
+  background-color: var(--background_2) !important;
+}
+
+.fileDisplayContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.filesExpander {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: .3em;
+  margin-bottom: .2em;
+}
+
+.filesExpander p {
+  margin: 0;
+}
+
+.filesWrapper {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: .3em;
+  background-color: var(--background_1);
+  padding: .5em;
+}
+
+.filesWrapper:hover {
+  background-color: var(--background_2);
+}
+
+.countdownContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0 .3em 0 .3em;
+  flex-wrap: nowrap;
+}
+
+.countdownContainer div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  border-top: 1px solid var(--background_3);
+  border-bottom: 1px solid var(--background_3);
+  margin-bottom: 1em;
 
 }

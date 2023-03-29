@@ -4,7 +4,7 @@ import Footer from ".//footer.js"
 import Link from "next/link.js";
 
 
-export default function Layout ({ children }) {
+export default function Layout({ children }) {
     return <>
             <Navbar></Navbar>
             {children}

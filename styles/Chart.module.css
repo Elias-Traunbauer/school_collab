@@ -1,4 +1,4 @@
-.wrapper{
+.wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,7 +7,7 @@
     height: 100vh;
 }
 
-.chartContainer{
+.chartContainer {
     width: 50%;
     background-color: var(--background_1);
     padding: 2em 2em 0 2em;
@@ -16,13 +16,14 @@
     justify-content: space-between;
 }
 
-.chartElement{
+.chartElement {
     width: 3em;
     transition: 1s;
     position: relative;
     border-bottom: 0 !important;
 }
-.chartElement:hover{
+
+.chartElement:hover {
     transition: .6s;
     opacity: 1;
     z-index: 5;
@@ -37,31 +38,32 @@
     font-size: auto;
     text-align: center;
     margin-top: -2.5em;
-    padding: .3em .5em .3em .5em !important;	
+    padding: .3em .5em .3em .5em !important;
     background-color: var(--background_4);
     border-radius: .5em;
     overflow: hidden;
     white-space: nowrap;
     z-index: 5;
 }
+
 .chartElement:hover::before {
     transition: none;
     opacity: 1 !important;
 }
 
-.chartScale{
+.chartScale {
     background-color: white;
     width: 100%;
 }
 
-.verticalLine{
+.verticalLine {
     height: 100%;
     background-color: white;
     width: .1em;
     z-index: 1;
 }
 
-.chartScale{
+.chartScale {
     position: absolute;
     display: flex;
     justify-content: space-between;
@@ -73,35 +75,39 @@
     z-index: 1;
 }
 
-.horizontalLines{
+.horizontalLines {
     display: flex;
     flex-direction: row;
-    height: 100%;  
+    height: 100%;
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
     z-index: 1;
-    
+
 }
-.horizontalLines div{
+
+.horizontalLines div {
     height: .1em;
     width: 100%;
-    background-color: rgb(255, 255, 255,.1);
-    z-index: 1; 
+    background-color: rgb(255, 255, 255, .1);
+    z-index: 1;
 }
-.chart{
+
+.chart {
     z-index: 5;
 }
-.horizontalLineText{
+
+.horizontalLineText {
     position: absolute;
     color: white;
     font-size: .8em;
     z-index: 1;
     width: 2em;
-    
+
 }
-.horizontalLineText p{
+
+.horizontalLineText p {
     width: 2em;
     text-align: center;
     position: absolute;

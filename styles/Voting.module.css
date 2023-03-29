@@ -1,4 +1,4 @@
-.wrapper{
+.wrapper {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -7,7 +7,8 @@
     align-items: center;
     color: white;
 }
-.votingContainer{
+
+.votingContainer {
     width: 50%;
     height: auto;
     display: flex;
@@ -17,18 +18,21 @@
     align-items: center;
     padding-bottom: 1em;
 }
-.heading{
+
+.heading {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.votingContainer{
+
+.votingContainer {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.buttonArray{
+
+.buttonArray {
     width: 80%;
     height: 3em;
     display: flex;
@@ -37,21 +41,23 @@
     justify-self: baseline;
 }
 
-.buttonArray button{
+.buttonArray button {
     width: 20%;
     height: 3em;
     border: 0;
     border-radius: .3em;
     background-color: #2a2a2a;
 }
-.buttonArray button:hover{
+
+.buttonArray button:hover {
     width: 20%;
     height: 3em;
     border: 0;
     border-radius: .3em;
     background-color: #343434;
 }
-.votingContainer li{
+
+.votingContainer li {
     list-style: none;
     padding: 1em 4em 1em 4em;
     border-radius: .5em;
@@ -62,39 +68,44 @@
     user-select: none;
 }
 
-.activeAnswer{
+.activeAnswer {
     background-color: rgb(85, 1, 85) !important;
 }
-.activeAnswer:hover{
+
+.activeAnswer:hover {
     background-color: rgb(94, 2, 94) !important;
 }
 
-.votingContainer li:hover{
+.votingContainer li:hover {
     background-color: #2a2a2a;
 }
-.votingContainer ul{
+
+.votingContainer ul {
     padding: 0;
 }
 
-.disabeld,.disabeld:hover{
+.disabeld,
+.disabeld:hover {
     background-color: #2a2a2a !important;
     opacity: .5 !important;
     color: #d3d3d3 !important;
     pointer-events: none !important;
 }
 
-.votingContentContainer{
+.votingContentContainer {
     width: 80%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
-.votingContentContainer ul{
+
+.votingContentContainer ul {
     width: 50%;
     padding: 0 1em 0 1em;
 }
-.chartContainer{
+
+.chartContainer {
     background-color: transparent;
     display: flex;
     justify-content: center;
@@ -102,9 +113,11 @@
     height: 100%;
     padding: 0 1em 0 1em;
 }
-.chartContainer canvas{
+
+.chartContainer canvas {
     display: flex;
 }
-.invisible{
+
+.invisible {
     display: none;
 }

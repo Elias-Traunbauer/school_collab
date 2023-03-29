@@ -1,5 +1,5 @@
 import router from "next/router"
-import Wizard from "../components/wizard"
+import Wizard from "../components/Wizard"
 import styles from "/styles/Login.module.css"
 
 export default function Login() {
@@ -10,7 +10,7 @@ export default function Login() {
     password: true,
   }];
 
-  function callback(data,setText,finishLoading){
+  function callback(data, setText, finishLoading) {
     console.log(data);
 
     setTimeout(() => {
@@ -27,5 +27,5 @@ export default function Login() {
     <div className={styles.wizardWrapper}>
       <Wizard callback={callback} containerWidth={20} contentData={contentData} title='Login'></Wizard>
     </div>
-    )
+  )
 }
