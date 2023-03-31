@@ -1,4 +1,4 @@
-.container{
+.container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -12,5 +12,7 @@
         justify-content: center;
         align-items: center;
         width: 33%;
+        background-color: var(--color_main);
+        color: black;
     }
 }
