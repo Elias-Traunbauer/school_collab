@@ -1,12 +1,13 @@
 :root {
-  --color_main: #59097b;
+  --color_main: #5f2dbd;
   --background: #000000;
-  --background_1: #202225;
-  --background_2: #292b2f;
-  --background_3: #2f3136;
-  --background_4: #40444b;
-  --background_5: #666d76;
-  --disabled_filter: #373737bc;
+  --background_1: #181a1b;
+  --background_2: #212225;
+  --background_3: #282a2e;
+  --background_4: #373a41;
+  --background_5: #535961;
+  --disabled_filter: #171717bc;
+  --color_red: #bf0000;
 }
 
 @font-face {
@@ -28,6 +29,11 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  transition: 0.5s;
+}
+
+a:hover {
+  filter: brightness(150%);
 }
 
 * {
@@ -39,6 +45,7 @@ a {
   html {
     color-scheme: dark;
   }
+
   body {
     color: white;
     background: var(--background);
@@ -68,11 +75,11 @@ a {
   flex-flow: column;
   min-height: 100vh;
   display: flex;
-  flex-grow : 1;
+  flex-grow: 1;
 }
 
 [type="special"] {
-  background: linear-gradient(90deg, rgba(144,0,175,1) 0%, rgba(205,0,146,1) 50%, rgba(144,0,175,1) 100%);
+  background: linear-gradient(90deg, rgba(144, 0, 175, 1) 0%, rgba(205, 0, 146, 1) 50%, rgba(144, 0, 175, 1) 100%);
   color: transparent;
   background-clip: text;
   background-size: 10em 10em;
@@ -81,10 +88,11 @@ a {
 
 @keyframes bgPos {
   0% {
-      background-position: 0 0;
+    background-position: 0 0;
   }
+
   100% {
-      background-position: 10em 0;
+    background-position: 10em 0;
   }
 }
 
@@ -94,4 +102,45 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.btn {
+  padding: .6em .8em;
+  font-size: 1em;
+  border-radius: 1em;
+  outline: 0;
+  border: 0;
+  margin: 0 .3em;
+  min-width: 4em;
+  min-height: 1.8em;
+  cursor: pointer;
+}
+
+.btn-primary {
+  color: white;
+  background-color: var(--color_main);
+  border: .1em solid var(--color_main);
+}
+
+.btn-primary:hover {
+  filter: brightness(120%);
+}
+
+.btn-cancel {
+  color: white;
+  background-color: transparent;
+  border: .1em solid white;
+}
+
+.btn-cancel:hover {
+  background-color: var(--color_red);
+}
+
+.btn-seconday {
+  color: white;
+  background-color: var(--background_1);
+}
+
+.btn-seconday:hover {
+  background-color: var(--background_2)
 }

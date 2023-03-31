@@ -1,31 +1,32 @@
-.container{
-    background-color: rgb(101, 0, 101);;
+.container {
+    background-color: rgb(101, 0, 101);
+    ;
     display: flex;
     height: 2.5em;
 }
 
-.container a:link{
+.container a:link {
     display: flex;
     justify-content: center;
-    height: 2.5em;
-    width: 6em;
+    padding: 0 1em 0 1em;
     align-items: center;
-    transition: 0.25s ease-out;
 }
 
-.underline{
+.navactive {
+    background-color: red !important;
+}
+
+.underline {
     position: relative;
     height: 0.1em;
-    width:  2.5em;
+    width: 2.5em;
     background-color: white;
-    transform:translate(var(--transform),-0.6em);
-    margin-left: var(--line);
-    transition: 0.25s ease-in;
+    transform: translate(1.3em, -0.6em);
 }
 
-.navactive{
-    
-}
+
+
+
 
 
 /*.container_right{

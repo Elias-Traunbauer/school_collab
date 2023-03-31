@@ -1,11 +1,9 @@
 <?php
-require "credentials.php";
 
 Database::createPDOConnection();
 class Database
 {
-
-    public static string $hashAlgo = "sha256";
+    public static string $hashAlgo = "sha512";
 
     /// <summary>
     /// Creates a PDO connection to the database.
@@ -13,7 +11,9 @@ class Database
     /// <returns>A PDO connection to the database.</returns>
     public static function createPDOConnection(): PDO
     {
-        $credentials = Credentials::loadConfig(Credential_Data::$credential_string);
+        $config = json_decode(file_get_contents("credentials.json"));
+
+        $credentials = Credentials::loadConfig($config->db);
         return new PDO("mysql:host=" . $credentials->ip . ";dbname=" . $credentials->db, $credentials->name, $credentials->pw);
     }
 }

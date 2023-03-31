@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from "react";
 
 /// Countdown Component
 /// @param {Date} date - Date to count down to
-export default function Countdown({date}) {
+export default function Countdown({ date }) {
 
     function formatDate(seconds) {
-        
+
         const days = Math.floor(seconds / (3600 * 24));
         seconds -= days * 3600 * 24;
         const hrs = Math.floor(seconds / 3600);
@@ -18,7 +18,7 @@ export default function Countdown({date}) {
     }
     var time = useRef(0);
 
-    useEffect(()=>{
+    useEffect(() => {
         time.current = Math.floor((date.getTime() - new Date().getTime()) / 1000);
     });
 
@@ -26,22 +26,20 @@ export default function Countdown({date}) {
 
     useEffect(() => {
 
-        if(Math.floor(time.current) > 0)
-        {
+        if (Math.floor(time.current) > 0) {
             time.current -= 1;
             setDateTime(formatDate(time.current));
         }
 
         let i = setInterval(() => {
 
-            if(Math.floor(time.current) > 0)
-            {
+            if (Math.floor(time.current) > 0) {
                 time.current -= 1;
                 setDateTime(formatDate(time.current));
             }
         }, 1000);
         return () => clearInterval(i);
-    });
+    }, []);
 
     return <p>{datetime}</p>;
 }

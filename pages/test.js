@@ -1,4 +1,4 @@
-import style from "../styles/test.module.scss";
+import style from "../styles/Test.module.scss";
 import Image from "next/image";
 import { useEffect } from "react";
 
