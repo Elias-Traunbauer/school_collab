@@ -18,24 +18,23 @@
     height: 100%;
     gap: .5em;
     margin-bottom: 2em;
+    margin-top: 2em;
 }
 
 .listHeader{
-    width: 60%;
+    width: 65%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
     gap: .5em;
-    background-color: var(--background_1);
     border-radius: .2em;
     user-select: none;
-
+    border-bottom: 1px solid white;
+    padding-bottom: .3em;
     & > p{
-        font-size: 1.2em;
+        font-size: 1.5em;
         font-weight: 600;
-        margin-left: .5em;
-        
+        margin: 0;  
     }
 
     & > img:hover{
@@ -51,12 +50,13 @@
         margin-right: .5em;
         border-radius: 10em;
         user-select: none;
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.4s ease-in-out;
+        transform: rotate(00deg);
     }
 }
 
 .rotateExpandImage{
-    transform: rotate(90deg);
+    transform: rotate(-90deg) !important;
 }
 
 .listHeader:hover{
@@ -72,43 +72,105 @@
     gap: .5em;
 
     & > *{
-        opacity: 1;
-        visibility: visible;
-        transition: opacity .5s ease-in-out, visibility 0s linear 0s;
+        opacity: 0;
+        visibility: hidden;
+        animation: fadeIn 1s ease-in-out forwards;
     }
 
-    &>button{
-        width: 60%;
-        height: 3em;
-        border-radius: .5em;
-        border: 0;
-        outline: 0;
-        background-color: var(--color_main);
-        color: white;
-        font-size: 1em;
-        font-weight: 600;
-        cursor: pointer;
-        transition: filter .2s ease-in-out;
+    &> img{
+        margin-top: .8em;
+        padding: .4em;
+        border-radius: 10em;
+        fill: red !important;
     }
-    &>button:hover{
-        filter: brightness(120%);
-    }
-}
 
-.hiddenElement{
-    opacity: 0;
-    visibility: hidden;
-    display: none !important;
-    transition: opacity .5s ease-in-out, visibility 0s linear .5s;
+    &> img:hover{
+        //background-color: var(--background_2);
+        opacity: .5;
+        transition: opacity .3s linear;
+        
+    }
 }
-  
 
 @keyframes fadeIn {
     0% {
       opacity: 0;
+      visibility: hidden;
     }
     100% {
       opacity: 1;
+        visibility: visible;
+    }
+  }
+
+.hiddenElement{
+    display: none !important;
+}
+
+.navBar{
+    display: inline-block;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 2em;
+    padding: 0 1em;
+    background-color: var(--background_1);
+    z-index: 1;
+    border-radius: .2em;
+
+    & > *{
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0;
+    }
+
+    & > h1{
+        margin-top: .2em;
+        margin-left: .3em;
+    }
+
+    &>div{
+        float: right;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        min-width: 20%;
+        height: 3em;
+        gap: 1em;
+        position: relative;
+    }
+
+    &>div>input{
+        border: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.685);
+        background-color: transparent;
+        width: 10em;
+        outline: none;
+        font-size: large;
+        
+    }
+    &>div>img{
+        padding: .3em;
+        
+    }
+    &>div>div{
+        position: absolute;
+        top: 120%;
+        left: 62%;
+        z-index: 1;
+    }
+
+    &>div>div button{
+        width: 8em;
+        height: 2em;
+        border-radius: 0em;
+        background-color: var(--background_2);
+        border: 0;
+        color: rgba(255, 255, 255, 0.74);
+    }
+
+    &>div>div button:hover{
+        filter: brightness(120%);
     }
 }
 

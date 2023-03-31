@@ -1,7 +1,7 @@
 import styles from '../styles/FileListObject.module.scss';
 import Image from 'next/image';
 
-export default function FileListObject({key, deleteFunction, asCard = true, file = { name: 'test' }}) {
+export default function FileListObject({key = -1, deleteFunction, asCard = true, file = { name: 'test' }}) {
     const filename = GetFilename(file);
 
     function GetFilename(file) {
