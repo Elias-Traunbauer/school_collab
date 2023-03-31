@@ -75,7 +75,7 @@ export default function Profile() {
             return links.map((link, i) => {
                 if(link != null)
                     return <div key={i} className={styles.Link}>
-                                <Link href={link} rel="noopener noreferrer" target="_blank">{cutLink(link)}</Link>
+                                <Link href={link} target="_blank">{cutLink(link)}</Link>
                                 { linkDeleted ? <button className={styles.cancelbutton} onClick={(e) => {
                                     deleteLinkedAccount(e, links.indexOf(link)); 
                                     links == [] ? setLinkDeleted(false) : null;}}/> 
