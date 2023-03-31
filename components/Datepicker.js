@@ -217,6 +217,7 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         if (input && e.key != 'Enter') {
             return;
         }
+        e.preventDefault();
         const datetimeSplit = e.target.value.split(' ');
         const dateSplit = datetimeSplit[0].split('.');
         const timeSplit = datetimeSplit[1].split(':');
@@ -247,12 +248,11 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
                 <div className={styles.inputContainer}>
                     <label>{title}</label>
                     <input onBlur={(e) => handleInputChange(e, false)} onKeyDown={(e) => handleInputChange(e, true)} id='datetimeInput'></input>
+                    <button onClick={showDatepicker} id='pickerPopup'>
+                        <Image alt='date' width={23} height={23} src={'/calendar.svg'}></Image>
+                    </button>
                 </div>
-                <div className={styles.inputContainer}>
-                    <label> </label>
-                    <button onClick={showDatepicker} id='pickerPopup Button'>Picker</button>
-                </div>
-
+               
 
                 <div id='datepickerContainer' className={`${styles.container} ${styles.hidden}`}>
                     <div className={styles.dateHeaderContainer}>

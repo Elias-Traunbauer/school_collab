@@ -1,14 +1,20 @@
 import Link from 'next/link'
 import Wizard from '../components/Wizard'
-
+import styles from '../styles/WizardTest.module.css'
 export default function WzTest() {
-    function callback(data) {
+    function callback(data, setLoadingText, finishLoading){
         console.log(data);
+        setLoadingText("Penis...");
+        setTimeout(() => {
+            finishLoading();
+        }, 2000);
     };
-    const testData = [{ name: true, lastname: true }, { email: false }];
 
     return (
-        <Wizard contentData={testData} title='Test' callBack={(data) => callback(data)}></Wizard>
+        <div className={styles.container}>
+            <Wizard title='Test' callBack={callback}></Wizard>
+        </div>
+        
     );
 
 }

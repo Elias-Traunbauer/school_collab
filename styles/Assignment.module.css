@@ -424,23 +424,26 @@
 
 .wizardContent {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   color: white;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .inputContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
   margin-bottom: 1em;
+}
+
+.dateWrapper{
   width: 100%;
 }
 
-.wizardContent input {
+.inputContainer input[type="text"] {
   background-color: var(--background_2);
   border-radius: .3em;
   font-size: .9em;
@@ -448,7 +451,8 @@
   outline: 0;
   border: 0;
   padding: .3em;
-  width: 100%;
+  width: auto;
+  min-width: 20em;
 }
 
 .wizardContent label {
@@ -687,12 +691,12 @@
   }
 }
 
-descriptionExpander .chekBoxContainer {
+.chekBoxContainer {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  width: 80%;
+  width: 60%;
 }
 
 .chekBoxContainer input[type="checkbox"] {
