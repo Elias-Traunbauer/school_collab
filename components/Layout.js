@@ -18,6 +18,24 @@ export default function Layout({ children }) {
                 <div>
                     <Link href="https://github.com">Github</Link>
                 </div>
+                <div>
+                    <Link href="https://github.com">Github</Link>
+                </div>
+                <div>
+                    <Link href="https://github.com">Github</Link>
+                </div>
+                <div>
+                    <Link href="https://github.com">Github</Link>
+                </div>
+                <div>
+                    <Link href="https://github.com">Github</Link>
+                </div>
+                <div>
+                    <Link href="https://github.com">Github</Link>
+                </div>
+                <div>
+                    <Link href="https://github.com">Github</Link>
+                </div>
                 
             </Footer>
     </>
