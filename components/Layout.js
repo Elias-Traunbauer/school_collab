@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Navbar from ".//navbar.js"
-import Footer from ".//footer.js"
+import Footer from "./Footer.js"
 import Link from "next/link.js";
 
 
@@ -9,7 +9,16 @@ export default function Layout({ children }) {
             <Navbar></Navbar>
             {children}
             <Footer>
-                <Link href="https://github.com">Github</Link>
+                <div>
+                    <Link href="https://github.com">Github</Link>
+                </div>
+                <div>
+                    <Link href="https://github.com">Github</Link>
+                </div>
+                <div>
+                    <Link href="https://github.com">Github</Link>
+                </div>
+                
             </Footer>
     </>
 }

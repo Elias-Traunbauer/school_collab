@@ -1,4 +1,4 @@
-import File_Upload from "../components/file_upload";
+import File_Upload from "../components/FileUpload";
 import { showDecisionDialog } from "../components/Dialog";
 import Wizard from '../components/wizard';
 import styles from "../styles/profile.module.css"
@@ -72,12 +72,12 @@ export default function Profile() {
       }
 
       function printLinks(){
-            return links.map((link) => {
+            return links.map((link, i) => {
                 if(link != null)
-                    return <div className={styles.Link}>
-                                <Link key={link} href={link} rel="noopener noreferrer" target="_blank">{cutLink(link)}</Link>
+                    return <div key={i} className={styles.Link}>
+                                <Link href={link} rel="noopener noreferrer" target="_blank">{cutLink(link)}</Link>
                                 { linkDeleted ? <button className={styles.cancelbutton} onClick={(e) => {
-                                    deleteAccount(e, links.indexOf(link)); 
+                                    deleteLinkedAccount(e, links.indexOf(link)); 
                                     links == [] ? setLinkDeleted(false) : null;}}/> 
                                     : null }
                             </div>
@@ -88,7 +88,7 @@ export default function Profile() {
         return link.split("/")[2].split(".")[1];
       }
 
-      function deleteAccount(e, key){
+      function deleteLinkedAccount(e, key){
         e.preventDefault();
 
         const tmpList = [];
