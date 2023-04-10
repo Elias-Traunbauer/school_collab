@@ -108,8 +108,9 @@
   opacity: .6;
 }
 .uploadfileWrapper > h3{
-  opacity: .6;
   margin: .3em;
+  opacity: .6;
+  margin-top: 3em;
 }
 .uploadfileContainer{
   width: 70%;
