@@ -16,7 +16,7 @@ export default function AssignmentEdit({ assignmentId }) {
     title: "JPA Lab 1: Generieren der IDs",
     deadline: new Date(2024, 1, 22, 13, 40),
     set: true,
-    description: "dsasdasdadsadsad",
+    description: "dsasdasdadsadsadsss sssssssssssssssssss ssssssssssssssssssss sssssssssssssssss   sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
     creator: {
       name: "pfreyteaching",
     },
@@ -51,6 +51,7 @@ export default function AssignmentEdit({ assignmentId }) {
       uploadFiles: [...assignment.uploadFiles, ...list],
     });
     setUploadHidden(false)
+    
   }
   function handleInstructionFilesUpdate(list) {
     setAssignment({
@@ -155,8 +156,6 @@ export default function AssignmentEdit({ assignmentId }) {
     setAssignment(assignmentBackup);
     setEdditMode(false);
     document.getElementById("titleInput").value = assignmentBackup.title;
-    document.getElementById("descriptionInput").value =
-      assignmentBackup.description;
   }
 
   function handleEddit() {
@@ -165,6 +164,7 @@ export default function AssignmentEdit({ assignmentId }) {
   }
 
   function handleSaveEdit() {
+    assignment.description = document.getElementById("descriptionInput").value;
     setEdditMode(false);
     setAssignment(assignment);
   }
@@ -179,14 +179,11 @@ export default function AssignmentEdit({ assignmentId }) {
   }
 
   function ExpandDescription() {
-    const description = document.getElementById("descriptionInputContainer");
-    if (description.classList.contains(styles.hidden)) {
-      description.classList.remove(styles.hidden);
+    if (assignment.description.length < 100) {
       setDescriptionHidden(false);
-    } else {
-      description.classList.add(styles.hidden);
-      setDescriptionHidden(true);
+      return;
     }
+      setDescriptionHidden(!descriptionHidden);
   }
   function ExpandInstruction() {
     const description = document.getElementById("instructionInputContainer");
@@ -201,6 +198,49 @@ export default function AssignmentEdit({ assignmentId }) {
 
   function ExpandFiles() {
     setUploadHidden(!uploadHidden);
+  }
+
+  function handleDeleteUploadFile(key) {
+    const newList = assignment.uploadFiles.slice(0, key).concat(assignment.uploadFiles.slice(key + 1));;
+    setTimeout(() => {
+      setAssignment({
+        ...assignment,
+        uploadFiles: newList,
+      });
+    }, 500);
+  }
+
+  function GetDescription(){
+    if(edditMode)
+      return (
+        <textarea id='descriptionInput' defaultValue={assignment.description}></textarea>
+      )
+
+    if(assignment.description.length == 0)
+      return (
+        <p>No description</p>
+      )
+
+    if(assignment.description.length < 100)
+    return (
+      <p>{assignment.description}</p>
+    )
+
+    if(descriptionHidden)
+      return (
+        <>
+          <p>{assignment.description.substring(0, 100) + "... \b"}<b>Mehr Anzeigen</b></p>
+          
+        </>
+      )
+
+      return (
+        <>
+          <p>{assignment.description}</p >
+          <br></br>
+          <b>Weniger Anzeigen</b>
+        </>
+      )
   }
 
   return (
@@ -221,87 +261,24 @@ export default function AssignmentEdit({ assignmentId }) {
             <Countdown date={assignment.deadline}></Countdown>
           </div>
         </div>
-        <div className={styles.descriptioncontainer}>
-          <div className={styles.descriptionwrapper}>
-            <div
-              onClick={
-                assignment.description.length == 0 && !edditMode
-                  ? (e) => e.preventDefault()
-                  : () => ExpandDescription()
-              }
-              className={styles.descriptionExpander}
-            >
-              <p>
-                {assignment.description.length == 0 ? "No " : ""}Description
-              </p>
-              {assignment.description.length == 0 && !edditMode ? (
-                ""
-              ) : (
-                <Image
-                  className={styles.expandImg}
-                  alt="expand"
-                  src="/expand.svg"
-                  width={20}
-                  height={20}
-                ></Image>
-              )}
-            </div>
-            {descriptionHidden ||
-              (assignment.description.length == 0 && !edditMode) ? (
-              ""
-            ) : (
-              <div className={styles.seperator}></div>
-            )}
-            {assignment.description.length == 0 && !edditMode ? (
-              ""
-            ) : (
-              <div
-                id="descriptionInputContainer"
-                className={`${styles.hidden} ${styles.descriptionInputContainer}`}
-              >
-                <input
-                  className={` ${edditMode ? styles.descriptionOn : styles.descriptionOff
-                    }`}
-                  readOnly={!edditMode}
-                  defaultValue={assignment.description}
-                  id="descriptionInput"
-                ></input>
-              </div>
-            )}
+
+
+        <div className={styles.descriptionwrapper}>
+          <div onClick={ExpandDescription} className={styles.descriptioncontainer}>
+            {GetDescription()}
           </div>
-          {assignment.instrictionFiles.length == 0 ? (
-            <div className={styles.descriptionwrapper}>
-              <div className={styles.descriptionExpander}>
-                <p>No Instructions</p>
-              </div>
-            </div>
-          ) : (
-            <div className={styles.descriptionwrapper}>
-              <div
-                onClick={() => ExpandInstruction()}
-                className={styles.descriptionExpander}
-              >
-                <p>Instructions</p>
-                <Image
-                  className={styles.expandImg}
-                  alt="expand"
-                  src="/expand.svg"
-                  width={20}
-                  height={20}
-                ></Image>
-              </div>
+        </div>
 
-              {instructionHidden ? (
-                ""
-              ) : (
-                <div className={styles.seperator}></div>
-              )}
-
-              <div
-                id="instructionInputContainer"
-                className={`${styles.descriptionInputContainer}`}
-              >
-                {assignment.instrictionFiles.map((file, i) => {
+        <div className={styles.instructionHeader}>
+          <div>
+            {
+              assignment.instrictionFiles.length > 0 && <h1>Instructions</h1>
+            }
+          </div>
+        </div>
+        <div className={styles.instructionWrapper}>
+          <div className={styles.instructionContainer}>
+            {assignment.instrictionFiles.map((file, i) => {
                   return (
                     <FileListObject
                       key={i}
@@ -310,9 +287,7 @@ export default function AssignmentEdit({ assignmentId }) {
                     ></FileListObject>
                   );
                 })}
-              </div>
-            </div>
-          )}
+          </div>
         </div>
 
         <FileUpload
@@ -328,43 +303,34 @@ export default function AssignmentEdit({ assignmentId }) {
         ></FileUpload>
         
 
-        <div className={styles.uploadFileContainer}>
-          <div className={styles.filesWrapper}>
-            <div onClick={() => ExpandFiles()} className={styles.filesExpander}>
-              <p>{assignment.uploadFiles.length == 0 ? "no Files" : "your Files"}</p>
-              {
-                assignment.uploadFiles.length == 0 ? "" :
-                  <Image
-                    className={styles.expandImg}
-                    alt="expand"
-                    src="/expand.svg"
-                    width={20}
-                    height={20}
-                  ></Image>
-              }
-
-            </div>
-            {uploadHidden || assignment.uploadFiles == 0 ? "" :
-              <>
-                <div className={styles.seperator}></div>
-                <div className={styles.fileDisplayContainer}>
-                  {assignment.uploadFiles.map((file, i) => {
-                    return (
-                      <FileListObject
-                        deleteFunction={handleUploadFilesDelete}
-                        key={i}
-                        file={{ name: file.name }}
-                        asCard={false}
-                      ></FileListObject>
-                    );
-                  })}
-                </div>
-              </>
-
-
+        <div className={styles.uploadfileWrapper}>
+          <div className={styles.uploadfileheader}>
+            {
+              assignment.uploadFiles.length != 0 && <h1>Upload Files</h1>
             }
-
           </div>
+          <div className={styles.uploadfileContainer}>
+            {assignment.uploadFiles.map((file, index) => {
+              return (
+                <FileListObject
+                  key={index}
+                  itemKey={index}
+                  file={{ name: file.name }}
+                  asCard={false}
+                  edittmode={edditMode}
+                  deleteFunction={handleDeleteUploadFile}
+                ></FileListObject>
+              );
+            })}
+          </div>
+          {
+            assignment.uploadFiles.length == 0 && 
+            <>
+              <h3>no Files Uploaded!</h3>
+              <p>Drag and drop Files to upload them</p>
+            </>
+              
+          }
         </div>
 
         <div className={styles.editButton}>
