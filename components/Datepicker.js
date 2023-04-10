@@ -5,6 +5,7 @@ import { func } from 'prop-types';
 
 export default function Datepicker({ title = 'date', dateParam = new Date() }) {
 
+    const [popUp,setPopUp] = useState(false);
     const [displayDatesArray, setDisplayDatesArray] = useState([]);
     //const displayDatesArray = [];
     const [date, setDate] = useState(initDate(dateParam));
@@ -248,31 +249,25 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
                 <div className={styles.inputContainer}>
                     <label>{title}</label>
                     <input onBlur={(e) => handleInputChange(e, false)} onKeyDown={(e) => handleInputChange(e, true)} id='datetimeInput'></input>
-                    <button onClick={showDatepicker} id='pickerPopup'>
+                    <button onClick={()=>setPopUp(!popUp)} id='pickerPopup' type='button'>
                         <Image alt='date' width={23} height={23} src={'/calendar.svg'}></Image>
                     </button>
                 </div>
                
 
-                <div id='datepickerContainer' className={`${styles.container} ${styles.hidden}`}>
-                    <div className={styles.dateHeaderContainer}>
-                        <div className={styles.dateHeader}>
-                            <svg onClick={changeToPreviousMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="M28.05 36 16 23.95 28.05 11.9l2.15 2.15-9.9 9.9 9.9 9.9Z" /></svg>
-                            <div>
-                                <input className={styles.unfocusedInput} onKeyUp={(e) => handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutMonth(e)} type='text' onChange={handleMonthChange} id='monthInput' />
-                                <input className={styles.unfocusedInput} onKeyUp={(e) => handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutYear(e)} type='text' onChange={handleYearChange} id='yearInput' />
-                            </div>
-                            <svg onClick={changeToNextMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="m18.75 36-2.15-2.15 9.9-9.9-9.9-9.9 2.15-2.15L30.8 23.95Z" /></svg>
+                    <div id='datepickerContainer' className={`${styles.container} ${!popUp&&styles.hidden}`}>
+                        <div className={styles.dateHeaderContainer}>
+                                <svg onClick={changeToPreviousMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="M28.05 36 16 23.95 28.05 11.9l2.15 2.15-9.9 9.9 9.9 9.9Z" /></svg>
+                                    <input type='dateText' className={styles.unfocusedInput} onKeyUp={(e) => handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutMonth(e)} onChange={handleMonthChange} id='monthInput' />
+                                    <input type='dateText' className={styles.unfocusedInput} onKeyUp={(e) => handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutYear(e)} onChange={handleYearChange} id='yearInput' />
+                                <svg onClick={changeToNextMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="m18.75 36-2.15-2.15 9.9-9.9-9.9-9.9 2.15-2.15L30.8 23.95Z" /></svg>
                         </div>
-                    </div>
 
                     <div className={styles.dateWrapper}>
-                        <div className={styles.weekdayContainer}>
+                        <div className={styles.dateGridContainer}>
                             {weekdays.map((name, i) => {
                                 return <div key={i} className={styles.weekdayItem}> <p>{name}</p> </div>
                             })}
-                        </div>
-                        <div className={styles.dateGridContainer}>
                             {displayDatesArray.map(({ day, currMonth }, i) => {
                                 return <div onClick={() => handleDateClicked(day, currMonth)} key={i} className={`${styles.datepickerItem} ${!currMonth ? styles.otherMonth : ""} ${currMonth && day == date.getDate() ? styles.currMonth : ""}`}>  <p>{day}</p> </div>
                             })}
