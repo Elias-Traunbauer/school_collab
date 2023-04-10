@@ -38,12 +38,7 @@ export default function AssignmentEdit({ assignmentId }) {
   const [assignmentBackup, setAssignmentBackup] = useState(assignmentDummy);
   //const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
   let acceptedFilextentions = [];
-  let deleting = false;
-  let currFileIndex = null;
-  let instrictionFilesBackup = [];
-
   const router = useRouter();
-  const [currUser, setCurrUser] = useState(true);
 
   function handleUploadFilesUpdate(list) {
     setAssignment({
@@ -51,7 +46,7 @@ export default function AssignmentEdit({ assignmentId }) {
       uploadFiles: [...assignment.uploadFiles, ...list],
     });
     setUploadHidden(false)
-    
+
   }
   function handleInstructionFilesUpdate(list) {
     setAssignment({
@@ -63,93 +58,6 @@ export default function AssignmentEdit({ assignmentId }) {
   function handleAcceptedFiles(list) {
     acceptedFilextentions = list;
     console.log(acceptedFilextentions);
-  }
-
-  function handleUploadFilesDelete(e, key) {
-    e.preventDefault();
-
-    //style delete
-    const parent = e.target.parentElement.parentElement.parentElement;
-    parent.classList.add(styles.filelistitem_close);
-
-    //delete Item
-    setTimeout(() => {
-
-      const tmpList = [];
-      for (let i = 0; i < assignment.uploadFiles.length; i++) {
-        if (i != key) tmpList.push(uploadFiles[i]);
-      }
-      let tmpAssignment = assignment;
-      tmpAssignment.uploadFiles = tmpList;
-
-      setAssignment({
-        ...assignment,
-        uploadFiles: tmpList,
-      });
-
-    }, 500);
-  }
-
-  function deleteInstructionItem(e, key) {
-    e.preventDefault();
-    deleting = true;
-
-    const tmpList = [];
-    const parent = e.target.parentElement;
-    parent.classList.add(styles.filelistitem_close);
-
-    for (let i = 0; i < assignment.instrictionFiles.length; i++) {
-      if (i != key) tmpList.push(instrictionFiles[i]);
-    }
-
-    //animation
-    setTimeout(() => {
-      parent.classList.remove(styles.filelistitem_close);
-
-      let tmpAssignment = assignment;
-      tmpAssignment.instrictionFiles = tmpList;
-      setAssignment(tmpAssignment);
-      deleting = false;
-    }, 250);
-  }
-
-  let currFileKey = -1;
-
-  function handleSave() {
-    const tmpArr = uploadFiles;
-    tmpArr[currFileIndex] = new File(
-      [tmpArr[currFileIndex]],
-      document.getElementById("fileName").value
-    );
-    let tmpAssignment = assignment;
-    tmpAssignment.uploadFiles = [...tmpArr];
-    setAssignment(tmpAssignment);
-  }
-
-  function handleSaveInstruction() {
-    const tmpArr = instrictionFiles;
-    tmpArr[currFileIndex] = new File(
-      [tmpArr[currFileIndex]],
-      document.getElementById("instructionFileName").value
-    );
-    let tmpAssignment = assignment;
-    tmpAssignment.instrictionFiles = [...tmpArr];
-    setAssignment(tmpAssignment);
-  }
-
-  function handleOpenDialog(id, i) {
-    if (deleting) return;
-    currFileIndex = i;
-    openDialog(id);
-    document.getElementById("fileName").value = uploadFiles[i].name;
-  }
-
-  function handleOpenInstructionDialog(id, i) {
-    if (deleting) return;
-    currFileIndex = i;
-    openDialog(id);
-    document.getElementById("instructionFileName").value =
-      instrictionFiles[i].name;
   }
 
   function handleCancelEdit() {
@@ -183,21 +91,7 @@ export default function AssignmentEdit({ assignmentId }) {
       setDescriptionHidden(false);
       return;
     }
-      setDescriptionHidden(!descriptionHidden);
-  }
-  function ExpandInstruction() {
-    const description = document.getElementById("instructionInputContainer");
-    if (description.classList.contains(styles.hidden)) {
-      description.classList.remove(styles.hidden);
-      setInstructionHidden(false);
-    } else {
-      description.classList.add(styles.hidden);
-      setInstructionHidden(true);
-    }
-  }
-
-  function ExpandFiles() {
-    setUploadHidden(!uploadHidden);
+    setDescriptionHidden(!descriptionHidden);
   }
 
   function handleDeleteUploadFile(key) {
@@ -210,37 +104,37 @@ export default function AssignmentEdit({ assignmentId }) {
     }, 500);
   }
 
-  function GetDescription(){
-    if(edditMode)
+  function GetDescription() {
+    if (edditMode)
       return (
         <textarea id='descriptionInput' defaultValue={assignment.description}></textarea>
       )
 
-    if(assignment.description.length == 0)
+    if (assignment.description.length == 0)
       return (
         <p>No description</p>
       )
 
-    if(assignment.description.length < 100)
-    return (
-      <p>{assignment.description}</p>
-    )
+    if (assignment.description.length < 100)
+      return (
+        <p>{assignment.description}</p>
+      )
 
-    if(descriptionHidden)
+    if (descriptionHidden)
       return (
         <>
           <p>{assignment.description.substring(0, 100) + "... \b"}<b>Mehr Anzeigen</b></p>
-          
+
         </>
       )
 
-      return (
-        <>
-          <p>{assignment.description}</p >
-          <br></br>
-          <b>Weniger Anzeigen</b>
-        </>
-      )
+    return (
+      <>
+        <p>{assignment.description}</p >
+        <br></br>
+        <b>Weniger Anzeigen</b>
+      </>
+    )
   }
 
   return (
@@ -279,14 +173,14 @@ export default function AssignmentEdit({ assignmentId }) {
         <div className={styles.instructionWrapper}>
           <div className={styles.instructionContainer}>
             {assignment.instrictionFiles.map((file, i) => {
-                  return (
-                    <FileListObject
-                      key={i}
-                      file={{ name: file.name }}
-                      asCard={true}
-                    ></FileListObject>
-                  );
-                })}
+              return (
+                <FileListObject
+                  key={i}
+                  file={{ name: file.name }}
+                  asCard={true}
+                ></FileListObject>
+              );
+            })}
           </div>
         </div>
 
@@ -301,7 +195,7 @@ export default function AssignmentEdit({ assignmentId }) {
               : (uploadFiles) => handleUploadFilesUpdate(uploadFiles)
           }
         ></FileUpload>
-        
+
 
         <div className={styles.uploadfileWrapper}>
           <div className={styles.uploadfileheader}>
@@ -324,12 +218,12 @@ export default function AssignmentEdit({ assignmentId }) {
             })}
           </div>
           {
-            assignment.uploadFiles.length == 0 && 
+            assignment.uploadFiles.length == 0 &&
             <>
               <h3>no Files Uploaded!</h3>
               <p>Drag and drop Files to upload them</p>
             </>
-              
+
           }
         </div>
 
@@ -358,7 +252,6 @@ export default function AssignmentEdit({ assignmentId }) {
             )}
           </div>
         </div>
-
       </div>
     </>
   );
