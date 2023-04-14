@@ -36,7 +36,7 @@ export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, t
 
     function handleClick(e) {
         e.preventDefault();
-        document.getElementById('fileInput').value = null;
+        (document.getElementById('fileInput')as HTMLInputElement).value = null;
         document.getElementById('fileInput').click();
     }
 
@@ -65,7 +65,7 @@ export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, t
     }
 
     function addItem(e) {
-        const input = document.getElementById('fileExtentionInput');
+        const input = document.getElementById('fileExtentionInput') as HTMLInputElement;
         console.log(e.key);
         if (input.value.length <= 0 || e.key != "Enter")
             return;
@@ -126,7 +126,7 @@ export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, t
                     </div>
 
 
-                    <div onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} onClick={handleClick} id='fileinput' className={styles.fileinput} type="file" name="file">
+                    <div onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} onClick={handleClick} id='fileinput' className={styles.fileinput}>
                         <label>Drag and Drop</label>
                     </div>
                     <input id='fileInput' onChange={handleInputChange} type="file" hidden></input>

@@ -18,7 +18,6 @@ export default function Form({ children, onSubmit, submitText, title }) {
         <form className={style.form} onSubmit={formSubmit} id="form">
             <h1>{title}</h1>
             {children}
-            <br></br>
             <button onClick={() => onSubmitInternal(document.getElementById('form'))}>{submitText}</button>
         </form>
     )

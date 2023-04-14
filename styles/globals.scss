@@ -70,14 +70,47 @@ a:hover {
   }
 }
 
+button {
+  cursor: pointer;
+  border-radius: 0.3rem;
+  padding: 0.3rem 0.8rem 0.3rem 0.8rem;
+  border: 1px solid rgb(255, 255, 255);
+  background-color: #1d1d1d;
+  font-size: 1.2rem;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #2d2d2d;
+    border-radius: 0.5rem;
+  }
+}
+
+.error {
+  color: var(--color_red);
+}
+
 .main_container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  align-items: center;
   width: 100vw;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
+}
+
+.background_img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-image: url("/Animated Shape.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.5);
 }
 
 .special {

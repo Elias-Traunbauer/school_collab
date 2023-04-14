@@ -1,5 +1,6 @@
-import styles from '../styles/Dialog.module.css';
-import { createRoot } from "react-dom/client";
+import styles from '../styles/Dialog.module.scss';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 /// DecisionDialog Component
 /// @param {string} title - Title of the dialog
@@ -8,11 +9,14 @@ import { createRoot } from "react-dom/client";
 /// @param {function} cancelCallback - Callback function for the cancel button
 /// @param {string} type - Type of the dialog (info, warning, error, success)
 /// @param {string} id - Id of the dialog
-function DecisionDialog({ children, title = "Information", confirmCallback, cancelCallback, type = "info", id = "dialog" }) {
+export function DecisionDialog({ message, title = "Information", confirmCallback, cancelCallback, type = "info", id = "dialog" }) {
 
     function finishDialog(e, accepted) {
         const dialog = document.getElementById(id);
         dialog.classList.add(styles.invisible);
+        setTimeout(() => {
+            (window as any).removeDialog();
+            }, 500);
         if (accepted) {
             if (confirmCallback != undefined)
                 confirmCallback();
@@ -27,14 +31,14 @@ function DecisionDialog({ children, title = "Information", confirmCallback, canc
 
     return (
         <>
-            <div className={styles.dialog_background} id={id} onMouseDown={(event) => { (window as any).dialog_click_outside = event.target == document.getElementById(id); }} onClick={(event) => { if (event.target == document.getElementById(id) && (window as any).dialog_click_outside) finishDialog(undefined, false) }}>
+            <div className={styles.dialog_background + ' invisible'} id={id} onMouseDown={(event) => { (window as any).dialog_click_outside = event.target == document.getElementById(id); }} onClick={(event) => { if (event.target == document.getElementById(id) && (window as any).dialog_click_outside) finishDialog(null, false) }}>
                 <div className={styles.dialog}>
                     <h1 className={styles.dialog_title} style={{ backgroundColor: color }}>{title}</h1>
                     <div className={styles.dialog_content}>
-                        {children}
+                        {message}
                     </div>
                     <div className={styles.dialog_buttons}>
-                        <button onClick={(e) => finishDialog(e, true)}>Confirm</button>
+                        <button className='time_unlock' onClick={(e) => finishDialog(e, true)}>Confirm</button>
                         <button onClick={(e) => finishDialog(e, false)}>Cancel</button>
                     </div>
                 </div>
@@ -43,18 +47,35 @@ function DecisionDialog({ children, title = "Information", confirmCallback, canc
     );
 }
 
-export function showDecisionDialog(title, message, type, confirmCallback, cancelCallback) {
-    (window as any).dialog_click_outside = false;
-    const dialog_container = document.getElementById("dialog_container");
-    if ((window as any).dialog_id == undefined) {
-        (window as any).dialog_id = 0;
+export function DialogContainer() {
+
+    const [ dialog, setDialog ] = useState<{title:string, message:string, type:"info"|"warning"|"error"|"",confirmCallback:any, cancelCallback: any, id:string}>(null);
+    
+    function showDecisionDialog(title, message, type, confirmCallback, cancelCallback) {
+        (window as any).dialog_click_outside = false;
+        if ((window as any).dialog_id == undefined) {
+            (window as any).dialog_id = 0;
+        }
+        let id = "dialog" + (window as any).dialog_id;
+        (window as any).dialog_id = (window as any).dialog_id + 1;
+        setDialog({title, message, type, confirmCallback, cancelCallback, id});
     }
-    let id = "dialog" + (window as any).dialog_id;
-    (window as any).dialog_id = (window as any).dialog_id + 1;
-    const dialog_root = createRoot(dialog_container);
-    dialog_root.render(
-        <DecisionDialog title={title} confirmCallback={confirmCallback} cancelCallback={cancelCallback} id={id} type={type}>
-            {message}
-        </DecisionDialog>
+
+    function removeDialog() 
+    {
+        setDialog(null);
+    }
+
+    useEffect(() => {
+        (window as any).showDecisionDialog = showDecisionDialog;
+        (window as any).removeDialog = removeDialog;
+    }, []);
+
+    return (
+        <div id="dialog_container">
+            {
+                dialog != null ? <DecisionDialog id={dialog.id} title={dialog.title} message={dialog.message} confirmCallback={dialog.confirmCallback} cancelCallback={dialog.cancelCallback} type={dialog.type}></DecisionDialog> : null
+            }
+        </div>
     );
 }
