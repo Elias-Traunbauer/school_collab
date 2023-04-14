@@ -1,7 +1,7 @@
 import styles from "../styles/Summary.module.scss";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import SummaryPost from "../components/SummaryPost";
+import SummaryPostCard from "../components/SummaryPostCard";
 
 export default function SummaryList() {
   const posts = [{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "Math"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"}];
@@ -75,7 +75,7 @@ export default function SummaryList() {
     {
       subjects.filter((subject) => GetCountOfSubject(subject.subject) !== 0).map((subject,i) => {
         return (
-          <div className={styles.listContainer}>
+          <div key={"card_"+i} className={styles.listContainer}>
             
             <div onClick={()=>switchContentAperance(i)} className={styles.listHeader}>
   	          <Image id={"expand"+i} alt="expand" src={'/expand.svg'} width={20} height={20}></Image>
@@ -84,7 +84,7 @@ export default function SummaryList() {
             <div className={`${styles.postContentContainer}`} id={"content"+i}>
               {
                 getPostsBySubject(subject.subject).map((post,i) => {
-                  return <SummaryPost key={i} className={`${styles.hiddenElement}`} post={post}></SummaryPost>;
+                  return <SummaryPostCard key={i} className={`${styles.hiddenElement}`} post={post}></SummaryPostCard>;
                 })
               }
               {

@@ -2,7 +2,8 @@ import Image from 'next/image'
 import styles from '../styles/Summary.module.scss'
 import FileListObject from './FileListObject'
 import { useState } from 'react'
-export default function SummaryPost({ post = {author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"}}) {
+import VotingComponent from './VotingComponent'
+export default function SummaryPost({ post = {author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
 
     const userDummy = {
         name: 'Yannie',
@@ -58,40 +59,11 @@ export default function SummaryPost({ post = {author:'Yannie',description: 'asdd
                 <div>
                         {post.author}
                         <span>{lastModified.modified? "last modified: " : "published: " } {getTimestamp()}</span>
-                        <p>If you're tired of using outline styles for secondary buttons, a soft solid background based on the text color can be a great alternative.</p>
-                </div>
-            </div>
-            <div className={styles.postContent}>
-                <div>
-                    {post.files.map((file, index) => {
-                            return <FileListObject key={index} asCard={true} file={file}></FileListObject>
-                    })}
+                        <p>If you&apos;re tired of using outline styles for secondary buttons, a soft solid background based on the text color can be a great alternative.</p>
                 </div>
             </div>
             <div className={styles.postFooter}>
-                {editMode?
-                    <button id='uploadBtn' onClick={handleUpload} className='btn btn-primary'>Upload</button>    
-                    :""
-                }
-                <div>
-                    {
-                        !editMode?
-                        <>
-                            {
-                                userDummy.name == post.author?
-                                <Image alt='edit' onClick={handleEnableEdditmode} src={'/edit.svg'} width={30} height={30} />
-                                :""
-                            }
-                            <Image alt='download' onClick={downloadFiles} src={'/download.svg'} width={30} height={30} />
-                        </>
-                        :
-                        <>
-                            <button onClick={handleEditCancel} style={{marginBottom: '.2em'}} className='btn btn-cancel'>Cancel</button>
-                            <button onClick={handleEditSave} style={{marginBottom: '.2em'}} className='btn btn-primary'>Save</button>
-                        </>
-                    }
-                    
-                </div>
+                <VotingComponent withScore={true}></VotingComponent>
             </div>
         </div>
     )
