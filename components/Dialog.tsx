@@ -11,8 +11,6 @@ import { createRoot } from "react-dom/client";
 function DecisionDialog({ children, title = "Information", confirmCallback, cancelCallback, type = "info", id = "dialog" }) {
 
     function finishDialog(e, accepted) {
-        setTimeout(() => document.getElementById(id).remove(), 1000);
-
         const dialog = document.getElementById(id);
         dialog.classList.add(styles.invisible);
         if (accepted) {
@@ -29,7 +27,7 @@ function DecisionDialog({ children, title = "Information", confirmCallback, canc
 
     return (
         <>
-            <div className={styles.dialog_background} id={id} onMouseDown={(event) => { window.dialog_click_outside = event.target == document.getElementById(id); }} onClick={(event) => { if (event.target == document.getElementById(id) && window.dialog_click_outside) finishDialog(false) }}>
+            <div className={styles.dialog_background} id={id} onMouseDown={(event) => { (window as any).dialog_click_outside = event.target == document.getElementById(id); }} onClick={(event) => { if (event.target == document.getElementById(id) && (window as any).dialog_click_outside) finishDialog(undefined, false) }}>
                 <div className={styles.dialog}>
                     <h1 className={styles.dialog_title} style={{ backgroundColor: color }}>{title}</h1>
                     <div className={styles.dialog_content}>
@@ -46,13 +44,13 @@ function DecisionDialog({ children, title = "Information", confirmCallback, canc
 }
 
 export function showDecisionDialog(title, message, type, confirmCallback, cancelCallback) {
-    window.dialog_click_outside = false;
+    (window as any).dialog_click_outside = false;
     const dialog_container = document.getElementById("dialog_container");
-    if (window.dialog_id == undefined) {
-        window.dialog_id = 0;
+    if ((window as any).dialog_id == undefined) {
+        (window as any).dialog_id = 0;
     }
-    let id = "dialog" + window.dialog_id;
-    window.dialog_id = window.dialog_id + 1;
+    let id = "dialog" + (window as any).dialog_id;
+    (window as any).dialog_id = (window as any).dialog_id + 1;
     const dialog_root = createRoot(dialog_container);
     dialog_root.render(
         <DecisionDialog title={title} confirmCallback={confirmCallback} cancelCallback={cancelCallback} id={id} type={type}>

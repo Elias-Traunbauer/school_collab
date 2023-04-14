@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import Countdown from "../components/Countdown";
+import Countdown from "../../components/Countdown";
 import styles from "../styles/Assignment.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { openDialog } from "../components/Dialog";
-import FileListObject from "../components/FileListObject";
-import FileUpload from "../components/FileUpload";
+import FileListObject from "../../components/FileListObject";
+import FileUpload from "../../components/FileUpload";
 
 export default function AssignmentEdit({ assignmentId }) {
   // TODO: fetch assignment

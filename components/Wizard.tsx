@@ -1,6 +1,6 @@
 import styles from '../styles/Assignment.module.css';
 import { useState, useEffect } from 'react'
-import Datepicker from '../pages/Datepicker';
+import Datepicker from './Datepicker';
 
 export default function Wizard({ callback, contentData = [{ firstname: false, lastname: true }, { email: new Date(), phone: { title: "checkBoxReal", text: "sueee", value: true } }], title = "Wizard", containerWidth = 50 }) {
 

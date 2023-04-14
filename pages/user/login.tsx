@@ -1,5 +1,4 @@
-import router from "next/router"
-import Wizard from "../components/Wizard"
+import Form from "../../components/Form";
 import styles from "/styles/Login.module.css"
 
 export default function Login() {
@@ -25,7 +24,12 @@ export default function Login() {
 
   return (
     <div className={styles.wizardWrapper}>
-      <Wizard callback={callback} containerWidth={20} contentData={contentData} title='Login'></Wizard>
+      <Form title="Login" submitText="Submit" onSubmit={(data) => {console.log(data)}}>
+        <p>Email</p>
+        <input type="email" name="email" />
+        <p>Password</p>
+        <input type="password" name="password" />
+      </Form>
     </div>
   )
 }

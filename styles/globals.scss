@@ -72,13 +72,15 @@ a:hover {
 
 .main_container {
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
   min-height: 100vh;
-  display: flex;
-  flex-grow: 1;
+  width: 100vw;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
-[type="special"] {
+.special {
   background: linear-gradient(90deg, rgba(144, 0, 175, 1) 0%, rgba(205, 0, 146, 1) 50%, rgba(144, 0, 175, 1) 100%);
   color: transparent;
   background-clip: text;

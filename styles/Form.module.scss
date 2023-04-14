@@ -1,0 +1,40 @@
+
+
+.form {
+    background-color: rgb(35, 35, 35);
+    border: white solid 0.1rem;
+    display: inline-block;
+    padding: 1rem 2rem 1rem 2rem;
+    border-radius: 1em;
+
+    & > p, & > input {
+        font-size: 1.2em;
+    }
+
+    & > p {
+        margin-top: 0.3rem;
+    }
+
+    & > input[type="text"], & > input[type="password"], & > input:not([type="checkbox"]) {
+        border: 0.1rem solid white;
+        border-radius: 1em;
+        padding: 0.5rem 1rem 0.5rem 1rem;
+        background-color: rgb(25, 25, 25);
+        transition: 0.1s;
+        min-width: 23vw;
+    }
+
+    & > input[type="text"]:focus, & > input[type="password"]:focus, & > input:focus {
+        border: 0.1rem solid rgb(141, 141, 141);
+        border-radius: 0.7em;
+        padding: 0.5rem 1rem 0.5rem 1rem;
+        background-color: rgb(25, 25, 25);
+    }
+
+    & div:not(:last-child) {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 0.5rem;
+        inline-size: 23vw;
+    }
+}
