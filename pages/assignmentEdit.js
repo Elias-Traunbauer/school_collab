@@ -123,7 +123,7 @@ export default function AssignmentEdit({ assignmentId }) {
     if (descriptionHidden)
       return (
         <>
-          <p>{assignment.description.substring(0, 100) + "... \b"}<b>Mehr Anzeigen</b></p>
+          <p>{assignment.description.substring(0, 100) + "... "}<b>Mehr Anzeigen</b></p>
 
         </>
       )

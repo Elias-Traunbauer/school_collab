@@ -134,9 +134,14 @@
 .descriptioncontainer > textarea {
   width: 100%;
   height: auto;
-  resize: none;
   outline: 0;
   padding: .5em;
+  resize: vertical;
+  background-color: var(--background_2);
+}
+
+.descriptioncontainer > p{
+  word-wrap: break-word;
 }
 
 .description {
