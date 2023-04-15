@@ -8,7 +8,7 @@ import { createRoot } from "react-dom/client";
 /// @param {function} cancelCallback - Callback function for the cancel button
 /// @param {string} type - Type of the dialog (info, warning, error, success)
 /// @param {string} id - Id of the dialog
-export function DecisionDialog({children, title = "Information", confirmCallback, cancelCallback, type = "info", id = "dialog"}) {
+function DecisionDialog({ children, title = "Information", confirmCallback, cancelCallback, type = "info", id = "dialog" }) {
 
     function finishDialog(e, accepted) {
         setTimeout(() => document.getElementById(id).remove(), 1000);
@@ -29,18 +29,18 @@ export function DecisionDialog({children, title = "Information", confirmCallback
 
     return (
         <>
-        <div className={styles.dialog_background} id={id} onMouseDown={(event) => { window.dialog_click_outside = event.target == document.getElementById(id); }} onClick={(event) => {if (event.target == document.getElementById(id) && window.dialog_click_outside) finishDialog(false)}}>
-            <div className={styles.dialog}>
-                <h1 className={styles.dialog_title} style={{backgroundColor: color}}>{title}</h1>
-                <div className={styles.dialog_content}>
-                    {children}
-                </div>
-                <div className={styles.dialog_buttons}>
-                    <button onClick={(e) => finishDialog(e, true)}>Confirm</button>
-                    <button onClick={(e) => finishDialog(e, false)}>Cancel</button>
+            <div className={styles.dialog_background} id={id} onMouseDown={(event) => { window.dialog_click_outside = event.target == document.getElementById(id); }} onClick={(event) => { if (event.target == document.getElementById(id) && window.dialog_click_outside) finishDialog(false) }}>
+                <div className={styles.dialog}>
+                    <h1 className={styles.dialog_title} style={{ backgroundColor: color }}>{title}</h1>
+                    <div className={styles.dialog_content}>
+                        {children}
+                    </div>
+                    <div className={styles.dialog_buttons}>
+                        <button onClick={(e) => finishDialog(e, true)}>Confirm</button>
+                        <button onClick={(e) => finishDialog(e, false)}>Cancel</button>
+                    </div>
                 </div>
             </div>
-        </div>
         </>
     );
 }
