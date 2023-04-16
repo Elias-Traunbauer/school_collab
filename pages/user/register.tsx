@@ -4,14 +4,7 @@ import Router from "next/router";
 import Wizard from "../../components/Wizard";
 
 export default function Login() {
-  const contentData = [{
-    email: true,
-  },
-  {
-    password: true,
-  }];
-
-  function callback(data) {
+  function callback(data: any) {
     //backend
     secureFetch("/api/user/login", {
         method: "POST",
@@ -19,7 +12,7 @@ export default function Login() {
       }).then((res) => {
         if (res.status === 200) {
           console.log("success");
-          // router to mainpage
+          // route to mainpage
           Router.push('/');
         }
         else {

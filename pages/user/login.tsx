@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function Login() {
   const [error, setError] = useState("");
 
-  function callback(data) {
+  function callback(data: any) {
     //backend
     secureFetch("/api/user/login", {
         method: "POST",

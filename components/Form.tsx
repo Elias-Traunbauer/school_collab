@@ -1,6 +1,6 @@
 import style from '../styles/Form.module.scss'
 
-export default function Form({ children, onSubmit, submitText, title }) {
+export default function Form({ children, onSubmit, submitText, title }: { children?: any, onSubmit: Function, submitText: string, title: string }) {
 
     function onSubmitInternal(e) {
         const data = new FormData(e);
