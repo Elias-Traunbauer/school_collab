@@ -19,9 +19,9 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
 
     useEffect(() => {
         calc();
-        document.getElementById('monthInput').value = monthNames[date.getMonth()];
-        document.getElementById('yearInput').value = date.getFullYear();
-        document.getElementById('datetimeInput').value = PrintDateTime();
+        (document.getElementById('monthInput') as HTMLInputElement).value = monthNames[date.getMonth()];
+        (document.getElementById('yearInput') as HTMLInputElement).value = date.getFullYear() + "";
+        (document.getElementById('datetimeInput') as HTMLInputElement).value = PrintDateTime();
     }, [date]);
 
     function getMonths() {
@@ -89,7 +89,7 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
             });
         }
 
-        setDisplayDatesArray(...[tmpArray]);
+        setDisplayDatesArray(tmpArray);
     }
 
     function GetWeekdayOfFirstDay() {
@@ -226,11 +226,11 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         }
         const tmpdate = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0], timeSplit[0], timeSplit[1]);
 
-        if (tmpdate == "Invalid Date" || tmpdate.getMonth() != dateSplit[1] - 1 || tmpdate.getFullYear() != dateSplit[2]) {
+        if (tmpdate.getMonth() != dateSplit[1] - 1 || tmpdate.getFullYear() != dateSplit[2]) {
             e.target.classList.add(styles.errorInput);
 
             //optional
-            e.target.value = PrintDateTime(date);
+            e.target.value = PrintDateTime();
 
             console.log("invalid date");
             return;
