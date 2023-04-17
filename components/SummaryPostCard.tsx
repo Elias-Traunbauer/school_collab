@@ -3,8 +3,10 @@ import styles from '../styles/Summary.module.scss'
 import FileListObject from './FileListObject'
 import { useState } from 'react'
 import VotingComponent from './VotingComponent'
-export default function SummaryPost({ post = {author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
+import { Router, useRouter } from 'next/router'
+export default function SummaryPostCard({ post = {author:'Yannie',title:'Info Team',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
 
+    const router = useRouter();
     const userDummy = {
         name: 'Yannie',
     }
@@ -37,14 +39,14 @@ export default function SummaryPost({ post = {author:'Yannie',description: 'asdd
 
     function getTimestamp(){
         let date = lastModified.date;
-        let hours = date.getHours()
+        let hours = date.getHours();
         let minutes = date.getMinutes()
         let ampm = hours >= 12 ? 'pm' : 'am';
         hours = hours % 12;
         hours = hours ? hours : 12; // the hour '0' should be '12'
-        hours = hours < 10 ? '0'+hours : hours;
-        minutes = minutes < 10 ? '0'+minutes : minutes;
-        let strTime = date.toDateString() + hours + ':' + minutes + ' ' + ampm;
+        let hoursDisplay:string = hours < 10 ? '0'+hours : hours.toString();
+        let minutesDisplay:string = minutes < 10 ? '0'+minutes : minutes.toString();
+        let strTime = date.toDateString() + hoursDisplay + ':' + minutesDisplay + ' ' + ampm;
         return strTime
     }
 
@@ -52,13 +54,18 @@ export default function SummaryPost({ post = {author:'Yannie',description: 'asdd
         alert("upload files")
     }
 
+    function handleOpenDetails(){
+        router.push('/SummaryDetail');
+    }
+
     return (
-        <div className={styles.post}>
+        <div className={styles.post} onClick={handleOpenDetails}>
             <div className={styles.postHeader}>
                 <Image alt='profile' src={'/ProfileDemo.svg'} width={200} height={200} />
                 <div>
                         {post.author}
                         <span>{lastModified.modified? "last modified: " : "published: " } {getTimestamp()}</span>
+                        <h3>{post.title}</h3>
                         <p>If you&apos;re tired of using outline styles for secondary buttons, a soft solid background based on the text color can be a great alternative.</p>
                 </div>
             </div>

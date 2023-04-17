@@ -1,0 +1,36 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    & > div {
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    & > div > input{
+        background-color: transparent;
+        outline: 0;
+        border: 0;
+        font-size: 2.5em;
+        margin: 0;
+        text-align: left;
+        width: 70%;
+    }
+
+    & > div > div {
+        width: 20%;
+        height: 100%;
+    }
+}
+
+.edit{
+    width: 2em !important;
+    height: 2em !important;
+    mask: url(/edit.svg) no-repeat center;
+    background-color: white;
+}
