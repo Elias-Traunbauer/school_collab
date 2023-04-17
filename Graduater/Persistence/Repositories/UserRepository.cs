@@ -12,10 +12,12 @@ namespace Persistence.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly ApiConfig _config;
 
-        public UserRepository(ApplicationDbContext context)
+        public UserRepository(ApplicationDbContext context, ApiConfig config)
         {
             _context = context;
+            _config = config;
         }
 
         public Task<ValidationResult> CreateUserAsync(User user)
@@ -29,6 +31,11 @@ namespace Persistence.Repositories
         }
 
         public Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User?> GetByIdAsync(long? userId)
         {
             throw new NotImplementedException();
         }
@@ -58,7 +65,22 @@ namespace Persistence.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<(string accessToken, string refreshToken)?> LoginAsync(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string?> RegenerateRefreshToken(long userId, string sessionId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ValidationResult> UpdateUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string?> ValidateRefreshTokenSessionAsync(long userId, string sessionId)
         {
             throw new NotImplementedException();
         }

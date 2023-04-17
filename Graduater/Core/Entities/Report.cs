@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class Report
+public class Report : DatabaseEntity
 {
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
@@ -16,9 +16,8 @@ public partial class Report
 
     public int CreatedById { get; set; }
 
-    [ForeignKey(nameof(EntityId))]
     [Required]
-    public DatabaseEntity Reported { get; set; } = new();
+    public string Reported { get; set; } = null!;
 
     public int EntityId { get; set; }
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class Assignment
+public class Assignment : DatabaseEntity
 {
     public string Title { get; set; } = null!;
 
@@ -18,7 +18,7 @@ public partial class Assignment
 
     public DateTime Due { get; set; }
 
-    public virtual ICollection<File> Files { get; set; } = new List<File>();
+    public List<File> Files { get; set; } = new List<File>();
 
     [ForeignKey(nameof(GroupId))]
     public virtual Group Group { get; set; } = null!;

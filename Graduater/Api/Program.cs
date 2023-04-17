@@ -1,3 +1,9 @@
+using Api.Helpers;
+using Api.Middlewares;
+using Core.Contracts;
+using Persistence;
+using Ribbon.API.Middlewares;
+
 namespace Api
 {
     public class Program
@@ -8,24 +14,30 @@ namespace Api
 
             // Add services to the container.
 
+            ApiConfig apiConfig = new();
+
+            builder.Configuration.Bind("ApiConfig", apiConfig);
+            builder.Services.AddSingleton(apiConfig);
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
+            app.UseHsts();
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
-
+            app.UseUserAuthentication();
+            app.UseUserAuthorization();
 
             app.MapControllers();
 

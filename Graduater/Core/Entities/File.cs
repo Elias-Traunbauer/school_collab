@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class File : DatabaseEntity
+public class File : DatabaseEntity
 {
     [Required]
     public string Name { get; set; } = string.Empty;
@@ -14,9 +14,9 @@ public partial class File : DatabaseEntity
     public byte[] Content { get; set; } = Array.Empty<byte>();
 
     [Required]
+    [ForeignKey(nameof(UploadedById))]
     public User UploadedBy { get; set; } = new();
 
-    [ForeignKey(nameof(UploadedBy))]
     public int UploadedById { get; set; }
 
     [NotMapped]

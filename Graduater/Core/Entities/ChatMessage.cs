@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class ChatMessage
+public class ChatMessage : DatabaseEntity
 {
     public int ChatId { get; set; }
 

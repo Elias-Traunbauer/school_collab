@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class Poll
+public class Poll : DatabaseEntity
 {
     public string Title { get; set; } = null!;
 
