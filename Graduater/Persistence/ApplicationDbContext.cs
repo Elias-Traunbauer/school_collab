@@ -1,33 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using Core.Entities;
+﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Persistence;
 
-public partial class ApplicationDbContext : Microsoft.EntityFrameworkCore.DbContext
+public partial class ApplicationDbContext : DbContext
 {
-    IConfiguration _config;
+    readonly ApiConfig _config;
 
-    public IConfiguration Configuration { get { return _config; } }
+    public ApiConfig Configuration { get { return _config; } }
 
-    public ApplicationDbContext(IConfiguration configuration) : base()
+    public ApplicationDbContext() : base()
     {
-        _config = configuration;
+        _config = new()
+        {
+            DatabaseConnectionString = "Server=localhost;Database=school_collab;Uid=root;Pwd=root"
+        };
+    }
+
+    public ApplicationDbContext(ApiConfig config) : base()
+    {
+        _config = config;
     }
 
     public virtual DbSet<Assignment> Assignments { get; set; }
 
-    public virtual DbSet<Chat> Chats { get; set; }
+    public virtual DbSet<Chat> Chats {get; set; }
 
     public virtual DbSet<ChatMember> ChatMembers { get; set; }
 
     public virtual DbSet<ChatMessage> ChatMessages { get; set; }
 
     public virtual DbSet<Comment> Comments { get; set; }
-
-    public virtual DbSet<EmailVerificationToken> EmailVerificationTokens { get; set; }
 
     public virtual DbSet<Core.Entities.File> Files { get; set; }
 
@@ -53,6 +56,10 @@ public partial class ApplicationDbContext : Microsoft.EntityFrameworkCore.DbCont
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseMySQL("Server=localhost;Database=school_collab;Uid=root;Pwd=root;");
+        if (_config.DatabaseConnectionString == null)
+        {
+            throw new Exception("Database connection string is null");
+        }
+        optionsBuilder.UseMySQL(_config.DatabaseConnectionString);
     }
 }

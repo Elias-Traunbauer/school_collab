@@ -25,8 +25,13 @@ namespace Core.Contracts
         // Get user by password reset token
         Task<User?> GetUserByPasswordResetTokenAsync(string token);
 
+        Task<(string accessToken, string refreshToken)?> LoginAsync(int userId);
+
         Task<ValidationResult> CreateUserAsync(User user);
         Task<ValidationResult> UpdateUserAsync(User user);
         Task<ValidationResult> DeleteUserAsync(int id);
+        Task<User?> GetByIdAsync(long? userId);
+        Task<string?> ValidateRefreshTokenSessionAsync(long userId, string sessionId);
+        Task<string?> RegenerateRefreshToken(long userId, string sessionId);
     }
 }

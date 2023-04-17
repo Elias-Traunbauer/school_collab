@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class GroupUser
+public class GroupUser : DatabaseEntity
 {
-    [ForeignKey(nameof(Group))]
+    [ForeignKey(nameof(GroupId))]
     public virtual Group Group { get; set; } = new();
 
-    [ForeignKey(nameof(User))]
+    [ForeignKey(nameof(UserId))]
     public virtual User User { get; set; } = new();
 
     public int GroupId { get; set; }

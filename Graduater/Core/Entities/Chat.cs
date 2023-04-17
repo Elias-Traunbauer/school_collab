@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class Chat
+public class Chat : DatabaseEntity
 {
     public string Name { get; set; } = null!;
 

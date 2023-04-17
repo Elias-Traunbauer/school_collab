@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class Group
+public class Group : DatabaseEntity
 {
     public string Name { get; set; } = null!;
 

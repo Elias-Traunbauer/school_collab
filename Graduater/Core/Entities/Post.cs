@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class Post
+public class Post : DatabaseEntity
 {
-    public int Id { get; set; }
-
     public int UserId { get; set; }
 
     public string Title { get; set; } = null!;
@@ -17,9 +16,6 @@ public partial class Post
 
     public virtual ICollection<PostComment> PostComments { get; set; } = new List<PostComment>();
 
-    public virtual ICollection<PostFile> PostFiles { get; set; } = new List<PostFile>();
-
-    public virtual ICollection<PostReport> PostReports { get; set; } = new List<PostReport>();
-
+    [ForeignKey(nameof(UserId))]
     public virtual User User { get; set; } = null!;
 }

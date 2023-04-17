@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class PollOption
+public class PollOption : DatabaseEntity
 {
     public int PollId { get; set; }
 

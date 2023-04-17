@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class Comment
+public class Comment : DatabaseEntity
 {
     public int UserId { get; set; }
 

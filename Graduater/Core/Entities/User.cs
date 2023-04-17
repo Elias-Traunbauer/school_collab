@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class User : DatabaseEntity
+public class User : DatabaseEntity
 {
     public string Username { get; set; } = string.Empty;
 
@@ -19,9 +19,9 @@ public partial class User : DatabaseEntity
 
     public string Email { get; set; } = string.Empty;
 
-    public string? PasswordHash { get; set; }
+    public string PasswordHash { get; set; } = string.Empty;
 
-    public string? PasswordSalt { get; set; }
+    public string PasswordSalt { get; set; } = string.Empty;
 
     public string? EmailVerificationToken { get; set; }
 
@@ -34,6 +34,8 @@ public partial class User : DatabaseEntity
     public bool IsEmailVerified { get; set; }
 
     public UserPermission Permissions { get; set; }
+
+    public UserPrivacy PrivacySettings { get; set; }
 
     public virtual ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
 
@@ -58,5 +60,22 @@ public enum UserPermission
     Create = 1 << 1,
     Edit = 1 << 2,
     Delete = 1 << 3,
-    Admin = 1 << 4
+    Admin = 1 << 4,
+    Disabled = 1 << 5
+}
+
+[Flags]
+public enum UserPrivacy
+{
+    None = 0,
+    ShowFirstName = 1 << 0,
+    ShowLastName = 1 << 1,
+    ShowEmail = 1 << 2,
+    ShowAssignments = 1 << 3,
+    ShowGroups = 1 << 4,
+    ShowPolls = 1 << 5,
+    ShowPosts = 1 << 6,
+    ShowComments = 1 << 7,
+    ShowPermissions = 1 << 8,
+    ShowAll = ShowFirstName | ShowLastName | ShowEmail | ShowAssignments | ShowGroups | ShowPolls | ShowPosts | ShowComments | ShowPermissions
 }

@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
 
-public partial class Notification
+public class Notification : DatabaseEntity
 {
-    public int Id { get; set; }
-
     public int UserId { get; set; }
 
     public string Link { get; set; } = null!;
