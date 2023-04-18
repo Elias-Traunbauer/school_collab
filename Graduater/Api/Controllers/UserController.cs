@@ -2,7 +2,10 @@
 using Api.Helpers;
 using Core.Contracts;
 using Core.Contracts.Entities;
+using Core.Contracts.Models;
+using Core.Contracts.Services;
 using Core.Entities;
+using Core.Entities.Database;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
 using Ribbon.API.Attributes;
@@ -14,15 +17,6 @@ namespace Api.Controllers
     [Produces("application/json")]
     public class UserController : Controller
     {
-        private static readonly object InvalidLogin = new
-        {
-            Status = 401,
-            Errors = new LoginModel(
-                        Identifier: "Invalid username, email or password",
-                        Password: "Invalid username, email or password"
-                     )
-        };
-
         private readonly ApiConfig _config;
 
         public UserController(ApiConfig configuration)
@@ -30,11 +24,9 @@ namespace Api.Controllers
             _config = configuration;
         }
 
-        public record LoginModel (string Identifier, string Password);
-
         [HttpPost("login")]
         [NoAuthenticationRequired]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginInformation, [FromServices] IUnitOfWork uow)
+        public async Task<IActionResult> Login([FromBody] ILoginPayload loginInformation, [FromServices] IUnitOfWork uow)
         {
             if (!ModelState.IsValid)
             {
@@ -46,25 +38,25 @@ namespace Api.Controllers
                 uow.UserRepository.GetUserByEmailAsync
             };
 
-            IUser? user = null;
-            foreach (var searchMethod in userSearchMethods)
-            {
-                user = await searchMethod(loginInformation.Identifier);
+            //IUser? user = null;
+            //foreach (var searchMethod in userSearchMethods)
+            //{
+            //    user = await searchMethod(loginInformation.Identifier);
 
-                if (user != null)
-                {
-                    break;
-                }
-            }
-            if (user == null)
-            {
-                return Ok(InvalidLogin);
-            }
-            string hashedInputPassword = PasswordHelper.HashPassword(loginInformation.Password, user.PasswordSalt);
-            if (hashedInputPassword != user.PasswordHash)
-            {
-                return Ok(InvalidLogin);
-            }
+            //    if (user != null)
+            //    {
+            //        break;
+            //    }
+            //}
+            //if (user == null)
+            //{
+            //    return Ok(InvalidLogin);
+            //}
+            //string hashedInputPassword = PasswordHelper.HashPassword(loginInformation.Password, user.PasswordSalt);
+            //if (hashedInputPassword != user.PasswordHash)
+            //{
+            //    return Ok(InvalidLogin);
+            //}
 
             //HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, loginResult.Value.accessToken, DateTime.Now.Add(_config.AccessTokenLifetime));
 
@@ -114,7 +106,7 @@ namespace Api.Controllers
                 });
             }
             string passwordSalt = PasswordHelper.GenerateSalt();
-            var user = new User
+            var user = new User()
             {
                 Username = registerModel.Username,
                 FirstName = registerModel.Firstname,

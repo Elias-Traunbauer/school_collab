@@ -1,6 +1,6 @@
 ﻿using Api.Helpers;
 using Core.Contracts;
-using Core.Entities;
+using Core.Entities.Database;
 using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Asn1.Cms;
 using Persistence;

@@ -1,5 +1,4 @@
-﻿using Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Persistence;
@@ -10,6 +9,7 @@ using System.Reflection.Metadata.Ecma335;
 using Microsoft.EntityFrameworkCore;
 using Core.Contracts.Repositories;
 using Core.Contracts.Entities;
+using Core.Entities.Database;
 
 namespace Persistence.Repositories
 {

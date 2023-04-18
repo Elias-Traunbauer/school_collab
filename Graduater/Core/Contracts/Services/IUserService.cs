@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Contracts.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Core.Contracts.Services
 {
     public interface IUserService
     {
-        
+        Task<IServiceResult> LoginAsync(ILoginPayload loginModel);
     }
 }

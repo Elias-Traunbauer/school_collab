@@ -1,5 +1,5 @@
 ﻿using Core.Contracts.Entities;
-using Core.Entities;
+using Core.Entities.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿using Core.Entities.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -36,7 +36,7 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Comment> Comments { get; set; }
 
-    public virtual DbSet<Core.Entities.File> Files { get; set; }
+    public virtual DbSet<Core.Entities.Database.File> Files { get; set; }
 
     public virtual DbSet<Group> Groups { get; set; }
 

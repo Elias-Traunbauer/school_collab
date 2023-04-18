@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿using Core.Entities.Database;
 
 namespace Core.Contracts.Entities
 {
