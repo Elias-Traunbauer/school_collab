@@ -70,17 +70,5 @@ namespace Persistence.Repositories
             var users = _context.Users.Where(x => x.Username == username);
             return await users.SingleOrDefaultAsync();
         }
-
-        public async Task<bool> ValidateRefreshTokenSessionAsync(int userId, string sessionId)
-        {
-            var user = await GetUserByIdAsync(userId);
-            if (user == null) return false;
-            var userSessions = user.UserSessions.Where(x => x.SessionKey == sessionId);
-            if (!userSessions.Any()) return false;
-            var userSession = userSessions.First(); 
-            if (userSession == null) return false;
-            if (userSession.Expires <= DateTime.UtcNow) return false;
-            return true;
-        }
     }
 }

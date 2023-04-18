@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Contracts
+namespace Core.Contracts.Models
 {
     public interface IServiceResult
     {
-        public bool Success { get; }
+        public int Status { get; }
         public dynamic GetErrors();
     }
 }

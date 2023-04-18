@@ -1,4 +1,5 @@
 ﻿using Core.Contracts.Models;
+using Core.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,14 @@ namespace Core.Contracts.Services
 {
     public interface IUserService
     {
-        Task<IServiceResult> LoginAsync(ILoginPayload loginModel);
+        Task<ILoginResult> LoginAsync(UserLoginPayload loginInformation);
+
+        Task<IRegisterResult> RegisterAsync(UserRegisterPayload userRegisterPayload);
+
+        Task<IServiceResult> VerifyEmailAsync(string token);
+
+        Task<IServiceResult> ForgotPasswordAsync(string email);
+
+        Task<IServiceResult> ResetPasswordAsync(UserPasswordResetPayload userPasswordResetPayload);
     }
 }

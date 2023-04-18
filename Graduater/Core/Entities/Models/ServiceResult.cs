@@ -1,23 +1,11 @@
-﻿using Core.Contracts;
-using System;
-using System.Collections.Generic;
+﻿using Core.Contracts.Models;
 using System.Dynamic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.Entities
+namespace Core.Entities.Models
 {
     public class ServiceResult : IServiceResult
     {
-        public bool Success
-        {
-            get
-            {
-                return Errors.Count == 0;
-            }
-        }
+        public int Status { get; set; } = 200;
 
         public static ServiceResult Completed => new();
 

@@ -28,6 +28,5 @@ namespace Core.Contracts.Repositories
 
         Task CreateUserAsync(User user);
         Task<bool> DeleteUserAsync(int id);
-        Task<bool> ValidateRefreshTokenSessionAsync(int userId, string sessionId);
     }
 }

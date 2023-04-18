@@ -63,8 +63,6 @@ namespace Ribbon.API.Middlewares
                     int userId = int.Parse(refreshJwt.Claims.Single(x => x.Type == "userId").Value);
                     string sessionId = refreshJwt.Claims.Single(x => x.Type == "sessionId").Value;
 
-                    var res = await uow.UserRepository.ValidateRefreshTokenSessionAsync(userId, sessionId);
-
                     //JwtSecurityToken accessJwt = new(res);
 
                     //if (res != null)

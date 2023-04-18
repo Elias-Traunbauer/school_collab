@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Core.Contracts.Models
 {
-    public interface ILoginPayload
+    public interface IRegisterResult
     {
-        string Identifier { get; set; }
-        string Password { get; set; }
+        public IServiceResult ServiceResult { get; set; }
+        public string EmailVerficationToken { get; set; }
     }
 }

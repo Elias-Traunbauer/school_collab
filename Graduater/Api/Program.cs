@@ -1,8 +1,10 @@
 using Api.Helpers;
 using Api.Middlewares;
 using Core.Contracts;
+using Core.Contracts.Services;
 using Persistence;
 using Ribbon.API.Middlewares;
+using Service.Services;
 
 namespace Api
 {
@@ -17,9 +19,13 @@ namespace Api
             builder.Configuration.Bind("ApiConfig", apiConfig);
             builder.Services.AddSingleton(apiConfig);
 
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddControllers();
+            builder.Services.AddSingleton<IJsonWebTokenService, JsonWebTokenService>();
 
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
