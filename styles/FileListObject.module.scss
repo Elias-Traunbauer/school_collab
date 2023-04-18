@@ -8,11 +8,18 @@
     align-items: center;
     background-color: var(--background_2);
     filter: brightness(0.9);
+
+    & > img {
+        cursor: pointer;
+    }
 }
 
 .Cardcontainer p {
     margin: 0;
     color: var(--color_link);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .Cardcontainer:hover p{
@@ -46,6 +53,12 @@
 
     & p {
         color: var(--color_link);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    & > img {
+        cursor: pointer;
     }
 }
 
@@ -58,18 +71,25 @@
 
     & p {
         text-decoration: underline 1px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
     }
 }
 
 .ListContentcontainer p {
     margin-left: .5em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 60%;
 }
 
 .deletContainer {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 0;
+    right: 2%;
     padding: .2em;
     border-radius: 10em;
     width: fit-content;
