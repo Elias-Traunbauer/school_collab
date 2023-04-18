@@ -1,88 +1,86 @@
-﻿using Core.Contracts;
-using Core.Entities;
+﻿using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Persistence;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection.Metadata.Ecma335;
+using Microsoft.EntityFrameworkCore;
+using Core.Contracts.Repositories;
+using Core.Contracts.Entities;
 
 namespace Persistence.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly ApiConfig _config;
 
-        public UserRepository(ApplicationDbContext context, ApiConfig config)
+        public UserRepository(ApplicationDbContext context)
         {
             _context = context;
-            _config = config;
         }
 
-        public Task<ValidationResult> CreateUserAsync(User user)
+        public async Task CreateUserAsync(User user)
         {
-            throw new NotImplementedException();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            await _context.Users.AddAsync(user);
         }
 
-        public Task<ValidationResult> DeleteUserAsync(int id)
+        public async Task<bool> DeleteUserAsync(int id)
         {
-            throw new NotImplementedException();
+            User? user = (User?) await GetUserByIdAsync(id);
+            if (user == null) return false;
+            _context.Users.Remove(user);
+            return true;
         }
 
-        public Task<IEnumerable<User>> GetAllUsersAsync()
+        public IAsyncEnumerable<IUser> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+            return _context.Users.AsAsyncEnumerable();
         }
 
-        public Task<User?> GetByIdAsync(long? userId)
+        public async Task<IUser?> GetUserByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            var users = _context.Users.Where(x => x.Email == email);
+            return await users.SingleOrDefaultAsync();
         }
 
-        public Task<User?> GetUserByEmailAsync(string email)
+        public async Task<IUser?> GetUserByEmailVerificationTokenAsync(string token)
         {
-            throw new NotImplementedException();
+            var users = _context.Users.Where(x => x.EmailVerificationToken == token);
+            return await users.SingleOrDefaultAsync();
         }
 
-        public Task<User?> GetUserByEmailVerificationTokenAsync(string token)
+        public async Task<IUser?> GetUserByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var users = _context.Users.Where(x => x.Id == id);
+            return await users.SingleOrDefaultAsync();
         }
 
-        public Task<User?> GetUserByIdAsync(int id)
+        public async Task<IUser?> GetUserByPasswordResetTokenAsync(string token)
         {
-            throw new NotImplementedException();
+            var users = _context.Users.Where(x => x.PasswordResetToken == token);
+            return await users.SingleOrDefaultAsync();
         }
 
-        public Task<User?> GetUserByPasswordResetTokenAsync(string token)
+        public async Task<IUser?> GetUserByUsernameAsync(string username)
         {
-            throw new NotImplementedException();
+            var users = _context.Users.Where(x => x.Username == username);
+            return await users.SingleOrDefaultAsync();
         }
 
-        public Task<User?> GetUserByUsernameAsync(string username)
+        public async Task<bool> ValidateRefreshTokenSessionAsync(int userId, string sessionId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<(string accessToken, string refreshToken)?> LoginAsync(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string?> RegenerateRefreshToken(long userId, string sessionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ValidationResult> UpdateUserAsync(User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string?> ValidateRefreshTokenSessionAsync(long userId, string sessionId)
-        {
-            throw new NotImplementedException();
+            var user = await GetUserByIdAsync(userId);
+            if (user == null) return false;
+            var userSessions = user.UserSessions.Where(x => x.SessionKey == sessionId);
+            if (!userSessions.Any()) return false;
+            var userSession = userSessions.First(); 
+            if (userSession == null) return false;
+            if (userSession.Expires <= DateTime.UtcNow) return false;
+            return true;
         }
     }
 }

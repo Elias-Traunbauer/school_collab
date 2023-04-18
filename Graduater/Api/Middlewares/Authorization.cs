@@ -1,5 +1,5 @@
 ﻿using Api.Helpers;
-using Core.Entities;
+using Core.Entities.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Persistence;

@@ -13,9 +13,7 @@ namespace Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             ApiConfig apiConfig = new();
-
             builder.Configuration.Bind("ApiConfig", apiConfig);
             builder.Services.AddSingleton(apiConfig);
 

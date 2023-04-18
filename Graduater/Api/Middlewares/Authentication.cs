@@ -60,39 +60,39 @@ namespace Ribbon.API.Middlewares
                     new JwtSecurityTokenHandler().ValidateToken(refreshToken, GetValidationParameters(), out _);
                     JwtSecurityToken refreshJwt = new(refreshToken);
 
-                    long userId = long.Parse(refreshJwt.Claims.Single(x => x.Type == "userId").Value);
+                    int userId = int.Parse(refreshJwt.Claims.Single(x => x.Type == "userId").Value);
                     string sessionId = refreshJwt.Claims.Single(x => x.Type == "sessionId").Value;
 
                     var res = await uow.UserRepository.ValidateRefreshTokenSessionAsync(userId, sessionId);
 
-                    JwtSecurityToken accessJwt = new(res);
+                    //JwtSecurityToken accessJwt = new(res);
 
-                    if (res != null)
-                    {
-                        var refreshTokenTimeLeft = refreshJwt.ValidTo - DateTime.UtcNow;
-                        if (refreshTokenTimeLeft.Add(TimeSpan.FromMinutes(-1)) < _config.AccessTokenLifetime)
-                        {
-                            var newRefreshToken = await uow.UserRepository.RegenerateRefreshToken(userId, sessionId);
+                    //if (res != null)
+                    //{
+                    //    var refreshTokenTimeLeft = refreshJwt.ValidTo - DateTime.UtcNow;
+                    //    if (refreshTokenTimeLeft.Add(TimeSpan.FromMinutes(-1)) < _config.AccessTokenLifetime)
+                    //    {
+                    //        var newRefreshToken = await uow.UserRepository.RegenerateRefreshToken(userId, sessionId);
 
-                            if (newRefreshToken != null)
-                            {
-                                httpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, newRefreshToken, DateTime.Now.Add(_config.RefreshTokenLifetime));
-                            }
-                        }
-                        SetUserData(httpContext, accessJwt);
-                        await uow.SaveChangesAsync();
-                        await _next(httpContext);
-                        return;
-                    }
-                    else
-                    {
-                        httpContext.Response.StatusCode = 401;
-                        await httpContext.Response.WriteAsJsonAsync(new
-                        {
-                            Status = 401
-                        });
-                        return;
-                    }
+                    //        if (newRefreshToken != null)
+                    //        {
+                    //            httpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, newRefreshToken, DateTime.Now.Add(_config.RefreshTokenLifetime));
+                    //        }
+                    //    }
+                    //    SetUserData(httpContext, accessJwt);
+                    //    await uow.SaveChangesAsync();
+                    //    await _next(httpContext);
+                    //    return;
+                    //}
+                    //else
+                    //{
+                    //    httpContext.Response.StatusCode = 401;
+                    //    await httpContext.Response.WriteAsJsonAsync(new
+                    //    {
+                    //        Status = 401
+                    //    });
+                    //    return;
+                    //}
                 }
                 catch
                 {

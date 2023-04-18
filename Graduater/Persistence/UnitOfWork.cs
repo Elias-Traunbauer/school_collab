@@ -1,4 +1,5 @@
 ﻿using Core.Contracts;
+using Core.Contracts.Repositories;
 using Persistence.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,17 +12,22 @@ namespace Persistence
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        private readonly ApiConfig _config;
+        private UserRepository? _userRepository;
 
-        public UnitOfWork(ApiConfig config)
+        public UnitOfWork()
         {
-            _config = config;
-            _context = new ApplicationDbContext(config);
-            UserRepository = new UserRepository(_context, _config);
+            _context = new ApplicationDbContext();
             //AssignmentRepository = new AssignmentRepository(_context, _config);
         }
 
-        public IUserRepository UserRepository { get; set; }
+        public IUserRepository UserRepository
+        {
+            get
+            {
+                _userRepository ??= new UserRepository(_context);
+                return _userRepository;
+            }
+        }
 
         public IAssignmentRepository AssignmentRepository { get; set; } = null!;
 

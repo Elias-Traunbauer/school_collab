@@ -1,6 +1,7 @@
 ﻿using Api.DataTransferObjects;
 using Api.Helpers;
 using Core.Contracts;
+using Core.Contracts.Entities;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
@@ -39,13 +40,13 @@ namespace Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            Func<string, Task<User?>>[] userSearchMethods = new Func<string, Task<User?>>[2] 
+            Func<string, Task<IUser?>>[] userSearchMethods = new Func<string, Task<IUser?>>[2] 
             {
                 uow.UserRepository.GetUserByUsernameAsync, 
                 uow.UserRepository.GetUserByEmailAsync
             };
 
-            User? user = null;
+            IUser? user = null;
             foreach (var searchMethod in userSearchMethods)
             {
                 user = await searchMethod(loginInformation.Identifier);
@@ -65,16 +66,9 @@ namespace Api.Controllers
                 return Ok(InvalidLogin);
             }
 
-            var loginResult = await uow.UserRepository.LoginAsync(user.Id);
+            //HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, loginResult.Value.accessToken, DateTime.Now.Add(_config.AccessTokenLifetime));
 
-            if (loginResult == null)
-            {
-                return StatusCode(500);
-            }
-
-            HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, loginResult.Value.accessToken, DateTime.Now.Add(_config.AccessTokenLifetime));
-
-            HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, loginResult.Value.refreshToken, DateTime.Now.Add(_config.RefreshTokenLifetime));
+            //HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, loginResult.Value.refreshToken, DateTime.Now.Add(_config.RefreshTokenLifetime));
             return Ok();
         }
 

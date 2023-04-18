@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿using Core.Entities.Database;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;

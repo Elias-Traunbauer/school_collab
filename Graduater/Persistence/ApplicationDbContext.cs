@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Persistence;
 
@@ -11,10 +12,13 @@ public partial class ApplicationDbContext : DbContext
 
     public ApplicationDbContext() : base()
     {
-        _config = new()
-        {
-            DatabaseConnectionString = "Server=localhost;Database=school_collab;Uid=root;Pwd=root"
-        };
+        var builder = new ConfigurationBuilder()
+                        .SetBasePath(Environment.CurrentDirectory).AddJsonFile
+                        ("appsettings.json", optional: false, reloadOnChange: false);
+        var cfg = builder.Build();
+        ApiConfig config = new();
+        cfg.Bind("ApiConfig", config);
+        _config = config;
     }
 
     public ApplicationDbContext(ApiConfig config) : base()
@@ -53,6 +57,8 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Subject> Subjects { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<UserSession> UserSession { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

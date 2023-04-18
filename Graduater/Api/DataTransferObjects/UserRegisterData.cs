@@ -21,7 +21,7 @@ namespace Api.DataTransferObjects
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        [RegularExpression("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")]
+        [RegularExpression("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", ErrorMessage = "Password must contain a lowercase letter, a uppercase letter and a digit")]
         public string Password { get; set; } = string.Empty;
 
         [Required]

@@ -13,6 +13,9 @@ namespace Persistence
         public TimeSpan AccessTokenLifetime { get; set; }
         public TimeSpan RefreshTokenLifetime { get; set; }
 
+        public TimeSpan EmailVerificationTokenLifetime { get; set; }
+        public TimeSpan PasswordResetTokenLifetime { get; set; }
+
         public string AccessTokenCookieIdentifier { get; set; } = string.Empty;
         public string RefreshTokenCookieIdentifier { get; set; } = string.Empty;
 

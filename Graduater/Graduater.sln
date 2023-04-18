@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{00665244-7DA0-40FA-BDA5-D69111B19902}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{00665244-7DA0-40FA-BDA5-D69111B19902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{80C218D0-493C-4155-966D-AF6BF47EC999}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{80C218D0-493C-4155-966D-AF6BF47EC999}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{74A2CC60-EA90-4FA6-97FE-981519134C77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{74A2CC60-EA90-4FA6-97FE-981519134C77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{2AF83625-6A0B-466E-8B76-01A2F8B6AE3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{74A2CC60-EA90-4FA6-97FE-981519134C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74A2CC60-EA90-4FA6-97FE-981519134C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74A2CC60-EA90-4FA6-97FE-981519134C77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF83625-6A0B-466E-8B76-01A2F8B6AE3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF83625-6A0B-466E-8B76-01A2F8B6AE3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF83625-6A0B-466E-8B76-01A2F8B6AE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF83625-6A0B-466E-8B76-01A2F8B6AE3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
