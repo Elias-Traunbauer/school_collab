@@ -6,12 +6,17 @@ namespace Persistence;
 
 public partial class ApplicationDbContext : DbContext
 {
-    readonly ApiConfig _config;
+    readonly ApiConfig? _config;
 
     public ApiConfig Configuration { get { return _config; } }
 
-    public ApplicationDbContext() : base()
+
+    public ApplicationDbContext(bool dummy = false) : base()
     {
+        if (dummy)
+        {
+            return;
+        }
         var builder = new ConfigurationBuilder()
                         .SetBasePath(Environment.CurrentDirectory).AddJsonFile
                         ("appsettings.json", optional: false, reloadOnChange: false);
@@ -19,17 +24,6 @@ public partial class ApplicationDbContext : DbContext
         ApiConfig config = new();
         cfg.Bind("ApiConfig", config);
         _config = config;
-    }
-
-    private DbContextOptions? DbContextOptions { get; set; }
-
-    /// <summary>
-    /// COnstructor for mocking
-    /// </summary>
-    /// <param name="mock"></param>
-    public ApplicationDbContext(DbContextOptions options)
-    {
-        
     }
 
     public ApplicationDbContext(ApiConfig config) : base()
@@ -73,7 +67,7 @@ public partial class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (_config.DatabaseConnectionString == null)
+        if (_config?.DatabaseConnectionString == null)
         {
             throw new Exception("Database connection string is null");
         }

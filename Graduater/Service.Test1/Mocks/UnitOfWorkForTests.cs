@@ -21,7 +21,7 @@ namespace Service.Test.Mocks
     /// </summary>
     internal class UnitOfWorkForTests : IUnitOfWork
     {
-        private readonly ApplicationDbContext _appDbContext;
+        private readonly ApplicationDbContextForTesting _appDbContext;
 
         public IUserRepository UserRepository { get; set; }
 
@@ -29,23 +29,20 @@ namespace Service.Test.Mocks
 
         public UnitOfWorkForTests() 
         {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDB")
-                .Options;
-
-            _appDbContext = new ApplicationDbContext(options);
+            _appDbContext = new ApplicationDbContextForTesting();
             UserRepository = new UserRepository(_appDbContext);
         }
 
         public UnitOfWorkForTests WithEntity(DatabaseEntity entity)
         {
             _appDbContext.Add(entity);
+            _appDbContext.SaveChanges();
             return this;
         }
 
         public async Task<bool> SaveChangesAsync()
         {
-            //_appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
             return true;
         }
     }

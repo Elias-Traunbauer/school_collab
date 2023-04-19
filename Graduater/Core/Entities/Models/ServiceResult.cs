@@ -18,6 +18,7 @@ namespace Core.Entities.Models
 
         public ServiceResult(string key, params string[] errors)
         {
+            Status = 400;
             Errors.Add(key, errors.ToList());
         }
 
