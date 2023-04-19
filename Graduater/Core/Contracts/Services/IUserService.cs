@@ -13,7 +13,7 @@ namespace Core.Contracts.Services
     {
         Task<ILoginResult> LoginAsync(UserLoginPayload loginInformation);
 
-        Task<IRegisterResult> RegisterAsync(UserRegisterPayload userRegisterPayload);
+        Task<IServiceResult> RegisterAsync(UserRegisterPayload userRegisterPayload);
 
         Task<IServiceResult> VerifyEmailAsync(string token);
 

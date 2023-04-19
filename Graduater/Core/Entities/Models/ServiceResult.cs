@@ -11,6 +11,16 @@ namespace Core.Entities.Models
 
         public Dictionary<string, List<string>> Errors { get; set; } = new Dictionary<string, List<string>>();
 
+        public ServiceResult()
+        {
+
+        }
+
+        public ServiceResult(string key, params string[] errors)
+        {
+            Errors.Add(key, errors.ToList());
+        }
+
         public dynamic GetErrors()
         {
             var errorResult = new ExpandoObject() as IDictionary<string, object>;

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.Contracts.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Entities.Database;
 
+[Index(nameof(Username), IsUnique = true)]
+[Index(nameof(Email), IsUnique = true)]
 public class User : DatabaseEntity, IUser
 {
     public string Username { get; set; } = string.Empty;
@@ -66,7 +69,9 @@ public enum UserPermission
     Edit = 1 << 2,
     Delete = 1 << 3,
     Admin = 1 << 4,
-    Disabled = 1 << 5
+    Disabled = 1 << 5,
+    Moderator = View | Create | Edit | Delete,
+    Default = View | Create
 }
 
 [Flags]

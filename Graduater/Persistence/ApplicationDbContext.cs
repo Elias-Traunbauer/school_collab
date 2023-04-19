@@ -21,6 +21,17 @@ public partial class ApplicationDbContext : DbContext
         _config = config;
     }
 
+    private DbContextOptions? DbContextOptions { get; set; }
+
+    /// <summary>
+    /// COnstructor for mocking
+    /// </summary>
+    /// <param name="mock"></param>
+    public ApplicationDbContext(DbContextOptions options)
+    {
+        
+    }
+
     public ApplicationDbContext(ApiConfig config) : base()
     {
         _config = config;
