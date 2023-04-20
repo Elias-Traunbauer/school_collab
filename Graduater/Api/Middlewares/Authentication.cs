@@ -1,11 +1,14 @@
 ﻿using Api.Helpers;
 using Core.Contracts;
+using Core.Contracts.Services;
 using Core.Entities.Database;
 using Microsoft.IdentityModel.Tokens;
+using MySqlX.XDevAPI.Common;
 using Org.BouncyCastle.Asn1.Cms;
 using Persistence;
 using Ribbon.API.Attributes;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Ribbon.API.Middlewares
 {
@@ -21,7 +24,7 @@ namespace Ribbon.API.Middlewares
             _config = configuration;
         }
 
-        public async Task Invoke(HttpContext httpContext, IUnitOfWork uow)
+        public async Task Invoke(HttpContext httpContext, IJsonWebTokenService jsonWebTokenService, IUserService userService)
         {
             var endpoint = httpContext.GetEndpoint();
 
@@ -39,17 +42,12 @@ namespace Ribbon.API.Middlewares
             string? accessToken = httpContext.Request.Cookies[_config.AccessTokenCookieIdentifier];
             if (accessToken != null)
             {
-                try
-                {
-                    new JwtSecurityTokenHandler().ValidateToken(accessToken, GetValidationParameters(), out _);
-                    JwtSecurityToken jwtSecurityToken = new(accessToken);
+                var claims = jsonWebTokenService.ValidateToken(accessToken);
 
-                    SetUserData(httpContext, jwtSecurityToken);
-                }
-                catch (SecurityTokenExpiredException)
+                if (claims != null)
                 {
-                    
-                } finally { }
+                    SetUserData(httpContext, claims);
+                }
             }
 
             string? refreshToken = httpContext.Request.Cookies[_config.RefreshTokenCookieIdentifier];
@@ -57,13 +55,32 @@ namespace Ribbon.API.Middlewares
             {
                 try
                 {
-                    new JwtSecurityTokenHandler().ValidateToken(refreshToken, GetValidationParameters(), out _);
-                    JwtSecurityToken refreshJwt = new(refreshToken);
+                    var claims = jsonWebTokenService.ValidateToken(refreshToken);
 
-                    int userId = int.Parse(refreshJwt.Claims.Single(x => x.Type == "userId").Value);
-                    string sessionId = refreshJwt.Claims.Single(x => x.Type == "sessionId").Value;
+                    if (claims != null)
+                    {
+                        int userId = int.Parse(claims.Claims.Single(x => x.Type == "userId").Value);
+                        string sessionId = claims.Claims.Single(x => x.Type == "sessionId").Value;
 
-                    //JwtSecurityToken accessJwt = new(res);
+                        var useRefreshTokenResult = await userService.UseRefreshTokenAsync(userId, sessionId);
+
+                        if (useRefreshTokenResult.ServiceResult.Status != 200)
+                        {
+                            httpContext.Response.StatusCode = 401;
+                            await httpContext.Response.WriteAsJsonAsync(new
+                            {
+                                Status = 401
+                            });
+                            return;
+                        }
+                        httpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, useRefreshTokenResult.AccessToken, DateTime.Now.Add(_config.AccessTokenLifetime));
+
+                        var newClaims = jsonWebTokenService.ValidateToken(useRefreshTokenResult.AccessToken);
+
+                        SetUserData(httpContext, newClaims!);
+                        await _next(httpContext);
+                        return;
+                    }
 
                     //if (res != null)
                     //{
@@ -117,12 +134,12 @@ namespace Ribbon.API.Middlewares
             return;
         }
 
-        private static void SetUserData(HttpContext httpContext, JwtSecurityToken jwtSecurityToken)
+        private static void SetUserData(HttpContext httpContext, ClaimsPrincipal claims)
         {
             HttpContextUserInfo httpContextUserInfo = new();
-            int userId = int.Parse(jwtSecurityToken.Claims.Single(x => x.Type == "userId").Value);
-            string username = jwtSecurityToken.Claims.Single(x => x.Type == "username").Value;
-            UserPermission userPermission = (UserPermission)int.Parse(jwtSecurityToken.Claims.Single(x => x.Type == "userPermission").Value);
+            int userId = int.Parse(claims.Claims.Single(x => x.Type == "userId").Value);
+            string username = claims.Claims.Single(x => x.Type == "username").Value;
+            UserPermission userPermission = (UserPermission)int.Parse(claims.Claims.Single(x => x.Type == "userPermission").Value);
 
             httpContextUserInfo.User = new User()
             {

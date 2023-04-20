@@ -19,7 +19,7 @@ public class User : DatabaseEntity, IUser
     [ForeignKey(nameof(ProfilePictureId))]
     public File? ProfilePicture { get; set; }
 
-    public int ProfilePictureId { get; set; }
+    public int? ProfilePictureId { get; set; }
 
     public string Email { get; set; } = string.Empty;
 

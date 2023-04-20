@@ -1,14 +1,18 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Core.Contracts.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Service.Helpers
+namespace Service.Services
 {
-    public static class Utils
+    public class PasswordService : IPasswordService
     {
-        public static string RandomCharSequence(int randomBytesCount = 128)
+        public string HashPassword(string password, string salt)
         {
-            var bytes = RandomNumberGenerator.GetBytes(randomBytesCount);
+            var bytes = Encoding.UTF8.GetBytes(password + salt);
             var hashValue = SHA512.HashData(bytes);
             StringBuilder stringBuilder = new();
             foreach (byte b in hashValue)

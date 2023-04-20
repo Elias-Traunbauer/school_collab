@@ -4,7 +4,6 @@ using Core.Contracts.Models;
 using Core.Contracts.Services;
 using Core.Entities.Database;
 using Core.Entities.Models;
-using Service.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +16,15 @@ namespace Service.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJsonWebTokenService _jsonWebTokenService;
+        private readonly IPasswordService _passwordService;
+        private readonly IRandomKeyService _randomKeyService;
 
-        public UserService(IUnitOfWork uow, IJsonWebTokenService jsonWebTokenService)
+        public UserService(IUnitOfWork uow, IJsonWebTokenService jsonWebTokenService, IPasswordService passwordService, IRandomKeyService randomKeyService)
         {
             _unitOfWork = uow;
             _jsonWebTokenService = jsonWebTokenService;
+            _passwordService = passwordService;
+            _randomKeyService = randomKeyService;
         }
 
         /// <summary>
@@ -36,6 +39,7 @@ namespace Service.Services
             {
                 return ServiceResult.Completed;
             }
+            await _unitOfWork.SaveChangesAsync();
             // send email
 
             return ServiceResult.Completed;
@@ -63,15 +67,25 @@ namespace Service.Services
             {
                 return GetLoginErrorResult();
             }
-            string hashedInputPassword = PasswordHelper.HashPassword(loginInformation.Password, user.PasswordSalt);
+            string hashedInputPassword = _passwordService.HashPassword(loginInformation.Password, user.PasswordSalt);
             if (hashedInputPassword != user.PasswordHash)
             {
                 return GetLoginErrorResult();
             }
+            string sessionKey = _randomKeyService.GetRandomKey(128);
+            user.UserSessions.Add(new UserSession()
+            {
+                SessionKey = sessionKey,
+                IssuedAt = DateTime.UtcNow,
+                Expires = DateTime.UtcNow.AddDays(30),
+                LastAction = DateTime.UtcNow,
+                Ip = "Not yet implemented"
+            });
 
             string accessToken = _jsonWebTokenService.GenerateAccessToken(user);
-            string refreshToken = _jsonWebTokenService.GenerateRefreshToken(user, Utils.RandomCharSequence());
+            string refreshToken = _jsonWebTokenService.GenerateRefreshToken(user, sessionKey);
 
+            await _unitOfWork.SaveChangesAsync();
             return new LoginResult()
             {
                 AccessToken = accessToken,
@@ -94,20 +108,21 @@ namespace Service.Services
             {
                 return new ServiceResult(nameof(userRegisterPayload.Email), "Email is already registered");
             }
-            string passwordSalt = PasswordHelper.GenerateSalt();
-            string emailVerificationToken = Utils.RandomCharSequence();
+            string passwordSalt = _randomKeyService.GetRandomKey(128);
+            string emailVerificationToken = _randomKeyService.GetRandomKey(128);
             var user = new User()
             {
                 Username = userRegisterPayload.Username,
                 FirstName = userRegisterPayload.Firstname,
                 LastName = userRegisterPayload.Lastname,
                 Email = userRegisterPayload.Email,
-                PasswordSalt = PasswordHelper.GenerateSalt(),
-                PasswordHash = PasswordHelper.HashPassword(userRegisterPayload.Password, passwordSalt),
+                PasswordSalt = passwordSalt,
+                PasswordHash = _passwordService.HashPassword(userRegisterPayload.Password, passwordSalt),
                 EmailVerificationToken = emailVerificationToken,
                 EmailVerificationTokenExpiration = DateTime.UtcNow.Add(TimeSpan.FromMinutes(5))
             };
             await _unitOfWork.UserRepository.CreateUserAsync(user);
+            await _unitOfWork.SaveChangesAsync();
             // send email
 
 
@@ -131,8 +146,9 @@ namespace Service.Services
             {
                 return new ServiceResult(nameof(userPasswordResetPayload.RepeatPassword), "Passwords do not match");
             }
-            string hashedPassword = PasswordHelper.HashPassword(userPasswordResetPayload.Password, user.PasswordSalt);
+            string hashedPassword = _passwordService.HashPassword(userPasswordResetPayload.Password, user.PasswordSalt);
             user.PasswordHash = hashedPassword;
+            await _unitOfWork.SaveChangesAsync();
             return ServiceResult.Completed;
         }
 
@@ -147,7 +163,7 @@ namespace Service.Services
             user.EmailVerificationToken = null;
             user.EmailVerificationTokenExpiration = null;
             user.IsEmailVerified = true;
-
+            await _unitOfWork.SaveChangesAsync();
             return ServiceResult.Completed;
         }
 
@@ -158,13 +174,43 @@ namespace Service.Services
             {
                 ServiceResult = new ServiceResult()
                 {
-                    Status = 400,
+                    Status = 401,
                     Errors = new Dictionary<string, List<string>>()
                     {
                         { nameof(dummy.Identifier), new List<string>() { "Wrong username or password" } },
                         { nameof(dummy.Password), new List<string>() { "Wrong username or password" } }
                     }
                 }
+            };
+        }
+
+        public async Task<ILoginResult> UseRefreshTokenAsync(int userId, string token)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new LoginResult()
+                {
+                    ServiceResult = new ServiceResult("Error", "User not found")
+                };
+            }
+            var session = user.UserSessions.SingleOrDefault(x => x.SessionKey == token, null);
+            if (session == null)
+            {
+                return new LoginResult()
+                {
+                    ServiceResult = new ServiceResult("Error", "Session not found")
+                };
+            }
+            session.LastAction = DateTime.UtcNow;
+            string accessToken = _jsonWebTokenService.GenerateAccessToken((user as User)!);
+            await _unitOfWork.SaveChangesAsync();
+            return new LoginResult()
+            {
+                ServiceResult = ServiceResult.Completed,
+                AccessToken = accessToken,
+                RefreshToken = null!
             };
         }
     }

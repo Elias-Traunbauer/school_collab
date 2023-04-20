@@ -8,7 +8,7 @@ public partial class ApplicationDbContext : DbContext
 {
     readonly ApiConfig? _config;
 
-    public ApiConfig Configuration { get { return _config; } }
+    public ApiConfig? Configuration { get { return _config; } }
 
 
     public ApplicationDbContext(bool dummy = false) : base()

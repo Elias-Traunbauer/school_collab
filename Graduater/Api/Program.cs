@@ -20,9 +20,10 @@ namespace Api
             builder.Services.AddSingleton(apiConfig);
 
             builder.Services.AddSingleton<IJsonWebTokenService, JsonWebTokenService>();
+            builder.Services.AddSingleton<IRandomKeyService, RandomKeyService>();
+            builder.Services.AddSingleton<IPasswordService, PasswordService>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddControllers();

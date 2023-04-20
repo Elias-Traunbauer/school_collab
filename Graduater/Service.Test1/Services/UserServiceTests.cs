@@ -3,8 +3,8 @@ using Core.Contracts.Services;
 using Core.Entities.Database;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Mysqlx.Notice;
 using Persistence;
-using Service.Helpers;
 using Service.Services;
 using Service.Test.Mocks;
 using System;
@@ -28,7 +28,7 @@ namespace Service.Services.Tests
         };
         readonly IJsonWebTokenService _jsonWebTokenService;
 
-        public UserServiceTests() 
+        public UserServiceTests()
         {
             _jsonWebTokenService = new JsonWebTokenService(_config);
         }
@@ -36,13 +36,13 @@ namespace Service.Services.Tests
         [TestMethod()]
         public async Task ForgotPasswordAsyncTest()
         {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
                 Username = "ForgotPasswordAsyncTest",
                 Email = "ForgotPasswordAsyncTest@Test.com",
-                PasswordSalt = "ForgotPasswordAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("ForgotPasswordAsyncTest", "ForgotPasswordAsyncTest")
-            }), _jsonWebTokenService);
+            }), _jsonWebTokenService, passwordService, randomKeyService);
 
             var res = await userService.ForgotPasswordAsync("ForgotPasswordAsyncTest@Test.com");
 
@@ -50,15 +50,17 @@ namespace Service.Services.Tests
         }
 
         [TestMethod()]
-        public async Task UsernameLoginAsyncTest()
+        public async Task LoginUsernameAsyncTest()
         {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
                 Username = "UsernameLoginAsyncTest",
                 Email = "UsernameLoginAsyncTest@Test.com",
                 PasswordSalt = "UsernameLoginAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("UsernameLoginAsyncTest", "UsernameLoginAsyncTest")
-            }), _jsonWebTokenService);
+                PasswordHash = passwordService.HashPassword("UsernameLoginAsyncTest", "UsernameLoginAsyncTest")
+            }), _jsonWebTokenService, passwordService, randomKeyService);
 
             var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
             {
@@ -70,15 +72,17 @@ namespace Service.Services.Tests
         }
 
         [TestMethod()]
-        public async Task EmailLoginAsyncTest()
+        public async Task LoginEmailAsyncTest()
         {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
                 Username = "EmailLoginAsyncTest",
                 Email = "EmailLoginAsyncTest@Test.com",
                 PasswordSalt = "EmailLoginAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("EmailLoginAsyncTest", "EmailLoginAsyncTest")
-            }), _jsonWebTokenService);
+                PasswordHash = passwordService.HashPassword("EmailLoginAsyncTest", "EmailLoginAsyncTest")
+            }), _jsonWebTokenService, passwordService, randomKeyService);
 
             var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
             {
@@ -92,7 +96,9 @@ namespace Service.Services.Tests
         [TestMethod()]
         public async Task RegisterAsyncTest()
         {
-            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests(), _jsonWebTokenService);
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests(), _jsonWebTokenService, passwordService, randomKeyService);
             var res = await userService.RegisterAsync(new Core.Contracts.Models.UserRegisterPayload()
             {
                 Username = "ForgotPasswordAsyncTest",
@@ -109,15 +115,17 @@ namespace Service.Services.Tests
         [TestMethod()]
         public async Task ResetPasswordAsyncTest()
         {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
                 Username = "ResetPasswordAsyncTest",
                 Email = "ResetPasswordAsyncTest@Test.com",
                 PasswordSalt = "ResetPasswordAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
+                PasswordHash = passwordService.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
                 PasswordResetToken = "ResetPasswordAsyncTest",
                 PasswordResetTokenExpiration = DateTime.UtcNow.AddDays(1)
-            }), _jsonWebTokenService);
+            }), _jsonWebTokenService, passwordService, randomKeyService);
 
             var res = await userService.ResetPasswordAsync(new Core.Contracts.Models.UserPasswordResetPayload()
             {
@@ -132,15 +140,17 @@ namespace Service.Services.Tests
         [TestMethod()]
         public async Task VerifyEmailAsyncTest()
         {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
                 Username = "VerifyEmailAsyncTest",
                 Email = "VerifyEmailAsyncTest@Test.com",
                 PasswordSalt = "ResetPaVerifyEmailAsyncTestsswordAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
+                PasswordHash = passwordService.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
                 EmailVerificationToken = "ResetPasswordAsyncTest",
                 EmailVerificationTokenExpiration = DateTime.UtcNow.AddDays(1)
-            }), _jsonWebTokenService);
+            }), _jsonWebTokenService, passwordService, randomKeyService);
 
             var res = await userService.VerifyEmailAsync("ResetPasswordAsyncTest");
 
@@ -150,29 +160,34 @@ namespace Service.Services.Tests
         [TestMethod()]
         public async Task ForgotPasswordInvalidAsyncTest()
         {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
                 Username = "ForgotPasswordAsyncTest",
                 Email = "ForgotPasswordAsyncTest@Test.com",
                 PasswordSalt = "ForgotPasswordAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("ForgotPasswordAsyncTest", "ForgotPasswordAsyncTest")
-            }), _jsonWebTokenService);
+                PasswordHash = passwordService.HashPassword("ForgotPasswordAsyncTest", "ForgotPasswordAsyncTest")
+            }), _jsonWebTokenService, passwordService, randomKeyService);
 
             var res = await userService.ForgotPasswordAsync("WrongEmail@Test.com");
 
+            // 200 because this could compromise a taken email
             Assert.AreEqual(200, res.Status);
         }
 
         [TestMethod()]
-        public async Task UsernameLoginInvalidAsyncTest()
+        public async Task LoginUsernameInvalidAsyncTest()
         {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
                 Username = "UsernameLoginAsyncTest",
                 Email = "UsernameLoginAsyncTest@Test.com",
                 PasswordSalt = "EmailLoginAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("UsernameLoginAsyncTest", "UsernameLoginAsyncTest")
-            }), _jsonWebTokenService);
+                PasswordHash = passwordService.HashPassword("UsernameLoginAsyncTest", "UsernameLoginAsyncTest")
+            }), _jsonWebTokenService, passwordService, randomKeyService);
 
             var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
             {
@@ -180,19 +195,21 @@ namespace Service.Services.Tests
                 Password = "Wrong Password"
             });
 
-            Assert.AreEqual(400, res.ServiceResult.Status);
+            Assert.AreEqual(401, res.ServiceResult.Status);
         }
 
         [TestMethod()]
-        public async Task EmailLoginInvalidAsyncTest()
+        public async Task LoginEmailInvalidAsyncTest()
         {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
                 Username = "EmailLoginAsyncTest",
                 Email = "EmailLoginAsyncTest@Test.com",
                 PasswordSalt = "EmailLoginAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("EmailLoginAsyncTest", "EmailLoginAsyncTest")
-            }), _jsonWebTokenService);
+                PasswordHash = passwordService.HashPassword("EmailLoginAsyncTest", "EmailLoginAsyncTest")
+            }), _jsonWebTokenService, passwordService, randomKeyService);
 
             var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
             {
@@ -200,13 +217,15 @@ namespace Service.Services.Tests
                 Password = "Wrong Password"
             });
 
-            Assert.AreEqual(400, res.ServiceResult.Status);
+            Assert.AreEqual(401, res.ServiceResult.Status);
         }
 
         [TestMethod()]
         public async Task RegisterInvalidAsyncTest()
         {
-            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests(), _jsonWebTokenService);
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests(), _jsonWebTokenService, passwordService, randomKeyService);
             var res = await userService.RegisterAsync(new Core.Contracts.Models.UserRegisterPayload()
             {
                 Username = "F",
@@ -223,15 +242,17 @@ namespace Service.Services.Tests
         [TestMethod()]
         public async Task ResetPasswordInvalidAsyncTest()
         {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
                 Username = "ResetPasswordAsyncTest",
                 Email = "ResetPasswordAsyncTest@Test.com",
                 PasswordSalt = "ResetPasswordAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
+                PasswordHash = passwordService.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
                 PasswordResetToken = "ResetPasswordAsyncTest",
                 PasswordResetTokenExpiration = DateTime.UtcNow.AddDays(1)
-            }), _jsonWebTokenService);
+            }), _jsonWebTokenService, passwordService, randomKeyService);
 
             var res = await userService.ResetPasswordAsync(new Core.Contracts.Models.UserPasswordResetPayload()
             {
@@ -246,19 +267,53 @@ namespace Service.Services.Tests
         [TestMethod()]
         public async Task VerifyEmailInvalidAsyncTest()
         {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
                 Username = "VerifyEmailAsyncTest",
                 Email = "VerifyEmailAsyncTest@Test.com",
                 PasswordSalt = "ResetPaVerifyEmailAsyncTestsswordAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
+                PasswordHash = passwordService.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
                 EmailVerificationToken = "ResetPasswordAsyncTest",
                 EmailVerificationTokenExpiration = DateTime.UtcNow.AddDays(1)
-            }), _jsonWebTokenService);
+            }), _jsonWebTokenService, passwordService, randomKeyService);
 
             var res = await userService.VerifyEmailAsync("Wrong token");
 
             Assert.AreEqual(400, res.Status);
+        }
+
+        [TestMethod()]
+        public async Task UseRefreshTokenAsyncTest()
+        {
+            IPasswordService passwordService = new PasswordService();
+            IRandomKeyService randomKeyService = new RandomKeyService();
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
+            {
+                Id=1,
+                Username = "UseRefreshTokenAsyncTest",
+                Email = "UseRefreshTokenAsyncTest@Test.com",
+                PasswordSalt = "UseRefreshTokenAsyncTest",
+                PasswordHash = passwordService.HashPassword("UseRefreshTokenAsyncTest", "UseRefreshTokenAsyncTest"),
+                EmailVerificationToken = "ResetPasswordAsyncTest",
+                EmailVerificationTokenExpiration = DateTime.UtcNow.AddDays(1),
+                UserSessions = new List<UserSession>()
+                {
+                    new UserSession()
+                    {
+                        SessionKey = "Bofian",
+                        Expires = DateTime.UtcNow.AddDays(1),
+                        
+                    }
+                }
+            }), _jsonWebTokenService, passwordService, randomKeyService);
+
+            var res = await userService.UseRefreshTokenAsync(1, "Bofian");
+
+            Assert.AreEqual(200, res.ServiceResult.Status);
+            Assert.IsNotNull(res.AccessToken);
+            Assert.IsNull(res.RefreshToken);
         }
     }
 }
