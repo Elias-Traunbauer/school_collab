@@ -38,10 +38,10 @@ namespace Service.Services.Tests
         {
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
-                Username = "LoginAsyncTest",
-                Email = "LoginAsyncTest@Test.com",
-                PasswordSalt = "LoginAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("LoginAsyncTest", "LoginAsyncTest")
+                Username = "ForgotPasswordAsyncTest",
+                Email = "ForgotPasswordAsyncTest@Test.com",
+                PasswordSalt = "ForgotPasswordAsyncTest",
+                PasswordHash = PasswordHelper.HashPassword("ForgotPasswordAsyncTest", "ForgotPasswordAsyncTest")
             }), _jsonWebTokenService);
 
             var res = await userService.ForgotPasswordAsync("ForgotPasswordAsyncTest@Test.com");
@@ -54,16 +54,16 @@ namespace Service.Services.Tests
         {
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
-                Username = "LoginAsyncTest",
-                Email = "LoginAsyncTest@Test.com",
-                PasswordSalt = "LoginAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("LoginAsyncTest", "LoginAsyncTest")
+                Username = "UsernameLoginAsyncTest",
+                Email = "UsernameLoginAsyncTest@Test.com",
+                PasswordSalt = "UsernameLoginAsyncTest",
+                PasswordHash = PasswordHelper.HashPassword("UsernameLoginAsyncTest", "UsernameLoginAsyncTest")
             }), _jsonWebTokenService);
 
             var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
             {
-                Identifier = "LoginAsyncTest",
-                Password = "LoginAsyncTest"
+                Identifier = "UsernameLoginAsyncTest",
+                Password = "UsernameLoginAsyncTest"
             });
 
             Assert.AreEqual(200, res.ServiceResult.Status);
@@ -74,16 +74,16 @@ namespace Service.Services.Tests
         {
             IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
             {
-                Username = "LoginAsyncTest",
-                Email = "LoginAsyncTest@Test.com",
-                PasswordSalt = "LoginAsyncTest",
-                PasswordHash = PasswordHelper.HashPassword("LoginAsyncTest", "LoginAsyncTest")
+                Username = "EmailLoginAsyncTest",
+                Email = "EmailLoginAsyncTest@Test.com",
+                PasswordSalt = "EmailLoginAsyncTest",
+                PasswordHash = PasswordHelper.HashPassword("EmailLoginAsyncTest", "EmailLoginAsyncTest")
             }), _jsonWebTokenService);
 
             var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
             {
-                Identifier = "LoginAsyncTest@Test.com",
-                Password = "LoginAsyncTest"
+                Identifier = "EmailLoginAsyncTest@Test.com",
+                Password = "EmailLoginAsyncTest"
             });
 
             Assert.AreEqual(200, res.ServiceResult.Status);
@@ -109,13 +109,156 @@ namespace Service.Services.Tests
         [TestMethod()]
         public async Task ResetPasswordAsyncTest()
         {
-            Assert.Fail();
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
+            {
+                Username = "ResetPasswordAsyncTest",
+                Email = "ResetPasswordAsyncTest@Test.com",
+                PasswordSalt = "ResetPasswordAsyncTest",
+                PasswordHash = PasswordHelper.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
+                PasswordResetToken = "ResetPasswordAsyncTest",
+                PasswordResetTokenExpiration = DateTime.UtcNow.AddDays(1)
+            }), _jsonWebTokenService);
+
+            var res = await userService.ResetPasswordAsync(new Core.Contracts.Models.UserPasswordResetPayload()
+            {
+                Token = "ResetPasswordAsyncTest",
+                Password = "ResetPasswordAsyncTest",
+                RepeatPassword = "ResetPasswordAsyncTest"
+            });
+
+            Assert.AreEqual(200, res.Status);
         }
 
         [TestMethod()]
         public async Task VerifyEmailAsyncTest()
         {
-            Assert.Fail();
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
+            {
+                Username = "VerifyEmailAsyncTest",
+                Email = "VerifyEmailAsyncTest@Test.com",
+                PasswordSalt = "ResetPaVerifyEmailAsyncTestsswordAsyncTest",
+                PasswordHash = PasswordHelper.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
+                EmailVerificationToken = "ResetPasswordAsyncTest",
+                EmailVerificationTokenExpiration = DateTime.UtcNow.AddDays(1)
+            }), _jsonWebTokenService);
+
+            var res = await userService.VerifyEmailAsync("ResetPasswordAsyncTest");
+
+            Assert.AreEqual(200, res.Status);
+        }
+
+        [TestMethod()]
+        public async Task ForgotPasswordInvalidAsyncTest()
+        {
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
+            {
+                Username = "ForgotPasswordAsyncTest",
+                Email = "ForgotPasswordAsyncTest@Test.com",
+                PasswordSalt = "ForgotPasswordAsyncTest",
+                PasswordHash = PasswordHelper.HashPassword("ForgotPasswordAsyncTest", "ForgotPasswordAsyncTest")
+            }), _jsonWebTokenService);
+
+            var res = await userService.ForgotPasswordAsync("WrongEmail@Test.com");
+
+            Assert.AreEqual(200, res.Status);
+        }
+
+        [TestMethod()]
+        public async Task UsernameLoginInvalidAsyncTest()
+        {
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
+            {
+                Username = "UsernameLoginAsyncTest",
+                Email = "UsernameLoginAsyncTest@Test.com",
+                PasswordSalt = "EmailLoginAsyncTest",
+                PasswordHash = PasswordHelper.HashPassword("UsernameLoginAsyncTest", "UsernameLoginAsyncTest")
+            }), _jsonWebTokenService);
+
+            var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
+            {
+                Identifier = "UsernameLoginAsyncTest",
+                Password = "Wrong Password"
+            });
+
+            Assert.AreEqual(400, res.ServiceResult.Status);
+        }
+
+        [TestMethod()]
+        public async Task EmailLoginInvalidAsyncTest()
+        {
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
+            {
+                Username = "EmailLoginAsyncTest",
+                Email = "EmailLoginAsyncTest@Test.com",
+                PasswordSalt = "EmailLoginAsyncTest",
+                PasswordHash = PasswordHelper.HashPassword("EmailLoginAsyncTest", "EmailLoginAsyncTest")
+            }), _jsonWebTokenService);
+
+            var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
+            {
+                Identifier = "EmailLoginAsyncTest@Test.com",
+                Password = "Wrong Password"
+            });
+
+            Assert.AreEqual(400, res.ServiceResult.Status);
+        }
+
+        [TestMethod()]
+        public async Task RegisterInvalidAsyncTest()
+        {
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests(), _jsonWebTokenService);
+            var res = await userService.RegisterAsync(new Core.Contracts.Models.UserRegisterPayload()
+            {
+                Username = "F",
+                Firstname = "",
+                Lastname = "",
+                Email = "Faulty email",
+                Password = "ForgotPasswordAsyncTest",
+                RepeatedPassword = "GGGGG"
+            });
+
+            Assert.AreEqual(400, res.Status);
+        }
+
+        [TestMethod()]
+        public async Task ResetPasswordInvalidAsyncTest()
+        {
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
+            {
+                Username = "ResetPasswordAsyncTest",
+                Email = "ResetPasswordAsyncTest@Test.com",
+                PasswordSalt = "ResetPasswordAsyncTest",
+                PasswordHash = PasswordHelper.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
+                PasswordResetToken = "ResetPasswordAsyncTest",
+                PasswordResetTokenExpiration = DateTime.UtcNow.AddDays(1)
+            }), _jsonWebTokenService);
+
+            var res = await userService.ResetPasswordAsync(new Core.Contracts.Models.UserPasswordResetPayload()
+            {
+                Token = "Wrong token",
+                Password = "ResetPasswordAsyncTest",
+                RepeatPassword = "ResetPasswordAsyncTest"
+            });
+
+            Assert.AreEqual(400, res.Status);
+        }
+
+        [TestMethod()]
+        public async Task VerifyEmailInvalidAsyncTest()
+        {
+            IUserService userService = new UserService(new Test.Mocks.UnitOfWorkForTests().WithEntity(new User()
+            {
+                Username = "VerifyEmailAsyncTest",
+                Email = "VerifyEmailAsyncTest@Test.com",
+                PasswordSalt = "ResetPaVerifyEmailAsyncTestsswordAsyncTest",
+                PasswordHash = PasswordHelper.HashPassword("ResetPasswordAsyncTest", "ResetPasswordAsyncTest"),
+                EmailVerificationToken = "ResetPasswordAsyncTest",
+                EmailVerificationTokenExpiration = DateTime.UtcNow.AddDays(1)
+            }), _jsonWebTokenService);
+
+            var res = await userService.VerifyEmailAsync("Wrong token");
+
+            Assert.AreEqual(400, res.Status);
         }
     }
 }
