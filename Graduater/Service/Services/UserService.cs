@@ -39,6 +39,9 @@ namespace Service.Services
             {
                 return ServiceResult.Completed;
             }
+            string passwordResetToken = _randomKeyService.GetRandomKey(128);
+            user.PasswordResetToken = passwordResetToken;
+            user.PasswordResetTokenExpiration = DateTime.UtcNow.AddMinutes(5);
             await _unitOfWork.SaveChangesAsync();
             // send email
 

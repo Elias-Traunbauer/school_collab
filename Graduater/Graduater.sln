@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{74A2CC60-EA90-4FA6-97FE-981519134C77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{2AF83625-6A0B-466E-8B76-01A2F8B6AE3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{2AF83625-6A0B-466E-8B76-01A2F8B6AE3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Test", "Core.Test\Core.Test.csproj", "{B0AD59C7-A717-4AC1-A5FE-B809BC8AC6F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Test", "Core.Test\Core.Test.csproj", "{B0AD59C7-A717-4AC1-A5FE-B809BC8AC6F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Test", "Service.Test1\Service.Test.csproj", "{FE568785-3D79-4473-9797-704F8975C671}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Test", "Service.Test1\Service.Test.csproj", "{FE568785-3D79-4473-9797-704F8975C671}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
