@@ -19,29 +19,78 @@
     width: 100%;
     justify-content: space-between;
 
-    & > img{
+    &> div > input{
         width: 3em;
         height: 3em;
         cursor: pointer;
         border-radius: .2em;
         margin-bottom: .2em;
+        background-color: white;
+        appearance: none;
+        mask: url(/display.svg) no-repeat center;
 
-        &:hover{
-            background-color: var(--background_1);
+        &:checked{
+            background-color: var(--color_main);
         }
-
     }
+
+
 }
 
 .img{
-    width: 3em;
-    height: 3em;
     cursor: pointer;
     border-radius: .2em;
     margin-bottom: .2em;
-    background-color: white;
-    mask: url(expand.svg) no-repeat center;
+    position: relative;
+    --tooltip_color: var(--background_3);
+
+    &:hover{
+        background-color: var(--background_1);
+        &>span{
+            visibility: visible;
+        }
+    }
+
+    &>div{
+        width: 3em;
+        height: 3em;
+        background-color: white;
+    }
+
 }
+
+.imgHeading{
+    mask: url(/heading.svg) no-repeat center;
+}
+
+.imgCode{
+    mask: url(/code.svg) no-repeat center;
+}
+
+.imgLink{
+    mask: url(/link.svg) no-repeat center;
+}
+
+.imgBlockQuote{
+    mask: url(/blockQuote.svg) no-repeat center;
+}
+
+.imgBold{
+    mask: url(/FormatBold.svg) no-repeat center;
+}
+
+.imgItalic{
+    mask: url(/formatItalic.svg) no-repeat center;
+}
+
+.imgBulletpoint{
+    mask: url(/ul.svg) no-repeat center;
+}
+
+.imgcheckBox{
+    mask: url(/tl.svg) no-repeat center;
+}
+
 .content{
     width: 100%;
 
