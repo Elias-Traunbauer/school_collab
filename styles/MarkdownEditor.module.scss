@@ -1,10 +1,10 @@
-.test{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5em;
+.test {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5em;
 }
 
 .container {
@@ -13,94 +13,146 @@
   height: 100%;
 }
 
-.head{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
+.head {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
 
-    &> div > input{
-        width: 3em;
-        height: 3em;
-        cursor: pointer;
-        border-radius: .2em;
-        margin-bottom: .2em;
-        background-color: white;
-        appearance: none;
-        mask: url(/display.svg) no-repeat center;
+  & > div {
+    & > span {
+      visibility: hidden;
+      width: max-content;
+      word-wrap: normal;
+      overflow-wrap: normal;
+      background-color: var(--tooltip_color);
+      color: #fff;
+      text-align: center;
+      border-radius: 1em;
+      padding: 0.5em;
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      margin-left: -130%;
+      bottom: 120%;
+      font-size: smaller;
 
-        &:checked{
-            background-color: var(--color_main);
-        }
+      &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: var(--tooltip_color) transparent transparent transparent;
+      }
     }
+  }
 
-
-}
-
-.img{
+  & > div > input {
+    width: 3em;
+    height: 3em;
     cursor: pointer;
-    border-radius: .2em;
-    margin-bottom: .2em;
-    position: relative;
-    --tooltip_color: var(--background_3);
+    border-radius: 0.2em;
+    margin-bottom: 0.2em;
+    background-color: white;
+    appearance: none;
+    mask: url(/display.svg) no-repeat center;
 
-    &:hover{
-        background-color: var(--background_1);
-        &>span{
-            visibility: visible;
-        }
+    &:checked {
+      background-color: var(--color_main);
     }
+  }
+}
 
-    &>div{
-        width: 3em;
-        height: 3em;
-        background-color: white;
+.img {
+  cursor: pointer;
+  border-radius: 0.2em;
+  margin-bottom: 0.2em;
+  position: relative;
+  --tooltip_color: var(--background_3);
+
+  &:hover {
+    background-color: var(--background_1);
+    & > span {
+      visibility: visible;
     }
+  }
 
+  & > div {
+    width: 3em;
+    height: 3em;
+    background-color: white;
+  }
 }
 
-.imgHeading{
-    mask: url(/heading.svg) no-repeat center;
+.imgHeading {
+  mask: url(/heading.svg) no-repeat center;
 }
 
-.imgCode{
-    mask: url(/code.svg) no-repeat center;
+.imgCode {
+  mask: url(/code.svg) no-repeat center;
 }
 
-.imgLink{
-    mask: url(/link.svg) no-repeat center;
+.imgLink {
+  mask: url(/link.svg) no-repeat center;
 }
 
-.imgBlockQuote{
-    mask: url(/blockQuote.svg) no-repeat center;
+.imgBlockQuote {
+  mask: url(/blockQuote.svg) no-repeat center;
 }
 
-.imgBold{
-    mask: url(/FormatBold.svg) no-repeat center;
+.imgBold {
+  mask: url(/FormatBold.svg) no-repeat center;
 }
 
-.imgItalic{
-    mask: url(/formatItalic.svg) no-repeat center;
+.imgItalic {
+  mask: url(/formatItalic.svg) no-repeat center;
 }
 
-.imgBulletpoint{
-    mask: url(/ul.svg) no-repeat center;
+.imgBulletpoint {
+  mask: url(/ul.svg) no-repeat center;
 }
 
-.imgcheckBox{
-    mask: url(/tl.svg) no-repeat center;
+.imgcheckBox {
+  mask: url(/tl.svg) no-repeat center;
 }
 
-.content{
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+
+  & > textarea {
+    height: 15em;
     width: 100%;
-
-    &> textarea {
-        height: 15em;
-        width: 100%;
-        resize: none;
-        border: 1px solid #ccc;
-        border-radius: .5em;
-        padding: .5em;
-        overflow: auto;
+    resize: none;
+    border: 1px solid #ccc;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    overflow: auto;
+  }
+  & > div {
+    background-color: var(--background_1);
+    padding: 1em;
+    & > * {
+      word-wrap: break-word;
     }
+
+    & > pre {
+      width: 80%;
+      margin: 1em;
+      padding: 1em;
+      margin: 0 auto;
+      margin-bottom: 1em;
+      border-radius: .5em;
+      background-color: var(--background);
+    }
+  }
+}
+
+.highlight {
+  color: blue;
 }
