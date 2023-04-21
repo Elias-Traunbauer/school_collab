@@ -27,8 +27,8 @@ export default function Login() {
       <Wizard callback={() => {}} contentData={
         [
             {
-                first_name: true,
-                last_name: true,
+                firstname: true,
+                lastname: true,
             },
             {
                 email: true

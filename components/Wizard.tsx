@@ -3,14 +3,10 @@ import { useState, useEffect } from 'react'
 import Datepicker from './Datepicker';
 import React from 'react';
 
-export default function Wizard({ callback, contentData = [{ firstname: false, lastname: true },{dropdown:['1','2','3']}, { email: new Date(), phone: { title: "checkBoxReal", text: "sueee", value: true } }], title = "Wizard", containerWidth = 50 }) {
+export default function Wizard({ callback, contentData = [{ firstname: false, lastname: true },{dropdown:['1','2','3']},{ email: new Date(), phone: { title: "checkBoxReal", text: "sueee", value: true } }], title = "Wizard", containerWidth = 50 }) {
     let inputList:HTMLInputElement[] = [];
     const [currentPage,setCurrentPage] = useState(0); 
     const [loadingText, setLoadingText] = useState("loading...");
-
-    useEffect(() => {
-        checkFormFilled(currentPage);
-    }, [currentPage]);
 
     function displayPage(page){
         console.log(page);
