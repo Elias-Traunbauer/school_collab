@@ -18,7 +18,7 @@ public class Assignment : DatabaseEntity, IAssignment
 
     public DateTime Due { get; set; }
 
-    public List<File> Files { get; set; } = new List<File>();
+    public List<File>? Files { get; set; }
 
     [ForeignKey(nameof(GroupId))]
     public virtual Group Group { get; set; } = null!;

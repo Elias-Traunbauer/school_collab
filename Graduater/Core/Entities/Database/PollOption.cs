@@ -14,5 +14,5 @@ public class PollOption : DatabaseEntity, IPollOption
     public int Votes { get; set; }
 
     [ForeignKey(nameof(PollId))]
-    public virtual Poll Poll { get; set; } = null!;
+    public virtual Poll? Poll { get; set; }
 }

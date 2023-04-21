@@ -9,7 +9,7 @@ namespace Core.Contracts.Entities
         DateTime IssuedAt { get; set; }
         DateTime LastAction { get; set; }
         string SessionKey { get; set; }
-        User User { get; set; }
+        User? User { get; set; }
         int UserId { get; set; }
     }
 }

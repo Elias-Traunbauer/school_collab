@@ -16,7 +16,7 @@ public class Notification : DatabaseEntity, INotification
     public DateTime Created { get; set; }
 
     [ForeignKey(nameof(UserId))]
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; }
 
     public bool IsRead { get; set; }
 }

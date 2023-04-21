@@ -40,9 +40,8 @@ namespace Api.Controllers
                 return Ok(result.ServiceResult);
             }
 
-            HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, result.AccessToken, DateTime.Now.Add(_config.AccessTokenLifetime));
-
-            HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, result.RefreshToken, DateTime.Now.Add(_config.RefreshTokenLifetime));
+            HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, result.AccessToken!, DateTime.Now.Add(_config.AccessTokenLifetime));
+            HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, result.RefreshToken!, DateTime.Now.Add(_config.RefreshTokenLifetime));
             return Ok();
         }
 

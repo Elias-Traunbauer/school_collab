@@ -15,8 +15,8 @@ public class Post : DatabaseEntity, IPost
 
     public DateTime DateCreated { get; set; }
 
-    public virtual ICollection<PostComment> PostComments { get; set; } = new List<PostComment>();
+    public virtual ICollection<PostComment>? PostComments { get; set; }
 
     [ForeignKey(nameof(UserId))]
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; }
 }

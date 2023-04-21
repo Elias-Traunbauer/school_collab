@@ -71,6 +71,7 @@ public partial class ApplicationDbContext : DbContext
         {
             throw new Exception("Database connection string is null");
         }
-        optionsBuilder.UseMySQL(_config.DatabaseConnectionString);
+        optionsBuilder
+            .UseMySQL(_config.DatabaseConnectionString);
     }
 }

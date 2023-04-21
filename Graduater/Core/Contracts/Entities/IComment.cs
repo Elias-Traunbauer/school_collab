@@ -6,7 +6,7 @@ namespace Core.Contracts.Entities
     {
         string Content { get; set; }
         DateTime DateCreated { get; set; }
-        User User { get; set; }
+        User? User { get; set; }
         int UserId { get; set; }
     }
 }

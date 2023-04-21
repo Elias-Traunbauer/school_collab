@@ -17,7 +17,7 @@ public class Report : IReport
 
     [Required]
     [ForeignKey(nameof(CreatedById))]
-    public User CreatedBy { get; set; } = new();
+    public User? CreatedBy { get; set; }
 
     public int CreatedById { get; set; }
 

@@ -12,8 +12,8 @@ public class PostComment : DatabaseEntity, IPostComment
     public int CommentId { get; set; }
 
     [ForeignKey(nameof(CommentId))]
-    public virtual Comment Comment { get; set; } = null!;
+    public virtual Comment? Comment { get; set; }
 
     [ForeignKey(nameof(PostId))]
-    public virtual Post Post { get; set; } = null!;
+    public virtual Post? Post { get; set; }
 }

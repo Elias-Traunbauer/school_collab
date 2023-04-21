@@ -43,21 +43,21 @@ public class User : DatabaseEntity, IUser
 
     public UserPrivacy PrivacySettings { get; set; }
 
-    public virtual ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
+    public virtual ICollection<Assignment>? Assignments { get; set; }
 
-    public virtual ICollection<Chat> Chats { get; set; } = new List<Chat>();
+    public virtual ICollection<Chat>? Chats { get; set; }
 
-    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    public virtual ICollection<Comment>? Comments { get; set; }
 
-    public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
+    public virtual ICollection<Group>? Groups { get; set; }
 
-    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+    public virtual ICollection<Notification>? Notifications { get; set; }
 
-    public virtual ICollection<Poll> Polls { get; set; } = new List<Poll>();
+    public virtual ICollection<Poll>? Polls { get; set; }
 
-    public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+    public virtual ICollection<Post>? Posts { get; set; }
 
-    public virtual ICollection<UserSession> UserSessions { get; set; } = new List<UserSession>();
+    public virtual ICollection<UserSession>? UserSessions { get; set; }
 }
 
 [Flags]

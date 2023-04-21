@@ -13,9 +13,9 @@ public class Chat : DatabaseEntity, IChat
 
     public int CreatorUserId { get; set; }
 
-    public virtual ICollection<ChatMember> ChatMembers { get; set; } = new List<ChatMember>();
+    public virtual ICollection<ChatMember>? ChatMembers { get; set; }
 
-    public virtual ICollection<ChatMessage> ChatMessages { get; set; } = new List<ChatMessage>();
+    public virtual ICollection<ChatMessage>? ChatMessages { get; set; }
 
     [ForeignKey(nameof(CreatorUserId))]
     public virtual User CreatorUser { get; set; } = null!;

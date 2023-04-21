@@ -7,6 +7,7 @@ using Core.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -76,7 +77,7 @@ namespace Service.Services
                 return GetLoginErrorResult();
             }
             string sessionKey = _randomKeyService.GetRandomKey(128);
-            user.UserSessions.Add(new UserSession()
+            user.UserSessions!.Add(new UserSession()
             {
                 SessionKey = sessionKey,
                 IssuedAt = DateTime.UtcNow,
@@ -198,7 +199,7 @@ namespace Service.Services
                     ServiceResult = new ServiceResult("Error", "User not found")
                 };
             }
-            var session = user.UserSessions.SingleOrDefault(x => x.SessionKey == token, null);
+            var session = user.UserSessions!.SingleOrDefault(x => x?.SessionKey == token, null);
             if (session == null)
             {
                 return new LoginResult()

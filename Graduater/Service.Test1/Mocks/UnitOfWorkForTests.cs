@@ -25,12 +25,13 @@ namespace Service.Test.Mocks
 
         public IUserRepository UserRepository { get; set; }
 
-        public IAssignmentRepository? AssignmentRepository { get; set; }
+        public IAssignmentRepository AssignmentRepository { get; set; }
 
         public UnitOfWorkForTests() 
         {
             _appDbContext = new ApplicationDbContextForTesting();
             UserRepository = new UserRepository(_appDbContext);
+            AssignmentRepository = null!;
         }
 
         public UnitOfWorkForTests WithEntity(DatabaseEntity entity)

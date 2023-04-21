@@ -16,7 +16,7 @@ public class File : DatabaseEntity, IFile
 
     [Required]
     [ForeignKey(nameof(UploadedById))]
-    public User UploadedBy { get; set; } = new();
+    public User? UploadedBy { get; set; }
 
     public int UploadedById { get; set; }
 

@@ -8,6 +8,7 @@ using Moq;
 using Persistence;
 using Persistence.Repositories;
 using Service.Services;
+using Service.Test.Mocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,9 +61,28 @@ namespace Service.Services.Tests
         }
 
         [TestMethod()]
+        public async Task UserRepositoryIncludesTest()
+        {
+            IUnitOfWork unitOfWork = new UnitOfWorkForTests();
+            Assert.IsNotNull(unitOfWork);
+            await unitOfWork.UserRepository.CreateUserAsync(new User()
+            {
+                Id = 1
+            });
+            await unitOfWork.SaveChangesAsync();
+            var userWithOutUserSessions = await unitOfWork.UserRepository.GetUserByIdAsync(1);
+            Assert.IsNull(userWithOutUserSessions!.UserSessions);
+
+            var user = await unitOfWork.UserRepository.GetUserByIdAsync(1);
+            Assert.IsNotNull(user!.UserSessions);
+        }
+
+        [TestMethod()]
         public void UserServiceTest()
         {
-            Assert.Fail();
+            var unitOfWork = new Mock<IUnitOfWork>();
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+            Assert.IsNotNull(userService);
         }
 
         [TestMethod()]
@@ -90,33 +110,417 @@ namespace Service.Services.Tests
         }
 
         [TestMethod()]
-        public void LoginAsyncTest()
+        public async Task LoginUsernameAsyncTest()
         {
-            Assert.Fail();
+            IUser user = new User()
+            {
+                Username = "testUsername",
+                PasswordHash = PasswordServiceMock.HashPassword("", "")
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByUsernameAsync("testUsername"))
+                .ReturnsAsync(user);
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
+            {
+                Identifier = "testUsername",
+                Password = "doesntMatter"
+            });
+
+            Assert.AreEqual(200, res.ServiceResult.Status);
+            Assert.IsNotNull(res.AccessToken);
+            Assert.IsNotNull(res.RefreshToken);
+            Assert.AreEqual(1, user.UserSessions?.Count ?? 1);
+            Assert.AreEqual(RandomKeyServiceResult, user.UserSessions!.Single().SessionKey);
         }
 
         [TestMethod()]
-        public void RegisterAsyncTest()
+        public async Task LoginEmailAsyncTest()
         {
-            Assert.Fail();
+            IUser user = new User()
+            {
+                Email = "test@email.com",
+                PasswordHash = PasswordServiceMock.HashPassword("", "")
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByEmailAsync("test@email.com"))
+                .ReturnsAsync(user);
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
+            {
+                Identifier = "test@email.com",
+                Password = "doesntMatter"
+            });
+
+            Assert.AreEqual(200, res.ServiceResult.Status);
+            Assert.IsNotNull(res.AccessToken);
+            Assert.IsNotNull(res.RefreshToken);
+            Assert.AreEqual(1, user.UserSessions!.Count);
+            Assert.AreEqual(RandomKeyServiceResult, user.UserSessions.Single().SessionKey);
         }
 
         [TestMethod()]
-        public void ResetPasswordAsyncTest()
+        public async Task LoginUsernameInvalidAsyncTest()
         {
-            Assert.Fail();
+            IUser user = new User()
+            {
+                Username = "testUsername",
+                PasswordHash = PasswordServiceMock.HashPassword("", "")
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByUsernameAsync("testUsername"))
+                .ReturnsAsync(user);
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
+            {
+                Identifier = "WrongUsername",
+                Password = "doesntMatter"
+            });
+
+            Assert.AreEqual(401, res.ServiceResult.Status);
+            Assert.IsNull(res.AccessToken);
+            Assert.IsNull(res.RefreshToken);
+            Assert.AreEqual(0, user.UserSessions?.Count ?? 0);
         }
 
         [TestMethod()]
-        public void VerifyEmailAsyncTest()
+        public async Task LoginEmailInvalidAsyncTest()
         {
-            Assert.Fail();
+            IUser user = new User()
+            {
+                Email = "test@email.com",
+                PasswordHash = PasswordServiceMock.HashPassword("", "")
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByEmailAsync("test@email.com"))
+                .ReturnsAsync(user);
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
+            {
+                Identifier = "wrongEmail@email.com",
+                Password = "doesntMatter"
+            });
+
+            Assert.AreEqual(401, res.ServiceResult.Status);
+            Assert.IsNull(res.AccessToken);
+            Assert.IsNull(res.RefreshToken);
+            Assert.AreEqual(0, user.UserSessions!.Count);
         }
 
         [TestMethod()]
-        public void UseRefreshTokenAsyncTest()
+        public async Task RegisterAsyncTest()
         {
-            Assert.Fail();
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync((User?)null);
+            userRepository.Setup(x => x.GetUserByUsernameAsync(It.IsAny<string>()))
+                .ReturnsAsync((User?)null);
+            userRepository.Setup(x => x.CreateUserAsync(It.IsAny<User>())).Verifiable();
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.RegisterAsync(new Core.Contracts.Models.UserRegisterPayload()
+            {
+                Username = "notImportant",
+                Firstname = "notImportant",
+                Lastname = "notImportant",
+                Email = "notImportant@email.com",
+                Password = "same",
+                RepeatedPassword = "same"
+            });
+
+            Assert.IsNotNull(res);
+            Assert.AreEqual(200, res.Status);
+            userRepository.Verify(x => x.CreateUserAsync(It.IsAny<User>()));
+        }
+
+        [TestMethod()]
+        public async Task RegisterExistingEmailAsyncTest()
+        {
+            IUser user = new User()
+            {
+                Email = "test@email.com",
+                PasswordHash = PasswordServiceMock.HashPassword("", "")
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByEmailAsync("test@email.com"))
+                .ReturnsAsync(user);
+            userRepository.Setup(x => x.GetUserByUsernameAsync(It.IsAny<string>()))
+                .ReturnsAsync((User?)null);
+            userRepository.Setup(x => x.CreateUserAsync(It.IsAny<User>())).Verifiable();
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.RegisterAsync(new Core.Contracts.Models.UserRegisterPayload()
+            {
+                Username = "notImportant",
+                Firstname = "notImportant",
+                Lastname = "notImportant",
+                Email = "test@email.com",
+                Password = "same",
+                RepeatedPassword = "same"
+            });
+
+            Assert.IsNotNull(res);
+            Assert.AreEqual(400, res.Status);
+        }
+
+        [TestMethod()]
+        public async Task RegisterExistingUsernameAsyncTest()
+        {
+            IUser user = new User()
+            {
+                Username = "test",
+                PasswordHash = PasswordServiceMock.HashPassword("", "")
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync((User?)null);
+            userRepository.Setup(x => x.GetUserByUsernameAsync("test"))
+                .ReturnsAsync(user);
+            userRepository.Setup(x => x.CreateUserAsync(It.IsAny<User>())).Verifiable();
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.RegisterAsync(new Core.Contracts.Models.UserRegisterPayload()
+            {
+                Username = "test",
+                Firstname = "notImportant",
+                Lastname = "notImportant",
+                Email = "test@email.com",
+                Password = "same",
+                RepeatedPassword = "same"
+            });
+
+            Assert.IsNotNull(res);
+            Assert.AreEqual(400, res.Status);
+        }
+
+        [TestMethod()]
+        public async Task ResetPasswordAsyncTest()
+        {
+            IUser user = new User()
+            {
+                PasswordResetToken = "testToken",
+                PasswordResetTokenExpiration = DateTime.UtcNow.AddMinutes(5)
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByPasswordResetTokenAsync("testToken"))
+                .ReturnsAsync(user);
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.ResetPasswordAsync(new Core.Contracts.Models.UserPasswordResetPayload()
+            {
+                Token = "testToken",
+                Password = "newPassword",
+                RepeatPassword = "newPassword"
+            });
+
+            Assert.AreEqual(200, res.Status);
+            Assert.AreEqual("testPasswordHash", user.PasswordHash);
+        }
+
+        [TestMethod()]
+        public async Task ResetPasswordInvalidAsyncTest()
+        {
+            IUser user = new User()
+            {
+                PasswordResetToken = "testToken",
+                PasswordResetTokenExpiration = DateTime.UtcNow.AddMinutes(5)
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByPasswordResetTokenAsync("testToken"))
+                .ReturnsAsync(user);
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.ResetPasswordAsync(new Core.Contracts.Models.UserPasswordResetPayload()
+            {
+                Token = "invalidToken",
+                Password = "newPassword",
+                RepeatPassword = "newPassword"
+            });
+
+            var errors = res.GetErrors();
+            Assert.AreEqual(400, res.Status);
+            Assert.IsNotNull(errors.Token);
+            Assert.AreEqual("Token not found", errors.Token[0]);
+        }
+
+        [TestMethod()]
+        public async Task ResetPasswordInvalidRepeatPasswordAsyncTest()
+        {
+            IUser user = new User()
+            {
+                PasswordResetToken = "testToken",
+                PasswordResetTokenExpiration = DateTime.UtcNow.AddMinutes(5)
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByPasswordResetTokenAsync("testToken"))
+                .ReturnsAsync(user);
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.ResetPasswordAsync(new Core.Contracts.Models.UserPasswordResetPayload()
+            {
+                Token = "testToken",
+                Password = "newPassword",
+                RepeatPassword = "wrongRepeatPassword"
+            });
+
+            var errors = res.GetErrors();
+            Assert.AreEqual(400, res.Status);
+            Assert.IsNotNull(errors.RepeatPassword);
+            Assert.AreEqual("Passwords do not match", errors.RepeatPassword[0]);
+        }
+
+        [TestMethod()]
+        public async Task VerifyEmailAsyncTest()
+        {
+            IUser user = new User()
+            {
+                EmailVerificationToken = "testToken",
+                EmailVerificationTokenExpiration = DateTime.UtcNow.AddMinutes(5)
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByEmailVerificationTokenAsync("testToken"))
+                .ReturnsAsync(user);
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.VerifyEmailAsync("testToken");
+
+            Assert.AreEqual(200, res.Status);
+            Assert.AreEqual(UserPermission.Default, user.Permissions);
+        }
+
+        [TestMethod()]
+        public async Task UseRefreshTokenAsyncTest()
+        {
+            IUser user = new User()
+            {
+                Id = 0,
+                UserSessions = new List<UserSession>()
+                {
+                    new UserSession()
+                    {
+                        SessionKey = "testKey",
+                        Expires = DateTime.UtcNow.AddMinutes(5)
+                    }
+                }
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByIdAsync(0))
+                .ReturnsAsync(user);
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.UseRefreshTokenAsync(0, "testKey");
+
+            Assert.AreEqual(200, res.ServiceResult.Status);
+            Assert.IsNotNull(res.AccessToken);
+            Assert.IsNull(res.RefreshToken);
+        }
+
+        [TestMethod()]
+        public async Task UseRefreshTokenInvalidAsyncTest()
+        {
+            IUser user = new User()
+            {
+                Id = 0,
+                UserSessions = new List<UserSession>()
+                {
+                    new UserSession()
+                    {
+                        SessionKey = "testKey",
+                        Expires = DateTime.UtcNow.AddMinutes(5)
+                    }
+                }
+            };
+
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetUserByIdAsync(0))
+                .ReturnsAsync(user);
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.Setup(x => x.UserRepository)
+                .Returns(userRepository.Object);
+
+            IUserService userService = new UserService(unitOfWork.Object, JsonWebTokenServiceMock, PasswordServiceMock, RandomKeyServiceMock);
+
+            var res = await userService.UseRefreshTokenAsync(0, "wrongKey");
+
+            Assert.AreEqual(400, res.ServiceResult.Status);
+            Assert.IsNull(res.AccessToken);
+            Assert.IsNull(res.RefreshToken);
         }
     }
 }

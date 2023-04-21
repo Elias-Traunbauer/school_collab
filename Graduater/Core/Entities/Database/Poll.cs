@@ -20,7 +20,7 @@ public class Poll : DatabaseEntity, IPoll
     public bool IsAnonymous { get; set; }
 
     [ForeignKey(nameof(CreatorUserId))]
-    public virtual User CreatorUser { get; set; } = null!;
+    public virtual User? CreatorUser { get; set; }
 
-    public virtual ICollection<PollOption> PollOptions { get; set; } = new List<PollOption>();
+    public virtual ICollection<PollOption>? PollOptions { get; set; }
 }

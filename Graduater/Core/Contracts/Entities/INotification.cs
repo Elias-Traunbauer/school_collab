@@ -8,7 +8,7 @@ namespace Core.Contracts.Entities
         DateTime Created { get; set; }
         bool IsRead { get; set; }
         string Link { get; set; }
-        User User { get; set; }
+        User? User { get; set; }
         int UserId { get; set; }
     }
 }

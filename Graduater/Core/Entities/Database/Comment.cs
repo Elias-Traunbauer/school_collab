@@ -9,10 +9,10 @@ public class Comment : DatabaseEntity, IComment
 {
     public int UserId { get; set; }
 
-    public string Content { get; set; } = null!;
+    public string Content { get; set; } = string.Empty;
 
     public DateTime DateCreated { get; set; }
 
     [ForeignKey(nameof(UserId))]
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; }
 }

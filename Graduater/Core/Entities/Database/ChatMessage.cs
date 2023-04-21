@@ -16,8 +16,8 @@ public class ChatMessage : DatabaseEntity, IChatMessage
     public DateTime Created { get; set; }
 
     [ForeignKey(nameof(ChatId))]
-    public virtual Chat Chat { get; set; } = null!;
+    public virtual Chat? Chat { get; set; }
 
     [ForeignKey(nameof(UserId))]
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; }
 }

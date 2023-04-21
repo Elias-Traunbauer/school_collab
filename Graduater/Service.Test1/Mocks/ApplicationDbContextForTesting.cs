@@ -13,6 +13,7 @@ public partial class ApplicationDbContextForTesting : ApplicationDbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+        optionsBuilder
+            .UseInMemoryDatabase(Guid.NewGuid().ToString());
     }
 }

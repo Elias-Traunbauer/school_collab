@@ -13,10 +13,10 @@ public class Group : DatabaseEntity, IGroup
 
     public int CreatorUserId { get; set; }
 
-    public virtual ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
+    public virtual ICollection<Assignment>? Assignments { get; set; }
 
     [ForeignKey(nameof(CreatorUserId))]
-    public virtual User CreatorUser { get; set; } = new();
+    public virtual User? CreatorUser { get; set; }
 
-    public virtual ICollection<GroupUser> GroupUsers { get; set; } = new List<GroupUser>();
+    public virtual ICollection<GroupUser>? GroupUsers { get; set; }
 }
