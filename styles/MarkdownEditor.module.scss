@@ -84,12 +84,18 @@
     & > span {
       visibility: visible;
     }
+
+    & > div{
+      scale: 1.1;
+     
+    }
   }
 
   & > div {
     width: 3em;
     height: 3em;
     background-color: white;
+    transition: scale 0.2s ease-in-out;
   }
 }
 
