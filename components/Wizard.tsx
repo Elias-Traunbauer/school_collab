@@ -198,15 +198,3 @@ export default function Wizard({ callback, contentData, title = "Wizard", contai
                                     </form>
                                 )
                             })
-
-                        }
-                    </div>
-                    <div className={styles.wizardButtonContainer}>
-                        <button onClick={stateData.currIndex == 0 ? CancelWizard : previousSection}>{stateData.currIndex == 0 ? "Cancel" : "Back"}</button>
-                        <button id='btnNextPage' onClick={(e) => stateData.currIndex == contentData.length - 1 ? finishWizard() : nextSection()} className={styles.disabeldBtn}>{stateData.currIndex == contentData.length - 1 ? "Finish" : "Next"}</button>
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
