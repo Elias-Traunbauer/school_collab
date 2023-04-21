@@ -1,9 +1,10 @@
 import styles from '../styles/Assignment.module.css';
 import { useState, useEffect } from 'react'
 import Datepicker from './Datepicker';
+import React from 'react';
 
 export default function Wizard({ callback, contentData = [{ firstname: false, lastname: true },{dropdown:['1','2','3']}, { email: new Date(), phone: { title: "checkBoxReal", text: "sueee", value: true } }], title = "Wizard", containerWidth = 50 }) {
-    let inputList = [];
+    let inputList:HTMLInputElement[] = [];
     const [currentPage,setCurrentPage] = useState(0); 
     const [loadingText, setLoadingText] = useState("loading...");
 
@@ -46,29 +47,35 @@ export default function Wizard({ callback, contentData = [{ firstname: false, la
     }
     function focusInputField(index) {
         const formList = document.querySelectorAll('.' + styles.wizardContent);
-        inputList = formList[index].querySelectorAll('input');
-        if (inputList != 'undefined'&& inputList.length > 0)
+        inputList = formList[index].querySelectorAll('input') as unknown as HTMLInputElement[];
+        if (inputList.length > 0)
         inputList[0].focus();
     }
 
     function checkFormFilled(index) {
         const formList = document.querySelectorAll('.' + styles.wizardContent);
-        inputList = formList[index].querySelectorAll('input');
+        inputList = formList[index].querySelectorAll('input') as unknown as HTMLInputElement[];
+        let btn:HTMLButtonElement = document.getElementById('btnNextPage') as unknown as HTMLButtonElement;
+
         for (let item of inputList) {
             if (item.hasAttribute('required') && item.value.length <= 0) {
-                document.getElementById('btnNextPage').classList.add(styles.disabeldBtn);
+                               btn.classList.add(styles.disabeldBtn);
                 return;
             }
         }
 
-        document.getElementById('btnNextPage').classList.remove(styles.disabeldBtn);
+        btn.classList.remove(styles.disabeldBtn);
     }
 
     function finishWizard() {
         //animation
-        document.getElementById('contentWrapper').classList.add(styles.blur);
-        document.getElementById('loaderContainer').classList.remove(styles.hidden);
-        document.getElementById('loader').classList.add(styles.loading);
+        const contentWrapper = document.getElementById('contentWrapper') as HTMLDivElement;
+        const loaderContainer = document.getElementById('loaderContainer') as HTMLDivElement;
+        const loader = document.getElementById('loader') as HTMLDivElement;
+
+        contentWrapper.classList.add(styles.blur);
+        loaderContainer.classList.remove(styles.hidden);
+        loader.classList.add(styles.loading);
 
         callback(getResult(), callbackLoadingText, finishLoading);
 
@@ -80,23 +87,24 @@ export default function Wizard({ callback, contentData = [{ firstname: false, la
     }
 
     function finishLoading() {
-        document.getElementById('loader').classList.remove(styles.loading);
-        document.getElementById('loader').classList.add(styles.finished);
+        const loader = document.getElementById('loader') as HTMLDivElement;
+        loader.classList.remove(styles.loading);
+        loader.classList.add(styles.finished);
     }
 
     function getResult() {
         const formList = document.querySelectorAll('.' + styles.wizardContent);
-        let result = [];
+        let result:HTMLElement[] = [];
         for (let item of formList) {
             let obj = {};
-            for (let input of item.querySelectorAll('input[type="text"]:not([id*="monthInput"]):not([id*="yearInput"])')) {
-                obj[input.previousSibling.innerText.replace(' *', '')] = input.value;
+            for (let input of item.querySelectorAll<HTMLInputElement>('input[type="text"]:not([id*="monthInput"]):not([id*="yearInput"])')) {
+                obj[(input.previousSibling as HTMLLabelElement).innerText.replace(' *', '')] = input.value;
             }
-            for (let input of item.querySelectorAll('input[type="checkbox"]')) {
+            for (let input of item.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')) {
                 obj[input.name] = input.checked;
             }
             if (Object.keys(obj).length != 0)
-                result.push(obj);
+                result.push(obj as HTMLElement);
         }
         return result;
     }
