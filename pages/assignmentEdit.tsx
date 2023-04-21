@@ -3,7 +3,6 @@ import Countdown from "../components/Countdown";
 import styles from "../styles/Assignment.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { openDialog } from "../components/Dialog";
 import FileListObject from "../components/FileListObject";
 import FileUpload from "../components/FileUpload";
 
@@ -63,7 +62,7 @@ export default function AssignmentEdit({ assignmentId }) {
   function handleCancelEdit() {
     setAssignment(assignmentBackup);
     setEdditMode(false);
-    document.getElementById("titleInput").value = assignmentBackup.title;
+    (document.getElementById("titleInput") as HTMLInputElement).value = assignmentBackup.title;
   }
 
   function handleEddit() {
@@ -72,7 +71,7 @@ export default function AssignmentEdit({ assignmentId }) {
   }
 
   function handleSaveEdit() {
-    assignment.description = document.getElementById("descriptionInput").value;
+    assignment.description = (document.getElementById("descriptionInput") as HTMLInputElement).value;
     setEdditMode(false);
     setAssignment(assignment);
   }
@@ -100,6 +99,16 @@ export default function AssignmentEdit({ assignmentId }) {
       setAssignment({
         ...assignment,
         uploadFiles: newList,
+      });
+    }, 500);
+  }
+
+  function handleDeleInstructionFile(key) {
+    const newList = assignment.instrictionFiles.slice(0, key).concat(assignment.instrictionFiles.slice(key + 1));;
+    setTimeout(() => {
+      setAssignment({
+        ...assignment,
+        instrictionFiles: newList,
       });
     }, 500);
   }
@@ -175,9 +184,11 @@ export default function AssignmentEdit({ assignmentId }) {
             {assignment.instrictionFiles.map((file, i) => {
               return (
                 <FileListObject
-                  key={i}
+                  key={"FileObj_"+i}
+                  itemKey={i}
                   file={{ name: file.name }}
                   asCard={true}
+                  deleteFunction={() => handleDeleInstructionFile(i)}
                 ></FileListObject>
               );
             })}
@@ -211,7 +222,6 @@ export default function AssignmentEdit({ assignmentId }) {
                   itemKey={index}
                   file={{ name: file.name }}
                   asCard={false}
-                  edittmode={edditMode}
                   deleteFunction={handleDeleteUploadFile}
                 ></FileListObject>
               );
@@ -231,8 +241,8 @@ export default function AssignmentEdit({ assignmentId }) {
           <div >
             {edditMode ? null : (
               <>
-                <button className="btn btn-primary" type="right" onClick={handleSaveAssignment}>Save</button>
-                <button className="btn btn-cancel" type="right" onClick={handleCancelAssignment}>Cancel</button>
+                <button className="btn btn-primary" style={{float:'right'}} onClick={handleSaveAssignment}>Save</button>
+                <button className="btn btn-cancel" style={{float:'right'}} onClick={handleCancelAssignment}>Cancel</button>
               </>
 
             )}
@@ -241,11 +251,11 @@ export default function AssignmentEdit({ assignmentId }) {
                 {edditMode ? (
                   <>
                   
-                    <button className="btn btn-primary" type="right" onClick={handleSaveEdit}>Change</button>
-                    <button className="btn btn-cancel" type="right" onClick={handleCancelEdit}>Discard</button>
+                    <button className="btn btn-primary" style={{float:'right'}} onClick={handleSaveEdit}>Change</button>
+                    <button className="btn btn-cancel" style={{float:'right'}} onClick={handleCancelEdit}>Discard</button>
                   </>
                 ) : (
-                  <button className="btn btn-seconday" type="left" onClick={handleEddit}>Edit</button>
+                  <button className="btn btn-seconday" style={{float:'right'}} onClick={handleEddit}>Edit</button>
                 )}
               </>
             ) : (
