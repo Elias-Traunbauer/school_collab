@@ -42,13 +42,106 @@
   padding: .3em;
 }
 
+.descriptionwrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
 .descriptioncontainer {
-  margin-bottom: 2em;
+  background-color: var(--background_1);
+  width: 70%;
+  padding: .5em;
+  border-radius: .7em;
+}
+
+.instructionHeader{
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.instructionHeader > div{
+  width: 70%;
+}
+.instructionHeader > div > *{
+  margin: 0;
+  margin-bottom: .3em;
+}
+
+.instructionWrapper {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 2em;
+}
+
+.instructionContainer{
+  width: 70%;
+  border-radius: .7em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  /*gap?*/
+}
+
+.uploadfileWrapper{
+  margin-top: 1.3em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 2em;
+}
+
+.uploadfileWrapper > p{
+  margin: 0;
+  opacity: .6;
+}
+.uploadfileWrapper > h3{
+  margin: .3em;
+  opacity: .6;
+  margin-top: 3em;
+}
+.uploadfileContainer{
+  width: 70%;
+  border-radius: .7em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.uploadfileheader{
+  width: 70%;
+}
+
+#uploadFileNotification{
+  background-color: red;
+}
+.descriptioncontainer:hover {
+  background-color: var(--background_2);
+}
+
+.descriptioncontainer > textarea {
+  width: 100%;
+  height: auto;
+  outline: 0;
+  padding: .5em;
+  resize: vertical;
+  background-color: var(--background_2);
+}
+
+.descriptioncontainer > p{
+  word-wrap: break-word;
 }
 
 .description {
@@ -752,16 +845,7 @@ descriptionExpander .chekBoxContainer {
   padding: .3em;
 }
 
-.descriptionwrapper {
-  width: 70%;
-  background-color: var(--background_1);
-  border-radius: .2em;
-  margin-bottom: .7em;
-}
 
-.descriptionwrapper:hover {
-  background-color: var(--background_2);
-}
 
 
 .descriptionOn {
