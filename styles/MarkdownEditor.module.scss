@@ -11,6 +11,9 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: var(--background_1);
+  padding: 1em 1.5em;
+  border-radius: .5em;
 }
 
 .head {
@@ -20,7 +23,9 @@
   justify-content: space-between;
 
   & > div {
+    position: relative;
     & > span {
+      position: absolute;
       visibility: hidden;
       width: max-content;
       word-wrap: normal;
@@ -30,12 +35,12 @@
       text-align: center;
       border-radius: 1em;
       padding: 0.5em;
-      position: absolute;
       z-index: 1;
-      left: 50%;
-      margin-left: -130%;
-      bottom: 120%;
+      bottom: 4.4em;
       font-size: smaller;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.5em 1em;
 
       &::after {
         content: "";
@@ -74,7 +79,7 @@
   --tooltip_color: var(--background_3);
 
   &:hover {
-    background-color: var(--background_1);
+    background-color: var(--background_3);
     & > span {
       visibility: visible;
     }
@@ -115,44 +120,75 @@
   mask: url(/ul.svg) no-repeat center;
 }
 
-.imgcheckBox {
-  mask: url(/tl.svg) no-repeat center;
+.imgNumb {
+  mask: url(/imgNumb.svg) no-repeat center;
 }
 
 .content {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 1em;
 
   & > textarea {
     height: 15em;
     width: 100%;
     resize: none;
-    border: 1px solid #ccc;
+    border: .5px solid #ccc;
     border-radius: 0.5em;
     padding: 0.5em;
     overflow: auto;
+    outline: 0;
   }
   & > div {
-    background-color: var(--background_1);
+    background-color: var(--background_4);
+    margin-top: .5em;
     padding: 1em;
+    border-radius: .5em;
+
     & > * {
       word-wrap: break-word;
     }
 
     & > pre {
-      width: 80%;
-      margin: 1em;
-      padding: 1em;
+      width: 90%;
+      padding: .5em;
       margin: 0 auto;
       margin-bottom: 1em;
       border-radius: .5em;
       background-color: var(--background);
+
+      & > code {
+        white-space: pre-wrap;
+        position: relative;
+      }
+        & > div{
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin-bottom: .3em;
+
+          & > button{
+            cursor: pointer;
+            border: none;
+            width: 1em;
+            height: 1em;
+            background-color: white;
+            opacity: 0.5;
+            mask: url(/clipBoard.svg) no-repeat center;
+            appearance: none;
+
+            &:hover{
+              opacity: 1;
+              scale: 1.1;
+            }
+          }
+
+          & > p{
+            margin: 0;
+            opacity: 0.5;
+          }
+      }
     }
   }
-}
-
-.highlight {
-  color: blue;
 }
