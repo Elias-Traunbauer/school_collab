@@ -21,6 +21,6 @@ namespace Core.Contracts.Services
 
         Task<IServiceResult> ResetPasswordAsync(UserPasswordResetPayload userPasswordResetPayload);
 
-        Task<ILoginResult> UseRefreshTokenAsync(int userId, string token);
+        Task<IServiceResult<string>> UseRefreshTokenAsync(int userId, string token);
     }
 }

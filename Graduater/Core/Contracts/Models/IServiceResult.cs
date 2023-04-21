@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Core.Contracts.Models
 {
+    public interface IServiceResult<T> : IServiceResult
+    {
+        public T? Result { get; }
+    }
+
     public interface IServiceResult
     {
         public int Status { get; }

@@ -34,4 +34,19 @@ namespace Core.Entities.Models
             return errorResult;
         }
     }
+
+    public class ServiceResult<T> : ServiceResult, IServiceResult<T>
+    {
+        public T? Result { get; set; }
+
+        public ServiceResult(T result) : base()
+        {
+            Result = result;
+        }
+
+        public ServiceResult(string key, params string[] errors) : base(key, errors)
+        {
+
+        }
+    }
 }

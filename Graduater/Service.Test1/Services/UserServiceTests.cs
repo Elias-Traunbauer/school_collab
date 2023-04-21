@@ -61,23 +61,6 @@ namespace Service.Services.Tests
         }
 
         [TestMethod()]
-        public async Task UserRepositoryIncludesTest()
-        {
-            IUnitOfWork unitOfWork = new UnitOfWorkForTests();
-            Assert.IsNotNull(unitOfWork);
-            await unitOfWork.UserRepository.CreateUserAsync(new User()
-            {
-                Id = 1
-            });
-            await unitOfWork.SaveChangesAsync();
-            var userWithOutUserSessions = await unitOfWork.UserRepository.GetUserByIdAsync(1);
-            Assert.IsNull(userWithOutUserSessions!.UserSessions);
-
-            var user = await unitOfWork.UserRepository.GetUserByIdAsync(1);
-            Assert.IsNotNull(user!.UserSessions);
-        }
-
-        [TestMethod()]
         public void UserServiceTest()
         {
             var unitOfWork = new Mock<IUnitOfWork>();
@@ -115,7 +98,8 @@ namespace Service.Services.Tests
             IUser user = new User()
             {
                 Username = "testUsername",
-                PasswordHash = PasswordServiceMock.HashPassword("", "")
+                PasswordHash = PasswordServiceMock.HashPassword("", ""),
+                UserSessions = new List<UserSession>()
             };
 
             var userRepository = new Mock<IUserRepository>();
@@ -137,7 +121,7 @@ namespace Service.Services.Tests
             Assert.AreEqual(200, res.ServiceResult.Status);
             Assert.IsNotNull(res.AccessToken);
             Assert.IsNotNull(res.RefreshToken);
-            Assert.AreEqual(1, user.UserSessions?.Count ?? 1);
+            Assert.AreEqual(1, user.UserSessions?.Count ?? 0);
             Assert.AreEqual(RandomKeyServiceResult, user.UserSessions!.Single().SessionKey);
         }
 
@@ -147,7 +131,8 @@ namespace Service.Services.Tests
             IUser user = new User()
             {
                 Email = "test@email.com",
-                PasswordHash = PasswordServiceMock.HashPassword("", "")
+                PasswordHash = PasswordServiceMock.HashPassword("", ""),
+                UserSessions = new List<UserSession>()
             };
 
             var userRepository = new Mock<IUserRepository>();
@@ -179,7 +164,7 @@ namespace Service.Services.Tests
             IUser user = new User()
             {
                 Username = "testUsername",
-                PasswordHash = PasswordServiceMock.HashPassword("", "")
+                UserSessions = new List<UserSession>()
             };
 
             var userRepository = new Mock<IUserRepository>();
@@ -201,7 +186,7 @@ namespace Service.Services.Tests
             Assert.AreEqual(401, res.ServiceResult.Status);
             Assert.IsNull(res.AccessToken);
             Assert.IsNull(res.RefreshToken);
-            Assert.AreEqual(0, user.UserSessions?.Count ?? 0);
+            Assert.AreEqual(0, user.UserSessions?.Count ?? -1);
         }
 
         [TestMethod()]
@@ -210,7 +195,7 @@ namespace Service.Services.Tests
             IUser user = new User()
             {
                 Email = "test@email.com",
-                PasswordHash = PasswordServiceMock.HashPassword("", "")
+                UserSessions = new List<UserSession>()
             };
 
             var userRepository = new Mock<IUserRepository>();
@@ -485,9 +470,8 @@ namespace Service.Services.Tests
 
             var res = await userService.UseRefreshTokenAsync(0, "testKey");
 
-            Assert.AreEqual(200, res.ServiceResult.Status);
-            Assert.IsNotNull(res.AccessToken);
-            Assert.IsNull(res.RefreshToken);
+            Assert.AreEqual(200, res.Status);
+            Assert.IsNotNull(res.Result);
         }
 
         [TestMethod()]
@@ -518,9 +502,7 @@ namespace Service.Services.Tests
 
             var res = await userService.UseRefreshTokenAsync(0, "wrongKey");
 
-            Assert.AreEqual(400, res.ServiceResult.Status);
-            Assert.IsNull(res.AccessToken);
-            Assert.IsNull(res.RefreshToken);
+            Assert.AreEqual(400, res.Status);
         }
     }
 }

@@ -72,6 +72,7 @@ public partial class ApplicationDbContext : DbContext
             throw new Exception("Database connection string is null");
         }
         optionsBuilder
+            .UseLazyLoadingProxies()
             .UseMySQL(_config.DatabaseConnectionString);
     }
 }

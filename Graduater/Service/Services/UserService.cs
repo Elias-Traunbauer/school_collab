@@ -188,34 +188,23 @@ namespace Service.Services
             };
         }
 
-        public async Task<ILoginResult> UseRefreshTokenAsync(int userId, string token)
+        public async Task<IServiceResult<string>> UseRefreshTokenAsync(int userId, string token)
         {
             var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
 
             if (user == null)
             {
-                return new LoginResult()
-                {
-                    ServiceResult = new ServiceResult("Error", "User not found")
-                };
+                return new ServiceResult<string>("Error", "User not found");
             }
             var session = user.UserSessions!.SingleOrDefault(x => x?.SessionKey == token, null);
             if (session == null)
             {
-                return new LoginResult()
-                {
-                    ServiceResult = new ServiceResult("Error", "Session not found")
-                };
+                return new ServiceResult<string>("Error", "Session not found");
             }
             session.LastAction = DateTime.UtcNow;
             string accessToken = _jsonWebTokenService.GenerateAccessToken((user as User)!);
             await _unitOfWork.SaveChangesAsync();
-            return new LoginResult()
-            {
-                ServiceResult = ServiceResult.Completed,
-                AccessToken = accessToken,
-                RefreshToken = null!
-            };
+            return new ServiceResult<string>(accessToken);
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Ribbon.API.Middlewares
 
                         var useRefreshTokenResult = await userService.UseRefreshTokenAsync(userId, sessionId);
 
-                        if (useRefreshTokenResult.ServiceResult.Status != 200)
+                        if (useRefreshTokenResult.Status != 200)
                         {
                             httpContext.Response.StatusCode = 401;
                             await httpContext.Response.WriteAsJsonAsync(new
@@ -73,9 +73,9 @@ namespace Ribbon.API.Middlewares
                             });
                             return;
                         }
-                        httpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, useRefreshTokenResult.AccessToken!, DateTime.Now.Add(_config.AccessTokenLifetime));
+                        httpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, useRefreshTokenResult.Result!, DateTime.Now.Add(_config.AccessTokenLifetime));
 
-                        var newClaims = jsonWebTokenService.ValidateToken(useRefreshTokenResult.AccessToken!);
+                        var newClaims = jsonWebTokenService.ValidateToken(useRefreshTokenResult.Result!);
 
                         SetUserData(httpContext, newClaims!);
                         await _next(httpContext);
