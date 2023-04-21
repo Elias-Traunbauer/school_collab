@@ -26,10 +26,6 @@ export default function Wizard({ callback, contentData, title = "Wizard", contai
         }
     });
 
-    useEffect(() => {
-        checkFormFilled(stateData.currIndex);
-    }, [stateData]);
-
     function nextSection() {
         const items = document.querySelectorAll('.' + styles.wizzardContainer + ' ul li');
         const lines = document.querySelectorAll('.' + styles.wizardLine);
@@ -74,13 +70,13 @@ export default function Wizard({ callback, contentData, title = "Wizard", contai
     }
     function focusInputField(index) {
         const formList = document.querySelectorAll('.' + styles.wizardContent);
-        inputList = formList[index].querySelectorAll('input');
+        inputList = formList[index].querySelectorAll('input') as unknown as HTMLInputElement[];
         inputList[0].focus();
     }
 
     function checkFormFilled(index) {
         const formList = document.querySelectorAll('.' + styles.wizardContent);
-        inputList = formList[index].querySelectorAll('input');
+        inputList = formList[index].querySelectorAll('input') as any;
         for (let item of inputList) {
             if (item.hasAttribute('required') && item.value.length <= 0) {
                 document.getElementById('btnNextPage').classList.add(styles.disabeldBtn);
@@ -116,11 +112,11 @@ export default function Wizard({ callback, contentData, title = "Wizard", contai
         let result = [];
         for (let item of formList) {
             let obj = {};
-            for (let input of item.querySelectorAll('input[type="text"]:not([id*="monthInput"]):not([id*="yearInput"])')) {
-                obj[input.previousSibling.innerText.replace(' *', '')] = input.value;
+            for (let input of item.querySelectorAll<HTMLInputElement>('input[type="text"]:not([id*="monthInput"]):not([id*="yearInput"])')) {
+                obj[(input.previousSibling as any).innerText.replace(' *', '')] = input.value;
             }
             for (let input of item.querySelectorAll('input[type="checkbox"]')) {
-                obj[input.name] = input.checked;
+                obj[(input as any).name] = (input as any).checked;
             }
             if (Object.keys(obj).length != 0)
                 result.push(obj);

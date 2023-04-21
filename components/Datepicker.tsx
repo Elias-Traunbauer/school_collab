@@ -17,13 +17,6 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         return tmpDate;
     }
 
-    useEffect(() => {
-        calc();
-        (document.getElementById('monthInput') as HTMLInputElement).value = monthNames[date.getMonth()];
-        (document.getElementById('yearInput') as HTMLInputElement).value = date.getFullYear() + "";
-        (document.getElementById('datetimeInput') as HTMLInputElement).value = PrintDateTime();
-    }, [date]);
-
     function getMonths() {
         return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     }
