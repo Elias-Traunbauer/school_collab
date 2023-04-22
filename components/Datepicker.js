@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { func } from 'prop-types';
 
-export default function Datepicker({ title = 'date', dateParam = new Date() }) {
+export default function Datepicker({ title = 'date', dateParam = new Date() ,required, onInput }) {
 
     const [popUp,setPopUp] = useState(false);
     const [displayDatesArray, setDisplayDatesArray] = useState([]);
@@ -18,12 +18,6 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         return tmpDate;
     }
 
-    useEffect(() => {
-        calc();
-        document.getElementById('monthInput').value = monthNames[date.getMonth()];
-        document.getElementById('yearInput').value = date.getFullYear();
-        document.getElementById('datetimeInput').value = PrintDateTime();
-    }, [date]);
 
     function getMonths() {
         return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -31,10 +25,12 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
 
     function changeToNextMonth() {
         setDate(GetNextMonth());
+        calc();
     }
 
     function changeToPreviousMonth() {
         setDate(GetPreviusMonth());
+        calc();
     }
 
     function handleDateClicked(day, currmonth) {
@@ -48,6 +44,8 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
             tmpDate = GetNextMonth()
         }
         setDate(new Date(tmpDate.getFullYear(), tmpDate.getMonth(), day, date.getHours(), date.getMinutes()));
+        calc();
+        onInput();
     }
 
     function PrintDateTime() {
@@ -89,7 +87,9 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
                 currMonth: false
             });
         }
-
+        document.getElementById('monthInput').value = monthNames[date.getMonth()];
+        document.getElementById('yearInput').value = date.getFullYear();
+        document.getElementById('datetimeInput').value = PrintDateTime();
         setDisplayDatesArray(...[tmpArray]);
     }
 
@@ -113,6 +113,7 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         else
             tempDateObj.setDate(date.getDate());
 
+            calc();
         return tempDateObj;
     }
 
@@ -132,6 +133,7 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         else
             nextMonth.setDate(date.getDate());
 
+            calc();
         return nextMonth;
     }
 
@@ -168,6 +170,7 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
             e.target.value = monthNames[date.getMonth()];
         }
         setDate(date);
+        calc();
     }
 
     function handleFocusoutYear(e) {
@@ -181,6 +184,7 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
             e.target.value = date.getFullYear();
         }
         setDate(date);
+        calc();
     }
 
     function handleYearChange(e) {
@@ -188,6 +192,7 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         if (newYear.length == 4) {
             date.setFullYear(newYear);
             setDate(date);
+            calc();
         }
     }
     var handleMonthChange = function (e) {
@@ -195,6 +200,7 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         if (newMonth != undefined)
             date.setMonth(monthNames.indexOf(newMonth));
         setDate(date);
+        calc();
     };
 
     function handleEnterKeyPressed(e) {
@@ -241,6 +247,8 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         e.target.classList.remove(styles.errorInput);
         console.log("set date");
         setDate(tmpdate);
+        calc();
+        onInput();
     }
 
     return (

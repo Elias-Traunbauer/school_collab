@@ -434,9 +434,45 @@
 
 .inputContainer {
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: flex-start;
   margin-bottom: 1em;
+}
+
+.inputContainer select{
+  background-color: var(--background_2);
+  border-radius: .3em;
+  font-size: .9em;
+  color: rgb(255, 255, 255);
+  outline: 0;
+  border: 0;
+  padding: .3em;
+  width: fit-content;
+  min-width: 6em;
+}
+
+.inputContainer select > option{
+  width: 100%;
+  background-color: var(--background_2);
+  color: rgb(255, 255, 255);
+  border: 0;
+}
+
+.inputContainer > div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: .5em;
+}
+
+.inputContainer > label , .inputContainer > div > p > span{
+  color: var(--color_main) !important;
+}
+
+.inputContainer > div > p{
+  margin: 0;
+  word-wrap: break-word;
 }
 
 .dateWrapper{

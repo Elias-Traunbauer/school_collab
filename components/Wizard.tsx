@@ -2,15 +2,12 @@ import styles from '../styles/Assignment.module.css';
 import { useState, useEffect } from 'react'
 import Datepicker from './Datepicker';
 import React from 'react';
+import { WizardField } from './models/WizardField';
 
-export default function Wizard({ callback, contentData = [{ firstname: false, lastname: true },{dropdown:['1','2','3']}, { email: new Date(), phone: { title: "checkBoxReal", text: "sueee", value: true } }], title = "Wizard", containerWidth = 50 }) {
+export default function Wizard({ callback, contentData = [[new WizardField('firstname','checkBox',{value:true,text:'asdasdasdasd'},true),new WizardField('firstname','select',[{value:1,displayText:'süba'},{value:1,displayText:'süba'},{value:1,displayText:'süba'}],true)]], title = "Wizard", containerWidth = 50 }: { callback: Function, contentData?: WizardField[][], title: string, containerWidth?: number }) {
     let inputList:HTMLInputElement[] = [];
     const [currentPage,setCurrentPage] = useState(0); 
     const [loadingText, setLoadingText] = useState("loading...");
-
-    useEffect(() => {
-        checkFormFilled(currentPage);
-    }, [currentPage]);
 
     function displayPage(page){
         console.log(page);
@@ -39,11 +36,13 @@ export default function Wizard({ callback, contentData = [{ firstname: false, la
     function nextSection() {
         displayPage(currentPage+1);
         setCurrentPage(currentPage+1);
+        checkFormFilled(currentPage+1);
     }
 
     function previousSection() {
         displayPage(currentPage-1);
         setCurrentPage(currentPage-1);
+        checkFormFilled(currentPage-1);
     }
     function focusInputField(index) {
         const formList = document.querySelectorAll('.' + styles.wizardContent);
@@ -55,11 +54,24 @@ export default function Wizard({ callback, contentData = [{ firstname: false, la
     function checkFormFilled(index) {
         const formList = document.querySelectorAll('.' + styles.wizardContent);
         inputList = formList[index].querySelectorAll('input') as unknown as HTMLInputElement[];
+        console.log(inputList);
         let btn:HTMLButtonElement = document.getElementById('btnNextPage') as unknown as HTMLButtonElement;
+        const selectElements = formList[index].querySelectorAll('select') as unknown as HTMLSelectElement[]; 
 
         for (let item of inputList) {
             if (item.hasAttribute('required') && item.value.length <= 0) {
-                               btn.classList.add(styles.disabeldBtn);
+                btn.classList.add(styles.disabeldBtn);
+                return;
+            }
+            else if (item.hasAttribute('required') && item.type == 'checkbox' && !item.checked) {
+                btn.classList.add(styles.disabeldBtn);
+                return;
+            }
+        }
+
+        for (let item of selectElements) {
+            if (item.hasAttribute('required') && item.value.length <= 0) {
+                btn.classList.add(styles.disabeldBtn);
                 return;
             }
         }
@@ -93,65 +105,43 @@ export default function Wizard({ callback, contentData = [{ firstname: false, la
     }
 
     function getResult() {
-        const formList = document.querySelectorAll('.' + styles.wizardContent);
-        let result:HTMLElement[] = [];
-        for (let item of formList) {
-            let obj = {};
-            for (let input of item.querySelectorAll<HTMLInputElement>('input[type="text"]:not([id*="monthInput"]):not([id*="yearInput"])')) {
-                obj[(input.previousSibling as HTMLLabelElement).innerText.replace(' *', '')] = input.value;
-            }
-            for (let input of item.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')) {
-                obj[input.name] = input.checked;
-            }
-            if (Object.keys(obj).length != 0)
-                result.push(obj as HTMLElement);
-        }
-        return result;
+        return contentData;
     }
 
     function CancelWizard() {
         //backend code
     }
 
-    function printInput(key, item, index) {
+    function printInput(item:WizardField, index) {
 
-        if (item[key] instanceof Date)
-            return (
-                <div className={styles.dateWrapper}>
-                    <div key={'wzContent_'+index} className={styles.inputContainer}>
-                        <Datepicker title={key}></Datepicker>
+        return(
+            <div key={'wzContent_'+index} className={styles.inputContainer}>
+                {
+                    item.type != 'checkBox'&&
+                    <label>{item.name}<span>{item.required&&'*'}</span></label>
+                }
+            {
+                item.type == 'date'?
+                    <Datepicker onInput={()=>checkFormFilled(index)} title={item.name} dateParam={item.value} required={item.required}></Datepicker>
+                :item.type == 'checkBox'?
+                    <div>
+                        <input onInput={()=>checkFormFilled(index)} type='checkbox' defaultChecked={item.value.defaultValue} required={item.required} />
+                        <p><span>{item.required&& '* '}</span>{item.value.text}</p>
                     </div>
-                </div>
-            );
-        else if (item[key] instanceof Array)
-            return (
-                <div key={'wzContent_'+index} className={styles.inputContainer}>
-                    <label>{key}</label>
-                    <select>
-                        {item[key].map((item, index) => {
-                            return (
-                                <option key={'option_'+index}>{item}</option>
-                            )
-                        })}
-                    </select>
-                </div>
-            )
-        else if (typeof item[key] == "object")
-            return (<>
-                <div key={'wzContent_'+index} className={styles.inputContainer}>
-                    <div className={styles.chekBoxContainer}>
-                        <input name={item[key][Object.keys(item[key])[0]]} type="checkbox" defaultChecked={item[key][Object.keys(item[key])[2]]}></input>
-                        <p>{item[key][Object.keys(item[key])[1]]}</p>
-                    </div>
-                </div>
-            </>);
-        else
-            return (
-                <div key={'wzContent_'+index} className={styles.inputContainer}>
-                    <label>{key}{item[key] ? ' *' : ""}</label>
-                    <input type='text' onInput={() => checkFormFilled(currentPage)} required={item[key]}></input>
-                </div>
-            )
+                :item.type == 'select'?
+                <select onSelect={()=>checkFormFilled(index)} required={item.required}>
+                {
+                    item.value.map((option,index) => {
+                        return(
+                            <option key={'select_'+index} value={option.value} selected={false}>{option.displayText}</option>
+                        )
+                    })
+                }
+            </select>
+            :<input onInput={()=>checkFormFilled(index)} type={item.type} name={item.name} defaultValue={item.value} required={item.required} />
+            }
+            </div>
+        );
     }
 
     return (
@@ -165,6 +155,7 @@ export default function Wizard({ callback, contentData = [{ firstname: false, la
                     <h1 className={styles.wizardheading}>{title}</h1>
                     <ul>
                         {
+                            contentData.length > 1 &&
                             contentData.map((item, index) => {
                                 return (
                                     <>
@@ -186,12 +177,11 @@ export default function Wizard({ callback, contentData = [{ firstname: false, la
                                 return (
                                     <form key={'wizard_content_' + index} className={`${styles.wizardContent} ${index != 0 ? styles.hidden : ""}`}>
                                         {
-                                            Object.keys(item).map((key, index) => {
+                                            item.map((item, index) => {
                                                 return (
-                                                    printInput(key, item, index)
+                                                    printInput(item, index)
                                                 )
                                             })
-
                                         }
 
                                     </form>
