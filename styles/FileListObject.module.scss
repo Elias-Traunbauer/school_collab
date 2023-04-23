@@ -54,6 +54,10 @@
     background-color: var(--background_1);
 }
 
+.Listcontainer > img{
+    user-select: none;
+}
+
 .Listcontainer > div p {
     margin-left: .5em;
 }
