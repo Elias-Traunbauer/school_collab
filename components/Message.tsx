@@ -6,13 +6,15 @@ export default function Message({
   text,
   createdAt = new Date(1, 1, 1, 1, 1),
   files,
+  displayName = false,
 }: {
     files?: [{ name: string; url: string }];
-    author: { name; color } | null;
+    author: {id:number; name:string; color:string };
     text: string;
     createdAt?: Date;
+    displayName: boolean;
 }) {
-  const mockuser = { name: "alo" };
+  const mockuser = { id: 1,name: "alo" , color:'blue'};
   function DisplayDate() {
     const hour = createdAt.getHours().toString().padStart(2, "0");
     const minute = createdAt.getMinutes().toString().padStart(2, "0");
@@ -20,8 +22,9 @@ export default function Message({
   }
 
   return (
-    <div className={styles.container}>
-      {author && (
+    <div className={`${styles.wrapper} ${author.id == mockuser.id? styles.wrapRight : styles.wrapLeft}`}>
+      <div className={`${styles.container} ${author.id == mockuser.id&& styles.ownMessage}`}>
+      {displayName && author.id != mockuser.id && (
         <div className={styles.head}>
           <p style={{color:author.color}}>{author.name}</p>
         </div>
@@ -47,5 +50,7 @@ export default function Message({
         <p>{DisplayDate()}</p>
       </div>
     </div>
+    </div>
+    
   );
 }

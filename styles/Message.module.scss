@@ -13,10 +13,39 @@
     justify-content: center;
     align-items: center;
     background-color: var(--background_3);
-    margin: 2em;
     position: relative;
     border-radius: 0.5em;
     padding: .4em;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.wrapRight{
+    justify-content: flex-end;
+}
+.wrapLeft{
+    justify-content: flex-start;
+}
+
+.ownMessage{
+    background-color: var(--color_main)!important;
+
+    & .fileContainer{
+        background-color: var(--color_main)!important;
+        filter: brightness(.8);
+
+        & > div:hover{
+            background-color: var(--color_main_darker)!important;
+        }
+    }
+}
+
+.ownMessage{
+    align-self: flex-end;
+    background-color: var(--background_2);
 }
 
 .head{
@@ -36,7 +65,7 @@
 
 .fileContainer{
     min-width: 20em;
-    margin-top: 1em;
+    margin-top: .3em;
     margin-bottom: .3em;
 }
 
