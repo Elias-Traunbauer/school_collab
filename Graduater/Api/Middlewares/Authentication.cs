@@ -1,4 +1,5 @@
-﻿using Api.Helpers;
+﻿using Api.Attributes;
+using Api.Helpers;
 using Core.Contracts;
 using Core.Contracts.Services;
 using Core.Entities.Database;
@@ -6,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using MySqlX.XDevAPI.Common;
 using Org.BouncyCastle.Asn1.Cms;
 using Persistence;
-using Ribbon.API.Attributes;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -15,7 +15,6 @@ namespace Ribbon.API.Middlewares
     public class UserAuthenticationMiddleware
     {
         private readonly RequestDelegate _next;
-
         private readonly ApiConfig _config;
 
         public UserAuthenticationMiddleware(RequestDelegate next, ApiConfig configuration)

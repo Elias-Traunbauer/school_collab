@@ -17,7 +17,7 @@ public class User : DatabaseEntity, IUser
     public string LastName { get; set; } = string.Empty;
 
     [ForeignKey(nameof(ProfilePictureId))]
-    public File? ProfilePicture { get; set; }
+    public virtual File? ProfilePicture { get; set; }
 
     public int? ProfilePictureId { get; set; }
 

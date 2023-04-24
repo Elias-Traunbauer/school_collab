@@ -22,6 +22,7 @@ namespace Api
             builder.Services.AddSingleton<IJsonWebTokenService, JsonWebTokenService>();
             builder.Services.AddSingleton<IRandomKeyService, RandomKeyService>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
+            builder.Services.AddSingleton<ICaptchaRegistryService, CaptchaRegistryService>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IUserService, UserService>();
@@ -37,7 +38,7 @@ namespace Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
             app.UseHsts();
             app.UseHttpsRedirection();
 

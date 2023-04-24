@@ -12,11 +12,11 @@ public class File : DatabaseEntity, IFile
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    public byte[] Content { get; set; } = Array.Empty<byte>();
+    public virtual byte[] Content { get; set; } = Array.Empty<byte>();
 
     [Required]
     [ForeignKey(nameof(UploadedById))]
-    public User? UploadedBy { get; set; }
+    public virtual User? UploadedBy { get; set; }
 
     public int UploadedById { get; set; }
 

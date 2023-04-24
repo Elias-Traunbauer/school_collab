@@ -1,4 +1,4 @@
-﻿namespace Ribbon.API.Attributes
+﻿namespace Api.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class NoAuthenticationRequired : Attribute

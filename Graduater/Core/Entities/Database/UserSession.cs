@@ -12,7 +12,7 @@ namespace Core.Entities.Database
     public class UserSession : DatabaseEntity, IUserSession
     {
         [ForeignKey(nameof(UserId))]
-        public User? User { get; set; }
+        public virtual User? User { get; set; }
 
         public int UserId { get; set; }
 

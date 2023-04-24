@@ -1,4 +1,5 @@
-﻿using Api.DataTransferObjects;
+﻿using Api.Attributes;
+using Api.DataTransferObjects;
 using Api.Helpers;
 using Core.Contracts;
 using Core.Contracts.Entities;
@@ -8,7 +9,6 @@ using Core.Entities;
 using Core.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
-using Ribbon.API.Attributes;
 
 namespace Api.Controllers
 {
