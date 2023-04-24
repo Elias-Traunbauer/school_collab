@@ -20,11 +20,13 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [RateLimit(5)]
+        [RateLimit(maxRequestsPerMinute: 6, fixedTimeFrame: false)]
         [NoAuthenticationRequired]
         public async Task<IActionResult> GetCaptchaImage()
         {
             var id = Guid.NewGuid().ToString();
+
+            await Task.Delay(1000);
 
             return Ok(new
             {

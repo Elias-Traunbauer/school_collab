@@ -7,7 +7,7 @@ namespace Api.Attributes
     {
         public UserPermission Required { get; set; }
 
-        public EndpointPermission(UserPermission permissions) 
+        public EndpointPermission(UserPermission permissions)
         { 
             Required = permissions;
         }

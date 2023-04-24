@@ -12,12 +12,9 @@ namespace Api.Middlewares
     {
         private readonly RequestDelegate _next;
 
-        private readonly ApiConfig _config;
-
-        public UserAuthorizationMiddleware(RequestDelegate next, ApiConfig config)
+        public UserAuthorizationMiddleware(RequestDelegate next)
         {
             _next = next;
-            _config = config;
         }
 
         public async Task Invoke(HttpContext httpContext)

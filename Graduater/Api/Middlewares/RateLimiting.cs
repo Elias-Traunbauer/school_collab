@@ -13,15 +13,13 @@ public class RateLimitMiddleware
     private record struct ClientFingerprint(string RemoteIp, string UserAgent, string? XForwardedFor);
 
     // Dictionary of client fingerprints to their respective Dictionaries for rate limiting
-    private readonly Dictionary<ClientFingerprint, ConcurrentDictionary<string, Queue<long>>> _requests;
-    private readonly ApiConfig _config;
+    private readonly Dictionary<ClientFingerprint, ConcurrentDictionary<string, ConcurrentQueue<long>>> _requests;
     private readonly RequestDelegate _next;
 
-    public RateLimitMiddleware(RequestDelegate next, ApiConfig config)
+    public RateLimitMiddleware(RequestDelegate next)
     {
-        _config = config;
         _next  = next;
-        _requests = new Dictionary<ClientFingerprint, ConcurrentDictionary<string, Queue<long>>>();
+        _requests = new Dictionary<ClientFingerprint, ConcurrentDictionary<string, ConcurrentQueue<long>>>();
     }
 
     public async Task Invoke(HttpContext context)
@@ -34,21 +32,35 @@ public class RateLimitMiddleware
             return;
         }
 
-        if (!endpoint.Metadata.Any(x => x is RateLimit))
+        var endpointIdentifier = context.Request.Path.ToString() + " / " + context.Request.Method;
+
+        RateLimit? rateLimit = endpoint.Metadata.GetMetadata<RateLimit>();
+
+        if (rateLimit == null)
         {
+            await _next(context);
             return;
         }
 
-        RateLimit rateLimit = (RateLimit)endpoint.Metadata.Single(x => x is RateLimit);
-
         string? ip = context.Connection.RemoteIpAddress?.ToString();
         string? userAgent = context.Request.Headers.UserAgent;
-        string? xForwardedFor = context.Request.Headers["X-ForwardedFor"];
+        string? xForwardedFor = context.Request.Headers["X-Forwarded-For"];
 
         if (ip == null || userAgent == null)
         {
             // i will pose as a teapot if the client thinks he wants to trick me
             context.Response.StatusCode = 418;
+
+            // output a small nice text about me being a teapot
+            await context.Response.WriteAsJsonAsync(
+                new
+                {
+                    Message = "I am the mighty teapot!" + "\n" +
+                            "I am not a coffee machine, I am not a server, I am a teapot!" + "\n" +
+                            "I will not serve you coffee, I will not serve you tea, I will not serve you anything!" + "\n" +
+                            "I am a teapot!"
+                });
+
             return;
         }
         ClientFingerprint clientFingerprint = new(ip!, userAgent!, xForwardedFor);
@@ -56,35 +68,47 @@ public class RateLimitMiddleware
         // initialize requests queue for new IP addresses
         if (!_requests.ContainsKey(clientFingerprint))
         {
-            _requests[clientFingerprint] = new ConcurrentDictionary<string, Queue<long>>();
+            _requests[clientFingerprint] = new ConcurrentDictionary<string, ConcurrentQueue<long>>();
         }
 
-        if (!_requests[clientFingerprint].ContainsKey(endpoint.DisplayName))
+        if (!_requests[clientFingerprint].ContainsKey(endpointIdentifier))
         {
-            _requests[clientFingerprint][endpoint.DisplayName] = new Queue<long>();
+            _requests[clientFingerprint][endpointIdentifier] = new ConcurrentQueue<long>();
         }
+        var endpointQueue = _requests[clientFingerprint][endpointIdentifier];
 
         var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        var oneMinuteAgo = now - 60;
+        var lastRequestMinimumAgo = now - rateLimit.SecondsBetweenRequests;
 
         // remove expired requests from the queue
-        while (_requests[clientFingerprint][endpoint.DisplayName].Count > 0 && _requests[clientFingerprint][endpoint.DisplayName].Peek() < now - 60)
+        if (!endpointQueue.IsEmpty)
         {
-            _requests[clientFingerprint][endpoint.DisplayName].Dequeue();
+            endpointQueue.TryPeek(out var request);
+            while (!endpointQueue.IsEmpty && (rateLimit.ApplyForWholeMinute ? request < oneMinuteAgo : request < lastRequestMinimumAgo))
+            {
+                endpointQueue.TryDequeue(out _);
+            }
         }
+        
+        // calculate time until rate limit is reset
+        endpointQueue.TryPeek(out var lastRequest);  
+        var resetTime = rateLimit.ApplyForWholeMinute ? lastRequest + 60 : lastRequest + rateLimit.SecondsBetweenRequests;
 
         // check if the rate limit has been exceeded
-        if (_requests[clientFingerprint][endpoint.DisplayName].Count >= rateLimit.MaxRequestsPerMinute)
+        if (endpointQueue.Count >= (rateLimit.ApplyForWholeMinute ? rateLimit.MaxRequestsPerMinute : 1))
         {
             context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
             await context.Response.WriteAsJsonAsync(new
             {
-                Error = "Rate limit exceeded, try again soon"
+                Error = "Rate limit exceeded",
+                TryAgainIn = resetTime - now
             });
             return;
         }
 
         // add the current request to the queue
-        _requests[clientFingerprint][endpoint.DisplayName].Enqueue(now);
+        endpointQueue.Enqueue(now);
 
         // invoke the next middleware in the pipeline
         await _next(context);
