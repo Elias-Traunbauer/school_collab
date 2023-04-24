@@ -22,7 +22,7 @@ export default function Message({
   }
 
   return (
-    <div className={`${styles.wrapper} ${author.id == mockuser.id? styles.wrapRight : styles.wrapLeft}`}>
+    <div style={displayName ? { marginTop: '.3em' } : {}} className={`${styles.wrapper} ${author.id == mockuser.id? styles.wrapRight : styles.wrapLeft}`}>
       <div className={`${styles.container} ${author.id == mockuser.id&& styles.ownMessage}`}>
       {displayName && author.id != mockuser.id && (
         <div className={styles.head}>

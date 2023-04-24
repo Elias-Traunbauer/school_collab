@@ -1,0 +1,94 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+}
+
+.navBar{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+    background-color: var(--background_1);
+}
+
+.navbarHead{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    & img{
+        height: 2em;
+        width: 2em;
+        margin: .2em;
+        padding: .3em;
+        cursor: pointer;
+        border-radius: .3em;
+        &:hover{
+            background-color: var(--background_3);
+        }
+    }
+
+    &>*{
+        user-select: none;
+    }
+}
+
+.navbarHeading{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+
+    &> h2{
+        margin: 0;
+        padding: 0;
+        font-size: larger;
+    }
+}
+
+.searchContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+
+    &> input{
+        width: 100%;
+        height: 2em;
+        padding: 1em;
+        border-radius: .3em;
+        border: none;
+        outline: none;
+        font-size: small;
+
+        &:focus {
+            border-bottom: 1px solid var(--color_main) ;
+        }
+    }
+}
+
+.ChatroomContainer{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+    border-left: 1px solid var(--background);
+}
+
+.navbarBody{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    gap: .3em;
+}

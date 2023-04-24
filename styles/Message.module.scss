@@ -6,6 +6,7 @@
 .container{
     min-width: 3em;
     min-height: 1em;
+    max-width: 60%;
     width: fit-content;
     height: fit-content;
     display: flex;
@@ -76,7 +77,7 @@
 
     &>p{
         margin: 0;
-        word-wrap: normal;
+        word-wrap: break-word;
         text-align: left;
     }
 }
