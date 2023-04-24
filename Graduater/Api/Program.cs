@@ -44,6 +44,7 @@ namespace Api
 
             app.UseUserAuthentication();
             app.UseUserAuthorization();
+            app.UseRateLimiting();
 
             app.MapControllers();
 
