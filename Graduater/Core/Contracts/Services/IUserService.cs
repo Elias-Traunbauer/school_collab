@@ -18,5 +18,7 @@ namespace Core.Contracts.Services
         Task<IServiceResult<string>> UseRefreshTokenAsync(int userId, string token);
 
         Task<IServiceResult<bool>> IsUsernameTaken(string username);
+
+        Task<IServiceResult<bool>> IsEmailTaken(string email);
     }
 }

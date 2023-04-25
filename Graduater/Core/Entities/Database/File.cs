@@ -14,6 +14,8 @@ public class File : DatabaseEntity, IFile
     [Required]
     public virtual byte[] Content { get; set; } = Array.Empty<byte>();
 
+    public string ContentType { get; set; } = String.Empty;
+
     [Required]
     [ForeignKey(nameof(UploadedById))]
     public virtual User? UploadedBy { get; set; }

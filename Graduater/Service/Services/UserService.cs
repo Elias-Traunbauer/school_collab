@@ -212,5 +212,11 @@ namespace Service.Services
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
             return new ServiceResult<bool>(user != null);
         }
+
+        public async Task<IServiceResult<bool>> IsEmailTaken(string email)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByEmailAsync(email);
+            return new ServiceResult<bool>(user != null);
+        }
     }
 }

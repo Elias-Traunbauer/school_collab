@@ -6,6 +6,7 @@ namespace Core.Contracts.Entities
     {
         byte[] Content { get; set; }
         string Name { get; set; }
+        string ContentType { get; set; }
         long Size { get; }
         User? UploadedBy { get; set; }
         int UploadedById { get; set; }

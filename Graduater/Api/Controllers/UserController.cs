@@ -9,6 +9,7 @@ using Core.Entities;
 using Core.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
+using System.ComponentModel.DataAnnotations;
 
 namespace Api.Controllers
 {
@@ -63,12 +64,30 @@ namespace Api.Controllers
             return Ok();
         }
 
-        [HttpGet("isTaken/{username}")]
+        [HttpGet("isOccupied/username/{username}")]
         [NoAuthenticationRequired]
-        [RateLimit(maxRequestsPerMinute: 60, rateLimitMode: RateLimitMode.FixedDelay)]
-        public async Task<IActionResult> Register(string username, [FromServices] IUserService userService)
+        [RateLimit(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
+        public async Task<IActionResult> UsernameTaken(string username, [FromServices] IUserService userService)
         {
             var result = await userService.IsUsernameTaken(username);
+
+            return Ok(new
+            {
+                Status = 200,
+                Taken = result.Value
+            });
+        }
+
+        [HttpGet("isOccupied/email/{email}")]
+        [NoAuthenticationRequired]
+        [RateLimit(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
+        public async Task<IActionResult> EmailTaken([EmailAddress] string email, [FromServices] IUserService userService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await userService.IsUsernameTaken(email);
 
             return Ok(new
             {
