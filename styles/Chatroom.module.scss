@@ -1,12 +1,12 @@
 .container{
     width: 100%;
     height: 100%;
-    height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     --headHight: 3em;
     --footHight: 3em;
+    position: relative;
 }
 .head{
     width: 100%;
@@ -16,6 +16,11 @@
     flex-direction: row;
     background-color: var(--background_1);
     border-bottom: 1px solid var(--background);
+
+    &:hover{
+        cursor: pointer;
+        background-color: var(--background_2);
+    }
 
     & > div{
         display: flex;
@@ -175,4 +180,204 @@
         border-radius: .5em;
         background-color: var(--background_2);
     }
+}
+
+.infoPopUp{
+    position: absolute;
+    height: fit-content;
+    width: 20%;
+    right: 0;
+    left: 78%;
+    top: 4em;
+    margin: auto;
+    background-color: var(--background_1);
+    border-radius: .5em;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    z-index: 1;
+    padding: .5em;
+
+    &> label{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        margin: 0 0;
+        opacity: .6;
+        font-size: small;
+    }
+
+    &> p{
+        margin: 0;
+        margin-top: .1em;
+        font-size: .9em;
+        margin-left: .5em;
+    }
+        &>img{
+            padding: .2em;
+            cursor: pointer;
+            border-radius: 10em;
+            position: absolute;
+            right: 2%;
+            top: 2%;
+
+            &:hover{
+                filter: brightness(.8);
+                background-color: var(--background_3);
+            }
+        }
+
+    & > div:nth-child(2){
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-direction: column;
+        & > img{
+            width: 6em;
+            height: 6em;
+            padding: .5em;
+            border-radius: 10em;
+
+            &:hover{
+                cursor: pointer;
+                filter: brightness(.8);
+            }
+        }
+
+        & > button{
+            width: fit-content;
+            height: fit-content;
+            padding: .5em;
+            border: 1px solid rgba(255, 255, 255, 0.404);
+            outline: none;
+            background-color: var(--background_2);
+            border-radius: 1em;
+            color: white;
+            font-size: medium;
+
+            &:hover{
+                cursor: pointer;
+                filter: brightness(1.2);
+            }
+        }
+    }
+
+    &> div:last-child{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1em;
+        &> div{
+            width: 90%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: row;
+            border-top: 1px solid rgba(214, 214, 214, 0.082);
+            border-radius: .1em;
+            padding-top: .8em;
+
+            & > button{
+                width: fit-content;
+                height: fit-content;
+                padding: .4em .8em;
+                border: 0;
+                outline: none;
+                background-color: var(--background_2);
+                border-radius: .5em;
+                color: white;
+                font-size: medium;
+                filter: brightness(1.2);
+    
+                &:hover{
+                    cursor: pointer;
+                    filter: brightness(1.5);
+                }
+    
+                &:last-child{
+                    color: rgb(245, 66, 66);
+                }
+            }
+        }
+
+        
+    }
+}
+
+.infoNameContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin: .8em 0;
+
+    & *:not(input[type=text]){
+        cursor: pointer;
+    }
+
+    & > input[type=text]{
+        width: fit-content;
+        outline: none;
+        border: 1px solid rgba(255, 255, 255, 0.404);
+        background-color: var(--background_2);
+        border-radius: .2em;
+        font-size: large;
+        color: white;
+        font-weight: normal;
+        max-width: 80%;
+        margin-right: .5em;
+    }
+
+    &> h3{
+        margin: 0;
+        font-size: large;
+        color: white;
+        max-width: 80%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: .5em;
+    }
+
+    & > div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover{
+            filter: brightness(1.2);
+            background-color: var(--background_2);
+            border-radius: .5em;
+        }
+
+        &>input[type=checkbox]{
+            height: 1.3em;
+            width: 1.3em;
+            appearance: none;
+            mask: url(/edit_small.svg) no-repeat center;
+            font-size: medium;
+            background-color: white;
+
+            &:checked{
+                mask: url(/check.svg) no-repeat center;
+            }
+        }   
+        &>input[type=button]{
+            height: 1.3em;
+            width: 1.3em;
+            appearance: none;
+            mask: url(/close_small.svg) no-repeat center;
+            font-size: medium;
+            background-color: white;
+            margin: .2em;
+        }   
+        
+    }
+}
+
+.hidden{
+    display: none;
 }

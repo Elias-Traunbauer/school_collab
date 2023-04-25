@@ -5,6 +5,7 @@ import Image from 'next/image';
 export default function Chatroom() {
 
     const mockName = 'alo';
+    const createdAt = new Date(1, 1, 1, 1, 1);
     const mockuser = {id:1, name: "alo" , color: "red" };
     const mockMemberList = [
         {
@@ -17,6 +18,7 @@ export default function Chatroom() {
         },
     ];
     const mockProfile = 'TestProfile.jpeg';
+    const [profile, setProfile] = useState(mockProfile);
     const mockmessages = [
         {
             id: 1,
@@ -113,6 +115,10 @@ export default function Chatroom() {
     ];	
     const [messages, setMessages] = useState(mockmessages);
     const [files, setFiles] = useState([]);
+    const [infoIsHidden, setInfoIsHidden] = useState(true);
+    const[nameEdit, setNameEdit] = useState(false);
+    const [name, setName] = useState(mockName);
+    const [backUpName, setBackUpName] = useState(mockName);
 
     useEffect(() => {
         scrollDown();
@@ -149,7 +155,6 @@ export default function Chatroom() {
     }
 
     function handleInputChange(event) {
-        console.log(event.key);
         if (event.key === 'Enter') {
             event.preventDefault();
             sendMessage();
@@ -215,13 +220,48 @@ export default function Chatroom() {
         sendMessage();
     }
 
+    function uploadProfile(e) {
+        console.log("change Profile");
+    }
+
+    function changeNameEditMode(e) {
+        if(e.target.checked) {
+            setBackUpName(name);
+        }
+        else {
+            const name = document.getElementById('infoNameInput') as HTMLInputElement;
+            if(name.value.length > 0)
+            setName(name.value);
+            else
+            setName("ohne Titel");
+        }
+        setNameEdit(e.target.checked);
+    }
+
+
+    function cancelNameEdit() {
+        setNameEdit(false);
+        setName(backUpName);
+        const checkbox = document.getElementById('editNameCheckBox') as HTMLInputElement;
+        checkbox.checked = false;
+    }
+
+    function toggleInfo() {
+        setInfoIsHidden(!infoIsHidden);
+    }
+
+    function handleInfoProfileClick(){
+        const input = document.getElementById('infoProfileInput') as HTMLInputElement;
+        input.click();
+    }
+
     return (
         <div className={styles.container}>
-            <div className={styles.head}>
+            <div onClick={toggleInfo} className={styles.head}>
                 <div>
-                    <Image width={30} height={30} src={'/'+mockProfile} alt='Profile'></Image>
+                    <Image width={30} height={30} src={'/'+profile} alt='Profile'></Image>
                     <div>
-                        <h3>{mockName}</h3>
+                        <h3>{name}</h3>
                         <div>
                             {
                                 mockMemberList.map((member,index) => {
@@ -254,8 +294,47 @@ export default function Chatroom() {
                         <div className={styles.sendBtn}></div>
                     </div>
                 </div>
-                <input onChange={(e)=>uploadFile(e)} id='fileInput' type='file' hidden={true}></input>
             </div>
+            <div id='infoPopUp' className={`${styles.infoPopUp} ${infoIsHidden&& styles.hidden}`}>
+                    <Image onClick={toggleInfo} src='/close_small.svg' height={30} width={30} alt='Close'></Image>
+                <div>
+                    <Image onClick={handleInfoProfileClick} width={30} height={30} src={'/'+profile} alt='Profile'></Image>
+                    <button onClick={handleInfoProfileClick} >Bearbeiten</button>
+                </div>
+                <div className={styles.infoNameContainer}>
+                    {
+                        nameEdit?
+                        <input id='infoNameInput' defaultValue={name} type='text'></input>
+                        :
+                        <h3>{name}</h3>
+                    }
+                    
+                    <div>
+                        <input id='editNameCheckBox' onClick={(e)=>changeNameEditMode(e)} type='checkbox'></input>
+                        
+                    </div>
+                    <div>
+                        {
+                            nameEdit&&
+                            <input onClick={cancelNameEdit} type='button'></input>
+                        }
+                    </div>
+                   
+                </div>
+                <label>Erstellt am</label>
+                <p>{createdAt.toDateString()}</p>
+                
+                <div>
+                    <div>
+                        <button>Löschen</button>
+                        <button>Melden</button>
+                    </div>
+                </div>
+
+                
+            </div>
+            <input onChange={(e)=>uploadProfile(e)} id='infoProfileInput' type='file' hidden={true}></input>
+            <input onChange={(e)=>uploadFile(e)} id='fileInput' type='file' hidden={true}></input>
         </div>
     );
 }

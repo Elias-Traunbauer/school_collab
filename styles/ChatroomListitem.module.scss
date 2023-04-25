@@ -17,6 +17,7 @@
         align-items: center;
         padding: .2em;
         border-radius: .3em;
+        position: relative;
 
         & > img{
             width: 2.8em;
@@ -25,8 +26,11 @@
             border-radius: 10em;
         }
 
+        
+
         & .body{
             max-width: 65%;
+            flex: 1;
             margin-right: auto;
             display: flex;
             flex-direction: column;
@@ -42,6 +46,28 @@
             }
         }
 
+        @media screen and (max-width: 1300px) {
+            & > img{
+              width: 1.8em;
+              height: 1.8em;
+            }
+
+            & > .body{
+                max-width: 40%;
+            }
+        }
+
+        @media screen and (max-width: 800px) {
+            & > img{
+              display: none;
+            }
+
+            
+            & > .body{
+                max-width: 60%;
+            }
+        }
+
         & .info{
             display: flex;
             flex-direction: column;
@@ -53,7 +79,7 @@
                 opacity: .5;
                 margin: 0;
                 font-size: smaller;
-                padding: .2em .3em;
+                padding: .2em 0;
             }
 
             & > .unreadMessages{
@@ -70,11 +96,12 @@
         }
 
         &:hover{
-            background-color: var(--background_3);
+            background-color: var(--background_2);
+            filter: brightness(1.1);
         }
     }
 }
 
 .active{
-    background-color: var(--background_3);
+    background-color: var(--background_3) !important;
 }
