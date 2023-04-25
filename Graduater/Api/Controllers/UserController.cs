@@ -62,5 +62,19 @@ namespace Api.Controllers
             }
             return Ok();
         }
+
+        [HttpGet("isTaken/{username}")]
+        [NoAuthenticationRequired]
+        [RateLimit(maxRequestsPerMinute: 60, rateLimitMode: RateLimitMode.FixedDelay)]
+        public async Task<IActionResult> Register(string username, [FromServices] IUserService userService)
+        {
+            var result = await userService.IsUsernameTaken(username);
+
+            return Ok(new
+            {
+                Status = 200,
+                Taken = result.Value
+            });
+        }
     }
 }

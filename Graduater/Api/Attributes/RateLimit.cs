@@ -6,13 +6,13 @@ namespace Api.Attributes
     public class RateLimit : Attribute
     {
         public int MaxRequestsPerMinute { get; set; }
-        public double SecondsBetweenRequests { get; private set; }
+        public double MilisecondsBetweenRequests { get; private set; }
         public RateLimitMode Mode { get; set; }
 
         public RateLimit(int maxRequestsPerMinute, RateLimitMode rateLimitMode = RateLimitMode.SlidingTimeWindow) 
         { 
             MaxRequestsPerMinute = maxRequestsPerMinute;
-            SecondsBetweenRequests = 60f / MaxRequestsPerMinute;
+            MilisecondsBetweenRequests = 60_000d / MaxRequestsPerMinute;
             Mode = rateLimitMode;
         }
 

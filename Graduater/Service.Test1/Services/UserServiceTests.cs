@@ -471,7 +471,7 @@ namespace Service.Services.Tests
             var res = await userService.UseRefreshTokenAsync(0, "testKey");
 
             Assert.AreEqual(200, res.Status);
-            Assert.IsNotNull(res.Result);
+            Assert.IsNotNull(res.Value);
         }
 
         [TestMethod()]

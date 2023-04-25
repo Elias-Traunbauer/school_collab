@@ -81,9 +81,9 @@ public class RateLimitMiddleware
         }
         var endpointQueue = _requests[clientFingerprint][endpointIdentifier];
 
-        var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        var oneMinuteAgo = now - 60;
-        var lastRequestMinimumAgo = now - rateLimit.SecondsBetweenRequests;
+        var now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        var oneMinuteAgo = now - 60_000;
+        var lastRequestMinimumAgo = now - rateLimit.MilisecondsBetweenRequests;
 
         // remove expired requests from the queue
         if (!endpointQueue.IsEmpty)
@@ -97,7 +97,7 @@ public class RateLimitMiddleware
         
         // calculate time until rate limit is reset
         endpointQueue.TryPeek(out var lastRequest);  
-        var resetTime = rateLimit.Mode == RateLimitMode.SlidingTimeWindow ? lastRequest + 60 : lastRequest + rateLimit.SecondsBetweenRequests;
+        var resetTime = rateLimit.Mode == RateLimitMode.SlidingTimeWindow ? lastRequest + 60_000 : lastRequest + rateLimit.MilisecondsBetweenRequests;
 
         // check if the rate limit has been exceeded
         if (endpointQueue.Count >= (rateLimit.Mode == RateLimitMode.SlidingTimeWindow ? rateLimit.MaxRequestsPerMinute : 1))

@@ -72,9 +72,9 @@ namespace Ribbon.API.Middlewares
                             });
                             return;
                         }
-                        httpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, useRefreshTokenResult.Result!, DateTime.Now.Add(_config.AccessTokenLifetime));
+                        httpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, useRefreshTokenResult.Value!, DateTime.Now.Add(_config.AccessTokenLifetime));
 
-                        var newClaims = jsonWebTokenService.ValidateToken(useRefreshTokenResult.Result!);
+                        var newClaims = jsonWebTokenService.ValidateToken(useRefreshTokenResult.Value!);
 
                         SetUserData(httpContext, newClaims!);
                         await _next(httpContext);

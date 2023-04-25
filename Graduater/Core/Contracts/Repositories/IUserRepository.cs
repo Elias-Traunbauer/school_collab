@@ -15,17 +15,17 @@ namespace Core.Contracts.Repositories
     public interface IUserRepository
     {
         // Get all users
-        IAsyncEnumerable<IUser> GetAllUsersAsync();
+        IAsyncEnumerable<IUser> GetAllUsersAsync(params Expression<Func<IUser, object?>>[] includes);
         // Get user by id
-        Task<IUser?> GetUserByIdAsync(int id);
+        Task<IUser?> GetUserByIdAsync(int id, params Expression<Func<IUser, object?>>[] includes);
         // Get user by username
-        Task<IUser?> GetUserByUsernameAsync(string username);
+        Task<IUser?> GetUserByUsernameAsync(string username, params Expression<Func<IUser, object?>>[] includes);
         // Get user by email
-        Task<IUser?> GetUserByEmailAsync(string email);
+        Task<IUser?> GetUserByEmailAsync(string email, params Expression<Func<IUser, object?>>[] includes);
         // Get user by email verification token
-        Task<IUser?> GetUserByEmailVerificationTokenAsync(string token);
+        Task<IUser?> GetUserByEmailVerificationTokenAsync(string token, params Expression<Func<IUser, object?>>[] includes);
         // Get user by password reset token
-        Task<IUser?> GetUserByPasswordResetTokenAsync(string token);
+        Task<IUser?> GetUserByPasswordResetTokenAsync(string token, params Expression<Func<IUser, object?>>[] includes);
 
         Task CreateUserAsync(User user);
         Task<bool> DeleteUserAsync(int id);

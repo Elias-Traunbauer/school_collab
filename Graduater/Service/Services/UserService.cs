@@ -51,7 +51,7 @@ namespace Service.Services
 
         public async Task<ILoginResult> LoginAsync(UserLoginPayload loginInformation)
         {
-            Func<string, Task<IUser?>>[] userSearchMethods = new Func<string, Task<IUser?>>[2]
+            Func<string, Expression<Func<IUser, object?>>[], Task<IUser?>>[] userSearchMethods = new Func<string, Expression<Func<IUser, object?>>[], Task<IUser?>>[2]
             {
                 _unitOfWork.UserRepository.GetUserByUsernameAsync,
                 _unitOfWork.UserRepository.GetUserByEmailAsync
@@ -60,7 +60,7 @@ namespace Service.Services
             User? user = null;
             foreach (var searchMethod in userSearchMethods)
             {
-                user = (User?) await searchMethod(loginInformation.Identifier);
+                user = (User?) await searchMethod(loginInformation.Identifier, new Expression<Func<IUser, object?>>[] { x => x.UserSessions });
 
                 if (user != null)
                 {
@@ -205,6 +205,12 @@ namespace Service.Services
             string accessToken = _jsonWebTokenService.GenerateAccessToken((user as User)!);
             await _unitOfWork.SaveChangesAsync();
             return new ServiceResult<string>(accessToken);
+        }
+
+        public async Task<IServiceResult<bool>> IsUsernameTaken(string username)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            return new ServiceResult<bool>(user != null);
         }
     }
 }

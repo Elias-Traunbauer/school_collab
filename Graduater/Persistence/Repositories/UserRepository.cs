@@ -38,43 +38,73 @@ namespace Persistence.Repositories
             return true;
         }
 
-        public IAsyncEnumerable<IUser> GetAllUsersAsync()
+        public IAsyncEnumerable<IUser> GetAllUsersAsync(params Expression<Func<IUser, object?>>[] includes)
         {
             return _context.Users.AsAsyncEnumerable();
         }
 
-        public async Task<IUser?> GetUserByEmailAsync(string email)
+        public async Task<IUser?> GetUserByEmailAsync(string email, params Expression<Func<IUser, object?>>[] includes)
         {
             var users = _context.Users.Where(x => x.Email == email);
-
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    users = (IQueryable<User>)users.Include(include).AsQueryable();
+                }
+            }
             return await users.SingleOrDefaultAsync();
         }
 
-        public async Task<IUser?> GetUserByEmailVerificationTokenAsync(string token)
+        public async Task<IUser?> GetUserByEmailVerificationTokenAsync(string token, params Expression<Func<IUser, object?>>[] includes)
         {
             var users = _context.Users.Where(x => x.EmailVerificationToken == token);
-
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    users = (IQueryable<User>)users.Include(include).AsQueryable();
+                }
+            }
             return await users.SingleOrDefaultAsync();
         }
 
-        public async Task<IUser?> GetUserByIdAsync(int id)
+        public async Task<IUser?> GetUserByIdAsync(int id, params Expression<Func<IUser, object?>>[] includes)
         {
             var users = _context.Users.Where(x => x.Id == id);
-
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    users = (IQueryable<User>)users.Include(include).AsQueryable();
+                }
+            }
             return await users.SingleOrDefaultAsync();
         }
 
-        public async Task<IUser?> GetUserByPasswordResetTokenAsync(string token)
+        public async Task<IUser?> GetUserByPasswordResetTokenAsync(string token, params Expression<Func<IUser, object?>>[] includes)
         {
             var users = _context.Users.Where(x => x.PasswordResetToken == token);
-
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    users = (IQueryable<User>)users.Include(include).AsQueryable();
+                }
+            }
             return await users.SingleOrDefaultAsync();
         }
 
-        public async Task<IUser?> GetUserByUsernameAsync(string username)
+        public async Task<IUser?> GetUserByUsernameAsync(string username, params Expression<Func<IUser, object?>>[] includes)
         {
             var users = _context.Users.Where(x => x.Username == username);
-
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    users = (IQueryable<User>)users.Include(include).AsQueryable();
+                }
+            }
             return await users.SingleOrDefaultAsync();
         }
     }

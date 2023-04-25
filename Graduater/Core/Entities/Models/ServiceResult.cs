@@ -37,11 +37,11 @@ namespace Core.Entities.Models
 
     public class ServiceResult<T> : ServiceResult, IServiceResult<T>
     {
-        public T? Result { get; set; }
+        public T? Value { get; set; }
 
         public ServiceResult(T result) : base()
         {
-            Result = result;
+            Value = result;
         }
 
         public ServiceResult(string key, params string[] errors) : base(key, errors)
