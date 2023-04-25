@@ -7,13 +7,20 @@ namespace Api.Attributes
     {
         public int MaxRequestsPerMinute { get; set; }
         public double SecondsBetweenRequests { get; private set; }
-        public bool ApplyForWholeMinute { get; set; }
+        public RateLimitMode Mode { get; set; }
 
-        public RateLimit(int maxRequestsPerMinute, bool fixedTimeFrame = true) 
+        public RateLimit(int maxRequestsPerMinute, RateLimitMode rateLimitMode = RateLimitMode.SlidingTimeWindow) 
         { 
             MaxRequestsPerMinute = maxRequestsPerMinute;
             SecondsBetweenRequests = 60f / MaxRequestsPerMinute;
-            ApplyForWholeMinute = fixedTimeFrame;
+            Mode = rateLimitMode;
         }
+
+    }
+
+    public enum RateLimitMode
+    {
+        SlidingTimeWindow,
+        FixedDelay
     }
 }

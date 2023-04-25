@@ -11,7 +11,7 @@ namespace Api.Helpers
         {
             if (httpContext.Items[nameof(HttpContextUserInfo)] == null)
             {
-                throw new ArgumentException("Authentication required");
+                httpContext.Items[nameof(HttpContextUserInfo)] = new HttpContextUserInfo();
             }
 
             return (HttpContextUserInfo)httpContext.Items[nameof(HttpContextUserInfo)]!;

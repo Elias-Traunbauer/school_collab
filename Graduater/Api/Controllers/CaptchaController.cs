@@ -4,6 +4,7 @@ using Core.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service.Services;
 using System.Drawing;
+using static Api.Attributes.RateLimit;
 
 namespace Api.Controllers
 {
@@ -20,7 +21,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [RateLimit(maxRequestsPerMinute: 6, fixedTimeFrame: false)]
+        [RateLimit(maxRequestsPerMinute: 6, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
         [NoAuthenticationRequired]
         public async Task<IActionResult> GetCaptchaImage()
         {

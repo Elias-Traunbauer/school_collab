@@ -26,6 +26,7 @@ namespace Api.Controllers
 
         [HttpPost("login")]
         [NoAuthenticationRequired]
+        [RateLimit(maxRequestsPerMinute: 5, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> Login([FromBody] UserLoginPayload loginInformation, [FromServices] IUserService userService)
         {
             if (!ModelState.IsValid)
@@ -47,6 +48,7 @@ namespace Api.Controllers
 
         [HttpPost("register")]
         [NoAuthenticationRequired]
+        [RateLimit(maxRequestsPerMinute: 20, rateLimitMode: RateLimitMode.FixedDelay)]
         public async Task<IActionResult> Register([FromBody] UserRegisterPayload registerModel, [FromServices] IUserService userService)
         {
             if (!ModelState.IsValid)
