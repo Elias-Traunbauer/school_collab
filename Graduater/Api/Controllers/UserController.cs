@@ -6,6 +6,7 @@ using Core.Contracts.Entities;
 using Core.Contracts.Models;
 using Core.Contracts.Services;
 using Core.Entities;
+using Core.Entities.Database;
 using Core.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
@@ -47,6 +48,27 @@ namespace Api.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [RateLimit(maxRequestsPerMinute: 5, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
+        public async Task<IActionResult> UpdateUser([FromBody] User loginInformation, [FromServices] IUserService userService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //ILoginResult result = await userService.LoginAsync(loginInformation);
+
+            //if (result.ServiceResult.Status != 200)
+            //{
+            //    return Ok(result.ServiceResult);
+            //}
+
+            //HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, result.AccessToken!, DateTime.Now.Add(_config.AccessTokenLifetime));
+            //HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, result.RefreshToken!, DateTime.Now.Add(_config.RefreshTokenLifetime));
+            return Ok();
+        }
+
         [HttpPost("register")]
         [NoAuthenticationRequired]
         [RateLimit(maxRequestsPerMinute: 20, rateLimitMode: RateLimitMode.FixedDelay)]
@@ -64,7 +86,7 @@ namespace Api.Controllers
             return Ok();
         }
 
-        [HttpGet("isOccupied/username/{username}")]
+        [HttpGet("username-available/{username}")]
         [NoAuthenticationRequired]
         [RateLimit(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
         public async Task<IActionResult> UsernameTaken(string username, [FromServices] IUserService userService)
@@ -78,7 +100,7 @@ namespace Api.Controllers
             });
         }
 
-        [HttpGet("isOccupied/email/{email}")]
+        [HttpGet("email-available/{email}")]
         [NoAuthenticationRequired]
         [RateLimit(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
         public async Task<IActionResult> EmailTaken([EmailAddress] string email, [FromServices] IUserService userService)
@@ -87,7 +109,7 @@ namespace Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var result = await userService.IsUsernameTaken(email);
+            var result = await userService.IsEmailTaken(email);
 
             return Ok(new
             {

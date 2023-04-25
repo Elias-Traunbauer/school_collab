@@ -15,23 +15,36 @@ namespace Api.Controllers
         public async Task<IActionResult> GetFile(int id, [FromServices] IFileService fileService)
         {
             var file = await fileService.GetFileAsync(id);
-            if (file == null)
+            if (file.Status != 200)
             {
                 return Ok(file);
             }
             return File(file.Value!.Content, file.Value.ContentType);
         }
 
-        public record FileUploadPayload(string Filename, byte[] Content);
+        public record FileUploadPayload(string Filename, IFormFile Content);
 
-        [HttpPost("upload")]
+        [HttpPost]
         [EndpointPermission(Core.Entities.Database.UserPermission.Create)]
         [RateLimit(3, RateLimitMode.SlidingTimeWindow)]
-        public async Task<IActionResult> UploadFile(FileUploadPayload payload, [FromServices] IFileService fileService)
+        public async Task<IActionResult> UploadFile([FromBody] IFormFile file, [FromServices] IFileService fileService)
         {
             await Task.Delay(1000);
 
-            return Ok(payload.Filename);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [EndpointPermission(Core.Entities.Database.UserPermission.Default)]
+        [RateLimit(30, RateLimitMode.SlidingTimeWindow)]
+        public async Task<IActionResult> DeleteFile(int id, [FromServices] IFileService fileService)
+        {
+            var file = await fileService.GetFileAsync(id);
+            if (file.Status != 200)
+            {
+                return Ok(file);
+            }
+            return Ok();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Api.Controllers
             _config = configuration;
         }
 
-        [HttpGet]
+        [HttpGet("related")]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
         [RateLimit(20)]
         public async Task<IActionResult> GetAssignmentsForUser([FromServices] IAssignmentService assignmentService)
@@ -81,6 +81,21 @@ namespace Api.Controllers
             }
 
             return Ok(result.Value);
+        }
+
+        [HttpDelete("{assignmentId}")]
+        [RateLimit(10)]
+        public async Task<IActionResult> DeleteAssignment(int assignmentId, [FromServices] IAssignmentService assignmentService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = HttpContext.GetUserInfo().User!;
+            //var result = await assignmentService.De(assignmentPostPayload, user.Id);
+
+            return Ok();
         }
     }
 }
