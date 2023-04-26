@@ -29,9 +29,8 @@ namespace Api.Controllers
         [RateLimit(3, RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> UploadFile([FromBody] IFormFile file, [FromServices] IFileService fileService)
         {
-            await Task.Delay(1000);
 
-            return Ok();
+            return Ok(file);
         }
 
         [HttpDelete("{id}")]

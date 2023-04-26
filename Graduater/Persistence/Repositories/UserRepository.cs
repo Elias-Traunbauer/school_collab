@@ -32,79 +32,58 @@ namespace Persistence.Repositories
 
         public async Task<bool> DeleteUserAsync(int id)
         {
-            User? user = (User?) await GetUserByIdAsync(id);
+            User? user = (User?)await GetUserByIdAsync(id);
             if (user == null) return false;
             _context.Users.Remove(user);
             return true;
         }
 
-        public IAsyncEnumerable<IUser> GetAllUsersAsync(params Expression<Func<IUser, object?>>[] includes)
+        public IAsyncEnumerable<IUser> GetAllUsersAsync()
         {
             return _context.Users.AsAsyncEnumerable();
         }
 
-        public async Task<IUser?> GetUserByEmailAsync(string email, params Expression<Func<IUser, object?>>[] includes)
+        public async Task<IUser?> GetUserByEmailWithSessionsAsync(string email)
+        {
+            var users = _context.Users.Where(x => x.Email == email).Include(x => x.Sessions);
+
+            return await users.SingleOrDefaultAsync();
+        }
+
+        public async Task<IUser?> GetUserByEmailAsync(string email)
         {
             var users = _context.Users.Where(x => x.Email == email);
-            if (includes != null)
-            {
-                foreach (var include in includes)
-                {
-                    users = (IQueryable<User>)users.Include(include).AsQueryable();
-                }
-            }
+
             return await users.SingleOrDefaultAsync();
         }
 
-        public async Task<IUser?> GetUserByEmailVerificationTokenAsync(string token, params Expression<Func<IUser, object?>>[] includes)
+        public async Task<IUser?> GetUserByEmailVerificationTokenAsync(string token)
         {
             var users = _context.Users.Where(x => x.EmailVerificationToken == token);
-            if (includes != null)
-            {
-                foreach (var include in includes)
-                {
-                    users = (IQueryable<User>)users.Include(include).AsQueryable();
-                }
-            }
             return await users.SingleOrDefaultAsync();
         }
 
-        public async Task<IUser?> GetUserByIdAsync(int id, params Expression<Func<IUser, object?>>[] includes)
+        public async Task<IUser?> GetUserByIdAsync(int id)
         {
             var users = _context.Users.Where(x => x.Id == id);
-            if (includes != null)
-            {
-                foreach (var include in includes)
-                {
-                    users = (IQueryable<User>)users.Include(include).AsQueryable();
-                }
-            }
             return await users.SingleOrDefaultAsync();
         }
 
-        public async Task<IUser?> GetUserByPasswordResetTokenAsync(string token, params Expression<Func<IUser, object?>>[] includes)
+        public async Task<IUser?> GetUserByPasswordResetTokenAsync(string token)
         {
             var users = _context.Users.Where(x => x.PasswordResetToken == token);
-            if (includes != null)
-            {
-                foreach (var include in includes)
-                {
-                    users = (IQueryable<User>)users.Include(include).AsQueryable();
-                }
-            }
             return await users.SingleOrDefaultAsync();
         }
 
-        public async Task<IUser?> GetUserByUsernameAsync(string username, params Expression<Func<IUser, object?>>[] includes)
+        public async Task<IUser?> GetUserByUsernameWithSessionsAsync(string username)
+        {
+            var users = _context.Users.Where(x => x.Username == username).Include(x => x.Sessions);
+            return await users.SingleOrDefaultAsync();
+        }
+
+        public async Task<IUser?> GetUserByUsernameAsync(string username)
         {
             var users = _context.Users.Where(x => x.Username == username);
-            if (includes != null)
-            {
-                foreach (var include in includes)
-                {
-                    users = (IQueryable<User>)users.Include(include).AsQueryable();
-                }
-            }
             return await users.SingleOrDefaultAsync();
         }
     }

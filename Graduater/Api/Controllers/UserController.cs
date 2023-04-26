@@ -117,5 +117,24 @@ namespace Api.Controllers
                 Taken = result.Value
             });
         }
+
+        [HttpGet("verify/{verifyCode}")]
+        [NoAuthenticationRequired]
+        public async Task<IActionResult> VerifyEmail(string verifyCode, [FromServices] IUserService userService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await userService.VerifyEmailAsync(verifyCode);
+
+            if (result.Status != 200)
+            {
+                return Ok(result);
+            }
+
+            return Ok();
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace Service.Services.Tests
         public void GetRandomKeyTest()
         {
             IRandomKeyService service = new RandomKeyService();
+            string test = service.GetRandomKey(256);
             string randomKey = service.GetRandomKey(128);
 
             Assert.IsNotNull(randomKey);

@@ -15,17 +15,22 @@ namespace Core.Contracts.Repositories
     public interface IUserRepository
     {
         // Get all users
-        IAsyncEnumerable<IUser> GetAllUsersAsync(params Expression<Func<IUser, object?>>[] includes);
+        IAsyncEnumerable<IUser> GetAllUsersAsync();
         // Get user by id
-        Task<IUser?> GetUserByIdAsync(int id, params Expression<Func<IUser, object?>>[] includes);
+        Task<IUser?> GetUserByIdAsync(int id);
         // Get user by username
-        Task<IUser?> GetUserByUsernameAsync(string username, params Expression<Func<IUser, object?>>[] includes);
+        Task<IUser?> GetUserByUsernameWithSessionsAsync(string username);
         // Get user by email
-        Task<IUser?> GetUserByEmailAsync(string email, params Expression<Func<IUser, object?>>[] includes);
+        Task<IUser?> GetUserByEmailWithSessionsAsync(string email);
+
+        Task<IUser?> GetUserByUsernameAsync(string username);
+        // Get user by email
+        Task<IUser?> GetUserByEmailAsync(string email);
+
         // Get user by email verification token
-        Task<IUser?> GetUserByEmailVerificationTokenAsync(string token, params Expression<Func<IUser, object?>>[] includes);
+        Task<IUser?> GetUserByEmailVerificationTokenAsync(string token);
         // Get user by password reset token
-        Task<IUser?> GetUserByPasswordResetTokenAsync(string token, params Expression<Func<IUser, object?>>[] includes);
+        Task<IUser?> GetUserByPasswordResetTokenAsync(string token);
 
         Task CreateUserAsync(User user);
         Task<bool> DeleteUserAsync(int id);

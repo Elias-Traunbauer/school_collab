@@ -10,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Service.Services
 {
@@ -51,16 +52,16 @@ namespace Service.Services
 
         public async Task<ILoginResult> LoginAsync(UserLoginPayload loginInformation)
         {
-            Func<string, Expression<Func<IUser, object?>>[], Task<IUser?>>[] userSearchMethods = new Func<string, Expression<Func<IUser, object?>>[], Task<IUser?>>[2]
+            Func<string, Task<IUser?>>[] userSearchMethods = new Func<string, Task<IUser?>>[2]
             {
-                _unitOfWork.UserRepository.GetUserByUsernameAsync,
-                _unitOfWork.UserRepository.GetUserByEmailAsync
+                _unitOfWork.UserRepository.GetUserByUsernameWithSessionsAsync,
+                _unitOfWork.UserRepository.GetUserByEmailWithSessionsAsync
             };
 
             User? user = null;
             foreach (var searchMethod in userSearchMethods)
             {
-                user = (User?) await searchMethod(loginInformation.Identifier, new Expression<Func<IUser, object?>>[] { x => x.UserSessions });
+                user = (User?) await searchMethod(loginInformation.Identifier);
 
                 if (user != null)
                 {
@@ -77,8 +78,9 @@ namespace Service.Services
                 return GetLoginErrorResult();
             }
             string sessionKey = _randomKeyService.GetRandomKey(128);
-            user.UserSessions!.Add(new UserSession()
+            user.Sessions!.Add(new UserSession()
             {
+                UserId = user.Id,
                 SessionKey = sessionKey,
                 IssuedAt = DateTime.UtcNow,
                 Expires = DateTime.UtcNow.AddDays(30),
@@ -113,7 +115,7 @@ namespace Service.Services
                 return new ServiceResult(nameof(userRegisterPayload.Email), "Email is already registered");
             }
             string passwordSalt = _randomKeyService.GetRandomKey(128);
-            string emailVerificationToken = _randomKeyService.GetRandomKey(128);
+            string emailVerificationToken = HttpUtility.UrlEncode(_randomKeyService.GetRandomKey(128));
             var user = new User()
             {
                 Username = userRegisterPayload.Username,
@@ -123,7 +125,8 @@ namespace Service.Services
                 PasswordSalt = passwordSalt,
                 PasswordHash = _passwordService.HashPassword(userRegisterPayload.Password, passwordSalt),
                 EmailVerificationToken = emailVerificationToken,
-                EmailVerificationTokenExpiration = DateTime.UtcNow.Add(TimeSpan.FromMinutes(5))
+                EmailVerificationTokenExpiration = DateTime.UtcNow.Add(TimeSpan.FromMinutes(5)),
+                RegisteredAt = DateTime.UtcNow
             };
             await _unitOfWork.UserRepository.CreateUserAsync(user);
             await _unitOfWork.SaveChangesAsync();
@@ -163,11 +166,14 @@ namespace Service.Services
             {
                 return new ServiceResult(nameof(token), "Token not found");
             }
+            if (user.EmailVerificationTokenExpiration < DateTime.UtcNow && false)
+            {
+                return new ServiceResult(nameof(token), "Token expired");
+            }
             user.Permissions = UserPermission.Default;
-            user.EmailVerificationToken = null;
-            user.EmailVerificationTokenExpiration = null;
             user.IsEmailVerified = true;
             await _unitOfWork.SaveChangesAsync();
+
             return ServiceResult.Completed;
         }
 
@@ -196,7 +202,7 @@ namespace Service.Services
             {
                 return new ServiceResult<string>("Error", "User not found");
             }
-            var session = user.UserSessions!.SingleOrDefault(x => x?.SessionKey == token, null);
+            var session = user.Sessions!.SingleOrDefault(x => x?.SessionKey == token, null);
             if (session == null)
             {
                 return new ServiceResult<string>("Error", "Session not found");

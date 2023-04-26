@@ -99,7 +99,7 @@ namespace Service.Services.Tests
             {
                 Username = "testUsername",
                 PasswordHash = PasswordServiceMock.HashPassword("", ""),
-                UserSessions = new List<UserSession>()
+                Sessions = new List<UserSession>()
             };
 
             var userRepository = new Mock<IUserRepository>();
@@ -121,8 +121,8 @@ namespace Service.Services.Tests
             Assert.AreEqual(200, res.ServiceResult.Status);
             Assert.IsNotNull(res.AccessToken);
             Assert.IsNotNull(res.RefreshToken);
-            Assert.AreEqual(1, user.UserSessions?.Count ?? 0);
-            Assert.AreEqual(RandomKeyServiceResult, user.UserSessions!.Single().SessionKey);
+            Assert.AreEqual(1, user.Sessions?.Count ?? 0);
+            Assert.AreEqual(RandomKeyServiceResult, user.Sessions!.Single().SessionKey);
         }
 
         [TestMethod()]
@@ -132,7 +132,7 @@ namespace Service.Services.Tests
             {
                 Email = "test@email.com",
                 PasswordHash = PasswordServiceMock.HashPassword("", ""),
-                UserSessions = new List<UserSession>()
+                Sessions = new List<UserSession>()
             };
 
             var userRepository = new Mock<IUserRepository>();
@@ -154,8 +154,8 @@ namespace Service.Services.Tests
             Assert.AreEqual(200, res.ServiceResult.Status);
             Assert.IsNotNull(res.AccessToken);
             Assert.IsNotNull(res.RefreshToken);
-            Assert.AreEqual(1, user.UserSessions!.Count);
-            Assert.AreEqual(RandomKeyServiceResult, user.UserSessions.Single().SessionKey);
+            Assert.AreEqual(1, user.Sessions!.Count);
+            Assert.AreEqual(RandomKeyServiceResult, user.Sessions.Single().SessionKey);
         }
 
         [TestMethod()]
@@ -164,7 +164,7 @@ namespace Service.Services.Tests
             IUser user = new User()
             {
                 Username = "testUsername",
-                UserSessions = new List<UserSession>()
+                Sessions = new List<UserSession>()
             };
 
             var userRepository = new Mock<IUserRepository>();
@@ -186,7 +186,7 @@ namespace Service.Services.Tests
             Assert.AreEqual(401, res.ServiceResult.Status);
             Assert.IsNull(res.AccessToken);
             Assert.IsNull(res.RefreshToken);
-            Assert.AreEqual(0, user.UserSessions?.Count ?? -1);
+            Assert.AreEqual(0, user.Sessions?.Count ?? -1);
         }
 
         [TestMethod()]
@@ -195,7 +195,7 @@ namespace Service.Services.Tests
             IUser user = new User()
             {
                 Email = "test@email.com",
-                UserSessions = new List<UserSession>()
+                Sessions = new List<UserSession>()
             };
 
             var userRepository = new Mock<IUserRepository>();
@@ -217,7 +217,7 @@ namespace Service.Services.Tests
             Assert.AreEqual(401, res.ServiceResult.Status);
             Assert.IsNull(res.AccessToken);
             Assert.IsNull(res.RefreshToken);
-            Assert.AreEqual(0, user.UserSessions!.Count);
+            Assert.AreEqual(0, user.Sessions!.Count);
         }
 
         [TestMethod()]
@@ -448,7 +448,7 @@ namespace Service.Services.Tests
             IUser user = new User()
             {
                 Id = 0,
-                UserSessions = new List<UserSession>()
+                Sessions = new List<UserSession>()
                 {
                     new UserSession()
                     {
@@ -480,7 +480,7 @@ namespace Service.Services.Tests
             IUser user = new User()
             {
                 Id = 0,
-                UserSessions = new List<UserSession>()
+                Sessions = new List<UserSession>()
                 {
                     new UserSession()
                     {

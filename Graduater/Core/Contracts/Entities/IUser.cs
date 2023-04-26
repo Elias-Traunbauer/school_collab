@@ -27,6 +27,6 @@ namespace Core.Contracts.Entities
         int? ProfilePictureId { get; set; }
         DateTime RegisteredAt { get; set; }
         string Username { get; set; }
-        ICollection<UserSession>? UserSessions { get; set; }
+        ICollection<UserSession>? Sessions { get; set; }
     }
 }

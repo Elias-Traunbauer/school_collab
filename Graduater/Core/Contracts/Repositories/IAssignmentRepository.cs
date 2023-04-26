@@ -13,8 +13,8 @@ namespace Core.Contracts.Repositories
 {
     public interface IAssignmentRepository
     {
-        Task<IEnumerable<IAssignment>> GetAllAssignmentsAsync(params Expression<Func<IAssignment, object?>>[] includes);
-        Task<IAssignment?> GetAssignmentByIdAsync(int id, params Expression<Func<IAssignment, object?>>[] includes);
+        Task<IEnumerable<IAssignment>> GetAllAssignmentsAsync();
+        Task<IAssignment?> GetAssignmentByIdAsync(int id);
 
         Task CreateAssignmentAsync(Assignment assignment);
         Task<bool> DeleteAssignmentAsync(int id);

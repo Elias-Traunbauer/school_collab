@@ -57,7 +57,7 @@ public class User : DatabaseEntity, IUser
 
     public virtual ICollection<Post>? Posts { get; set; }
 
-    public virtual ICollection<UserSession>? UserSessions { get; set; }
+    public virtual ICollection<UserSession>? Sessions { get; set; }
 }
 
 [Flags]
