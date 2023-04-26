@@ -43,14 +43,14 @@ namespace Api.Controllers
                 return Ok(result.ServiceResult);
             }
 
-            HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, result.AccessToken!, DateTime.Now.Add(_config.AccessTokenLifetime));
-            HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, result.RefreshToken!, DateTime.Now.Add(_config.RefreshTokenLifetime));
+            HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, result.AccessToken!, DateTime.UtcNow.Add(_config.AccessTokenLifetime));
+            HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, result.RefreshToken!, DateTime.UtcNow.Add(_config.RefreshTokenLifetime));
             return Ok();
         }
 
         [HttpPut]
         [RateLimit(maxRequestsPerMinute: 5, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
-        public async Task<IActionResult> UpdateUser([FromBody] User loginInformation, [FromServices] IUserService userService)
+        public async Task<IActionResult> UpdateUser([FromBody] User updateInfo, [FromServices] IUserService userService)
         {
             if (!ModelState.IsValid)
             {

@@ -13,8 +13,8 @@ namespace Core.Entities.Database
         [Key]
         public int Id { get; set; }
 
-        [Timestamp]
-        public byte[]? RowVersion { get; set; }
+        [ConcurrencyCheck]
+        public Guid Version { get; set; }
 
         public virtual ICollection<Report>? Reports { get; set; }
     }

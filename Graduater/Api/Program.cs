@@ -23,9 +23,10 @@ namespace Api
             builder.Services.AddSingleton<IRandomKeyService, RandomKeyService>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
             builder.Services.AddSingleton<ICaptchaRegistryService, CaptchaRegistryService>();
+            builder.Services.AddSingleton<IUserService, UserService>();
+            //builder.Services.AddSingleton<IFileService, FileService>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

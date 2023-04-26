@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -72,6 +73,13 @@ namespace Service.Services
             {
                 return GetLoginErrorResult();
             }
+            if (!user.IsEmailVerified)
+            {
+                return new LoginResult()
+                {
+                    ServiceResult = new ServiceResult(nameof(loginInformation.Identifier), "Email is not verified yet")
+                };
+            }
             string hashedInputPassword = _passwordService.HashPassword(loginInformation.Password, user.PasswordSalt);
             if (hashedInputPassword != user.PasswordHash)
             {
@@ -106,17 +114,28 @@ namespace Service.Services
             {
                 return new ServiceResult(nameof(userRegisterPayload.RepeatedPassword), "Passwords do not match");
             }
-            if ((await _unitOfWork.UserRepository.GetUserByUsernameAsync(userRegisterPayload.Username)) != null)
+            User? searchUser = (User?)await _unitOfWork.UserRepository.GetUserByUsernameAsync(userRegisterPayload.Username);
+            if (searchUser != null && searchUser.EmailVerificationTokenExpiration > DateTime.UtcNow)
             {
                 return new ServiceResult(nameof(userRegisterPayload.Username), "Username already taken");
             }
-            if ((await _unitOfWork.UserRepository.GetUserByEmailAsync(userRegisterPayload.Email)) != null)
+            if (searchUser != null)
+            {
+                await _unitOfWork.UserRepository.DeleteUserAsync(searchUser.Id);
+            }
+            searchUser = (User?)await _unitOfWork.UserRepository.GetUserByEmailAsync(userRegisterPayload.Email);
+            if (searchUser != null && searchUser.EmailVerificationTokenExpiration > DateTime.UtcNow)
             {
                 return new ServiceResult(nameof(userRegisterPayload.Email), "Email is already registered");
             }
+            if (searchUser != null)
+            {
+                await _unitOfWork.UserRepository.DeleteUserAsync(searchUser.Id);
+            }
+
             string passwordSalt = _randomKeyService.GetRandomKey(128);
             string emailVerificationToken = HttpUtility.UrlEncode(_randomKeyService.GetRandomKey(128));
-            var user = new User()
+            User user = new()
             {
                 Username = userRegisterPayload.Username,
                 FirstName = userRegisterPayload.Firstname,
@@ -146,7 +165,6 @@ namespace Service.Services
             if (user.PasswordResetTokenExpiration <= DateTime.UtcNow)
             {
                 user.PasswordResetToken = null;
-                user.PasswordResetTokenExpiration = null;
                 return new ServiceResult(nameof(userPasswordResetPayload.Token), "Token expired");
             }
             if (userPasswordResetPayload.Password != userPasswordResetPayload.RepeatPassword)
@@ -161,13 +179,14 @@ namespace Service.Services
 
         public async Task<IServiceResult> VerifyEmailAsync(string token)
         {
-            IUser? user = await _unitOfWork.UserRepository.GetUserByEmailVerificationTokenAsync(token);
+            User? user = (User?)await _unitOfWork.UserRepository.GetUserByEmailVerificationTokenAsync(token);
             if (user == null)
             {
                 return new ServiceResult(nameof(token), "Token not found");
             }
-            if (user.EmailVerificationTokenExpiration < DateTime.UtcNow && false)
+            if (user.EmailVerificationTokenExpiration <= DateTime.UtcNow)
             {
+                await _unitOfWork.UserRepository.DeleteUserAsync(user.Id);
                 return new ServiceResult(nameof(token), "Token expired");
             }
             user.Permissions = UserPermission.Default;

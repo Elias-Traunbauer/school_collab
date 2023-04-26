@@ -27,7 +27,7 @@ namespace Api.DataTransferObjects
         public UserDTO(User user, bool respectPrivacy = true)
         {
             Id = user.Id;
-            RowVersion = user.RowVersion;
+            Version = user.Version;
             Username = user.Username;
             FirstName = ((user.PrivacySettings & UserPrivacy.ShowFirstName) != 0) && respectPrivacy ? user.FirstName : null;
             LastName = ((user.PrivacySettings & UserPrivacy.ShowLastName) != 0) && respectPrivacy ? user.LastName : null;

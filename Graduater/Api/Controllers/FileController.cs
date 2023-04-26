@@ -14,6 +14,11 @@ namespace Api.Controllers
         [RateLimit(30, RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> GetFile(int id, [FromServices] IFileService fileService)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var file = await fileService.GetFileAsync(id);
             if (file.Status != 200)
             {
@@ -29,8 +34,21 @@ namespace Api.Controllers
         [RateLimit(3, RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> UploadFile([FromBody] IFormFile file, [FromServices] IFileService fileService)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return Ok(file);
+            var result = await fileService.StoreFileAsync(file.FileName, file.ContentType, file.OpenReadStream());
+            if (result.Status != 200)
+            {
+                return Ok(result);
+            }
+
+            return Ok(new
+            {
+                Id = result.Value
+            });
         }
 
         [HttpDelete("{id}")]
@@ -38,7 +56,12 @@ namespace Api.Controllers
         [RateLimit(30, RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> DeleteFile(int id, [FromServices] IFileService fileService)
         {
-            var file = await fileService.GetFileAsync(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var file = await fileService.DeleteFileAsync(id);
             if (file.Status != 200)
             {
                 return Ok(file);
