@@ -4,6 +4,7 @@ namespace Core.Contracts
 {
     public interface IUnitOfWork
     {
+        public IFileRepository FileRepository { get; }
         public IUserRepository UserRepository { get; }
         public IAssignmentRepository AssignmentRepository { get; }
 

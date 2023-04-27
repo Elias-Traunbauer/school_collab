@@ -9,6 +9,6 @@ namespace Core.Contracts.Repositories
     public interface IFileRepository
     {
         Task<IFile> GetFileByIdAsync(int id);
-        Task StoreFile(Core.Entities.Database.File file);
+        Task StoreFileAsync(Core.Entities.Database.File file);
     }
 }
