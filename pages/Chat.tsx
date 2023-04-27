@@ -9,15 +9,20 @@ export default function Chat() {
     return (
         <div className={styles.container}>
             <div className={styles.navBar}>
+                <div>
+                    <h2>Chats</h2>
+                </div>
                 <div className={styles.navbarHead}>
                     <div className={styles.navbarHeading}>
-                        <h2>Kontakte</h2>
-                        <Image src='/add.svg' width='20' height= '20' alt='newChat'></Image>
+                        <div>
+                           <p>Neuer Chat</p>
+                        </div>
                     </div>
                     <div className={styles.searchContainer}>
                         <input type="text" placeholder="Search" />
                         <Image src='/search.svg' width='20' height= '20' alt='search'></Image>
                     </div>
+
                 </div>
                 <div className={styles.navbarBody}>
                     {
