@@ -1,13 +1,9 @@
 ﻿using Api.Attributes;
 using Api.Helpers;
-using Core.Contracts;
 using Core.Contracts.Services;
 using Core.Entities.Database;
 using Microsoft.IdentityModel.Tokens;
-using MySqlX.XDevAPI.Common;
-using Org.BouncyCastle.Asn1.Cms;
 using Persistence;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Ribbon.API.Middlewares
@@ -147,19 +143,6 @@ namespace Ribbon.API.Middlewares
                 Permissions = userPermission
             };
             httpContext.Items[nameof(HttpContextUserInfo)] = httpContextUserInfo;
-        }
-
-        private TokenValidationParameters GetValidationParameters()
-        {
-            return new TokenValidationParameters()
-            {
-                ValidateLifetime = true,
-                ValidateIssuer = true,
-                ValidateAudience = false,
-                ValidIssuer = _config.Issuer,
-                ClockSkew = TimeSpan.FromMilliseconds(0),
-                IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(_config.Secret))
-            };
         }
     }
 

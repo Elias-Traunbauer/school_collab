@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Core.Contracts.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
-using Core.Contracts.Entities;
 
 namespace Core.Entities.Database;
 
@@ -9,6 +7,7 @@ public class GroupUser : DatabaseEntity, IGroupUser
 {
     [ForeignKey(nameof(GroupId))]
     public virtual Group? Group { get; set; }
+
     [ForeignKey(nameof(UserId))]
     public virtual User? User { get; set; }
 

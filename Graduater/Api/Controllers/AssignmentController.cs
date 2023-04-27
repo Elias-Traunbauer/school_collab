@@ -1,6 +1,5 @@
 ﻿using Api.Attributes;
 using Api.Helpers;
-using Core.Contracts.Entities;
 using Core.Contracts.Models;
 using Core.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +21,7 @@ namespace Api.Controllers
 
         [HttpGet("related")]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
-        [RateLimit(20)]
+        [RateLimitAttribute(20)]
         public async Task<IActionResult> GetAssignmentsForUser([FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
@@ -43,7 +42,7 @@ namespace Api.Controllers
 
         [HttpPost]
         [EndpointPermission(Core.Entities.Database.UserPermission.Create)]
-        [RateLimit(10)]
+        [RateLimitAttribute(10)]
         public async Task<IActionResult> CreateAssignment([FromBody] AssignmentPostPayload assignmentPostPayload, [FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
@@ -64,7 +63,7 @@ namespace Api.Controllers
 
         [HttpPut]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
-        [RateLimit(20)]
+        [RateLimitAttribute(20)]
         public async Task<IActionResult> UpdateAssignment([FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
@@ -84,7 +83,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{assignmentId}")]
-        [RateLimit(10)]
+        [RateLimitAttribute(10)]
         public async Task<IActionResult> DeleteAssignment(int assignmentId, [FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
@@ -93,7 +92,6 @@ namespace Api.Controllers
             }
 
             var user = HttpContext.GetUserInfo().User!;
-            //var result = await assignmentService.De(assignmentPostPayload, user.Id);
 
             return Ok();
         }

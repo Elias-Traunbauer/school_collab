@@ -5,13 +5,13 @@
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class ddd : Migration
+    public partial class dddad : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ContentType",
+                name: "MIME_Type",
                 table: "Files",
                 type: "longtext",
                 nullable: false);
@@ -21,7 +21,7 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ContentType",
+                name: "MIME_Type",
                 table: "Files");
         }
     }

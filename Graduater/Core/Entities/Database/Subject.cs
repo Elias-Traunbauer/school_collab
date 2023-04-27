@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Core.Contracts.Entities;
+﻿using Core.Contracts.Entities;
 
 namespace Core.Entities.Database;
 

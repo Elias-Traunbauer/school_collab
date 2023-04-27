@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Core.Contracts.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Core.Contracts.Entities;
 
 namespace Core.Entities.Database;
 
@@ -12,9 +10,11 @@ public class File : DatabaseEntity, IFile
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    public virtual byte[] Content { get; set; } = Array.Empty<byte>();
+    public byte[] Content { get; set; } = null!;
 
     public string ContentType { get; set; } = String.Empty;
+
+    public string MIME_Type { get; set; } = String.Empty;
 
     [Required]
     [ForeignKey(nameof(UploadedById))]
@@ -22,12 +22,5 @@ public class File : DatabaseEntity, IFile
 
     public int UploadedById { get; set; }
 
-    [NotMapped]
-    public long Size
-    {
-        get
-        {
-            return Content.LongLength;
-        }
-    }
+    public long Size { get; set; }
 }

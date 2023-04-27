@@ -4,13 +4,6 @@ using Core.Contracts.Models;
 using Core.Contracts.Services;
 using Core.Entities.Database;
 using Core.Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace Service.Services
@@ -62,7 +55,7 @@ namespace Service.Services
             User? user = null;
             foreach (var searchMethod in userSearchMethods)
             {
-                user = (User?) await searchMethod(loginInformation.Identifier);
+                user = (User?)await searchMethod(loginInformation.Identifier);
 
                 if (user != null)
                 {
@@ -151,7 +144,6 @@ namespace Service.Services
             await _unitOfWork.SaveChangesAsync();
             // send email
 
-
             return ServiceResult.Completed;
         }
 
@@ -215,7 +207,7 @@ namespace Service.Services
 
         public async Task<IServiceResult<string>> UseRefreshTokenAsync(int userId, string token)
         {
-            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+            var user = await _unitOfWork.UserRepository.GetUserByIdWithSessionsAsync(userId);
 
             if (user == null)
             {

@@ -5,15 +5,6 @@ using Core.Contracts.Services;
 using Core.Entities.Database;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Persistence;
-using Persistence.Repositories;
-using Service.Services;
-using Service.Test.Mocks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service.Services.Tests
 {

@@ -1,18 +1,7 @@
 ﻿using Core.Contracts;
 using Core.Contracts.Repositories;
 using Core.Entities.Database;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using Moq.EntityFrameworkCore;
-using Org.BouncyCastle.Asn1.X509.Qualified;
-using Persistence;
 using Persistence.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service.Test.Mocks
 {
@@ -27,7 +16,7 @@ namespace Service.Test.Mocks
 
         public IAssignmentRepository AssignmentRepository { get; set; }
 
-        public UnitOfWorkForTests() 
+        public UnitOfWorkForTests()
         {
             _appDbContext = new ApplicationDbContextForTesting();
             UserRepository = new UserRepository(_appDbContext);

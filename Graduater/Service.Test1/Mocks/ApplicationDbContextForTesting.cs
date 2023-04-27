@@ -1,6 +1,4 @@
-﻿using Core.Entities.Database;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Service.Test.Mocks;

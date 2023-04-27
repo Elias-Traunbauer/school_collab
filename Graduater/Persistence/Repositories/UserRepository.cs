@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Persistence;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection.Metadata.Ecma335;
-using Microsoft.EntityFrameworkCore;
+﻿using Core.Contracts.Entities;
 using Core.Contracts.Repositories;
-using Core.Contracts.Entities;
 using Core.Entities.Database;
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
@@ -66,6 +56,12 @@ namespace Persistence.Repositories
         public async Task<IUser?> GetUserByIdAsync(int id)
         {
             var users = _context.Users.Where(x => x.Id == id);
+            return await users.SingleOrDefaultAsync();
+        }
+
+        public async Task<IUser?> GetUserByIdWithSessionsAsync(int id)
+        {
+            var users = _context.Users.Where(x => x.Id == id).Include(x => x.Sessions);
             return await users.SingleOrDefaultAsync();
         }
 

@@ -6,10 +6,10 @@ namespace Persistence;
 
 public partial class ApplicationDbContext : DbContext
 {
-    readonly ApiConfig? _config;
+    private readonly ApiConfig? _config;
 
-    public ApiConfig? Configuration { get { return _config; } }
-
+    public ApiConfig? Configuration
+    { get { return _config; } }
 
     public ApplicationDbContext(bool dummy = false) : base()
     {
@@ -33,7 +33,7 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Assignment> Assignments { get; set; }
 
-    public virtual DbSet<Chat> Chats {get; set; }
+    public virtual DbSet<Chat> Chats { get; set; }
 
     public virtual DbSet<ChatMember> ChatMembers { get; set; }
 

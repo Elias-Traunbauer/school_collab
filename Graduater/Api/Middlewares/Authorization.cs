@@ -1,10 +1,6 @@
 ﻿using Api.Attributes;
 using Api.Helpers;
 using Core.Entities.Database;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Persistence;
-using System.Threading.Tasks;
 
 namespace Api.Middlewares
 {

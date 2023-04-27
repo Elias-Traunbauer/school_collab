@@ -13,7 +13,6 @@
             });
         }
 
-
         public static void DeleteCookie(this HttpResponse httpResponse, string key, string path = "/", bool secure = true, bool httpOnly = true)
         {
             httpResponse.Cookies.Append(key, "", new CookieOptions()

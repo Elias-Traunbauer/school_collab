@@ -1,11 +1,6 @@
 ﻿using Core.Contracts;
 using Core.Contracts.Repositories;
 using Persistence.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence
 {
@@ -13,6 +8,7 @@ namespace Persistence
     {
         private readonly ApplicationDbContext _context;
         private UserRepository? _userRepository;
+        private FileRepository? _fileRepository;
 
         public UnitOfWork()
         {
@@ -26,6 +22,15 @@ namespace Persistence
             {
                 _userRepository ??= new UserRepository(_context);
                 return _userRepository;
+            }
+        }
+
+        public IFileRepository FileRepository
+        {
+            get
+            {
+                _fileRepository ??= new FileRepository(_context);
+                return _fileRepository;
             }
         }
 

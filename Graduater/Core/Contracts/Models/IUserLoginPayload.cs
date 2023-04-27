@@ -6,6 +6,7 @@ namespace Core.Contracts.Models
     {
         [Required]
         string Identifier { get; set; }
+
         [Required]
         string Password { get; set; }
     }

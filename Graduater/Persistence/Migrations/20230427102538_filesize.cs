@@ -5,23 +5,24 @@
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class ddd : Migration
+    public partial class filesize : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "ContentType",
+            migrationBuilder.AddColumn<long>(
+                name: "Size",
                 table: "Files",
-                type: "longtext",
-                nullable: false);
+                type: "bigint",
+                nullable: false,
+                defaultValue: 0L);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ContentType",
+                name: "Size",
                 table: "Files");
         }
     }

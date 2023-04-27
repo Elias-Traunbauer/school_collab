@@ -1,31 +1,22 @@
-﻿using Core.Contracts.Entities;
-using Core.Contracts.Services;
+﻿using Core.Contracts.Services;
 using Core.Entities.Database;
-using Microsoft.VisualStudio.TestPlatform.Common.Interfaces;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Persistence;
-using Service.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service.Services.Tests
 {
     [TestClass()]
     public class JsonWebTokenServiceTests
     {
-        readonly ApiConfig _config = new()
+        private readonly ApiConfig _config = new()
         {
             Secret = "SldUVEVTVFNFQ1JFVEpXVFRFU1RTRUNSRVRKV1RURVNUU0VDUkVUSldUVEVTVFNFQ1JFVEpXVFRFU1RTRUNSRVRKV1RURVNUU0VDUkVUSldUVEVTVFNFQ1JFVEpXVFRFU1RTRUNSRVRKSkpKSkpKSkpKSkpKSg==",
             Issuer = "JWTTESTISSUER",
             AccessTokenLifetime = TimeSpan.FromSeconds(60),
             RefreshTokenLifetime = TimeSpan.FromSeconds(60),
         };
-        readonly User _user = new()
+
+        private readonly User _user = new()
         {
             Id = 10,
             Username = "testUsername",

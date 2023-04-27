@@ -1,4 +1,5 @@
 ﻿using Api.Attributes;
+using Api.Helpers;
 using Core.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,7 @@ namespace Api.Controllers
     {
         [HttpGet("{id}")]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
-        [RateLimit(30, RateLimitMode.SlidingTimeWindow)]
+        [RateLimitAttribute(30, RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> GetFile(int id, [FromServices] IFileService fileService)
         {
             if (!ModelState.IsValid)
@@ -24,22 +25,21 @@ namespace Api.Controllers
             {
                 return Ok(file);
             }
-            return File(file.Value!.Content, file.Value.ContentType);
+            return File(file.Value!.Content!, "application/octet-stream", file.Value!.Name);
         }
-
-        public record FileUploadPayload(string Filename, IFormFile Content);
 
         [HttpPost]
         [EndpointPermission(Core.Entities.Database.UserPermission.Create)]
-        [RateLimit(3, RateLimitMode.SlidingTimeWindow)]
-        public async Task<IActionResult> UploadFile([FromBody] IFormFile file, [FromServices] IFileService fileService)
+        [RateLimitAttribute(3, RateLimitMode.SlidingTimeWindow)]
+        public async Task<IActionResult> UploadFile(IFormFile file, [FromServices] IFileService fileService, CancellationToken token)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            var result = await fileService.StoreFileAsync(file.FileName, file.ContentType, file.OpenReadStream());
+            var user = HttpContext.GetUserInfo().User!;
+            string fileExtension = Path.GetExtension(file.FileName);
+            var result = await fileService.StoreFileAsync(user.Id, file.FileName, file.ContentType, fileExtension, file.OpenReadStream(), token);
             if (result.Status != 200)
             {
                 return Ok(result);
@@ -53,7 +53,7 @@ namespace Api.Controllers
 
         [HttpDelete("{id}")]
         [EndpointPermission(Core.Entities.Database.UserPermission.Default)]
-        [RateLimit(30, RateLimitMode.SlidingTimeWindow)]
+        [RateLimitAttribute(30, RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> DeleteFile(int id, [FromServices] IFileService fileService)
         {
             if (!ModelState.IsValid)

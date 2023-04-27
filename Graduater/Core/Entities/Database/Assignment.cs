@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Core.Contracts.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
-using Core.Contracts.Entities;
 
 namespace Core.Entities.Database;
 

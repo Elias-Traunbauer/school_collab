@@ -1,4 +1,3 @@
-using Api.Helpers;
 using Api.Middlewares;
 using Core.Contracts;
 using Core.Contracts.Services;
@@ -23,8 +22,8 @@ namespace Api
             builder.Services.AddSingleton<IRandomKeyService, RandomKeyService>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
             builder.Services.AddSingleton<ICaptchaRegistryService, CaptchaRegistryService>();
-            //builder.Services.AddSingleton<IFileService, FileService>();
 
+            builder.Services.AddScoped<IFileService, FileService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -39,7 +38,7 @@ namespace Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            
+
             app.UseHsts();
             app.UseHttpsRedirection();
 

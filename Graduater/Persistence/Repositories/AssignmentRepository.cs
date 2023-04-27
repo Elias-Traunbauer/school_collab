@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core.Contracts.Entities;
 using Core.Contracts.Repositories;
-using Core.Contracts.Entities;
 using Core.Entities.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
@@ -22,7 +22,7 @@ namespace Persistence.Repositories
 
         public async Task<bool> DeleteAssignmentAsync(int id)
         {
-            Assignment? assignment = (Assignment?) await GetAssignmentByIdAsync(id);
+            Assignment? assignment = (Assignment?)await GetAssignmentByIdAsync(id);
             if (assignment == null) return false;
             _context.Assignments.Remove(assignment);
             return true;

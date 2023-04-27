@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Api.Attributes;
+﻿using Api.Attributes;
 using Api.Helpers;
-using Microsoft.AspNetCore.Http;
-using Persistence;
+using System.Collections.Concurrent;
 
 namespace Api.Middlewares;
 
@@ -15,11 +10,12 @@ public class RateLimitMiddleware
 
     // Dictionary of client fingerprints to their respective Dictionaries for rate limiting
     private readonly Dictionary<ClientFingerprint, ConcurrentDictionary<string, ConcurrentQueue<long>>> _requests;
+
     private readonly RequestDelegate _next;
 
     public RateLimitMiddleware(RequestDelegate next)
     {
-        _next  = next;
+        _next = next;
         _requests = new Dictionary<ClientFingerprint, ConcurrentDictionary<string, ConcurrentQueue<long>>>();
     }
 
@@ -35,7 +31,7 @@ public class RateLimitMiddleware
 
         var endpointIdentifier = context.Request.Path.ToString() + " / " + context.Request.Method;
 
-        RateLimit? rateLimit = endpoint.Metadata.GetMetadata<RateLimit>();
+        RateLimitAttribute? rateLimit = endpoint.Metadata.GetMetadata<RateLimitAttribute>();
 
         if (rateLimit == null)
         {
@@ -66,9 +62,9 @@ public class RateLimitMiddleware
             return;
         }
         var userInfo = context.GetUserInfo();
-        
+
         ClientFingerprint clientFingerprint = new(ip!, userAgent!, xForwardedFor, userInfo.User?.Id);
-        
+
         // initialize requests queue for new IP addresses
         if (!_requests.ContainsKey(clientFingerprint))
         {
@@ -94,9 +90,9 @@ public class RateLimitMiddleware
                 endpointQueue.TryDequeue(out _);
             }
         }
-        
+
         // calculate time until rate limit is reset
-        endpointQueue.TryPeek(out var lastRequest);  
+        endpointQueue.TryPeek(out var lastRequest);
         var resetTime = rateLimit.Mode == RateLimitMode.SlidingTimeWindow ? lastRequest + 60_000 : lastRequest + rateLimit.MilisecondsBetweenRequests;
 
         // check if the rate limit has been exceeded

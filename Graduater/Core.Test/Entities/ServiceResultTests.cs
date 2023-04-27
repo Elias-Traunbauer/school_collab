@@ -1,11 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core.Entities.Models;
+﻿using Core.Entities.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Core.Entities.Tests
 {
@@ -17,7 +11,7 @@ namespace Core.Entities.Tests
         {
             var serviceResult = new ServiceResult();
             serviceResult.Errors.Add("Password", new List<string> { "Password is required" });
-            
+
             var res = serviceResult.GetErrors();
             Assert.IsNotNull(res);
             Assert.IsNotNull(res.Password);

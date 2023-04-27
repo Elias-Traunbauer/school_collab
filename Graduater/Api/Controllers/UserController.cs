@@ -1,11 +1,7 @@
 ﻿using Api.Attributes;
-using Api.DataTransferObjects;
 using Api.Helpers;
-using Core.Contracts;
-using Core.Contracts.Entities;
 using Core.Contracts.Models;
 using Core.Contracts.Services;
-using Core.Entities;
 using Core.Entities.Database;
 using Core.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +24,7 @@ namespace Api.Controllers
 
         [HttpPost("login")]
         [NoAuthenticationRequired]
-        [RateLimit(maxRequestsPerMinute: 5, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
+        [RateLimitAttribute(maxRequestsPerMinute: 5, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> Login([FromBody] UserLoginPayload loginInformation, [FromServices] IUserService userService)
         {
             if (!ModelState.IsValid)
@@ -49,7 +45,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        [RateLimit(maxRequestsPerMinute: 5, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
+        [RateLimitAttribute(maxRequestsPerMinute: 5, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> UpdateUser([FromBody] User updateInfo, [FromServices] IUserService userService)
         {
             if (!ModelState.IsValid)
@@ -71,7 +67,7 @@ namespace Api.Controllers
 
         [HttpPost("register")]
         [NoAuthenticationRequired]
-        [RateLimit(maxRequestsPerMinute: 20, rateLimitMode: RateLimitMode.FixedDelay)]
+        [RateLimitAttribute(maxRequestsPerMinute: 20, rateLimitMode: RateLimitMode.FixedDelay)]
         public async Task<IActionResult> Register([FromBody] UserRegisterPayload registerModel, [FromServices] IUserService userService)
         {
             if (!ModelState.IsValid)
@@ -88,7 +84,7 @@ namespace Api.Controllers
 
         [HttpGet("username-available/{username}")]
         [NoAuthenticationRequired]
-        [RateLimit(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
+        [RateLimitAttribute(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
         public async Task<IActionResult> UsernameTaken(string username, [FromServices] IUserService userService)
         {
             var result = await userService.IsUsernameTaken(username);
@@ -102,7 +98,7 @@ namespace Api.Controllers
 
         [HttpGet("email-available/{email}")]
         [NoAuthenticationRequired]
-        [RateLimit(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
+        [RateLimitAttribute(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
         public async Task<IActionResult> EmailTaken([EmailAddress] string email, [FromServices] IUserService userService)
         {
             if (!ModelState.IsValid)

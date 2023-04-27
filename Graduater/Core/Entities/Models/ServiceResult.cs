@@ -13,7 +13,6 @@ namespace Core.Entities.Models
 
         public ServiceResult()
         {
-
         }
 
         public ServiceResult(string key, params string[] errors)
@@ -46,7 +45,6 @@ namespace Core.Entities.Models
 
         public ServiceResult(string key, params string[] errors) : base(key, errors)
         {
-
         }
     }
 }

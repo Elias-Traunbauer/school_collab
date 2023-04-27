@@ -1,6 +1,4 @@
 ﻿using Core.Entities.Database;
-using Mysqlx.Expr;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.DataTransferObjects
 {

@@ -1,5 +1,4 @@
-﻿using Api.Attributes;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {

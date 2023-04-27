@@ -3,9 +3,8 @@
     [AttributeUsage(AttributeTargets.Method)]
     public class NoAuthenticationRequired : Attribute
     {
-        public NoAuthenticationRequired() 
-        { 
-
+        public NoAuthenticationRequired()
+        {
         }
     }
 }

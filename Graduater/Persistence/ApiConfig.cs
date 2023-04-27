@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Persistence
+﻿namespace Persistence
 {
     public class ApiConfig
     {
@@ -12,6 +6,9 @@ namespace Persistence
         public string Issuer { get; set; } = string.Empty;
         public TimeSpan AccessTokenLifetime { get; set; }
         public TimeSpan RefreshTokenLifetime { get; set; }
+
+        public int UploadMaxFileSize { get; set; }
+        public string[] PermittedFileExtensions { get; set; } = new string[0];
 
         public TimeSpan EmailVerificationTokenLifetime { get; set; }
         public TimeSpan PasswordResetTokenLifetime { get; set; }

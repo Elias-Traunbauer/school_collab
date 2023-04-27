@@ -1,15 +1,9 @@
-﻿using Core.Contracts;
-using Core.Contracts.Services;
+﻿using Core.Contracts.Services;
 using Core.Entities.Database;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service.Services
 {
@@ -99,14 +93,14 @@ namespace Service.Services
         private TokenValidationParameters GetValidationParameters()
         {
             tokenValidationParameters ??= new()
-                {
-                    ValidateLifetime = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = false,
-                    ValidIssuer = _config.Issuer,
-                    ClockSkew = TimeSpan.FromMilliseconds(0),
-                    IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(_config.Secret))
-                };
+            {
+                ValidateLifetime = true,
+                ValidateIssuer = true,
+                ValidateAudience = false,
+                ValidIssuer = _config.Issuer,
+                ClockSkew = TimeSpan.FromMilliseconds(0),
+                IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(_config.Secret))
+            };
 
             return tokenValidationParameters;
         }
