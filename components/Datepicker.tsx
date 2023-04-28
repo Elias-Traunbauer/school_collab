@@ -8,8 +8,24 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
     const [displayDatesArray, setDisplayDatesArray] = useState([]);
     //const displayDatesArray = [];
     const [date, setDate] = useState(initDate(dateParam));
-    const monthNames = getMonths();
     const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const monthNames = getMonths();
+
+    function GetMaxDaysOfPreviousMonth(tmpDate) {
+        let preMonth = GetPreviusMonth(tmpDate);
+        return new Date(preMonth.getFullYear(), preMonth.getMonth() + 1, 0).getDate();
+    }
+
+    function GetDaysOfCurrentMonth(tmpDate) {
+        return new Date(tmpDate.getFullYear(), tmpDate.getMonth() + 1, 0).getDate();
+    }
+    function GetWeekdayOfFirstDay(tmpDate) {
+        return new Date(tmpDate.getFullYear(), tmpDate.getMonth(), 1).getDay();
+    }
+
+    function getMonths() {
+        return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    }
 
     function initDate(dateParam) {
         let tmpDate = new Date(dateParam.getFullYear(), dateParam.getMonth(), dateParam.getDate(), dateParam.getHours(), dateParam.getMinutes());
@@ -17,47 +33,44 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         return tmpDate;
     }
 
-    function getMonths() {
-        return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+
+    function changeToNextMonth(tmpDate) {
+        const newDate = GetNextMonth(tmpDate)
+        setDate(newDate);
+        calc(newDate);
     }
 
-    function changeToNextMonth() {
-        setDate(GetNextMonth());
-        calc();
-    }
-
-    function changeToPreviousMonth() {
-        setDate(GetPreviusMonth());
-        calc();
+    function changeToPreviousMonth(tmpDate) {
+        const newDate = GetPreviusMonth(tmpDate)
+        setDate(newDate);
+        calc(newDate);
     }
 
     function handleDateClicked(day, currmonth) {
         let tmpDate = new Date(date.getFullYear(), date.getMonth(), day, date.getHours(), date.getMinutes());
-        if (currmonth) {
+        if (!currmonth) {
+            if (day > 20) {
+                tmpDate = new Date(date.getFullYear(), date.getMonth()-1, day, date.getHours(), date.getMinutes());
+            } else {
+                tmpDate = new Date(date.getFullYear(), date.getMonth(), day, date.getHours(), date.getMinutes());
+                tmpDate.setMonth(tmpDate.getMonth() + 1);
+            }
         }
-        else if (day >= 20) {
-            tmpDate = GetPreviusMonth()
-        }
-        else {
-            tmpDate = GetNextMonth()
-        }
-        setDate(new Date(tmpDate.getFullYear(), tmpDate.getMonth(), day, date.getHours(), date.getMinutes()));
-        calc();
+
+        setDate(tmpDate);
+        calc(tmpDate);
     }
 
-    function PrintDateTime() {
-        return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+    function PrintDateTime(tmpDate) {
+        return tmpDate.getDate() + "." + (tmpDate.getMonth() + 1) + "." + tmpDate.getFullYear() + " " + tmpDate.getHours() + ":" + tmpDate.getMinutes();
     }
 
-    function GetMaxDaysOfPreviousMonth() {
-        let preMonth = GetPreviusMonth();
-        return new Date(preMonth.getFullYear(), preMonth.getMonth() + 1, 0).getDate();
-    }
-    function calc() {
-        let daysOfPreviousMonth = GetMaxDaysOfPreviousMonth();
-        console.log('maxdays ' + daysOfPreviousMonth);
-        const daysOfCurrentMonth = GetDaysOfCurrentMonth();
-        let previousdays = GetWeekdayOfFirstDay();
+
+    function calc(tmpDate) {
+        let daysOfPreviousMonth = GetMaxDaysOfPreviousMonth(tmpDate);
+        const daysOfCurrentMonth = GetDaysOfCurrentMonth(tmpDate);
+        let previousdays = GetWeekdayOfFirstDay(tmpDate);
         const tmpArray = [];
         previousdays == 0 ? previousdays = 7 : "";
         let cnt = daysOfPreviousMonth - previousdays + 2;
@@ -89,18 +102,12 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         // set monthInput and yearInput
         const monthInput = document.getElementById('monthInput') as HTMLInputElement;
         const yearInput = document.getElementById('yearInput') as HTMLInputElement;
-        monthInput.value = monthNames[date.getMonth()];
-        yearInput.value = date.getFullYear().toString();
-    
-        
+        monthInput.value = monthNames[tmpDate.getMonth()];
+        yearInput.value = tmpDate.getFullYear().toString();
     }
 
-    function GetWeekdayOfFirstDay() {
-        return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-    }
-
-    function GetPreviusMonth() {
-        var tempDateObj = new Date(date.getFullYear(), date.getMonth(), 1, date.getHours(), date.getMinutes());
+    function GetPreviusMonth(tmpDate) {
+        var tempDateObj = new Date(tmpDate.getFullYear(), tmpDate.getMonth(), 1, tmpDate.getHours(), tmpDate.getMinutes());
 
         if (tempDateObj.getMonth() == 0) {
             tempDateObj.setFullYear(tempDateObj.getFullYear() - 1);
@@ -113,35 +120,33 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         if (date.getDate() > maxDaysOfNextMonth)
             tempDateObj.setDate(maxDaysOfNextMonth);
         else
-            tempDateObj.setDate(date.getDate());
+            tempDateObj.setDate(tmpDate.getDate());
 
         
         return tempDateObj;
     }
 
-    function GetNextMonth() {
-        if (date.getMonth() == 11) {
-            var nextMonth = new Date(date.getFullYear() + 1, 0, 1, date.getHours(), date.getMinutes());
+    function GetNextMonth(tmpDate) {
+        if (tmpDate.getMonth() == 11) {
+            var nextMonth = new Date(tmpDate.getFullYear() + 1, 0, 1, tmpDate.getHours(), tmpDate.getMinutes());
         } else {
-            var nextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1, date.getHours(), date.getMinutes());
+            var nextMonth = new Date(tmpDate.getFullYear(), tmpDate.getMonth() + 1, 1, tmpDate.getHours(), tmpDate.getMinutes());
         }
 
         var maxDaysOfNextMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0).getDate();
-        console.log(maxDaysOfNextMonth + "-->" + date.getDate());
 
-        if (date.getDate() > maxDaysOfNextMonth)
+
+        if (tmpDate.getDate() > maxDaysOfNextMonth)
             nextMonth.setDate(maxDaysOfNextMonth);
 
         else
-            nextMonth.setDate(date.getDate());
+            nextMonth.setDate(tmpDate.getDate());
 
             
         return nextMonth;
     }
 
-    function GetDaysOfCurrentMonth() {
-        return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    }
+
 
     function handleFocus(e) {
         setTimeout(function () {
@@ -208,7 +213,7 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
     function handleEnterKeyPressed(e) {
         if (e.key == "Enter") {
             e.target.blur();
-            calc();
+           
         }
     }
 
@@ -221,7 +226,7 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         else {
             datepickerContainer.classList.add(styles.hidden);
         }
-        calc();
+       calc(date);
     }
 
     function handleInputChange(e, input) {
@@ -229,6 +234,9 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
             return;
         }
         const datetimeSplit = e.target.value.split(' ');
+        if (datetimeSplit == null || datetimeSplit.length != 2) {
+            return;
+        }
         const dateSplit = datetimeSplit[0].split('.');
         const timeSplit = datetimeSplit[1].split(':');
         const matches = e.target.value.match(/^^(\d{1,2}).(\d{1,2}).(\d{2,4}) (\d{2}):(\d{2})$/);
@@ -241,39 +249,36 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
             e.target.classList.add(styles.errorInput);
 
             //optional
-            e.target.value = PrintDateTime();
+            e.target.value = PrintDateTime(tmpdate);
 
-            console.log("invalid date");
             return;
         }
 
         e.target.classList.remove(styles.errorInput);
-        console.log("set date");
         setDate(tmpdate);
-        calc();
+        calc(tmpdate);
     }
 
     return (
         <>
             <div className={styles.overviewContainer}>
                 <div className={styles.inputContainer}>
-                    <label>{title}</label>
                     <input onBlur={(e) => handleInputChange(e, false)} onKeyDown={(e) => handleInputChange(e, true)} id='datetimeInput'></input>
-                </div>
-                <div className={styles.inputContainer}>
-                    <label> </label>
-                    <button onClick={showDatepicker} id='pickerPopup Button'>Picker</button>
+                    <div>
+                        <button onClick={showDatepicker} id='pickerPopup'></button>
+                    </div>
+
                 </div>
 
                 <div id='datepickerContainer' className={`${styles.container} ${styles.hidden}`}>
                     <div className={styles.dateHeaderContainer}>
                         <div className={styles.dateHeader}>
-                            <Image onClick={changeToPreviousMonth} src={'/chevron.svg'} width={10} height={10} alt='left'></Image>
+                            <Image onClick={()=>changeToPreviousMonth(date)} src={'/chevron.svg'} width={10} height={10} alt='left'></Image>
                             <div>
                                 <input className={styles.unfocusedInput} onKeyUp={(e) => handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutMonth(e)} type='text' onChange={handleMonthChange} id='monthInput' />
                                 <input className={styles.unfocusedInput} onKeyUp={(e) => handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutYear(e)} type='text' onChange={handleYearChange} id='yearInput' />
                             </div>
-                            <Image onClick={changeToNextMonth} src={'/chevron.svg'} width={10} height={10} alt='left'></Image>
+                            <Image onClick={()=>changeToNextMonth(date)} src={'/chevron.svg'} width={10} height={10} alt='left'></Image>
                         </div>
                     </div>
 
