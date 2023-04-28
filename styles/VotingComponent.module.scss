@@ -1,0 +1,79 @@
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+
+    & > div > div > div{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    & > div{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        width: 100%;
+    }
+
+    & > div > div{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: .5em;
+    }
+
+    & div > div > p{
+        font-size: .9em;
+        opacity: .7;
+        margin: 0;
+    }
+
+}
+
+.downvote{
+    width: 2em;
+    height: 2em;
+    transform: rotate(180deg);
+    background-color: white;
+    mask: url("/vote.svg")no-repeat center / contain;
+    appearance: none;
+
+    &:checked{
+        background-color: rgb(240, 45, 45);
+        mask: url("/vote.svg")no-repeat center / contain;
+    }
+}
+.upvote{
+    width: 2em;
+    height: 2em;
+    background-color: white;
+    mask: url("/vote.svg")no-repeat center / contain;
+    appearance: none;
+
+    &:checked{
+        background-color: rgb(114, 250, 114);
+        mask: url("/vote.svg")no-repeat center / contain;
+    }
+}
+.vote{
+    border-radius: 10em;
+    cursor: pointer;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover{
+        background-color: var(--background_2);
+        opacity: .7;
+    }
+
+    & >* {
+        cursor: pointer;
+    }
+}

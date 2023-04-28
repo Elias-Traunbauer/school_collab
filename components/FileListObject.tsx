@@ -23,20 +23,19 @@ export default function FileListObject({itemKey, deleteFunction, asCard = true, 
         deleteFunction(itemKey);
         
     }
-
     return (
         <>
             {asCard ?
                 <div className={styles.Cardcontainer}>
-                    <Image alt='File' src="/fileIcon.svg" width={80} height={80}></Image>
-                    <p>{filename}</p>
+                    <Image alt='File' src="/fileIcon.svg" width={50} height={50}></Image>
+                    <p>{file.name}</p>
                 </div>
                 :
                 <div className={styles.Listcontainer}>
-                    <div>
-                        <Image alt='File' src="/fileIcon.svg" width={60} height={60}></Image>
-                        <p>{filename}</p>
-                        <div onClick={(e)=>deleteItem(e)} className={styles.deletContainer}>
+                    <div className={styles.ListContentcontainer}>
+                        <Image alt='File' src="/fileIcon.svg" width={50} height={50}></Image>
+                        <p>{file.name}</p>
+                        <div onClick={(e) => deleteFunction(e, itemKey)} className={styles.deletContainer}>
                             <Image alt='delete' width={30} height={30} src="/cancelicon.svg"></Image>
                         </div>
                     </div>
