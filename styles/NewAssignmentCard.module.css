@@ -1,0 +1,82 @@
+.assignmentcontainer{
+    height: 9em;
+    width: 25em;
+    scale: 1.3;
+    background-color: var(--background_1);
+    border-radius: .5em;
+    padding: .3em .3em .3em .3em;
+    overflow: hidden;
+    z-index: 2;
+}
+.assignmentcontainer > div{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+.assignmenthead{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+.assignmenthead p{
+    margin: 0;
+}
+.assignmentbody{
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    flex-wrap: wrap;
+    overflow: hidden;
+    z-index: 2;
+}
+.assignmentbody div h2{
+    display: block;
+}
+.assignmentfoot{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+.assignmentfoot p{
+    margin: 0;
+}
+
+.hoverEffect{
+    width: 6em;
+    height: 6em !important;
+    position: absolute;
+    background-color: #f9b234;
+    z-index: 1;
+    border-radius: 10em;
+    transition: all .5s ease;
+    top: -3.6em;
+    left: -3em;
+    user-select: none;
+    pointer-events: none;
+}
+
+.assignmentcontainer:hover .hoverEffect{
+    width: 100%;
+    height: 100% !important;
+    border-radius: 0;
+    top: 0;
+    left: 0;
+}
+
+/*Trauni fragen*/
+.assignmentcontainer:hover{
+    background-color: var(--background_2);
+    cursor: pointer;
+}   
