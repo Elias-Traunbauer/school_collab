@@ -18,10 +18,8 @@ export default function Datepicker({title='date',dateParam = new Date()}){
     }
 
     useEffect(() => { 
-        calc();
-        document.getElementById('monthInput').value = monthNames[date.getMonth()];
-        document.getElementById('yearInput').value = date.getFullYear();
-        document.getElementById('datetimeInput').value = PrintDateTime();
+        
+
     },[date]);
 
     function getMonths() {
@@ -30,10 +28,12 @@ export default function Datepicker({title='date',dateParam = new Date()}){
 
     function changeToNextMonth(){
         setDate(GetNextMonth());
+        calc();
     }
 
     function changeToPreviousMonth(){
         setDate(GetPreviusMonth());
+        calc();
     }
 
     function handleDateClicked(day, currmonth){
@@ -47,6 +47,7 @@ export default function Datepicker({title='date',dateParam = new Date()}){
             tmpDate = GetNextMonth() 
         }
         setDate(new Date(tmpDate.getFullYear(),tmpDate.getMonth(),day, date.getHours(), date.getMinutes()));
+        calc();
     }
 
     function PrintDateTime(){
@@ -89,7 +90,10 @@ export default function Datepicker({title='date',dateParam = new Date()}){
             });
         }
         
-        setDisplayDatesArray(...[tmpArray]);        
+        setDisplayDatesArray(...[tmpArray]);   
+        document.getElementById('monthInput').value = monthNames[date.getMonth()];
+        document.getElementById('yearInput').value = date.getFullYear();
+        document.getElementById('datetimeInput').value = PrintDateTime();     
     }
 
     function GetWeekdayOfFirstDay(){
@@ -112,6 +116,8 @@ export default function Datepicker({title='date',dateParam = new Date()}){
         else
             tempDateObj.setDate(date.getDate());
 
+            calc();
+
 	    return tempDateObj;
     }
 
@@ -131,6 +137,7 @@ export default function Datepicker({title='date',dateParam = new Date()}){
         else
         nextMonth.setDate(date.getDate());
 
+        calc();
         return nextMonth;
     }
 
@@ -167,6 +174,7 @@ export default function Datepicker({title='date',dateParam = new Date()}){
             e.target.value = monthNames[date.getMonth()];
         }
         setDate(date);
+        calc();
     }
 
     function handleFocusoutYear(e){
@@ -180,6 +188,7 @@ export default function Datepicker({title='date',dateParam = new Date()}){
             e.target.value = date.getFullYear();
         }
         setDate(date);
+        calc();
     }
 
     function handleYearChange(e){
@@ -188,12 +197,14 @@ export default function Datepicker({title='date',dateParam = new Date()}){
             date.setFullYear(newYear);
             setDate(date);
         }
+        calc();
     }
     var handleMonthChange = function(e) {
         var newMonth = monthNames.find((element) => element.toLowerCase() == e.target.value.toLowerCase());
         if(newMonth != undefined)
         date.setMonth(monthNames.indexOf(newMonth));
         setDate(date);
+        calc();
     };
 
     function handleEnterKeyPressed(e){
@@ -239,6 +250,7 @@ export default function Datepicker({title='date',dateParam = new Date()}){
         e.target.classList.remove(styles.errorInput);
         console.log("set date");
         setDate(tmpdate);
+        calc();
     }
 
     return(
