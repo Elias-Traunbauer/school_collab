@@ -12,6 +12,12 @@
     & > img {
         cursor: pointer;
     }
+
+    width: fit-content;
+    height: fit-content;
+    border-radius: .2em;
+    padding: .3em;
+
 }
 
 .Cardcontainer p {
@@ -24,11 +30,13 @@
 
 .Cardcontainer:hover p{
     text-decoration: underline 1px;
+    margin-top: .3em;
 }
 
 .Cardcontainer:hover {
     cursor: pointer;
     filter: brightness(130%);
+
 }
 
 .Listcontainer {
@@ -38,13 +46,14 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
+    border-radius: .2em;
+    gap: .2em;
 }
 
-.ListContentcontainer {
+.Listcontainer > div {
     position: relative;
-    width: 100%;
+    width: 99%;
     vertical-align: middle;
-    border-radius: .2em;
 
     & * {
         display: inline-block;
@@ -59,12 +68,14 @@
     }
     & > img {
         cursor: pointer;
+        font-size: 1.2em;
     }
 }
 
-.ListContentcontainer * {
+.Listcontainer > div * {
     vertical-align: middle;
 }
+
 
 .ListContentcontainer:hover {
     background-color: var(--background_4);
@@ -75,9 +86,13 @@
         overflow: hidden;
         white-space: nowrap;
     }
+
+.Listcontainer:hover {
+    background-color: var(--background_1);
+
 }
 
-.ListContentcontainer p {
+.Listcontainer > div p {
     margin-left: .5em;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -97,4 +112,10 @@
 
 .deletContainer:hover {
     background-color: rgba(255, 255, 255, 0.205);
+}
+
+.deleteAnimation{
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity .5s;
 }

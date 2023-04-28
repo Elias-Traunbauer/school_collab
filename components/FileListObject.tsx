@@ -1,7 +1,28 @@
 import styles from '../styles/FileListObject.module.scss';
 import Image from 'next/image';
 
-export default function FileListObject({indx = -1, deleteFunction, asCard = true, file = { name: 'test' }}) {
+export default function FileListObject({itemKey, deleteFunction, asCard = true, file = { name: "File" }}) {
+    const filename = GetFilename(file);
+
+    function GetFilename(file) {
+        let maxLen = 50;
+
+        if (asCard) maxLen = 10;
+
+        let res = file.name.slice(0, maxLen);
+        if (file.name.length > maxLen)
+            res += "...";
+
+        return res;
+    }
+
+    function deleteItem(e) {
+        e.target.parentElement.parentElement.parentElement.classList.add(styles.deleteAnimation);
+        console.log("delete " + itemKey);
+        e.preventDefault();
+        deleteFunction(itemKey);
+        
+    }
     return (
         <>
             {asCard ?
