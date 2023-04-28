@@ -44,7 +44,7 @@ export default function FileListObject({
                     <div className={styles.ListContentcontainer}>
                         <Image alt='File' src="/fileIcon.svg" width={50} height={50}></Image>
                         <p>{file.name}</p>
-                        <div onClick={(e) => deleteFunction(e, itemKey)} className={styles.deletContainer}>
+                        <div onClick={() => deleteFunction(itemKey)} className={styles.deletContainer}>
                             <Image alt='delete' width={30} height={30} src="/cancelicon.svg"></Image>
                         </div>
                     </div>
