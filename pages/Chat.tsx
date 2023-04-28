@@ -5,7 +5,7 @@ import Image from 'next/image';
 import ChatroomListitem from '../components/ChatroomListitem';
 export default function Chat() {
     const [selectedChatRoom, setSelectedChatRoom] = useState(0);
-    const mockProfile = 'TestProfile.jpeg';
+    const mockProfile = 'person.svg';
     return (
         <div className={styles.container}>
             <div className={styles.navBar}>

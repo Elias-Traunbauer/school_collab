@@ -119,4 +119,20 @@
     overflow-x: hidden;
     scrollbar-width: none;
     gap: .3em;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--background_2) var(--background_1);
+    &::-webkit-scrollbar{
+        width: .5em;
+    }
+    &::-webkit-scrollbar-track{
+        background-color: var(--background_1);
+    }
+    &::-webkit-scrollbar-thumb{
+        background-color: var(--background_2);
+        border-radius: .5em;
+    }
+    &::-webkit-scrollbar-thumb:hover{
+        background-color: var(--background_4);
+    }
 }

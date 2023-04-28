@@ -17,7 +17,7 @@ export default function Chatroom() {
     },
   ];
   const mockDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-const mockProfile = "TestProfile.jpeg";
+const mockProfile = "person.svg";
   const [profile, setProfile] = useState(mockProfile);
   const mockmessages = [
     {
@@ -118,6 +118,8 @@ const mockProfile = "TestProfile.jpeg";
   const [name, setName] = useState(mockName);
   const [backUpName, setBackUpName] = useState(mockName);
   const [description, setDescription] = useState(mockDescription);
+  const [descriptionIsExtended, setDescriptionIsExtended] = useState(false);
+
 
   useEffect(() => {
     scrollDown();
@@ -279,6 +281,10 @@ function changeName(change:boolean){
     changeNameEditMode();
 }
 
+function changeDescriptionHeight(){
+    setDescriptionIsExtended(!descriptionIsExtended);
+}
+
   function handleInfoProfileClick() {
     const input = document.getElementById(
       "infoProfileInput"
@@ -321,7 +327,8 @@ function changeName(change:boolean){
                 <button>Change</button>
             </div>
             
-          <div>
+            <div>
+            <div>
             {!nameEdit ? (
               <>
                 <h1>{name}</h1>
@@ -341,9 +348,11 @@ function changeName(change:boolean){
               </>
             )}
           </div>
+            </div>
+          
 
             <div>
-                <div>
+                <div onClick={changeDescriptionHeight} className={descriptionIsExtended&&styles.fixedHeight}>
                     <h1>Description</h1>
                     <p>{description.length>0?description:<span>No Description</span>}</p>
                 </div>
