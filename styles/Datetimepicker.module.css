@@ -54,12 +54,20 @@
     justify-content: center;
 }
 
-.dateHeader svg {
+.dateHeader img {
     border-radius: 100em;
+    cursor: pointer;
+    width: 2em;
+    height: 2em;
+    background-color: transparent;
+}
+
+.dateHeader img:first-child {
+    transform: rotate(180deg);
 }
 
 .datepickerItem p:hover,
-.dateHeader svg:hover {
+.dateHeader img:hover {
     background-color: rgb(233, 233, 233);
 }
 
@@ -112,10 +120,6 @@
     justify-content: space-between;
 }
 
-.dateHeader img {
-    border-radius: 10em;
-    background-color: gray;
-}
 
 .dateHeader div {
     display: flex;

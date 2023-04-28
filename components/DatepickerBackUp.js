@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { func } from 'prop-types';
 
-export default function Datepicker({ title = 'date', dateParam = new Date() ,required, onInput }) {
+export default function DatepickerbackUp({ title = 'date', dateParam = new Date() ,required, onInput }) {
 
     const [popUp,setPopUp] = useState(false);
     const [displayDatesArray, setDisplayDatesArray] = useState([]);

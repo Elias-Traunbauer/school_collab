@@ -23,10 +23,12 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
 
     function changeToNextMonth() {
         setDate(GetNextMonth());
+        calc();
     }
 
     function changeToPreviousMonth() {
         setDate(GetPreviusMonth());
+        calc();
     }
 
     function handleDateClicked(day, currmonth) {
@@ -40,6 +42,7 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
             tmpDate = GetNextMonth()
         }
         setDate(new Date(tmpDate.getFullYear(), tmpDate.getMonth(), day, date.getHours(), date.getMinutes()));
+        calc();
     }
 
     function PrintDateTime() {
@@ -83,6 +86,13 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         }
 
         setDisplayDatesArray(tmpArray);
+        // set monthInput and yearInput
+        const monthInput = document.getElementById('monthInput') as HTMLInputElement;
+        const yearInput = document.getElementById('yearInput') as HTMLInputElement;
+        monthInput.value = monthNames[date.getMonth()];
+        yearInput.value = date.getFullYear().toString();
+    
+        
     }
 
     function GetWeekdayOfFirstDay() {
@@ -105,6 +115,7 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         else
             tempDateObj.setDate(date.getDate());
 
+        
         return tempDateObj;
     }
 
@@ -124,6 +135,7 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         else
             nextMonth.setDate(date.getDate());
 
+            
         return nextMonth;
     }
 
@@ -154,12 +166,13 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
 
         if (found) {
             date.setMonth(monthNames.indexOf(e.target.value));
-            calc();
+            
         }
         else {
             e.target.value = monthNames[date.getMonth()];
         }
         setDate(date);
+        
     }
 
     function handleFocusoutYear(e) {
@@ -167,12 +180,13 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         e.target.classList.remove(styles.focusedInput);
         if (e.target.value.length == 4) {
             date.setFullYear(e.target.value);
-            calc();
+            
         }
         else {
             e.target.value = date.getFullYear();
         }
         setDate(date);
+        
     }
 
     function handleYearChange(e) {
@@ -181,17 +195,20 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
             date.setFullYear(newYear);
             setDate(date);
         }
+        
     }
     var handleMonthChange = function (e) {
         var newMonth = monthNames.find((element) => element.toLowerCase() == e.target.value.toLowerCase());
         if (newMonth != undefined)
             date.setMonth(monthNames.indexOf(newMonth));
         setDate(date);
+        
     };
 
     function handleEnterKeyPressed(e) {
         if (e.key == "Enter") {
             e.target.blur();
+            calc();
         }
     }
 
@@ -204,6 +221,7 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         else {
             datepickerContainer.classList.add(styles.hidden);
         }
+        calc();
     }
 
     function handleInputChange(e, input) {
@@ -232,6 +250,7 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         e.target.classList.remove(styles.errorInput);
         console.log("set date");
         setDate(tmpdate);
+        calc();
     }
 
     return (
@@ -246,16 +265,15 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
                     <button onClick={showDatepicker} id='pickerPopup Button'>Picker</button>
                 </div>
 
-
                 <div id='datepickerContainer' className={`${styles.container} ${styles.hidden}`}>
                     <div className={styles.dateHeaderContainer}>
                         <div className={styles.dateHeader}>
-                            <svg onClick={changeToPreviousMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="M28.05 36 16 23.95 28.05 11.9l2.15 2.15-9.9 9.9 9.9 9.9Z" /></svg>
+                            <Image onClick={changeToPreviousMonth} src={'/chevron.svg'} width={10} height={10} alt='left'></Image>
                             <div>
                                 <input className={styles.unfocusedInput} onKeyUp={(e) => handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutMonth(e)} type='text' onChange={handleMonthChange} id='monthInput' />
                                 <input className={styles.unfocusedInput} onKeyUp={(e) => handleEnterKeyPressed(e)} onFocus={(e) => handleFocus(e)} onBlur={(e) => handleFocusoutYear(e)} type='text' onChange={handleYearChange} id='yearInput' />
                             </div>
-                            <svg onClick={changeToNextMonth} xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48' height="2em" width="2em"><path d="m18.75 36-2.15-2.15 9.9-9.9-9.9-9.9 2.15-2.15L30.8 23.95Z" /></svg>
+                            <Image onClick={changeToNextMonth} src={'/chevron.svg'} width={10} height={10} alt='left'></Image>
                         </div>
                     </div>
 
