@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { func } from 'prop-types';
 
-export default function Datepicker({ title = 'date', dateParam = new Date() }) {
+export default function Datepicker({ OnInput, title = 'date', dateParam = new Date(), required=false }: { OnInput: Function, title?: string, dateParam?: Date,required?:boolean }) {
 
     const [displayDatesArray, setDisplayDatesArray] = useState([]);
     //const displayDatesArray = [];
@@ -16,13 +16,6 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         tmpDate.setHours(23, 59, 0, 0);
         return tmpDate;
     }
-
-    useEffect(() => {
-        calc();
-        document.getElementById('monthInput').value = monthNames[date.getMonth()];
-        document.getElementById('yearInput').value = date.getFullYear();
-        document.getElementById('datetimeInput').value = PrintDateTime();
-    }, [date]);
 
     function getMonths() {
         return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -89,7 +82,7 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
             });
         }
 
-        setDisplayDatesArray(...[tmpArray]);
+        setDisplayDatesArray(tmpArray);
     }
 
     function GetWeekdayOfFirstDay() {
@@ -226,11 +219,11 @@ export default function Datepicker({ title = 'date', dateParam = new Date() }) {
         }
         const tmpdate = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0], timeSplit[0], timeSplit[1]);
 
-        if (tmpdate == "Invalid Date" || tmpdate.getMonth() != dateSplit[1] - 1 || tmpdate.getFullYear() != dateSplit[2]) {
+        if (tmpdate.getMonth() != dateSplit[1] - 1 || tmpdate.getFullYear() != dateSplit[2]) {
             e.target.classList.add(styles.errorInput);
 
             //optional
-            e.target.value = PrintDateTime(date);
+            e.target.value = PrintDateTime();
 
             console.log("invalid date");
             return;

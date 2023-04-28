@@ -1,6 +1,6 @@
-import styles from '../styles/Assignment.module.css'
+import styles from '../../styles/Assignment.module.css'
 import { useState, useEffect } from 'react'
-import AssignmentCard from '../components/AssignmentCard';
+import AssignmentCard from '../../components/AssignmentCard';
 import Image from 'next/image';
 import { useRouter } from 'next/router'
 
@@ -24,7 +24,7 @@ export default function Assignments() {
             <div className={styles.plusContainer}>
                 <h1>Open Assignments</h1>
                 <div className={styles.plus}>
-                    <Image src="/plus.svg" alt="plus" width="100" height="100" onClick={() => router.push("./assignment_wizard")} />
+                    <Image src="/plus.svg" alt="plus" width="100" height="100" onClick={() => router.push("assignments/create")} />
                 </div>
             </div>
             {
