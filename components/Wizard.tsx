@@ -2,10 +2,10 @@ import styles from '../styles/Assignment.module.css';
 import { useState, useEffect } from 'react'
 import Datepicker from './Datepicker';
 import React from 'react';
-import { WizardField } from './models/WizardField';
+import { WizardField } from '../models/WizardField';
 
-export default function Wizard({ callback, contentData = [[new WizardField('firstname','checkBox',{value:true,text:'asdasdasdasd'},true),new WizardField('firstname','select',[{value:1,displayText:'süba'},{value:1,displayText:'süba'},{value:1,displayText:'süba'}],true)]], title = "Wizard", containerWidth = 50 }: { callback: Function, contentData?: WizardField[][], title: string, containerWidth?: number }) {
-    let inputList:HTMLInputElement[] = [];
+export default function Wizard({ callback,contentData = [[new WizardField('firstname','checkBox',{value:true,text:'asdasdasdasd'},true),new WizardField('firstname','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true)],[new WizardField('date','date',new Date(),true)]], title = "Wizard", containerWidth = 50 }: { callback: Function, contentData?: WizardField[][], title: string, containerWidth?: number }) {
+        let inputList:HTMLInputElement[] = [];
     const [currentPage,setCurrentPage] = useState(0); 
     const [loadingText, setLoadingText] = useState("loading...");
 
@@ -54,23 +54,25 @@ export default function Wizard({ callback, contentData = [[new WizardField('firs
     function checkFormFilled(index) {
         const formList = document.querySelectorAll('.' + styles.wizardContent);
         inputList = formList[index].querySelectorAll('input') as unknown as HTMLInputElement[];
-        console.log(inputList);
+        
         let btn:HTMLButtonElement = document.getElementById('btnNextPage') as unknown as HTMLButtonElement;
         const selectElements = formList[index].querySelectorAll('select') as unknown as HTMLSelectElement[]; 
 
         for (let item of inputList) {
-            if (item.hasAttribute('required') && item.value.length <= 0) {
+            
+            if (item.hasAttribute('required') && item.type == 'checkbox' && !item.checked) {
                 btn.classList.add(styles.disabeldBtn);
                 return;
             }
-            else if (item.hasAttribute('required') && item.type == 'checkbox' && !item.checked) {
+            else if (item.hasAttribute('required') && item.value.length <= 0) {
                 btn.classList.add(styles.disabeldBtn);
                 return;
             }
         }
-
+        console.log(selectElements);
+        console.log(inputList);
         for (let item of selectElements) {
-            if (item.hasAttribute('required') && item.value.length <= 0) {
+            if (item.hasAttribute('required') && item.value == '-1') {
                 btn.classList.add(styles.disabeldBtn);
                 return;
             }
@@ -112,33 +114,41 @@ export default function Wizard({ callback, contentData = [[new WizardField('firs
         //backend code
     }
 
-    function printInput(item:WizardField, index) {
+    function printInput(item:WizardField, formIndex:number, indx:number) {
+        console.log("Form " + formIndex);
 
         return(
-            <div key={'wzContent_'+index} className={styles.inputContainer}>
+            <div key={'wzContent_'+formIndex + '_' + indx} className={styles.inputContainer}>
                 {
                     item.type != 'checkBox'&&
                     <label>{item.name}<span>{item.required&&'*'}</span></label>
                 }
             {
                 item.type == 'date'?
-                    <Datepicker OnInput={()=>checkFormFilled(index)} title={item.name} dateParam={item.value} required={item.required}></Datepicker>
+                    <Datepicker OnInput={()=>checkFormFilled(formIndex)} title={item.name} dateParam={item.value} required={item.required}></Datepicker>
                 :item.type == 'checkBox'?
                     <div>
-                        <input onInput={()=>checkFormFilled(index)} type='checkbox' defaultChecked={item.value.defaultValue} required={item.required} />
+                        <input onInput={()=>checkFormFilled(formIndex)} type='checkbox' defaultChecked={item.value.defaultValue} required={item.required} />
                         <p><span>{item.required&& '* '}</span>{item.value.text}</p>
                     </div>
                 :item.type == 'select'?
-                <select onSelect={()=>checkFormFilled(index)} required={item.required}>
+                <select defaultValue={'-1'} onChange={()=>checkFormFilled(formIndex)} required={item.required}>
                 {
-                    item.value.map((option,index) => {
-                        return(
-                            <option key={'select_'+index} value={option.value} selected={false}>{option.displayText}</option>
-                        )
-                    })
+                    <>
+                    <option key='select_-1' value={-1}>Select</option>
+                    {
+                        item.value.map((option,index) => {
+                            return(
+                                <option key={'select_'+index} value={option.value}>{option.displayText}</option>
+                            )
+                        })
+                    }
+
+                    </>
+                    
                 }
             </select>
-            :<input onInput={()=>checkFormFilled(index)} type={item.type} name={item.name} defaultValue={item.value} required={item.required} />
+            :<input onInput={()=>checkFormFilled(formIndex)} type={item.type} name={item.name} defaultValue={item.value} required={item.required} />
             }
             </div>
         );
@@ -173,17 +183,16 @@ export default function Wizard({ callback, contentData = [[new WizardField('firs
 
                     <div style={{ minWidth: containerWidth + '%' }} className={styles.wizardContentContainer}>
                         {
-                            contentData.map((item, index) => {
+                            contentData.map((item, formIndex) => {
                                 return (
-                                    <form key={'wizard_content_' + index} className={`${styles.wizardContent} ${index != 0 ? styles.hidden : ""}`}>
+                                    <form key={'wizard_content_' + formIndex} className={`${styles.wizardContent} ${formIndex != 0 ? styles.hidden : ""}`}>
                                         {
-                                            item.map((item, index) => {
-                                                return (
-                                                    printInput(item, index)
-                                                )
-                                            })
+                                                item.map((item,i) => {
+                                                    return (
+                                                        printInput(item, formIndex,i)
+                                                    )
+                                                })
                                         }
-
                                     </form>
                                 )
                             })

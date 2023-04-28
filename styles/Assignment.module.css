@@ -426,7 +426,6 @@
 }
 
 .wizzardContainer {
-  scale: 1.5;
   position: relative;
   display: flex;
   align-items: center;
@@ -461,12 +460,12 @@
   padding: 0;
   color: white;
   margin-bottom: 1.5em;
-  padding-top: 2em;
 }
 
 .wizardheading {
   margin: 0;
   padding-top: .1em;
+  font-size: 3em;
 }
 
 .contenWrapper ul li {
@@ -535,6 +534,16 @@
   padding: .3em;
   width: fit-content;
   min-width: 6em;
+  font-size: larger;
+}
+
+.inputContainer> div > p{
+  font-size: 1.3em !important;
+}
+
+.inputContainer> div > input[type="checkBox"]{
+  width: 1.3em;
+  height: 1.3em;
 }
 
 .inputContainer select > option{
@@ -553,6 +562,7 @@
 
 .inputContainer > label , .inputContainer > div > p > span{
   color: var(--color_main) !important;
+  font-size: 1em !important;
 }
 
 .inputContainer > div > p{
@@ -567,7 +577,7 @@
 .inputContainer input[type="text"] {
   background-color: var(--background_2);
   border-radius: .3em;
-  font-size: .9em;
+  font-size: 1.5em;
   color: rgb(255, 255, 255);
   outline: 0;
   border: 0;
@@ -607,7 +617,7 @@
 .wizardButtonContainer button {
   background-color: var(--color_main);
   border: 0;
-  padding: .5em 1em .5em 1em;
+  padding: .2em .6em .2em .6em;
 }
 
 .disabeldBtn {

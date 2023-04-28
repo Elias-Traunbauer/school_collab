@@ -238,12 +238,11 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         <>
             <div className={styles.overviewContainer}>
                 <div className={styles.inputContainer}>
-                    <label>{title}</label>
                     <input onBlur={(e) => handleInputChange(e, false)} onKeyDown={(e) => handleInputChange(e, true)} id='datetimeInput'></input>
                 </div>
                 <div className={styles.inputContainer}>
                     <label> </label>
-                    <button onClick={showDatepicker} id='pickerPopup Button'>Picker</button>
+                    <button type='button' onClick={showDatepicker} id='pickerPopup Button'>Picker</button>
                 </div>
 
 

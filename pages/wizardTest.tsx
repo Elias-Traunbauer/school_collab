@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Wizard from '../components/Wizard'
 import styles from '../styles/WizardTest.module.css'
 import React from 'react';
-import { WizardField } from '../components/models/WizardField';
+import { WizardField } from '../models/WizardField';
 export default function WzTest() {
     function callback(data:WizardField[][], setLoadingText, finishLoading){
         console.log(data);
@@ -14,10 +14,7 @@ export default function WzTest() {
     };
 
     return (
-        <div className={styles.container}>
             <Wizard title='Test' callback={callback}></Wizard>
-        </div>
-        
     );
 
 }
