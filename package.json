@@ -16,9 +16,15 @@
     "chart.js": "^4.2.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
+    "md-block": "^0.0.1",
     "next": "13.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-markdown": "^8.0.7",
     "sass": "^1.58.2"
+  },
+  "devDependencies": {
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.35"
   }
 }
