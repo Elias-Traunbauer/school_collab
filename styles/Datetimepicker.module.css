@@ -13,11 +13,13 @@
     display: grid;
     grid-template-columns: 3em 3em 3em 3em 3em 3em 3em;
     grid-template-rows: 3em 3em 3em 3em 3em 3em;
-    color: white;
+    color: black;
     text-align: center;
     background-color: transparent !important;
     justify-content: center;
     position: relative;
+    height: 90%;
+    width: 100%;
 }
 
 .dateWrapper {
@@ -26,14 +28,14 @@
     height: 80%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
 }
 
 .datepickerItem {
     background-color: transparent !important;
-    border-top: 1px solid rgba(0, 0, 0, 0.3);
-    text-align: left;
+    border-top: 1px solid rgb(255, 255, 255, 0.3);
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,20 +52,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
 }
 
+.dateHeader img {
+    border-radius: 100em;
+    cursor: pointer;
+    width: 2em;
+    height: 2em;
+    background-color: transparent;
+}
 
-.datepickerItem p:hover {
-    background-color: white;
-    opacity: .3;
-    filter: brightness(120%);
-    color: black;
+.dateHeader img:first-child {
+    transform: rotate(180deg);
+}
+
+.datepickerItem p:hover,
+.dateHeader img:hover {
+    background-color: var(--background_3);
 }
 
 .container {
     scale: .9;
     position: absolute;
-    background-color: var(--background_2);
+    background-color: var(--background_1);
     color: white;
     border-radius: .5em;
     transform: translate(50%, 7%);
@@ -84,19 +96,13 @@
 }
 
 .otherMonth {
-    color: rgb(0, 0, 0, .3);
+    color: rgb(255, 255, 255, .2);
     opacity: .7;
 }
 
 .currMonth p {
-    background-color: var(--color_main) !important;
-    color: white !important;
-}
-
-.currMonth p:hover {
-    background-color: var(--color_main) !important;
-    filter :brightness(120%);
-    opacity: 1 !important;
+    background-color: purple !important;
+    color: white;
 }
 
 .dateHeaderContainer {
@@ -104,20 +110,28 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    width: 100%;
+}
+
+.dateHeader {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
-.dateHeaderContainer svg {
-    border-radius: 10em;
-}
-.dateHeaderContainer svg:hover {
-    background-color: white;
-    opacity: .3;
-    filter: brightness(120%);
+.dateHeader div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    padding: 1em;
 }
 
-
-.dateHeaderContainer input {
+.dateHeader div input {
     background-color: transparent;
     padding: .3em 0;
     color: white;
@@ -132,7 +146,6 @@
     text-align: center;
     font-size: 1.5em;
     border-radius: .2em;
-    outline: 0;
 }
 
 .hidden {
@@ -142,22 +155,41 @@
 .inputContainer {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-end;
+    align-items: center;
 }
 
-.inputContainer button {
-    position: absolute;
-    top: 45%;
-    right: 2%;
-    border: 0;
-    background-color: transparent;
-    cursor: pointer;
-    padding: 0;
-    margin: 0;
+.inputContainer input {
+    outline: 0;
+    border: 1px solid var(--background_5);
+    border-radius: .2em;
+    padding: .5em;
+    color: white;
+    width: 15em;
+    font-size: medium;
 }
-.inputContainer button img:hover{
-    filter: brightness(0.5);
+
+.inputContainer div {
+    position: absolute;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+.inputContainer div > button {
+    appearance: none;
+    width: 1.3em;
+    height: 1.3em;
+    background-color: white;
+    filter: brightness(.8);
+    mask:url(/calendar.svg) no-repeat center;
+}
+.inputContainer div > button:hover {
+    filter: brightness(1);
+    scale: 1.1;
 }
 
 .overviewContainer {
@@ -169,14 +201,8 @@
     border-color: red !important;
 }
 
-.inputContainer input {
-    outline: 0;
-    border: 0;
-    border-radius: 0.5em;
-    padding: 0.5em .5em;
-}
 
-/*not in use*/
+
 .weekdayContainer {
     display: flex;
     flex-direction: row;
