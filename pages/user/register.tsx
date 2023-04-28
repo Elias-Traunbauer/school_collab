@@ -24,28 +24,7 @@ export default function Login() {
 
   return (
     <>
-      <Wizard callback={() => {}} contentData={
-        [
-            {
-                firstname: true,
-                lastname: true,
-            },
-            {
-                email: true
-            },
-            {
-                password: true,
-                repeat_Password: true
-            },
-            {
-                agreeToPolicy: {
-                    text: "I agree to the terms and conditions",
-                    title: "agreeToPolicy",
-                    value: false
-                }
-            }
-        ]
-      } title="Register"></Wizard>
+      <Wizard callback={() => {}}  title="Register"></Wizard>
     </>
   )
 }

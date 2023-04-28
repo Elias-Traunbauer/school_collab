@@ -25,49 +25,32 @@ export default function FileListObject({
     return res;
   }
 
-  function deleteItem(e) {
-    e.target.parentElement.parentElement.parentElement.classList.add(
-      styles.deleteAnimation
+    function deleteItem(e) {
+        e.target.parentElement.parentElement.parentElement.classList.add(styles.deleteAnimation);
+        console.log("delete " + itemKey);
+        e.preventDefault();
+        deleteFunction(itemKey);
+        
+    }
+    return (
+        <>
+            {asCard ?
+                <div className={styles.Cardcontainer}>
+                    <Image alt='File' src="/fileIcon.svg" width={50} height={50}></Image>
+                    <p>{file.name}</p>
+                </div>
+                :
+                <div className={styles.Listcontainer}>
+                    <div className={styles.ListContentcontainer}>
+                        <Image alt='File' src="/fileIcon.svg" width={50} height={50}></Image>
+                        <p>{file.name}</p>
+                        <div onClick={(e) => deleteFunction(e, itemKey)} className={styles.deletContainer}>
+                            <Image alt='delete' width={30} height={30} src="/cancelicon.svg"></Image>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </>
     );
-    console.log("delete " + itemKey);
-    e.preventDefault();
-
-    deleteFunction && deleteFunction(itemKey);
-  }
-
-  return (
-    <>
-      {asCard ? (
-        <div className={styles.Cardcontainer}>
-          <Image alt="File" src="/fileIcon.svg" width={80} height={80}></Image>
-          <p>{filename}</p>
-        </div>
-      ) : (
-        <div className={styles.Listcontainer}>
-          <div>
-            <Image
-              alt="File"
-              src="/fileIcon.svg"
-              width={60}
-              height={60}
-            ></Image>
-            <p>{filename}</p>
-            {deleteFunction && (
-              <div
-                onClick={(e) => deleteItem(e)}
-                className={styles.deletContainer}
-              >
-                <Image
-                  alt="delete"
-                  width={30}
-                  height={30}
-                  src="/cancelicon.svg"
-                ></Image>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </>
-  );
 }

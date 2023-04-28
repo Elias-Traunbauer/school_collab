@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Countdown from "../../components/Countdown";
-import styles from "../styles/Assignment.module.css";
+import styles from "../../styles/Assignment.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import FileListObject from "../../components/FileListObject";
