@@ -118,7 +118,6 @@ const mockProfile = "person.svg";
   const [name, setName] = useState(mockName);
   const [backUpName, setBackUpName] = useState(mockName);
   const [description, setDescription] = useState(mockDescription);
-  const [descriptionIsExtended, setDescriptionIsExtended] = useState(false);
 
 
   useEffect(() => {
@@ -199,7 +198,12 @@ const mockProfile = "person.svg";
             return (
               <>
                 <div key={"date_" + index} className={styles.dateSection}>
-                  <p>{getDate(message.createdAt)}</p>
+                  <div>
+                    <div></div>
+                    <p>{getDate(message.createdAt)}</p>
+                    <div></div>
+                  </div>
+
                 </div>
                 <Message
                   key={"message_" + index}
@@ -281,10 +285,6 @@ function changeName(change:boolean){
     changeNameEditMode();
 }
 
-function changeDescriptionHeight(){
-    setDescriptionIsExtended(!descriptionIsExtended);
-}
-
   function handleInfoProfileClick() {
     const input = document.getElementById(
       "infoProfileInput"
@@ -352,7 +352,7 @@ function changeDescriptionHeight(){
           
 
             <div>
-                <div onClick={changeDescriptionHeight} className={descriptionIsExtended&&styles.fixedHeight}>
+                <div>
                     <h1>Description</h1>
                     <p>{description.length>0?description:<span>No Description</span>}</p>
                 </div>

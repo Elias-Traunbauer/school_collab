@@ -4,9 +4,9 @@
 }
 
 .container{
-    min-width: 3em;
-    min-height: 1em;
-    max-width: 60%;
+    min-width: 4em;
+    min-height: 3em;
+    max-width: 50%;
     width: fit-content;
     height: fit-content;
     display: flex;
@@ -17,15 +17,27 @@
     position: relative;
     border-radius: 0.5em;
     padding: .4em;
+    font-size: large;
 }
 
 .wrapper{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
+    position: relative;
+    gap: .5em;
+    
+    &:hover > .popUp{
+        display: flex;
+    }
 }
 .wrapRight{
     justify-content: flex-end;
+
+    & > .popUp{
+        transform: scaleX(-1);
+    }
+
 }
 .wrapLeft{
     justify-content: flex-start;
@@ -92,6 +104,30 @@
         margin: 0;
         opacity: 0.6;
         font-size: .7em;
+    }
+}
+
+.popUp{
+    border-radius: 50%;
+    opacity: 0.8;
+    margin: auto 0;
+    display: none;
+    & > div > button{
+        appearance: none;
+        background-color: white;
+        width: 2em;
+        height: 2em;
+        padding: 0;
+        mask: url(/reply.svg) no-repeat center;
+
+        &:hover{
+            opacity: 1;
+            filter: brightness(1.2);
+        }
+    }
+
+    &:hover{
+        background-color: var(--background_hover);
     }
 }
 

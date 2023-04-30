@@ -23,6 +23,17 @@ export default function Message({
 
   return (
     <div style={displayName ? { marginTop: '.3em' } : {}} className={`${styles.wrapper} ${author.id == mockuser.id? styles.wrapRight : styles.wrapLeft}`}>
+
+      {
+        author.id == mockuser.id&&
+        <div className={styles.popUp}>
+          <div>
+            <button></button>
+          </div>
+        </div>
+      }
+    
+
       <div className={`${styles.container} ${author.id == mockuser.id&& styles.ownMessage}`}>
       {displayName && author.id != mockuser.id && (
         <div className={styles.head}>
@@ -50,6 +61,15 @@ export default function Message({
         <p>{DisplayDate()}</p>
       </div>
     </div>
+    {
+        author.id != mockuser.id&&
+        <div className={styles.popUp}>
+          <div>
+            <button></button>
+          </div>
+        </div>
+      }
+    
     </div>
     
   );
