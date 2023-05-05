@@ -138,7 +138,6 @@
     flex-direction: column;
    
     padding-bottom: 1em;
-
     //Answer
     &> .answer{
         width: 95%;
@@ -217,6 +216,7 @@
         flex-direction: row;
         padding: .4em;
         gap: .2em;
+
 
         & > div{
         padding: .5em;
@@ -598,4 +598,7 @@
             overflow-y: auto;
         }
     }
+}
+.dragged{
+    border: 2px dashed var(--color_main) !important;
 }

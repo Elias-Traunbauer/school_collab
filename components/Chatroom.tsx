@@ -238,13 +238,33 @@ function deleteFileItem(itemKey = 0){
     ) as HTMLInputElement;
     input.click();
   }
+  function handleDragged(){
+    console.log("dragged");
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    chatBody.classList.add(styles.dragged);
+  }
+
+  function handleLeave(){
+    console.log("leave");
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    chatBody.classList.remove(styles.dragged);
+  }
+
+  function handleDropped(e){
+    e.preventDefault();
+    console.log("droped " + e.dataTransfer.files);
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    chatBody.classList.remove(styles.dragged);
+    const files = e.dataTransfer.files;
+    setFiles([...files]);
+  }
 
   return (
-    <div className={styles.container}>
+    <div onDragOver={handleDragged} onDragLeave={handleLeave} className={styles.container}>
 
-      <div className={styles.contentWrapper}>
+      <div  className={styles.contentWrapper}>
         <div className={styles.contentContainer}>
-          <div id="chatBody" className={styles.body}>
+          <div onDrop={(e)=>handleDropped(e)} id="chatBody" className={styles.body}>
             <div>
               {printMessages()}
               <p></p>
@@ -286,7 +306,7 @@ function deleteFileItem(itemKey = 0){
             </div>
             }
             
-            <div className={answer != null || files.length > 0 ? styles.extention : "" }>
+            <div  className={answer != null || files.length > 0 ? styles.extention : "" }>
               <div onClick={addFiles}>
                 <div className={styles.dataBtn}></div>
               </div>
