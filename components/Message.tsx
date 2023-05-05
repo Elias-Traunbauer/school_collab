@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import styles from "../styles/Message.module.scss";
 import FileListObject from "./FileListObject";
 export default function Message({
@@ -7,12 +7,14 @@ export default function Message({
   createdAt = new Date(1, 1, 1, 1, 1),
   files,
   displayName = false,
+  answer,
 }: {
-    files?: [{ name: string; url: string }];
+    files?: Array<{ name: string; url: string }>;
     author: {id:number; name:string; color:string };
     text: string;
     createdAt?: Date;
     displayName: boolean;
+    answer?: { author: {id:number; name:string; color:string }; text: string };
 }) {
   const mockuser = { id: 1,name: "alo" , color:'blue'};
   function DisplayDate() {
@@ -40,11 +42,18 @@ export default function Message({
           <p style={{color:author.color}}>{author.name}</p>
         </div>
       )}
-      <div className={styles.body}>
-        <p>{text}</p>
-      </div>
-      
-        {
+
+      {answer && (
+        <div className={styles.answer}>
+          <div className={styles.answerHead}>
+            <p style={{color:answer.author.color}}>{answer.author.name}</p>
+          </div>
+          <div style={{'--answerColor': answer.author.color} as CSSProperties} className={styles.answerBody}>
+            <p>{answer.text}</p>
+          </div>
+        </div>
+      )}
+              {
             files &&
             <div className={styles.fileContainer}>
                 {
@@ -56,6 +65,12 @@ export default function Message({
                 }
             </div>
         }
+
+      <div className={styles.body}>
+        <p>{text}</p>
+      </div>
+      
+
       
       <div className={styles.foot}>
         <p>{DisplayDate()}</p>

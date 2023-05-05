@@ -313,6 +313,7 @@ function changeName(change:boolean){
                 id="messageField"
                 type="text"
                 placeholder="Type a message..."
+                autoComplete="off"
               ></input>
               <div onClick={sendMessage}>
                 <div className={styles.sendBtn}></div>

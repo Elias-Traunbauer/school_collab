@@ -45,15 +45,6 @@
 
 .ownMessage{
     background-color: var(--color_main)!important;
-
-    & .fileContainer{
-        background-color: var(--color_main)!important;
-        filter: brightness(.8);
-
-        & > div:hover{
-            background-color: var(--color_main_darker)!important;
-        }
-    }
 }
 
 .ownMessage{
@@ -77,9 +68,12 @@
 }
 
 .fileContainer{
+    border-radius: .5em;
+    margin: .8em 0;
     min-width: 20em;
-    margin-top: .3em;
-    margin-bottom: .3em;
+    width: 100%;
+    background-color: var(--background_1);
+
 }
 
 .body{
@@ -108,15 +102,31 @@
 }
 
 .popUp{
-    border-radius: 50%;
+
     opacity: 0.8;
-    margin: auto 0;
-    display: none;
+    //display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &>div{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+
+        &:hover{
+            background-color: var(--background_hover);
+        }
+    }
     & > div > button{
         appearance: none;
         background-color: white;
         width: 2em;
         height: 2em;
+        border: none;
         padding: 0;
         mask: url(/reply.svg) no-repeat center;
 
@@ -124,10 +134,6 @@
             opacity: 1;
             filter: brightness(1.2);
         }
-    }
-
-    &:hover{
-        background-color: var(--background_hover);
     }
 }
 
