@@ -49,11 +49,11 @@
 
     & > .fileContainer{
         background-color: var(--color_main_dark)!important;
-        
+        filter: brightness(0.8);
 
         & > div > div:hover{
             background-color: var(--color_main_dark)!important;
-            filter: brightness(0.8);
+            filter: brightness(0.9);
         }
     }
 }
@@ -77,7 +77,6 @@
 .fileContainer{
     border-radius: .5em;
     margin: .8em 0;
-    min-width: 20em;
     width: 100%;
     background-color: var(--background_1);
 
@@ -114,10 +113,8 @@
 }
 
 .popUp{
-
     opacity: 0.8;
-    //display: none;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;

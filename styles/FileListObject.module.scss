@@ -11,6 +11,7 @@
 
     & > img {
         cursor: pointer;
+        user-select: none;
     }
 
     width: fit-content;
@@ -69,6 +70,7 @@
     & > img {
         cursor: pointer;
         font-size: 1.2em;
+        user-select: none;
     }
 }
 
@@ -108,6 +110,7 @@
     padding: .2em;
     border-radius: 10em;
     width: fit-content;
+    user-select: none;
 }
 
 .deletContainer:hover {
@@ -116,6 +119,5 @@
 
 .deleteAnimation{
     opacity: 0;
-    overflow: hidden;
-    transition: opacity .5s;
+    transition: opacity .2s linear;
 }

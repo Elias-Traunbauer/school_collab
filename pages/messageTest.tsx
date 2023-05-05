@@ -1,5 +1,5 @@
 import { text } from "stream/consumers";
-import Message from "../components/Message";
+import Message from "../components/MessageComponent";
 import styles from "../styles/Message.module.scss";
 export default function MessageTest() {
   return (
