@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import styles from "../styles/Chatroom.module.scss";
 import Message from "./Message";
 import Image from "next/image";
@@ -118,6 +118,7 @@ const mockProfile = "person.svg";
   const [name, setName] = useState(mockName);
   const [backUpName, setBackUpName] = useState(mockName);
   const [description, setDescription] = useState(mockDescription);
+  const [answer, setAnswer] = useState({author:{id:1,name:'alo',color:'red'},text:'Hello World'});
 
 
   useEffect(() => {
@@ -188,6 +189,14 @@ const mockProfile = "person.svg";
     chatroom.scrollTop = chatroom.scrollHeight;
   }
 
+  function displayAnswer(author: {
+    id: number;
+    name: string;
+    color: string;
+}, text: string){
+    setAnswer({author,text});
+  }
+
   function printMessages() {
     let currentDate = messages[0].createdAt;
     return (
@@ -207,6 +216,7 @@ const mockProfile = "person.svg";
                 </div>
                 <Message
                   key={"message_" + index}
+                  handleAnswer={displayAnswer}
                   author={message.author}
                   text={message.text}
                   createdAt={message.createdAt}
@@ -224,6 +234,7 @@ const mockProfile = "person.svg";
                 key={"message_" + index}
                 author={message.author}
                 text={message.text}
+                handleAnswer={displayAnswer}
                 createdAt={message.createdAt}
                 displayName={
                   index != 0
@@ -285,6 +296,8 @@ function changeName(change:boolean){
     changeNameEditMode();
 }
 
+
+
   function handleInfoProfileClick() {
     const input = document.getElementById(
       "infoProfileInput"
@@ -304,7 +317,24 @@ function changeName(change:boolean){
             </div>
           </div>
           <div className={styles.foot}>
-            <div>
+
+            {
+                answer &&
+                <div style={{'--answerColor': answer.author.color} as CSSProperties}  className={styles.answer}>
+                <div>
+                <div>
+                  <p>{answer.author.name}</p>
+                  <p>{answer.text}</p>
+                </div>
+                <button onClick={() => setAnswer(null)}>
+                  <div></div>
+                  </button>
+                </div>
+              </div>
+            }
+            
+
+            <div className={answer &&styles.extention}>
               <div onClick={addFiles}>
                 <div className={styles.dataBtn}></div>
               </div>

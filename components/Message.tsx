@@ -8,6 +8,7 @@ export default function Message({
   files,
   displayName = false,
   answer,
+  handleAnswer,
 }: {
     files?: Array<{ name: string; url: string }>;
     author: {id:number; name:string; color:string };
@@ -15,12 +16,19 @@ export default function Message({
     createdAt?: Date;
     displayName: boolean;
     answer?: { author: {id:number; name:string; color:string }; text: string };
+    handleAnswer: ( author: {id:number; name:string; color:string }, text: string ) => void;
 }) {
   const mockuser = { id: 1,name: "alo" , color:'blue'};
   function DisplayDate() {
     const hour = createdAt.getHours().toString().padStart(2, "0");
     const minute = createdAt.getMinutes().toString().padStart(2, "0");
     return `${hour}:${minute}`;
+  }
+
+  function handleAnswerClicked(){
+    if(handleAnswer){
+      handleAnswer(author,text);
+    }
   }
 
   return (
@@ -30,7 +38,7 @@ export default function Message({
         author.id == mockuser.id&&
         <div className={styles.popUp}>
           <div>
-            <button></button>
+            <button onClick={handleAnswerClicked}></button>
           </div>
         </div>
       }
@@ -44,13 +52,17 @@ export default function Message({
       )}
 
       {answer && (
-        <div className={styles.answer}>
-          <div className={styles.answerHead}>
-            <p style={{color:answer.author.color}}>{answer.author.name}</p>
+        <div style={{'--answerColor': answer.author.color} as CSSProperties} className={styles.answer}>
+          <div >
+            <div className={styles.answerHead}>
+              <p style={{color:answer.author.color}}>{answer.author.name}</p>
+            </div>
+            <div className={styles.answerBody}>
+              <p>{answer.text}</p>
+            </div>
+            
           </div>
-          <div style={{'--answerColor': answer.author.color} as CSSProperties} className={styles.answerBody}>
-            <p>{answer.text}</p>
-          </div>
+          
         </div>
       )}
               {
@@ -80,7 +92,7 @@ export default function Message({
         author.id != mockuser.id&&
         <div className={styles.popUp}>
           <div>
-            <button></button>
+            <button onClick={handleAnswerClicked} ></button>
           </div>
         </div>
       }

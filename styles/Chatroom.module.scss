@@ -124,15 +124,90 @@
     }
 }
 
+.extention{
+    // remove top border radius
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
 .foot{
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
    
     padding-bottom: 1em;
 
-    & > div{
+    //Answer
+    &> .answer{
+        width: 95%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: .5em .5em 0 .5em;
+        background-color: var(--background_1);
+        border-top-left-radius: .5em !important;
+        border-top-right-radius: .5em !important;
+        cursor: pointer;
+
+        &> div{
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            min-height: 3em;
+            background-color: var(--background_1);
+            filter: brightness(.8);
+            border-radius: .5em;
+            border-top: 2px solid var(--answerColor);
+            padding: .3em;
+
+            //content
+            & > div:first-child{
+                width: 100%;
+
+                &>*{
+                    margin: 0;
+                }
+
+                & >p:first-child{
+                    font-weight: bold;
+                    color: var(--answerColor);
+                    margin-bottom: .2em;
+                }
+            }
+
+            //button
+            & > button{
+                appearance: none;
+                border: 0;
+                margin: 0;
+                padding: .5em;
+                border-radius: .5em;
+                background-color: transparent;
+                &>div{
+                    width: 1em;
+                    height: 1em;
+                    background-color: white;
+                    mask: url(/close.svg) no-repeat center;
+                    pointer-events: none;
+                }
+
+                &:hover{
+                    background-color: var(--background_1);
+                    filter: brightness(1.3);
+                }
+            }
+        }
+    }
+
+
+
+    // Input
+    & > div:last-child{
         width: 95%;
         display: flex;
         justify-content: space-between;
@@ -157,7 +232,7 @@
     }
 
     & > input{
-        width: calc(100% - 2.4em);
+        width: 100%;
         border: none;
         outline: none;
         background-color: transparent;

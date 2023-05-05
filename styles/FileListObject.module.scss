@@ -53,7 +53,7 @@
 
 .Listcontainer > div {
     position: relative;
-    width: 99%;
+    width: 100%;
     vertical-align: middle;
 
     & * {
@@ -62,7 +62,6 @@
     }
 
     & p {
-        color: var(--color_link);
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
@@ -87,11 +86,6 @@
         overflow: hidden;
         white-space: nowrap;
     }
-}
-
-.Listcontainer:hover {
-    background-color: var(--background_1);
-
 }
 
 .Listcontainer > img{

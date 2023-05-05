@@ -18,6 +18,21 @@ export default function MessageTest() {
         text="Me Admin"
         displayName={true}
       ></Message>
+
+<Message
+        answer={{
+          author: {
+            id: 2,
+            name: "adsa",
+            color: "blue",
+          },
+          text: "dsadsa",
+        }}
+        files={[{ name: "testFile", url: "" },{ name: "testFile", url: "" },{ name: "testFile", url: "" }]}
+        author={{ id: 2, name: "silber", color: "red" }}
+        text="Me Admin"
+        displayName={true}
+      ></Message>
     </div>
   );
 }
