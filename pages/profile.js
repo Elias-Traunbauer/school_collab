@@ -1,4 +1,5 @@
 import Wizard from '../components/wizard';
+import { WizardField } from '../components/models/WizardField';
 import styles from "../styles/profile.module.scss"
 import { useState } from "react";
 import Image from "next/image";
@@ -10,6 +11,8 @@ export default function Profile() {
         lastName: "Frey",
     }
 
+    const contentData = [[new WizardField('Type in your password','text',{value:true,text:'asdasdasdasd'},true),new WizardField('Type in your new password','text',[{value:1,displayText:'password'},{value:1,displayText:'süba'},{value:1,displayText:'süba'}],true)]]
+
     const [passwordChange, setPasswordChange] = useState(false);
 
     function changePasswordOnClick(e){
@@ -17,17 +20,15 @@ export default function Profile() {
         setPasswordChange(true);
     }
 
-    const contentData = [{
-        password: true,
-      },
-      {
-        new_password: true,
-        retype_new_password: true
-      }];
-
 
     function openFileExplorer(){
         document.getElementById('file').click();
+    }
+
+    function handleFileChanged(e){
+        e.target.files[0].text().then((text) => {
+            console.log(text);
+        })
     }
 
     return( 
@@ -55,7 +56,7 @@ export default function Profile() {
                             <button className='btn' onClick={(e) => changePasswordOnClick(e)}>change password</button>
                         </form> 
                     </div>
-                    {passwordChange ? <Wizard callback={callback} containerWidth={5} contentData={contentData} title='Change password'/> : null}
+                    {passwordChange ? <Wizard containerWidth={5} contentData={contentData} title='Change password'/> : null}
                 </div>
 
             </div>
