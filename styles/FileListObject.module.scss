@@ -1,24 +1,42 @@
 .Cardcontainer {
-    width: 5em;
-    height: 5em;
-    padding: 1em !important;
+    padding: .4em .8em;
     border-radius: .5em;
     gap: .3em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--background_1);
+    background-color: var(--background_2);
     filter: brightness(0.9);
+
+    & > img {
+        cursor: pointer;
+    }
+
+    width: fit-content;
+    height: fit-content;
+    border-radius: .2em;
+    padding: .3em;
+
 }
 
 .Cardcontainer p {
     margin: 0;
+    color: var(--color_link);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.Cardcontainer:hover p{
+    text-decoration: underline 1px;
+    margin-top: .3em;
 }
 
 .Cardcontainer:hover {
     cursor: pointer;
-    filter: brightness(0.7);
+    filter: brightness(130%);
+
 }
 
 .Listcontainer {
@@ -28,37 +46,71 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
+    border-radius: .2em;
+    gap: .2em;
+    cursor: pointer;
 }
 
-.ListContentcontainer {
+.Listcontainer > div {
     position: relative;
-    width: 100%;
+    width: 99%;
     vertical-align: middle;
-    border-radius: .2em;
 
     & * {
         display: inline-block;
         margin: 0;
     }
+
+    & p {
+        color: var(--color_link);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    & > img {
+        cursor: pointer;
+        font-size: 1.2em;
+    }
 }
 
-.ListContentcontainer * {
+.Listcontainer > div * {
     vertical-align: middle;
 }
 
+
 .ListContentcontainer:hover {
     background-color: var(--background_4);
+
+    & p {
+        text-decoration: underline 1px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 }
 
-.ListContentcontainer p {
+.Listcontainer:hover {
+    background-color: var(--background_1);
+
+}
+
+.Listcontainer > img{
+    user-select: none;
+}
+
+.Listcontainer > div p {
     margin-left: .5em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 60%;
 }
 
 .deletContainer {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 0;
+    right: 2%;
     padding: .2em;
     border-radius: 10em;
     width: fit-content;
@@ -66,4 +118,10 @@
 
 .deletContainer:hover {
     background-color: rgba(255, 255, 255, 0.205);
+}
+
+.deleteAnimation{
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity .5s;
 }
