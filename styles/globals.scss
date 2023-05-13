@@ -1,20 +1,20 @@
 :root {
   --color_main: #5f2dbd;
   --background: #000000;
-  --background_1: #181a1b;
-  --background_2: #212225;
+  --background_1: #1f2223;
+  --background_2: #2a2b30;
   --background_3: #282a2e;
   --background_4: #373a41;
   --background_5: #535961;
   --disabled_filter: #171717bc;
   --color_red: #bf0000;
+  --color_link: #0069d9;
 }
 
 @font-face {
   font-family: 'HeavyCaps';
   src: url("/Uni Sans Heavy Caps.ttf");
   src: url("/Roboto-Regular.ttf");
-
 }
 
 h1::selection {
@@ -156,7 +156,7 @@ button {
 .btn-primary {
   color: white;
   background-color: var(--color_main);
-  border: .1em solid var(--color_main);
+  border: .2em solid var(--color_main);
 }
 
 .btn-primary:hover {

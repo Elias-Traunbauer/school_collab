@@ -1,6 +1,6 @@
 import styles from '../styles/Voting.module.css';
 import React, { useState, useEffect } from 'react';
-import Chart from 'chart.js/auto';
+import Chart, { ChartOptions } from 'chart.js/auto';
 
 export default function Voting({ VoteId }) {
     //Mock
@@ -24,12 +24,13 @@ export default function Voting({ VoteId }) {
 
     const [votes, setVotes] = useState(data.chartData);
     const [votingIndices, setvotingIndices] = useState([]);
-    let [chart, setChart] = useState();
+    const [chart, setChart] = useState<Chart<"pie", number[], string> | undefined>(undefined);
 
+    
     useEffect(() => {
         if (!chart) {
             const canvas = document.getElementById('votingChart');
-            let tmpChart = new Chart(canvas, {
+            let tmpChart = new Chart(canvas as any, {
                 type: 'pie',
                 data: {
                     labels: data.chartlabels,
@@ -48,28 +49,22 @@ export default function Voting({ VoteId }) {
                     },
                     title: {
                         display: false,
-                        text: 'Results'
-                    },
-                    circleAroundPieDoughnut: {
-                        width: 2, // Width of the border, defaults to 1
-                        color: 'white' // Color of the border, defaults to black
+                        text: "Results"
                     }
-                },
-
+                } as ChartOptions
             });
-            chart = tmpChart;
             setChart(tmpChart);
+        } else {
+            chart.data.datasets[0].data = votes;
+
+            if (votes.includes(0))
+                chart.data.datasets[0].borderWidth = 0;
+            else
+                chart.data.datasets[0].borderWidth = 2;
+
+            chart.update();
         }
-
-        chart.data.datasets[0].data = votes;
-
-        if (votes.includes(0))
-            chart.data.datasets[0].borderWidth = 0;
-        else
-            chart.data.datasets[0].borderWidth = 2;
-
-        chart.update();
-    });
+    }, [chart, data.chartColors, data.chartlabels, votes]);
 
     function finishVote() {
         document.getElementById('voteBtn').classList.add(styles.disabeld);
@@ -87,7 +82,7 @@ export default function Voting({ VoteId }) {
         if (votingIndices.includes(key)) {
             e.target.classList.remove(styles.activeAnswer);
             index = votingIndices.indexOf(key);
-            removedObj = votingIndices.splice(index, 1);
+            removedObj = Number.parseFloat(votingIndices.splice(index, 1).toString());
         }
         else {
             if (votingIndices.length == data.countOfMaxAnswers)
