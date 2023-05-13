@@ -117,7 +117,7 @@ export default function MarkdownEditor({ containerWidth = 50 , defaultText='# He
       const newText:string = text.substring(0, selectionStart) + '*' + selectedText + '*' + text.substring(selectionEnd);
       textArea.value = newText;
       textArea.focus();
-      textArea.setSelectionRange(selectionStart + 2, selectionEnd + 2);
+      textArea.setSelectionRange(selectionStart + 1, selectionEnd + 1);
       setMdText(newText);
     }
 
@@ -198,10 +198,16 @@ export default function MarkdownEditor({ containerWidth = 50 , defaultText='# He
       <div className={styles.content}>
         <textarea id='textArea' onInput={highlight}></textarea>  
         {
-          displayState && mdText.length > 0 &&
+          displayState && mdText.length > 0 ?
           <div ref={contentRef}>
             <ReactMarkdown>{mdText}</ReactMarkdown>
           </div>
+          : displayState && 
+          <div ref={contentRef} className={styles.placeholder}>
+            <h2>Kein Text!</h2>
+            <p>schreiben Sie etwas in die Textbox</p>
+          </div>
+          
         }
         
       </div>
