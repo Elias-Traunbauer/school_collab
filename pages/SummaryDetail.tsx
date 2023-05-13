@@ -41,7 +41,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
                     <div>
                         <h1>{post.title}</h1>
                         <div>
-                            <VotingComponent votingId={post.votingId} withScore={true}></VotingComponent>
+                            <VotingComponent votingId={post.votingId} withScore={true} itemkey={0}></VotingComponent>
                         </div> 
                     </div>
             </div>
@@ -56,7 +56,14 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
                 </div>
             }
 
-            <div className={styles.classList}>
+            <div className={styles.files}>
+                <div>
+                    <div>
+                        <p>Files</p>
+                        <span>download Files</span>
+                    </div>
+                </div>
+                
                 <div>
                 {
                     files.length > 0 ?
