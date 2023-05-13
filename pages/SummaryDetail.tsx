@@ -33,11 +33,23 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
         setFiles(tmpList);
     }
 
+    function handleSave() {
+        setEditMode(false);
+        const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
+        editCheckbox.checked = false;
+    }
+
+    function handleCancel() {
+        setEditMode(false);
+        const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
+        editCheckbox.checked = false;
+    }
+
 
     return(
         <div className={styles.container}>
             <div className={styles.header}>
-                <input type='checkbox' onClick={()=>setEditMode(!editMode)} className={styles.edit}></input>
+                <input id='detail_edit' type='checkbox' onClick={()=>setEditMode(!editMode)} className={styles.edit}></input>
                     <div>
                         <h1>{post.title}</h1>
                         <div>
@@ -85,9 +97,20 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
             </div>
             
             <div className={styles.buttonArray}>
+                
                 <div>
-                    <button className='btn btn-primary'>Save</button>
-                    <button className='btn btn-cancel'>Cancel</button>
+                    {
+                        editMode ?
+                        <>
+                            <button onClick={handleCancel} className='btn btn-cancel'>Cancel</button>
+                            <button onClick={handleSave} className='btn btn-primary'>Save</button>
+                        </>
+                        
+                    :
+                        <button className='btn btn-primary'>Exit</button>
+                    
+                    }
+                    
                 </div>
 
             </div>
