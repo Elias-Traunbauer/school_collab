@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import styles from "../styles/Message.module.scss";
+import styles from "../styles/MessageComponent.module.scss";
 import FileListObject from "./FileListObject";
 import Message from "../models/Message";
 export default function MessageComponent({

@@ -76,15 +76,21 @@
 
 .fileContainer{
     border-radius: .5em;
-    margin: .8em 0;
+    margin-bottom: .5em;
+    min-width: 15em;
+
+    // media query
+    @media (max-width: 1200px) {
+        min-width: 8em;
+    }
     width: 100%;
     background-color: var(--background_1);
 
     & > div > div:hover{
         background-color: var(--background_1)!important;
         filter: brightness(.8);
+        border-radius: .5em;
     }
-
 }
 
 .body{
@@ -154,6 +160,7 @@
     align-items: center;
     padding: .2em;
     margin-top: .5em;
+    margin-bottom: .5em;
     background-color: var(--background_1);
     border-radius: .5em;
     border-top: 2px solid var(--answerColor);

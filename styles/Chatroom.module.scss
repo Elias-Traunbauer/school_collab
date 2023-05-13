@@ -577,14 +577,11 @@
     &> div{
         width: 90%;
         background-color: var(--background);
-        filter: brightness(1);
-
-        padding-bottom: .2em;
-        
-        
+        filter: brightness(1); 
+        border-radius: .3em;
 
         &>p{
-            margin: .5em;
+            margin: .5em 0 .5em .5em;
         }
 
         & >div >div:hover{
@@ -593,7 +590,7 @@
         }
 
         &>div{
-            width: 99%;
+            width: 100%;
             max-height: 9.4em;
             overflow-y: auto;
         }
