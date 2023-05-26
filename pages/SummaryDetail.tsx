@@ -62,7 +62,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
                     files.length > 0 ?
                     files.map((file, index) => {
                         return(
-                            <FileListObject key={"FileItem"+index} file={file} asCard={false}  deleteFunction={deleteFileItem} itemKey={index}></FileListObject>
+                            <FileListObject key={"FileItem"+index} file={file} asCard={false}  deleteFunction={(e)=>deleteFileItem(e,index)} itemKey={index}></FileListObject>
                         );
                     })
                     :

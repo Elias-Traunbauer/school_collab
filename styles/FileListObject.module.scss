@@ -48,6 +48,7 @@
     align-items: center;
     border-radius: .2em;
     gap: .2em;
+    cursor: pointer;
 }
 
 .Listcontainer > div {
@@ -91,6 +92,10 @@
 .Listcontainer:hover {
     background-color: var(--background_1);
 
+}
+
+.Listcontainer > img{
+    user-select: none;
 }
 
 .Listcontainer > div p {
