@@ -29,7 +29,11 @@ export default function PollList(){
                 <h1>Umfragen</h1>
             </div>
             <div>
-                <button>Neue Umfrage</button>
+                <button>
+                    <p>
+                        Umfrage Erstellen
+                    </p>
+                </button>
             </div>
             {mockPolls.map((poll) => {
                 return <PollCard key={poll.id} poll={poll}></PollCard>
