@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MarkdownEditor from '../components/MarkdoenEditor';
+import MarkdownEditor from '../components/MarkdownEditor';
 import Voting from './voting';
 import VotingComponent from '../components/VotingComponent';
 import styles from '../styles/SummaryDetail.module.scss';
@@ -46,7 +46,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
                     </div>
             </div>
             <div className={styles.MarkdownEditor}>
-                <MarkdownEditor text={post.description}></MarkdownEditor>
+                <MarkdownEditor></MarkdownEditor>
             </div>
 
             {
