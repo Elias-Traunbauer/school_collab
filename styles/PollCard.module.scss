@@ -6,8 +6,10 @@
     background-color: var(--cardColor);
     border-radius: .5em;
     cursor: pointer;
+    transition: all .2s ease-in-out;
     &:hover{
         filter: brightness(1.1);
+        scale: 1.01;
     }
 
     &>div:first-child{
@@ -21,6 +23,10 @@
 
             &>span{
                 font-weight: bold;
+                &:hover{
+                    opacity: 1 !important;
+                    text-decoration: underline;
+                }
             }
         }
     }
@@ -84,5 +90,6 @@
 
     &:hover{
         filter: brightness(1) !important;
+        scale: 1 !important;
     }
 }

@@ -1,28 +1,27 @@
 import { CSSProperties, use, useState } from 'react';
 import styles from '../styles/PollCard.module.scss'
-export default function PollCard(){
-    const mockPoll = {
-        id: 1,
-        title: 'Poll Title',
-        description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-        user:'Thomas',
-        end: new Date('2021-06-01T00:00:00.000Z'),
-        start: new Date(),
-    }
+export default function PollCard({poll = {
+    id: 1,
+    title: 'Poll Title',
+    description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+    user:'Thomas',
+    end: new Date('2021-06-01T00:00:00.000Z'),
+    start: new Date(),
+}}: {poll?: {id: number, title: string, description: string, user: string, end: Date, start: Date}}){
     const backgroundcolor = 'var(--background_1)';
 
     function displayDate(){
         const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember']
 
-        if(!mockPoll.end){
+        if(!poll.end){
             return 'Kein Enddatum'
         }
 
-        if(new Date(mockPoll.end) < new Date()){
+        if(new Date(poll.end) < new Date()){
             return 'abgelaufen';
         }
 
-        const date = new Date(mockPoll.end);
+        const date = new Date(poll.end);
         const day = date.getDate();
         const month = date.getMonth() + 1;
         const year = date.getFullYear();
@@ -42,16 +41,16 @@ export default function PollCard(){
     }
 
     return(
-        <div style={{ '--cardColor': backgroundcolor } as CSSProperties} className={`${styles.container} ${new Date(mockPoll.end) < new Date()&&styles.disabled}`}>
+        <div style={{ '--cardColor': backgroundcolor } as CSSProperties} className={`${styles.container} ${new Date(poll.end) < new Date()&&styles.disabled}`}>
             <div>
-                <p>erstellt von <span>{mockPoll.user}</span></p>
+                <p>erstellt von <span>{poll.user}</span></p>
             </div>
             <div>
-                <h1>{mockPoll.title}</h1>
+                <h2>{poll.title}</h2>
             </div>
             <div>
                 <div>
-                <p>{mockPoll.description}</p>
+                <p>{poll.description}</p>
                 </div>
             </div>
 

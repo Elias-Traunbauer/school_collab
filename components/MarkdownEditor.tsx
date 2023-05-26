@@ -4,7 +4,7 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { text } from "stream/consumers";
 
-export default function MarkdownEditor({isEditable, containerWidth = 50 , defaultText='# Hello'}: {isEditable: boolean, containerWidth?: number, defaultText?: string}) {
+export default function MarkdownEditor({isEditable = true, containerWidth = 50 , defaultText='# Hello'}: {isEditable?: boolean, containerWidth?: number, defaultText?: string}) {
     const [displayState, setDisplayState] = useState(false);
     const [mdText, setMdText] = useState('');
     const contentRef = useRef(null);
