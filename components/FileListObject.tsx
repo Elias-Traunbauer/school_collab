@@ -1,20 +1,29 @@
-import styles from '../styles/FileListObject.module.scss';
-import Image from 'next/image';
+import styles from "../styles/FileListObject.module.scss";
+import Image from "next/image";
 
-export default function FileListObject({itemKey, deleteFunction, asCard = true, file = { name: "File" }}) {
-    const filename = GetFilename(file);
+export default function FileListObject({
+  itemKey,
+  deleteFunction,
+  asCard = true,
+  file = { name: "File" },
+}: {
+  itemKey: number;
+  deleteFunction?: (key: number) => void | null;
+  asCard?: boolean;
+  file?: { name: string };
+}) {
+  const filename = GetFilename(file);
 
-    function GetFilename(file) {
-        let maxLen = 50;
+  function GetFilename(file) {
+    let maxLen = 50;
 
-        if (asCard) maxLen = 10;
+    if (asCard) maxLen = 10;
 
-        let res = file.name.slice(0, maxLen);
-        if (file.name.length > maxLen)
-            res += "...";
+    let res = file.name.slice(0, maxLen);
+    if (file.name.length > maxLen) res += "...";
 
-        return res;
-    }
+    return res;
+  }
 
     function deleteItem(e) {
         e.target.parentElement.parentElement.parentElement.classList.add(styles.deleteAnimation);
@@ -35,7 +44,7 @@ export default function FileListObject({itemKey, deleteFunction, asCard = true, 
                     <div className={styles.ListContentcontainer}>
                         <Image alt='File' src="/fileIcon.svg" width={50} height={50}></Image>
                         <p>{file.name}</p>
-                        <div onClick={(e) => deleteFunction(e, itemKey)} className={styles.deletContainer}>
+                        <div onClick={() => deleteFunction(itemKey)} className={styles.deletContainer}>
                             <Image alt='delete' width={30} height={30} src="/cancelicon.svg"></Image>
                         </div>
                     </div>
