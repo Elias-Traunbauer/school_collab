@@ -234,3 +234,10 @@
     opacity: 0.5;
   }
 }
+.hidden{
+  display: none !important;
+}
+
+.background{
+background-color: var(--background_1) !important;
+}

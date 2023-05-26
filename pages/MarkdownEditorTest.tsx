@@ -4,7 +4,7 @@ import styles from '../styles/MarkdownEditor.module.scss';
 export default function MarkdownEditorTest() {
     return (
         <div className={styles.test}>
-            <MarkdownEditor></MarkdownEditor>
+            <MarkdownEditor defaultText='# Hallo' isEditable={false}></MarkdownEditor>
         </div>
         
     );
