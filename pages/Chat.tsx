@@ -14,9 +14,9 @@ export default function Chat() {
                 </div>
                 <div className={styles.navbarHead}>
                     <div className={styles.navbarHeading}>
-                        <div>
+                        <button>
                            <p>Neuer Chat</p>
-                        </div>
+                        </button>
                     </div>
                     <div className={styles.searchContainer}>
                         <input type="text" placeholder="Search" />
