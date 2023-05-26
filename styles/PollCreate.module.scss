@@ -1,8 +1,22 @@
-.container{
-    width: 100vw;
-    height: 100vh;
+.head{
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin-top: 1em;
+    margin-bottom: 3em;
+
+    &>div{
+        width: 80%;
+
+        &>button{
+            float: left;
+            width: 1em;
+            height: 1em;
+            appearance: none;
+            mask: url('/arrow_left.svg') no-repeat center;
+            background-color: white;
+        }
+    }
 }

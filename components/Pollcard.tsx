@@ -1,5 +1,6 @@
 import { CSSProperties, use, useState } from 'react';
 import styles from '../styles/PollCard.module.scss'
+import { useRouter } from 'next/router';
 export default function PollCard({poll = {
     id: 1,
     title: 'Poll Title',
@@ -9,6 +10,8 @@ export default function PollCard({poll = {
     start: new Date(),
 }}: {poll?: {id: number, title: string, description: string, user: string, end: Date, start: Date}}){
     const backgroundcolor = 'var(--background_1)';
+
+    const router = useRouter();
 
     function displayDate(){
         const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember']
@@ -40,8 +43,12 @@ export default function PollCard({poll = {
         return `endet am ${day}.${month} um ${hours}:${minutes}`;
     }
 
+    function openDetail(){
+        router.push(`/poll/detail`);
+    }
+
     return(
-        <div style={{ '--cardColor': backgroundcolor } as CSSProperties} className={`${styles.container} ${new Date(poll.end) < new Date()&&styles.disabled}`}>
+        <div onClick={openDetail} style={{ '--cardColor': backgroundcolor } as CSSProperties} className={`${styles.container} ${new Date(poll.end) < new Date()&&styles.disabled}`}>
             <div>
                 <p>erstellt von <span>{poll.user}</span></p>
             </div>

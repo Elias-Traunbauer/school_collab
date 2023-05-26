@@ -4,6 +4,7 @@ import Countdown from '../../components/Countdown';
 import MarkdownEditor from '../../components/MarkdownEditor';
 import {ChartData, ChartOptions } from 'chart.js';
 import Chart from 'chart.js/auto';
+import { useRouter } from 'next/router';
 
 
 export default function PollDetail(){
@@ -11,11 +12,12 @@ export default function PollDetail(){
         votingId: 1,
         title: 'Poll Title',
         description: 'Poll Description',
-        end: new Date('2023-07-20T00:00:00'),
+        end: new Date('2021-07-20T00:00:00'),
         votingOptions: ["Yes","No","Maybe","I don't know"],
         user:'Yannie'
     }
     const chartRef = useRef(null);
+    const router = useRouter();
 
 
 
@@ -76,7 +78,7 @@ export default function PollDetail(){
         
 
         // mby ein Service der alle paar sekunden das Voting updated und dann die Daten neu lädt
-      });
+      },[mockPoll.votingOptions, voted]);
 
     function setActive(e){
         if(e.target.classList.contains(styles.active)){
@@ -106,21 +108,63 @@ export default function PollDetail(){
               });
         }, 100);
 
+        //TODO: send vote to backend
+
     }
+
+    function backToList(){
+        router.push('/poll/list');
+    }
+
+    useEffect(()=>{
+        if(mockPoll.end < new Date()){
+            setVoted(true);
+        }
+        else{
+            setTimeout(()=>{
+                setVoted(true);
+            }
+            ,mockPoll.end.getTime()-new Date().getTime());
+        }
+    
+
+    //passt schon so :D
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
+    
 
     return(
         <div className={styles.container}>
             <div>
-                <Countdown date={mockPoll.end}></Countdown>
+                <button onClick={backToList}></button>
             </div>
             <div>
                 <h1>{mockPoll.title}</h1>
             </div>
+
+            <div>
+                <div>
+                    {
+                        //end in the past
+                        mockPoll.end < new Date() ?
+                        <p>Abstimmung beendet!</p>
+                        :
+                        <>
+                        <p>Endet in &nbsp;</p>
+                        <Countdown date={mockPoll.end}></Countdown>
+                        </>
+                    }
+                    
+                </div>
+            </div>
+
             <div>
                 <div>
                     <MarkdownEditor containerWidth={100} isEditable={mockUser.name == mockPoll.user}></MarkdownEditor>
                 </div>
             </div>
+
+           
             {
                 voted&&
                 <div>

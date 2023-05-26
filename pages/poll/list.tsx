@@ -1,8 +1,10 @@
 import React from 'react';
 import styles from '../../styles/PollList.module.scss';
 import PollCard from '../../components/Pollcard';
+import { useRouter } from 'next/router';
 export default function PollList(){
 
+    const router = useRouter();
     const mockPolls = [
         {
             id: 1,
@@ -22,6 +24,10 @@ export default function PollList(){
         }
     ]
 
+    function addNewPoll(){
+        router.push('/poll/create');
+    }
+
 
     return(
         <div className={styles.container}>
@@ -29,7 +35,7 @@ export default function PollList(){
                 <h1>Umfragen</h1>
             </div>
             <div>
-                <button>
+                <button onClick={addNewPoll}>
                     <p>
                         Umfrage Erstellen
                     </p>
