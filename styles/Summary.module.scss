@@ -26,41 +26,65 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: .5em;
-    border-radius: .2em;
     user-select: none;
     border-bottom: 1px solid white;
-    padding-bottom: .3em;
-    & > p{
-        font-size: 1.5em;
-        font-weight: 600;
-        margin: 0;  
+
+    &>p{
+        margin: 0;
+        font-size: .9em;
+        opacity: .7;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all .3s linear;
+
+        &:hover{
+            opacity: 1;
+            text-decoration: underline;
+        }
     }
 
-    & > img:hover{
-       background-color: var(--background_2);
-       opacity: .7;
-       filter: brightness(120%);
+    &>div{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: .5em;
+        
+
+        & > p{
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 0;  
+        }
+    
+        & > img:hover{
+           background-color: var(--background_2);
+           opacity: .7;
+           filter: brightness(120%);
+        }
+    
+        & > img{
+            width: 2.5em;
+            height: 2.5em;
+            border-radius: 10em;
+            margin-right: .5em;
+            border-radius: 10em;
+            user-select: none;
+            transition: transform 0.3s linear;
+            transform: rotate(00deg);
+        }
     }
 
-    & > img{
-        width: 2.5em;
-        height: 2.5em;
-        border-radius: 10em;
-        margin-right: .5em;
-        border-radius: 10em;
-        user-select: none;
-        transition: transform 0.4s ease-in-out;
-        transform: rotate(00deg);
+    
+
+    &:hover{
+        filter: brightness(120%);
     }
 }
 
 .rotateExpandImage{
     transform: rotate(-90deg) !important;
-}
-
-.listHeader:hover{
-    filter: brightness(120%);
 }
 
 .postContentContainer{
@@ -191,21 +215,34 @@
 .postHeader{
     display: flex;
     align-items: flex-start;
+
+    &> div >div:first-child{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: .5em;
+
+        &>p{
+            margin: 0;
+            font-size: 1.1em;
+
+            &:hover{
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        };
+
+        &>span{
+            font-size: .8em;
+            opacity: .7;
+        }
+    }
 }
 .postHeader img{
     width: 3em;
     height: 3em;
     border-radius: 10em;
     margin-right: 1rem;
-}
-
-.postHeader span{
-    float: right;
-    font-size: .7em;
-    opacity: .7;
-
-    /*Not sure*/
-    margin-top: .3em;
 }
 
 .post:hover .postHeader span{
