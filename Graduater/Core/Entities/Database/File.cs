@@ -4,17 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities.Database;
 
-public class File : DatabaseEntity, IFile
-{
+public class File : DatabaseEntity, IFile {
     [Required]
     public string Name { get; set; } = string.Empty;
 
     [Required]
     public byte[] Content { get; set; } = null!;
 
-    public string ContentType { get; set; } = String.Empty;
+    public string ContentType { get; set; } = string.Empty;
 
-    public string MIME_Type { get; set; } = String.Empty;
+    public string MIME_Type { get; set; } = string.Empty;
 
     [Required]
     [ForeignKey(nameof(UploadedById))]

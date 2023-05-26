@@ -24,7 +24,7 @@ namespace Api.Controllers
 
         [HttpPost("login")]
         [NoAuthenticationRequired]
-        [RateLimitAttribute(maxRequestsPerMinute: 5, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
+        [RateLimit(maxRequestsPerMinute: 5, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> Login([FromBody] UserLoginPayload loginInformation, [FromServices] IUserService userService)
         {
             if (!ModelState.IsValid)

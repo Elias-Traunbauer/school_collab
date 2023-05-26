@@ -18,5 +18,11 @@ namespace Api.Controllers
         {
             return Ok();
         }
+
+        [HttpPost("message")]
+        public async Task<IActionResult> SendMessage(string message)
+        {
+            return Ok();
+        }
     }
 }

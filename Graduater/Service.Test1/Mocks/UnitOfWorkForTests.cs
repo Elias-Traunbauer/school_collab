@@ -12,6 +12,7 @@ namespace Service.Test.Mocks
     {
         private readonly ApplicationDbContextForTesting _appDbContext;
 
+        public IFileRepository FileRepository { get; }
         public IUserRepository UserRepository { get; set; }
 
         public IAssignmentRepository AssignmentRepository { get; set; }
@@ -20,6 +21,7 @@ namespace Service.Test.Mocks
         {
             _appDbContext = new ApplicationDbContextForTesting();
             UserRepository = new UserRepository(_appDbContext);
+            FileRepository = new FileRepository(_appDbContext);
             AssignmentRepository = null!;
         }
 
