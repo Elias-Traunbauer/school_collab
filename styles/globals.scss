@@ -158,26 +158,33 @@ button {
 .btn-primary {
   color: white;
   background-color: var(--color_main);
-  border: .2em solid var(--color_main);
+  border: 2px solid var(--color_main);
+  border-radius: .2em;
 }
 
 .btn-primary:hover {
   filter: brightness(120%);
+  background-color: var(--color_main);
+  border: 2px solid var(--color_main);
+  border-radius: .4em;
 }
 
 .btn-cancel {
   color: white;
   background-color: transparent;
   border: .1em solid white;
+  border-radius: .2em;
 }
 
 .btn-cancel:hover {
   background-color: var(--color_red);
+  border-radius: .4em;
 }
 
 .btn-seconday {
   color: white;
   background-color: var(--background_1);
+  border-radius: .2em;
 }
 
 .btn-seconday:hover {

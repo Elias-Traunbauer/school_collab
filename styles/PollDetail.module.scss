@@ -28,11 +28,33 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        margin-bottom: 1em;
 
         &>h1{
             margin: 0;
         }
-        margin-bottom: 1em;
+        
+
+        &>input[type="text"]{
+            height: 2em;
+            border-radius: .2em;
+            border: none;
+            padding: .5em .8em;
+            margin: .3em 0;
+            background-color: var(--background_1);
+            color: var(--color_white);
+            font-size: 1.2em;
+            font-weight: 600;
+            outline: none;
+
+            &:hover{
+                filter: brightness(1.2);
+            }
+
+            &:focus{
+                filter: brightness(1.2);
+            }
+        }
     }
 
     &>div:nth-child(4){
@@ -74,74 +96,185 @@
         margin-top: 2em;
     }
 
-    &>div:last-child{
-        width: 80%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
+
+
+}
+.optionsContainer{
+        width: 100%;
         margin: 1em 0;
 
-        &>button:not(:last-child){
-            @media (max-width: 768px) {
-                width: 100%;
-            }
-
-            min-width: 45%;
-            max-width: 100%;
+        &>div{
+            width: 70%;
             display: flex;
-            background-color: var(--background_1);
-            border-radius: .5em;
-            padding: .5em;
-            margin: .3em;
-            border: none;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
 
-            cursor: pointer;
-            user-select: none;
-
-            &:hover{
-               filter: brightness(1.2);
-            }
-
-            &>p{
-                pointer-events: none;
-            }
-        }
-
-        &>div:last-child{
-            width: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            justify-content: flex-end;
-            margin-top: .5em;
-
-            &>button{
-                width: 100%;
-                height: 2.5em;
+            &>button:not(:last-child){
+                @media (max-width: 768px) {
+                    width: 100%;
+                }
+    
+                min-width: 45%;
+                max-width: 100%;
+                display: flex;
+                background-color: var(--background_1);
                 border-radius: .5em;
+                padding: .5em;
+                margin: .3em;
                 border: none;
-                background-color: var(--color_main);
-                color: var(--color_white);
-                font-size: 1.2em;
-                font-weight: 600;
+    
                 cursor: pointer;
                 user-select: none;
-
+    
                 &:hover{
-                    filter: brightness(1.2);
+                   filter: brightness(1.2);
                 }
-
-                &:disabled{
-                    background-color: var(--background_1);
-                    filter: brightness(.8);
+    
+                &>p{
+                    pointer-events: none;
                 }
             }
+    
+            &>div:last-child{
+                width: 90%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: flex-end;
+                margin-top: .5em;
+    
+                &>button{
+                    width: 100%;
+                    height: 2.5em;
+                    border-radius: .5em;
+                    border: none;
+                    background-color: var(--color_main);
+                    color: var(--color_white);
+                    font-size: 1.2em;
+                    font-weight: 600;
+                    cursor: pointer;
+                    user-select: none;
+    
+                    &:hover{
+                        filter: brightness(1.2);
+                    }
+    
+                    &:disabled{
+                        background-color: var(--background_1);
+                        filter: brightness(.8);
+                    }
+                }
+            }
+
         }
-    }
+
 
 }
 .active{
     background-color: var(--color_main) !important;
+}
+.dateContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+    margin: 1em 0;
+}
+.optionsEditContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &>div{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .5em;
+
+        &>div{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: .5em;
+            &>input[type="text"]{
+                width: 100%;
+                height: 2.5em;
+                border-radius: .3em;
+                border: none;
+                background-color: var(--background_1);
+                color: var(--color_white);
+                font-size: 1.2em;
+                user-select: none;
+                padding: 0 .5em;
+                outline: none;
+    
+                &:hover{
+                    filter: brightness(1.2);
+                }
+
+                &:focus{
+                    filter: brightness(1.2);
+                    border-bottom: 1px solid var(--color_main);
+                }
+            }
+
+            &>button{
+                width: 2.5em;
+                height: 2.5em;
+                border-radius: .3em;
+                border: none;
+                font-size: 1.2em;
+                font-weight: 600;
+                user-select: none;
+                background-color: var(--background_1);
+    
+                &:hover{
+                    filter: brightness(1.2);
+                }
+            }
+        }
+       
+        &>button{
+            width: 100%;
+            user-select: none;
+            border: none;
+            background-color: var(--color_main);
+            height: 2.5em;
+
+            &:hover{
+                filter: brightness(1.2);
+            }
+        }
+    }
+
+
+}
+
+.invalid{
+    border: 2px solid var(--color_red) !important;
+}
+
+.buttonArray{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2em;
+
+    &> div{
+        width: 60%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
 }

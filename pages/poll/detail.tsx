@@ -2,20 +2,22 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from '../../styles/PollDetail.module.scss';
 import Countdown from '../../components/Countdown';
 import MarkdownEditor from '../../components/MarkdownEditor';
-import {ChartData, ChartOptions } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
 import Chart from 'chart.js/auto';
 import { useRouter } from 'next/router';
+import Datepicker from '../../components/Datepicker';
 
-
-export default function PollDetail(){
+export default function PollDetail() {
     const mockPoll = {
         votingId: 1,
         title: 'Poll Title',
         description: 'Poll Description',
-        end: new Date('2021-07-20T00:00:00'),
-        votingOptions: ["Yes","No","Maybe","I don't know"],
-        user:'Yannie'
+        end: new Date('2024-07-20T00:00:00'),
+        votingOptions: ["Yes", "No", "Maybe", "I don't know"],
+        user: 'Yannie'
     }
+
+    const [poll, setPoll] = useState(mockPoll);
     const chartRef = useRef(null);
     const router = useRouter();
 
@@ -26,15 +28,17 @@ export default function PollDetail(){
     }
     const [selected, setSelected] = useState(false);
     const [voted, setVoted] = useState(false);
+    const [editMode, setEditMode] = useState(true);
+    const [backupPoll, setBackupPoll] = useState(mockPoll);
 
     useEffect(() => {
-        if(!chartRef.current){
+        if (!chartRef.current) {
             return;
         }
         const ctx = chartRef.current.getContext('2d');
 
         const data: ChartData = {
-            labels: mockPoll.votingOptions,
+            labels: poll.votingOptions,
             datasets: [{
                 label: 'Votes',
                 data: [12, 19, 3, 5],
@@ -75,19 +79,19 @@ export default function PollDetail(){
         return () => {
             chart.destroy();
         }
-        
+
 
         // mby ein Service der alle paar sekunden das Voting updated und dann die Daten neu lädt
-      },[mockPoll.votingOptions, voted]);
+    }, [poll.votingOptions, voted]);
 
-    function setActive(e){
-        if(e.target.classList.contains(styles.active)){
+    function setActive(e) {
+        if (e.target.classList.contains(styles.active)) {
             console.log('remove active');
             e.target.classList.remove(styles.active);
             setSelected(false);
-        }else{
-            const options = document.querySelectorAll('.'+styles.container+' div:last-child button');
-            options.forEach((option)=>{
+        } else {
+            const options = document.querySelectorAll('.' + styles.container + ' div:last-child button');
+            options.forEach((option) => {
                 option.classList.remove(styles.active);
             });
             e.target.classList.add(styles.active);
@@ -95,98 +99,211 @@ export default function PollDetail(){
         }
     }
 
-    function vote(){
+    function removeInvalidationStyle(e){
+        e.target.classList.remove(styles.invalid);
+    }
+
+    function vote() {
         setVoted(true);
         const voteButton = document.getElementById('voteButton');
         voteButton.setAttribute('disabled', 'true');
 
         //delay scroll to bottom
-        setTimeout(()=>{
+        setTimeout(() => {
             window.scrollTo({
                 top: document.documentElement.scrollHeight,
                 behavior: 'smooth',
-              });
+            });
         }, 100);
 
         //TODO: send vote to backend
 
     }
 
-    function backToList(){
+    function backToList() {
         router.push('/poll/list');
     }
 
-    useEffect(()=>{
-        if(mockPoll.end < new Date()){
+    function deleteOption(index:number) {
+        poll.votingOptions.splice(index, 1);
+        setPoll({...poll});
+    }
+    function addOption() {
+        poll.votingOptions.push('');
+        setPoll({...poll});
+    }
+
+    function saveEdit() {
+        const titleInput = document.getElementById('pollTitleInput') as HTMLInputElement;
+        const options = document.querySelectorAll<HTMLInputElement>('.' + styles.optionsEditContainer + ' div input');
+        const validOptions = [];
+        let isValid = true;
+
+        if (titleInput.value.length < 1) {
+            titleInput.classList.add(styles.invalid);
+            isValid = false;
+        }
+
+        // at least 2 options should be available
+        let valid = 0;
+        options.forEach((option) => {
+            if (option.value.length > 0) {
+                valid++;
+                validOptions.push(option.value);
+            }
+        });
+        if (valid < 2) {
+            options.forEach((option) => {
+                if (option.value.length < 1) {
+                    option.classList.add(styles.invalid);
+                }
+            });
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return;
+        }
+
+        poll.votingOptions = validOptions;
+        poll.title = titleInput.value;
+        setPoll({...poll});
+        setEditMode(false);
+    }
+
+    function edit() {
+        setBackupPoll({...poll});
+        setEditMode(true);
+    }
+
+    function cancelEdit() {
+        setPoll({...backupPoll});
+        setEditMode(false);
+    }
+
+    useEffect(() => {
+        if (poll.end < new Date()) {
             setVoted(true);
         }
-        else{
-            setTimeout(()=>{
+        else {
+            setTimeout(() => {
                 setVoted(true);
             }
-            ,mockPoll.end.getTime()-new Date().getTime());
+                , poll.end.getTime() - new Date().getTime());
         }
+
+
+        //passt schon so :D
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     
 
-    //passt schon so :D
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
-    
 
-    return(
+    return (
         <div className={styles.container}>
             <div>
                 <button onClick={backToList}></button>
             </div>
             <div>
-                <h1>{mockPoll.title}</h1>
+                {
+                    editMode ?
+                        <input id='pollTitleInput' type="text" defaultValue={poll.title}></input>
+                        :
+                        <h1>{poll.title}</h1>
+                }
+
             </div>
 
             <div>
                 <div>
                     {
-                        //end in the past
-                        mockPoll.end < new Date() ?
-                        <p>Abstimmung beendet!</p>
-                        :
-                        <>
-                        <p>Endet in &nbsp;</p>
-                        <Countdown date={mockPoll.end}></Countdown>
-                        </>
+                        !editMode ?
+                            poll.end < new Date() ?
+                                <p>Abstimmung beendet!</p>
+                                :
+                                <>
+                                    <p>Endet in &nbsp;</p>
+                                    <Countdown date={poll.end}></Countdown>
+                                </>
+                            :
+                            <div className={styles.dateContainer}>
+                                <Datepicker dateParam={poll.end} OnInput={undefined}></Datepicker>
+                            </div>
                     }
-                    
+
                 </div>
             </div>
 
             <div>
                 <div>
-                    <MarkdownEditor containerWidth={100} isEditable={mockUser.name == mockPoll.user}></MarkdownEditor>
+                    {
+                        <MarkdownEditor containerWidth={100} isEditable={mockUser.name == poll.user && editMode}></MarkdownEditor>
+                    }
+
                 </div>
             </div>
 
-           
+
             {
-                voted&&
+                voted && !editMode &&
                 <div>
-                <canvas ref={chartRef} />
+                    <canvas ref={chartRef} />
                 </div>
             }
 
 
-            <div>
+
                 {
-                    mockPoll.votingOptions.map((option, index) => {
-                        return(
-                            <button onClick={!voted?setActive:()=>{}} key={"option_"+index}>
-                                <p>{option}</p>
-                            </button>
-                        )
-                    })
+                    !editMode ?
+                    <div className={styles.optionsContainer}>
+                        <div>
+                            {
+                                poll.votingOptions.map((option, index) => {
+                                    return (
+                                        <button onClick={!voted ? setActive : () => { }} key={"option_" + index}>
+                                            <p>{option}</p>
+                                        </button>
+                                    )
+                                })
+                            }
+                            <div>
+                                <button id='voteButton' disabled={!selected} onClick={vote}>{voted ? "Abgestimmt" : "Abstimmen"}</button>
+                            </div>
+                        </div>
+                        </div>
+                        :
+                        <div className={styles.optionsEditContainer}>
+                            <div>
+                            {
+                                poll.votingOptions.map((option, index) => {
+                                    return (
+                                        <div key={"option_" + index}>
+                                            <input onInput={removeInvalidationStyle} type="text" defaultValue={option}></input>
+                                            {
+                                                poll.votingOptions.length > 2 &&
+                                                <button onClick={()=>deleteOption(index)}>X</button>
+                                            }
+                                            
+                                        </div>
+                                    )
+                                })
+                            }
+                            <button onClick={addOption}>+</button>
+                            </div>
+                        </div>
                 }
-                <div>
-                    <button id='voteButton' disabled={!selected} onClick={vote}>{voted?"Abgestimmt":"Abstimmen"}</button>
+
+                {
+                    editMode &&
+                    <div className={styles.buttonArray}>
+                    <div>
+                        <button className='btn btn-cancel' onClick={cancelEdit}>Cancel</button>
+                        <button className='btn btn-primary' onClick={saveEdit}>Save</button>
+                    </div>
                 </div>
-            </div>
+                }
+                
+            
         </div>
     )
 }

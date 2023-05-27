@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../../styles/PollList.module.scss';
 import PollCard from '../../components/Pollcard';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 export default function PollList(){
 
     const router = useRouter();
+    
     const mockPolls = [
         {
             id: 1,
@@ -16,16 +18,41 @@ export default function PollList(){
         },
         {
             id: 2,
-            title: 'Poll Title',
+            title: 'Another one',
             description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt',
             user:'Thomas',
             end: new Date('2021-06-01T00:00:00.000Z'),
             start: new Date(),
         }
     ]
+    const [polls, setPolls] = useState(mockPolls);
+    const [displayPolls, setDisplayPolls] = useState(mockPolls);
+    const [searched, setSearched] = useState(false);
 
     function addNewPoll(){
         router.push('/poll/create');
+    }
+
+    function handleSearch(){
+        const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+        const searchValue = searchInput.value;
+        if(searchValue === ''){
+            setDisplayPolls(polls);
+            setSearched(false);
+        }else{
+            // filter after title and description but prioritize title
+            const filteredPolls = polls.filter((poll) => {
+                return poll.title.toLowerCase().includes(searchValue.toLowerCase()) || poll.description.toLowerCase().includes(searchValue.toLowerCase());
+            })
+            setDisplayPolls(filteredPolls);
+            setSearched(true);
+        }
+
+    }
+
+    function resetSearch(){
+        setDisplayPolls(polls);
+        setSearched(false);
     }
 
 
@@ -35,13 +62,25 @@ export default function PollList(){
                 <h1>Umfragen</h1>
             </div>
             <div>
+                <div>
+                    <input id='searchInput' type="text" placeholder="Suche nach Umfragen"></input>
+                    <button onClick={handleSearch}>
+                        <Image src="/search.svg" alt="search" width={20} height={20}></Image>
+                    </button>
+                    {
+                        searched&&
+                        <button onClick={resetSearch}>
+                            <Image src="/restart.svg" alt="search" width={20} height={20}></Image>
+                        </button>
+                    }
+                </div>
                 <button onClick={addNewPoll}>
                     <p>
                         Umfrage Erstellen
                     </p>
                 </button>
             </div>
-            {mockPolls.map((poll) => {
+            {displayPolls.map((poll) => {
                 return <PollCard key={poll.id} poll={poll}></PollCard>
             })
             }
