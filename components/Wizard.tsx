@@ -122,7 +122,7 @@ export default function Wizard({ callback, contentData = [[new WizardField('firs
                 }
             {
                 item.type == 'date'?
-                    <Datepicker OnInput={()=>checkFormFilled(index)} title={item.name} dateParam={item.value} required={item.required}></Datepicker>
+                    <Datepicker inputChanged={()=>checkFormFilled(index)} title={item.name} dateParam={item.value} required={item.required}></Datepicker>
                 :item.type == 'checkBox'?
                     <div>
                         <input onInput={()=>checkFormFilled(index)} type='checkbox' defaultChecked={item.value.defaultValue} required={item.required} />
