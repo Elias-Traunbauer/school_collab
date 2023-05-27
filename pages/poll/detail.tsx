@@ -13,7 +13,7 @@ export default function PollDetail() {
         title: 'Poll Title',
         description: 'Poll Description',
         end: new Date('2024-07-20T00:00:00'),
-        votingOptions: ["Yes", "No", "Maybe", "I don't know"],
+        votingOptions: ["Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", "Maybe", "I don't know"],
         user: 'Yannie'
     }
 
@@ -30,6 +30,8 @@ export default function PollDetail() {
     const [voted, setVoted] = useState(false);
     const [editMode, setEditMode] = useState(true);
     const [backupPoll, setBackupPoll] = useState(mockPoll);
+    const [editedDate, setEditedDate] = useState(new Date());
+    const [isNoEndDate, setIsNoEndDate] = useState(mockPoll.end === null);
 
     useEffect(() => {
         if (!chartRef.current) {
@@ -165,6 +167,12 @@ export default function PollDetail() {
             return;
         }
 
+        if(isNoEndDate){
+            poll.end = null;
+        }
+        else{
+            poll.end = editedDate;
+        }
         poll.votingOptions = validOptions;
         poll.title = titleInput.value;
         setPoll({...poll});
@@ -177,8 +185,26 @@ export default function PollDetail() {
     }
 
     function cancelEdit() {
+        if(backupPoll.end === null){
+            setIsNoEndDate(true);
+        }
+        else{
+            setIsNoEndDate(false);
+        }
+        setEditedDate(backupPoll.end);
         setPoll({...backupPoll});
         setEditMode(false);
+    }
+
+    function changeDate(date: Date) {
+        console.log(date);
+        setEditedDate(date);
+    }
+
+    function deletePoll(){
+        backToList();
+
+        //TODO: delete poll in backend
     }
 
     useEffect(() => {
@@ -197,6 +223,9 @@ export default function PollDetail() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     
+    function changeEndDateCheckbox(){
+        setIsNoEndDate(!isNoEndDate);
+    }
 
 
     return (
@@ -218,6 +247,9 @@ export default function PollDetail() {
                 <div>
                     {
                         !editMode ?
+                            poll.end == null ?
+                            ""
+                            :
                             poll.end < new Date() ?
                                 <p>Abstimmung beendet!</p>
                                 :
@@ -227,7 +259,13 @@ export default function PollDetail() {
                                 </>
                             :
                             <div className={styles.dateContainer}>
-                                <Datepicker dateParam={poll.end} OnInput={undefined}></Datepicker>
+                                <div>
+                                    <Datepicker dateParam={poll.end} inputChanged={changeDate} ></Datepicker>
+                                </div>
+                                <span>
+                                    <input onChange={changeEndDateCheckbox} type='checkbox' id='checkbox' defaultChecked={isNoEndDate}></input>
+                                    <label htmlFor='checkbox'>ohne Ende</label>
+                                </span>
                             </div>
                     }
 
@@ -293,17 +331,28 @@ export default function PollDetail() {
                         </div>
                 }
 
+                
                 {
-                    editMode &&
-                    <div className={styles.buttonArray}>
-                    <div>
-                        <button className='btn btn-cancel' onClick={cancelEdit}>Cancel</button>
-                        <button className='btn btn-primary' onClick={saveEdit}>Save</button>
-                    </div>
-                </div>
+                    poll.user == mockUser.name &&
+                
+                        editMode ?
+                        <div className={styles.buttonArray}>
+                            <div>
+                            <button className='btn btn-cancel' onClick={cancelEdit}>Cancel</button>
+                            <button className='btn btn-primary' onClick={saveEdit}>Save</button>
+                            </div>
+                        </div>
+                            :
+                            <div className={styles.deleteButtonContainer}>
+                                <div>
+                                    <button className='btn btn-secondary' onClick={edit}>Edit</button>
+                                    <button className='btn btn-danger' onClick={deletePoll}>Delete</button>
+                                </div>
+                            </div>
+                            
                 }
                 
-            
+
         </div>
     )
 }

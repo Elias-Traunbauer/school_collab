@@ -154,6 +154,9 @@ button {
   min-height: 1.8em;
   cursor: pointer;
 }
+.btn:hover {
+  filter: brightness(120%);
+}
 
 .btn-primary {
   color: white;
@@ -181,7 +184,7 @@ button {
   border-radius: .4em;
 }
 
-.btn-seconday {
+.btn-secondary {
   color: white;
   background-color: var(--background_1);
   border-radius: .2em;
@@ -189,4 +192,15 @@ button {
 
 .btn-seconday:hover {
   background-color: var(--background_2)
+}
+
+.btn-danger {
+  color: white;
+  background-color: var(--color_red);
+  border-radius: .2em;
+}
+
+.btn-danger:hover {
+  background-color: var(--color_red);
+  border-radius: .4em;
 }
