@@ -3,13 +3,17 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { func } from 'prop-types';
 
-export default function Datepicker({ OnInput, title = 'date', dateParam = new Date(), required=false }: { OnInput: Function, title?: string, dateParam?: Date,required?:boolean }) {
+export default function Datepicker({ inputChanged, title = 'date', dateParam = new Date(), required=false }: { inputChanged: Function, title?: string, dateParam?: Date,required?:boolean }) {
 
     const [displayDatesArray, setDisplayDatesArray] = useState([]);
     //const displayDatesArray = [];
-    const [date, setDate] = useState(initDate(dateParam));
+    const [date, setDate] = useState(dateParam);
     const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const monthNames = getMonths();
+
+    useEffect(() => {
+        inputChanged(date);
+    }, [date, inputChanged]);
 
     function GetMaxDaysOfPreviousMonth(tmpDate) {
         let preMonth = GetPreviusMonth(tmpDate);
@@ -25,12 +29,6 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
 
     function getMonths() {
         return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    }
-
-    function initDate(dateParam) {
-        let tmpDate = new Date(dateParam.getFullYear(), dateParam.getMonth(), dateParam.getDate(), dateParam.getHours(), dateParam.getMinutes());
-        tmpDate.setHours(23, 59, 0, 0);
-        return tmpDate;
     }
 
 
@@ -63,7 +61,13 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
     }
 
     function PrintDateTime(tmpDate) {
-        return tmpDate.getDate() + "." + (tmpDate.getMonth() + 1) + "." + tmpDate.getFullYear() + " " + tmpDate.getHours() + ":" + tmpDate.getMinutes();
+        //date in format: dd.mm.yyyy hh:mm where day,month,minutes and hours are 2 digits
+        let day = ('0'+tmpDate.getDate()).slice(-2);
+        let month = ('0'+(tmpDate.getMonth()+1)).slice(-2);
+        let year = tmpDate.getFullYear();
+        let hours = ('0'+tmpDate.getHours()).slice(-2);
+        let minutes = ('0'+tmpDate.getMinutes()).slice(-2);
+        return `${day}.${month}.${year} ${hours}:${minutes}`;
     }
 
 
@@ -263,7 +267,7 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         <>
             <div className={styles.overviewContainer}>
                 <div className={styles.inputContainer}>
-                    <input onBlur={(e) => handleInputChange(e, false)} onKeyDown={(e) => handleInputChange(e, true)} id='datetimeInput'></input>
+                    <input defaultValue={PrintDateTime(date)} onBlur={(e) => handleInputChange(e, false)} onKeyDown={(e) => handleInputChange(e, true)} id='datetimeInput'></input>
                     <div>
                         <button onClick={showDatepicker} id='pickerPopup'></button>
                     </div>
