@@ -156,7 +156,7 @@
   flex-direction: column;
 }
 
-.description input {
+.description > input {
   padding: .3em;
   margin-top: .8em;
   margin-bottom: .8em;
@@ -181,7 +181,7 @@
   flex-direction: row;
 }
 
-.editButton div {
+.editButton > div {
   width: 70%;
 }
 
@@ -202,14 +202,14 @@
   background-color: var(--background);
 }
 
-.edithead input {
+.edithead > input {
   font-size: 2em;
   margin-top: .5em;
   margin-bottom: .5em;
   width: 100%;
 }
 
-.edithead p {
+.edithead > p {
   color: var(--color_countdown_running);
 }
 
@@ -241,7 +241,7 @@
   padding: .5em .5em .5em 0;
 }
 
-.wrapper header {
+.wrapper > header {
   color: var(--color_main);
   font-weight: 600;
   font-size: 1.6em;
@@ -259,7 +259,7 @@
   display: flex;
 }
 
-.fileinput label {
+.fileinput > label {
   color: rgb(255, 255, 255);
   opacity: 0.5;
 }
@@ -324,7 +324,7 @@
   float: right !important;
 }
 
-.fileListContainer ul {
+.fileListContainer > ul {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -376,8 +376,8 @@
   float: right;
 }
 
-.dropdownContent a,
-.dropdownContent input {
+.dropdownContent > a,
+.dropdownContent > input {
   color: white;
   background-color: var(--background_3);
   outline: none;
@@ -392,12 +392,12 @@
   margin-bottom: .1em;
 }
 
-.dropdownContent input::placeholder {
+.dropdownContent > input::placeholder {
   text-align: center;
   color: rgb(255, 255, 255, 0.5);
 }
 
-.dropdownContent a p {
+.dropdownContent > a p {
   padding: .5em !important;
 }
 
@@ -447,7 +447,7 @@
   padding: .5em;
 }
 
-.contenWrapper ul {
+.contenWrapper > ul {
   width: 80%;
   height: 20%;
   display: flex;
@@ -468,7 +468,7 @@
   font-size: 3em;
 }
 
-.contenWrapper ul li {
+.contenWrapper > ul > li {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -524,7 +524,7 @@
   margin-bottom: 1em;
 }
 
-.inputContainer select{
+.inputContainer > select{
   background-color: var(--background_2);
   border-radius: .3em;
   font-size: .9em;
@@ -546,7 +546,7 @@
   height: 1.3em;
 }
 
-.inputContainer select > option{
+.inputContainer > select > option{
   width: 100%;
   background-color: var(--background_2);
   color: rgb(255, 255, 255);
@@ -574,7 +574,7 @@
   width: 100%;
 }
 
-.inputContainer input[type="text"] {
+.inputContainer > input[type="text"] {
   background-color: var(--background_2);
   border-radius: .3em;
   font-size: 1.5em;
@@ -583,10 +583,10 @@
   border: 0;
   padding: .3em;
   width: auto;
-  min-width: 20em;
+  min-width: 50%;
 }
 
-.wizardContent label {
+.wizardContent > label {
   font-size: .8em;
 }
 
@@ -614,7 +614,7 @@
   padding-bottom: 1em;
 }
 
-.wizardButtonContainer button {
+.wizardButtonContainer > button {
   background-color: var(--color_main);
   border: 0;
   padding: .2em .6em .2em .6em;
@@ -663,7 +663,7 @@
   border-radius: .3em;
 }
 
-.plus img {
+.plus > img {
   width: 100%;
   height: 100%;
 }
@@ -736,7 +736,7 @@
   z-index: 99;
 }
 
-.loader div {
+.loader > div {
   margin-top: 10%;
   width: 8em;
   height: 8em;
@@ -747,7 +747,7 @@
   justify-content: center;
 }
 
-.loader div::after {
+.loader > div::after {
   content: '';
   background-color: var(--color_main);
   transition: 1s;
@@ -839,11 +839,11 @@
   width: 60%;
 }
 
-.chekBoxContainer input[type="checkbox"] {
+.chekBoxContainer > input[type="checkbox"] {
   width: auto;
 }
 
-.chekBoxContainer p {
+.chekBoxContainer > p {
   width: max-content;
 
 }
@@ -863,12 +863,12 @@
   background-color: var(--background_4);
 }
 
-.descriptionExpander p {
+.descriptionExpander > p {
   margin: 0;
   padding: .2em;
 }
 
-.descriptionExpander img {
+.descriptionExpander > img {
   fill: white;
   color: #fff;
   width: 1.5em;
@@ -888,7 +888,7 @@
   flex-wrap: wrap;
 }
 
-.descriptionInputContainer input {
+.descriptionInputContainer > input {
   width: 100%;
   border: 1px solid transparent;
   border-radius: .2em;
@@ -925,7 +925,7 @@
   align-items: center;
 }
 
-.uploadFileContainer table {
+.uploadFileContainer > table {
   margin-top: 2em;
   width: 60%;
   text-align: left;
@@ -933,18 +933,18 @@
   border-radius: .5em !important;
 }
 
-.uploadFileContainer table th {
+.uploadFileContainer > table th {
   padding: 1em 0 1em 0;
 }
 
-.uploadFileContainer table th,
-.uploadFileContainer table td {
+.uploadFileContainer > table th,
+.uploadFileContainer > table td {
   border-top: 1px solid var(--background_3);
   border-bottom: 1px solid var(--background_3);
   padding-left: .5em;
 }
 
-.uploadFileContainer table tr:hover {
+.uploadFileContainer > table > tr:hover {
   background-color: var(--background_2) !important;
 }
 
@@ -995,7 +995,7 @@
   flex-wrap: nowrap;
 }
 
-.countdownContainer div {
+.countdownContainer > div {
   display: flex;
   align-items: center;
   justify-content: center;
