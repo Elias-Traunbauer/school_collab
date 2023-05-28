@@ -275,7 +275,7 @@ export default function PollDetail() {
             <div>
                 <div>
                     {
-                        <MarkdownEditor containerWidth={100} isEditable={mockUser.name == poll.user && editMode}></MarkdownEditor>
+                        <MarkdownEditor containerWidth={100} isEditable={editMode}></MarkdownEditor>
                     }
 
                 </div>
