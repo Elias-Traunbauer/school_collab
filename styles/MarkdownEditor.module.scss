@@ -20,21 +20,24 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: center;
+  justify-content: space-around;
   margin: auto;
   flex-wrap: wrap-reverse;
 
   @media (max-width: 1000px) {
     width: 60%;
+    justify-content: center;
   }
   @media (max-width: 900px) {
     width: 70%;
+    justify-content: center;
   }
   @media (max-width: 800px) {
     width: 100%;
   }
   @media (max-width: 580px) {
     width: 70%;
+    justify-content: center;
   }
     
 

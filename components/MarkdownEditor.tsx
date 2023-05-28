@@ -8,11 +8,11 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
     const [displayState, setDisplayState] = useState(false);
     const [mdText, setMdText] = useState('');
     const contentRef = useRef(null);
-    const [editable, setEditable] = useState(isEditable);
 
     useEffect(()=>{
       highlight();
     })
+
 
     function highlight(){
       const textArea = document.getElementById('textArea') as HTMLTextAreaElement;
@@ -162,7 +162,7 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
   return (
     <>
         {
-          editable ?
+          isEditable ?
               <div style={{ width: containerWidth + "%" }} className={styles.container}>
               <div className={styles.head}>
                 <div onClick={InsertHeading} className={`${styles.img}`}>
