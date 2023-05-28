@@ -144,7 +144,7 @@ button {
 }
 
 .btn {
-  padding: .6em .8em;
+  padding: .5em 1em;
   font-size: 1em;
   border-radius: 1em;
   outline: 0;
@@ -159,20 +159,23 @@ button {
   color: white;
   background-color: var(--color_main);
   border: .2em solid var(--color_main);
+  border-radius: .2em;
 }
 
 .btn-primary:hover {
   filter: brightness(120%);
+  background-color: var(--color_main);
 }
 
 .btn-cancel {
   color: white;
-  background-color: transparent;
-  border: .1em solid white;
+  background-color: transparent ;
+  border: .1em solid white ;
+  border-radius: .2em;
 }
 
 .btn-cancel:hover {
-  background-color: var(--color_red);
+  background-color: var(--color_red) ;
 }
 
 .btn-seconday {
