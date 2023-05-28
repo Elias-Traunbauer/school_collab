@@ -69,7 +69,7 @@
 
 .datepickerItem p:hover,
 .dateHeader img:hover {
-    background-color: var(--background_3);
+    background-color: var(--background_4);
 }
 
 .container {
@@ -81,6 +81,7 @@
     z-index: 100;
     padding: 0 2em 1em 2em;
     width: min-content;
+    border: 1px solid var(--background_5);
 }
 
 .weekday {

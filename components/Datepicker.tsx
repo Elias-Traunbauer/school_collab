@@ -72,6 +72,7 @@ export default function Datepicker({ inputChanged, title = 'date', dateParam = n
 
 
     function calc(tmpDate) {
+
         let daysOfPreviousMonth = GetMaxDaysOfPreviousMonth(tmpDate);
         const daysOfCurrentMonth = GetDaysOfCurrentMonth(tmpDate);
         let previousdays = GetWeekdayOfFirstDay(tmpDate);
@@ -108,6 +109,9 @@ export default function Datepicker({ inputChanged, title = 'date', dateParam = n
         const yearInput = document.getElementById('yearInput') as HTMLInputElement;
         monthInput.value = monthNames[tmpDate.getMonth()];
         yearInput.value = tmpDate.getFullYear().toString();
+        // set datetimeInput
+        const datetimeInput = document.getElementById('datetimeInput') as HTMLInputElement;
+        datetimeInput.value = PrintDateTime(tmpDate);
     }
 
     function GetPreviusMonth(tmpDate) {
@@ -237,14 +241,17 @@ export default function Datepicker({ inputChanged, title = 'date', dateParam = n
         if (input && e.key != 'Enter') {
             return;
         }
+
         const datetimeSplit = e.target.value.split(' ');
         if (datetimeSplit == null || datetimeSplit.length != 2) {
+            calc(date);
             return;
         }
         const dateSplit = datetimeSplit[0].split('.');
         const timeSplit = datetimeSplit[1].split(':');
         const matches = e.target.value.match(/^^(\d{1,2}).(\d{1,2}).(\d{2,4}) (\d{2}):(\d{2})$/);
         if (matches == null) {
+            calc(date);
             return;
         }
         const tmpdate = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0], timeSplit[0], timeSplit[1]);
@@ -259,6 +266,7 @@ export default function Datepicker({ inputChanged, title = 'date', dateParam = n
         }
 
         e.target.classList.remove(styles.errorInput);
+        console.log(tmpdate);
         setDate(tmpdate);
         calc(tmpdate);
     }
