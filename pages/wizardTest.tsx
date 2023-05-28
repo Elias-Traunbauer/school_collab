@@ -14,7 +14,10 @@ export default function WzTest() {
     };
 
     return (
+        <div className={styles.container}>
             <Wizard title='Test' callback={callback}></Wizard>
+        </div>
+
     );
 
 }

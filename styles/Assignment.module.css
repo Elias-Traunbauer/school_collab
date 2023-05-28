@@ -764,6 +764,15 @@
   animation: loading_start 1s forwards, 2s loading 1s infinite;
 }
 
+.dateContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5em;
+  position: relative;
+}
+
 .finished {
   cursor: pointer;
 }
