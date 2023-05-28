@@ -269,7 +269,7 @@ export default function Datepicker({ inputChanged, title = 'date', dateParam = n
                 <div className={styles.inputContainer}>
                     <input defaultValue={PrintDateTime(date)} onBlur={(e) => handleInputChange(e, false)} onKeyDown={(e) => handleInputChange(e, true)} id='datetimeInput'></input>
                     <div>
-                        <button onClick={showDatepicker} id='pickerPopup'></button>
+                        <button type='button' onClick={showDatepicker} id='pickerPopup'></button>
                     </div>
 
                 </div>
