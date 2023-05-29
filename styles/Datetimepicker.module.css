@@ -69,11 +69,10 @@
 
 .datepickerItem p:hover,
 .dateHeader img:hover {
-    background-color: var(--background_3);
+    background-color: var(--background_4);
 }
 
 .container {
-    scale: .9;
     position: absolute;
     background-color: var(--background_1);
     color: white;
@@ -81,6 +80,8 @@
     transform: translate(50%, 7%);
     z-index: 100;
     padding: 0 2em 1em 2em;
+    width: min-content;
+    border: 1px solid var(--background_5);
 }
 
 .weekday {
@@ -127,7 +128,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 50%;
     padding: 1em;
 }
 
@@ -142,7 +142,6 @@
     justify-content: center;
     cursor: pointer;
     border: 0;
-    width: 4em;
     text-align: center;
     font-size: 1.5em;
     border-radius: .2em;
@@ -166,8 +165,8 @@
     border-radius: .2em;
     padding: .5em;
     color: white;
-    width: 15em;
     font-size: medium;
+    min-width: 20%;
 }
 
 .inputContainer div {

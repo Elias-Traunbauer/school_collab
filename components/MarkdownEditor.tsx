@@ -1,13 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/MarkdownEditor.module.scss";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { text } from "stream/consumers";
 
-export default function MarkdownEditor({ containerWidth = 50 , defaultText='# Hello'}) {
+export default function MarkdownEditor({isEditable = true, containerWidth = 50 , defaultText='# Hello'}: {isEditable?: boolean, containerWidth?: number, defaultText?: string}) {
     const [displayState, setDisplayState] = useState(false);
     const [mdText, setMdText] = useState('');
     const contentRef = useRef(null);
+
+    useEffect(()=>{
+      highlight();
+    })
+
 
     function highlight(){
       const textArea = document.getElementById('textArea') as HTMLTextAreaElement;
@@ -155,63 +160,85 @@ export default function MarkdownEditor({ containerWidth = 50 , defaultText='# He
     }
 
   return (
-    <div style={{ width: containerWidth + "%" }} className={styles.container}>
-      <div className={styles.head}>
-        <div onClick={InsertHeading} className={`${styles.img}`}>
-          <div className={styles.imgHeading}></div>
-          <span>Titel</span>
-        </div>
-        <div onClick={InsertCode} className={`${styles.img}`}>
-          <div className={styles.imgCode}></div>
-          <span>Code</span>
-        </div>
-        <div onClick={InsertLink} className={`${styles.img}`}>
-          <div className={styles.imgLink}></div>
-          <span>Link</span>
-        </div>
-        <div onClick={InsertQuotes} className={`${styles.img}`}>
-          <div className={styles.imgBlockQuote}></div>
-          <span>Quotes</span>
-        </div>
-        <div onClick={InsertBold} className={`${styles.img}`}>
-          <div className={styles.imgBold}></div>
-          <span>Fett</span>
-        </div>
-        <div onClick={InsertItalic} className={`${styles.img}`}>
-          <div className={styles.imgItalic}></div>
-          <span>Kursiv</span>
-        </div>
-        <div onClick={InsertBulletpoint} className={`${styles.img}`}>
-          <div className={styles.imgBulletpoint}></div>
-          <span>Bulletpoint</span>
-        </div>
-        <div onClick={InsertNumberdList} className={`${styles.img}`}>
-          <div  className={styles.imgNumb}></div>
-          <span>Nummer</span>
-        </div>
-        <div className={`${styles.img}`}>
-            <input onClick={()=>setDisplayState(!displayState)} type="CheckBox"></input>
-            <span>Preview</span>
-        </div>
-       
-      </div>
-      <div className={styles.content}>
-        <textarea id='textArea' onInput={highlight}></textarea>  
+    <>
         {
-          displayState && mdText.length > 0 ?
-          <div ref={contentRef}>
-            <ReactMarkdown>{mdText}</ReactMarkdown>
-          </div>
-          : displayState && 
-          <div ref={contentRef} className={styles.placeholder}>
-            <h2>Kein Text!</h2>
-            <p>schreiben Sie etwas in die Textbox</p>
-          </div>
-          
+          isEditable ?
+              <div style={{ width: containerWidth + "%" }} className={styles.container}>
+              <div className={styles.head}>
+                <div onClick={InsertHeading} className={`${styles.img}`}>
+                  <div className={styles.imgHeading}></div>
+                  <span>Titel</span>
+                </div>
+                <div onClick={InsertCode} className={`${styles.img}`}>
+                  <div className={styles.imgCode}></div>
+                  <span>Code</span>
+                </div>
+                <div onClick={InsertLink} className={`${styles.img}`}>
+                  <div className={styles.imgLink}></div>
+                  <span>Link</span>
+                </div>
+                <div onClick={InsertQuotes} className={`${styles.img}`}>
+                  <div className={styles.imgBlockQuote}></div>
+                  <span>Quotes</span>
+                </div>
+                <div onClick={InsertBold} className={`${styles.img}`}>
+                  <div className={styles.imgBold}></div>
+                  <span>Fett</span>
+                </div>
+                <div onClick={InsertItalic} className={`${styles.img}`}>
+                  <div className={styles.imgItalic}></div>
+                  <span>Kursiv</span>
+                </div>
+                <div onClick={InsertBulletpoint} className={`${styles.img}`}>
+                  <div className={styles.imgBulletpoint}></div>
+                  <span>Bulletpoint</span>
+                </div>
+                <div onClick={InsertNumberdList} className={`${styles.img}`}>
+                  <div  className={styles.imgNumb}></div>
+                  <span>Nummer</span>
+                </div>
+                <div className={`${styles.img}`}>
+                    <input onClick={()=>setDisplayState(!displayState)} type="CheckBox"></input>
+                    <span>Preview</span>
+                </div>
+               
+              </div>
+              <div className={styles.content}>
+                <textarea id='textArea' defaultValue={defaultText} onInput={highlight}></textarea>  
+                {
+                  displayState && mdText.length > 0 ?
+                  <div ref={contentRef}>
+                    <ReactMarkdown>{mdText}</ReactMarkdown>
+                  </div>
+                  : displayState &&
+                  <div ref={contentRef} className={styles.placeholder}>
+                    <h2>Kein Text!</h2>
+                    <p>schreiben Sie etwas in die Textbox</p>
+                  </div>
+                  
+                }
+                
+              </div>
+            </div>
+            :
+              <div className={styles.content}>
+                <textarea hidden id='textArea' defaultValue={defaultText} onInput={highlight}></textarea>  
+                {
+                  mdText.length > 0 ?
+                  <div className={styles.background} ref={contentRef}>
+                    <ReactMarkdown>{mdText}</ReactMarkdown>
+                  </div>
+                  : 
+                  <div ref={contentRef} className={styles.placeholder}>
+                    <h2>Kein Text!</h2>
+                  </div>
+                  
+                }
+                
+              </div>
         }
-        
-      </div>
-    </div>
+    </>
+
 
   );
 }

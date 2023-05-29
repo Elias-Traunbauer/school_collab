@@ -58,7 +58,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
                     </div>
             </div>
             <div className={styles.MarkdownEditor}>
-                <MarkdownEditor></MarkdownEditor>
+                <MarkdownEditor isEditable={true}></MarkdownEditor>
             </div>
 
             {

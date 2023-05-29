@@ -3,11 +3,11 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { func } from 'prop-types';
 
-export default function Datepicker({ OnInput, title = 'date', dateParam = new Date(), required=false }: { OnInput: Function, title?: string, dateParam?: Date,required?:boolean }) {
+export default function Datepicker({ inputChanged, title = 'date', dateParam = new Date(), required=false }: { inputChanged: Function, title?: string, dateParam?: Date,required?:boolean }) {
 
     const [displayDatesArray, setDisplayDatesArray] = useState([]);
     //const displayDatesArray = [];
-    const [date, setDate] = useState(initDate(dateParam));
+    const [date, setDate] = useState(dateParam);
     const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const monthNames = getMonths();
 
@@ -25,12 +25,6 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
 
     function getMonths() {
         return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    }
-
-    function initDate(dateParam) {
-        let tmpDate = new Date(dateParam.getFullYear(), dateParam.getMonth(), dateParam.getDate(), dateParam.getHours(), dateParam.getMinutes());
-        tmpDate.setHours(23, 59, 0, 0);
-        return tmpDate;
     }
 
 
@@ -63,11 +57,18 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
     }
 
     function PrintDateTime(tmpDate) {
-        return tmpDate.getDate() + "." + (tmpDate.getMonth() + 1) + "." + tmpDate.getFullYear() + " " + tmpDate.getHours() + ":" + tmpDate.getMinutes();
+        //date in format: dd.mm.yyyy hh:mm where day,month,minutes and hours are 2 digits
+        let day = ('0'+tmpDate.getDate()).slice(-2);
+        let month = ('0'+(tmpDate.getMonth()+1)).slice(-2);
+        let year = tmpDate.getFullYear();
+        let hours = ('0'+tmpDate.getHours()).slice(-2);
+        let minutes = ('0'+tmpDate.getMinutes()).slice(-2);
+        return `${day}.${month}.${year} ${hours}:${minutes}`;
     }
 
 
     function calc(tmpDate) {
+
         let daysOfPreviousMonth = GetMaxDaysOfPreviousMonth(tmpDate);
         const daysOfCurrentMonth = GetDaysOfCurrentMonth(tmpDate);
         let previousdays = GetWeekdayOfFirstDay(tmpDate);
@@ -104,6 +105,9 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         const yearInput = document.getElementById('yearInput') as HTMLInputElement;
         monthInput.value = monthNames[tmpDate.getMonth()];
         yearInput.value = tmpDate.getFullYear().toString();
+        // set datetimeInput
+        const datetimeInput = document.getElementById('datetimeInput') as HTMLInputElement;
+        datetimeInput.value = PrintDateTime(tmpDate);
     }
 
     function GetPreviusMonth(tmpDate) {
@@ -233,14 +237,17 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         if (input && e.key != 'Enter') {
             return;
         }
+
         const datetimeSplit = e.target.value.split(' ');
         if (datetimeSplit == null || datetimeSplit.length != 2) {
+            calc(date);
             return;
         }
         const dateSplit = datetimeSplit[0].split('.');
         const timeSplit = datetimeSplit[1].split(':');
         const matches = e.target.value.match(/^^(\d{1,2}).(\d{1,2}).(\d{2,4}) (\d{2}):(\d{2})$/);
         if (matches == null) {
+            calc(date);
             return;
         }
         const tmpdate = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0], timeSplit[0], timeSplit[1]);
@@ -255,6 +262,7 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         }
 
         e.target.classList.remove(styles.errorInput);
+        console.log(tmpdate);
         setDate(tmpdate);
         calc(tmpdate);
     }
@@ -263,9 +271,9 @@ export default function Datepicker({ OnInput, title = 'date', dateParam = new Da
         <>
             <div className={styles.overviewContainer}>
                 <div className={styles.inputContainer}>
-                    <input onBlur={(e) => handleInputChange(e, false)} onKeyDown={(e) => handleInputChange(e, true)} id='datetimeInput'></input>
+                    <input defaultValue={PrintDateTime(date)} onBlur={(e) => handleInputChange(e, false)} onKeyDown={(e) => handleInputChange(e, true)} id='datetimeInput'></input>
                     <div>
-                        <button onClick={showDatepicker} id='pickerPopup'></button>
+                        <button type='button' onClick={showDatepicker} id='pickerPopup'></button>
                     </div>
 
                 </div>
