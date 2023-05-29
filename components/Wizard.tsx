@@ -1,5 +1,5 @@
 import styles from '../styles/Assignment.module.css';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import Datepicker from './Datepicker';
 import React from 'react';
 import { WizardField } from '../models/WizardField';
@@ -12,8 +12,12 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
     const [loadingText, setLoadingText] = useState("loading...");
     const [valid, setValid] = useState(false);
 
+    useEffect(() => {
+        checkFormFilled(0);
+        focusInputField(0);
+    },[]);
+
     function displayPage(page){
-        
         const items = document.querySelectorAll('.' + styles.wizzardContainer + ' ul li');
         const lines = document.querySelectorAll('.' + styles.wizardLine);
         const formList = document.querySelectorAll('.' + styles.wizardContent);
@@ -55,33 +59,34 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
     function checkFormFilled(index) {
         const formList = document.querySelectorAll('.' + styles.wizardContent);
         inputList = formList[index].querySelectorAll('input') as unknown as HTMLInputElement[];
-        
-        let btn:HTMLButtonElement = document.getElementById('btnNextPage') as unknown as HTMLButtonElement;
         const selectElements = formList[index].querySelectorAll('select') as unknown as HTMLSelectElement[]; 
+        let valid = true;
 
         for (let item of inputList) {
-            
             if (item.hasAttribute('required') && item.type == 'checkbox' && !item.checked) {
-                console.log('checkbox');
-                setValid(false);
-                return;
+                valid = false;
+                console.log('invalid');
+                break;
             }
             else if (item.hasAttribute('required') && item.value.length <= 0) {
-                setValid(false);
-                return;
+                valid = false;
+                console.log('invalid');
+                break;
             }
         }
         
         
         for (let item of selectElements) {
             if (item.hasAttribute('required') && item.value == '-1') {
-                
-                setValid(false);
-                return;
+                valid = false;
+                console.log('invalid');
+                break;
             }
         }
 
-        setValid(true);
+        console.log('valid: ' + valid);
+        setValid(valid);
+        
     }
 
     function finishWizard() {
@@ -110,6 +115,9 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
     }
 
     function parseDate(dateString) {
+        if (dateString.trim() === '') {
+          return null;
+        }
         const parts = dateString.split(' ');
         const dateParts = parts[0].split('.');
         const timeParts = parts[1].split(':');
@@ -208,7 +216,8 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
                     
                 }
             </select>
-            :<input onInput={()=>checkFormFilled(formIndex)} type={item.type} name={item.name} defaultValue={item.value} required={item.required} />
+            :<input onInput={()=>{
+                checkFormFilled(formIndex)}} type={item.type} name={item.name} defaultValue={item.value} required={item.required} />
             }
             </div>
         );
@@ -261,7 +270,7 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
                     </div>
                     <div className={styles.wizardButtonContainer}>
                         <button className={currentPage == 0?'btn btn-cancel':'btn btn-primary'} onClick={currentPage == 0 ? CancelWizard : previousSection}>{currentPage == 0 ? "Cancel" : "Back"}</button>
-                        <button disabled={valid} className='btn btn-primary' id='btnNextPage' onClick={currentPage == contentData.length - 1 ? finishWizard : nextSection}>{currentPage == contentData.length - 1 ? "Finish" : "Next"}</button>
+                        <button disabled={!valid} className='btn btn-primary' id='btnNextPage' onClick={currentPage == contentData.length - 1 ? finishWizard : nextSection}>{currentPage == contentData.length - 1 ? "Finish" : "Next"}</button>
                     </div>
                 </div>
             </div>

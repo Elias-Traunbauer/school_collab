@@ -161,6 +161,11 @@ button {
   border: .2em solid var(--color_main);
   border-radius: .2em;
 }
+.btn-primary:disabled {
+  filter: brightness(80%);
+  background-color: var(--color_main);
+  cursor: not-allowed;
+}
 
 .btn-primary:hover {
   filter: brightness(120%);
