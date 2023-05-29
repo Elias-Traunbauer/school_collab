@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../styles/PollCreate.module.scss";
 import Wizard from "../../components/Wizard";
-import { WizardField } from "../../components/models/WizardField";
+import WizardField from "../../models/WizardField";
 import { Router, useRouter } from "next/router";
 export default function PollCreate() {
   function nothing() {
