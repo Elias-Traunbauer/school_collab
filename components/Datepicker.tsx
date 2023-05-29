@@ -11,10 +11,6 @@ export default function Datepicker({ inputChanged, title = 'date', dateParam = n
     const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const monthNames = getMonths();
 
-    useEffect(() => {
-        inputChanged(date);
-    }, [date, inputChanged]);
-
     function GetMaxDaysOfPreviousMonth(tmpDate) {
         let preMonth = GetPreviusMonth(tmpDate);
         return new Date(preMonth.getFullYear(), preMonth.getMonth() + 1, 0).getDate();
