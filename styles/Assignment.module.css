@@ -614,12 +614,6 @@
   padding-bottom: 1em;
 }
 
-.wizardButtonContainer > button {
-  background-color: var(--color_main);
-  border: 0;
-  padding: .2em .6em .2em .6em;
-}
-
 .disabeldBtn {
   pointer-events: none;
   opacity: .7;
@@ -1004,4 +998,12 @@
   border-bottom: 1px solid var(--background_3);
   margin-bottom: 1em;
 
+}
+
+.markdownContainer{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
