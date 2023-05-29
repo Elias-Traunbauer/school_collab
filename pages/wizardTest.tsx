@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Wizard from '../components/Wizard'
 import styles from '../styles/WizardTest.module.css'
 import React from 'react';
-import { WizardField } from '../models/WizardField';
+import WizardField from "../models/WizardField"
 import WizardResult from '../models/WizardResult';
 export default function WzTest() {
     function callback(data:WizardResult[], setLoadingText, finishLoading){
