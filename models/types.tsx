@@ -1,4 +1,4 @@
-import { WizardField } from "./WizardField";
+import WizardField from "./WizardField";
 
 export type WizardCallback = (
   result: WizardField[][],

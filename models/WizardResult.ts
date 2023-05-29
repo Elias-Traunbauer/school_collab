@@ -1,4 +1,4 @@
-import { WizardField } from "./WizardField";
+import WizardField from "./WizardField";
 
 export default interface WizardResult {
     field: WizardField;

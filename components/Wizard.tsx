@@ -2,7 +2,7 @@ import styles from '../styles/Assignment.module.css';
 import { useState, useEffect, use } from 'react'
 import Datepicker from './Datepicker';
 import React from 'react';
-import { WizardField } from '../models/WizardField';
+import WizardField from '../models/WizardField';
 import MarkdownEditor from './MarkdownEditor';
 import WizardResult from '../models/WizardResult';
 
