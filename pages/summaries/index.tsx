@@ -1,7 +1,7 @@
-import styles from "../styles/Summary.module.scss";
+import styles from "../../styles/Summary.module.scss";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import SummaryPostCard from "../components/SummaryPostCard";
+import SummaryPostCard from "../../components/SummaryPostCard";
 
 export default function SummaryList() {
   const posts = [{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "Math"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"}];
