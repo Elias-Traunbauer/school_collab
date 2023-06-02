@@ -21,6 +21,7 @@ export default function Chatroom() {
   const mockDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 const mockProfile = "person.svg";
   const [profile, setProfile] = useState(mockProfile);
+  const [scrollBody, setScrollBody] = useState(false);
   // Message Mock using the interface
   const mockmessages: Message[] = [
     {
@@ -127,6 +128,18 @@ const mockProfile = "person.svg";
     setAnswer(answer);
   }
 
+  function scrollToMessage(e){
+    const chatroom = document.getElementById("chatBody") as HTMLDivElement;
+    const message = e.target;
+    chatroom.scrollTop = message.offsetTop - 100;
+    console.log(message);
+    message.classList.add(styles.highlight);
+
+    setTimeout(() => {
+      message.classList.remove(styles.highlight);
+    }, 2000);
+  }
+
   function printMessages() {
     let currentDate = messages[0].createdAt;
     return (
@@ -145,6 +158,7 @@ const mockProfile = "person.svg";
 
                 </div>
                 <MessageComponent
+                  callBackAnswerClicked={scrollToMessage}
                   key={"message_" + index}
                   handleAnswer={displayAnswer}
                   displayName={index != 0
@@ -157,6 +171,7 @@ const mockProfile = "person.svg";
           } else {
             return (
               <MessageComponent
+                callBackAnswerClicked={scrollToMessage}
                 key={"message_" + index}
                 handleAnswer={displayAnswer}
                 displayName={index != 0
@@ -259,18 +274,36 @@ function deleteFileItem(itemKey = 0){
     setFiles([...files]);
   }
 
+  function handleScroll(){
+    // if position is at the bottom
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    const scrollBodyBtn = document.getElementById("scrollBodyBtn") as HTMLButtonElement;
+    if(chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight){
+      setScrollBody(false);
+    }
+    else{
+      setScrollBody(true);
+    }
+  }
+
   return (
     <div onDragOver={handleDragged} onDragLeave={handleLeave} className={styles.container}>
 
       <div  className={styles.contentWrapper}>
         <div className={styles.contentContainer}>
-          <div onDrop={(e)=>handleDropped(e)} id="chatBody" className={styles.body}>
+          <div onScroll={handleScroll} onDrop={(e)=>handleDropped(e)} id="chatBody" className={styles.body}>
             <div>
               {printMessages()}
               <p></p>
             </div>
           </div>
           <div className={styles.foot}>
+            {
+              scrollBody&&
+              <button onClick={scrollDown} id='scrollBodyBtn' className={styles.scrollBodyButton}>
+              <Image width={25} height={25} alt="dasd" src={"/arrow_left.svg"}></Image>
+            </button>
+            }
             {
                 answer &&
                 <div style={{'--answerColor': answer.author.color} as CSSProperties}  className={styles.answer}>

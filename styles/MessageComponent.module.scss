@@ -165,9 +165,14 @@
     border-radius: .5em;
     border-top: 2px solid var(--answerColor);
     cursor: pointer;
+    overflow: hidden;
 
     &:hover{
         filter: brightness(.8);
+    }
+
+    &>*{
+        pointer-events: none;
     }
 
     &> div{
@@ -182,7 +187,6 @@
 
 .answerHead{
     width: 99%;
-
     &>*{
         margin: 0;
         font-weight: bold;
@@ -190,10 +194,17 @@
 }
 
 .answerBody{
-    width: 95%;
-    margin-top: .2em;
-    &>*{
-        margin: 0;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space:pre-wrap;
+    user-select: none;
+  
+    > * {
+      margin: 0;
+      display: inline-block;
+      overflow: hidden;
     }
 }
 

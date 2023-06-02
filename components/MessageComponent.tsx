@@ -6,7 +6,9 @@ export default function MessageComponent({
   message,
   displayName = false,
   handleAnswer,
+  callBackAnswerClicked
 }: {
+    callBackAnswerClicked?: Function;
     message:Message,
     displayName: boolean;
     handleAnswer: (answer:Message) => void;
@@ -18,10 +20,15 @@ export default function MessageComponent({
     return `${hour}:${minute}`;
   }
 
-  function handleAnswerClicked(){
+  function handleMessageClicked(){
     if(handleAnswer){
       handleAnswer(message);
     }
+  }
+
+  function handleAnswerClicked(e){
+    if(e)
+    callBackAnswerClicked(e);
   }
 
   function handleDownload(){
@@ -35,7 +42,7 @@ export default function MessageComponent({
         message.author.id == mockuser.id&&
         <div className={styles.popUp}>
           <div>
-            <button onClick={handleAnswerClicked}></button>
+            <button onClick={handleMessageClicked}></button>
           </div>
         </div>
       }
@@ -49,7 +56,7 @@ export default function MessageComponent({
       )}
 
       {message.answer && (
-        <div style={{'--answerColor': message.answer.author.color} as CSSProperties} className={styles.answer}>
+        <div onClick={handleAnswerClicked} style={{'--answerColor': message.answer.author.color} as CSSProperties} className={styles.answer}>
           <div >
             <div className={styles.answerHead}>
               <p style={{color:message.answer.author.color}}>{message.answer.author.name}</p>
@@ -90,7 +97,7 @@ export default function MessageComponent({
         message.author.id != mockuser.id&&
         <div className={styles.popUp}>
           <div>
-            <button onClick={handleAnswerClicked} ></button>
+            <button onClick={handleMessageClicked} ></button>
           </div>
         </div>
       }
