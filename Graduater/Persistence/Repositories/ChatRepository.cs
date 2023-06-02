@@ -19,31 +19,39 @@ namespace Persistence.Repositories
             _context = context;
         }
 
-        public void Create(ChatMessage message)
+        public Task Create(Chat chat)
         {
-            _context.ChatMessages.Add(message);
-            _context.SaveChanges();
+            throw new NotImplementedException();
         }
 
-        public void Delete(int messageId)
+        public Task Delete(int chatId)
         {
-            var messageToDelete = _context.ChatMessages.FirstOrDefault(m => m.Id == messageId);
-            if (messageToDelete != null)
-            {
-                _context.ChatMessages.Remove(messageToDelete);
-                _context.SaveChanges();
-            }
+            throw new NotImplementedException();
         }
 
-        public IChat Get(int messageId)
+        public Task<IEnumerable<Chat>> GetAllForUser(User user)
         {
-            return _context.Chats.FirstOrDefault(m => m.Id == messageId);
+            throw new NotImplementedException();
         }
 
-        public void Send(ChatMessage message)
+        public Task<IEnumerable<ChatMessage>> GetMessages(int chatId, int count = 10, int start = 0)
         {
-            _context.ChatMessages.Add(message);
-            _context.SaveChanges();
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ChatMessage>> GetMessages(int chatId, DateTime start, int count = 10)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task JoinChat(User user, Chat chat)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SendMessage(ChatMessage chat)
+        {
+            throw new NotImplementedException();
         }
     }
 }

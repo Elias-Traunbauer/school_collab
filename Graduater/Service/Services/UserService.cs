@@ -24,7 +24,7 @@ namespace Service.Services
         }
 
         /// <summary>
-        /// Only returns ServiceResult.Completed for privacy and security reasons
+        /// Only returns ServiceResult.Completed for security reasons
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>

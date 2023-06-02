@@ -9,11 +9,11 @@ namespace Persistence
         private readonly ApplicationDbContext _context;
         private UserRepository? _userRepository;
         private FileRepository? _fileRepository;
+        private AssignmentRepository? _assignmentRepository;
 
         public UnitOfWork()
         {
             _context = new ApplicationDbContext();
-            //AssignmentRepository = new AssignmentRepository(_context, _config);
         }
 
         public IUserRepository UserRepository
@@ -22,6 +22,15 @@ namespace Persistence
             {
                 _userRepository ??= new UserRepository(_context);
                 return _userRepository;
+            }
+        }
+
+        public IAssignmentRepository AssignmentRepository
+        {
+            get
+            {
+                _assignmentRepository ??= new AssignmentRepository(_context);
+                return _assignmentRepository;
             }
         }
 
@@ -34,7 +43,7 @@ namespace Persistence
             }
         }
 
-        public IAssignmentRepository AssignmentRepository { get; set; } = null!;
+        public IGroupRepository GroupRepository => throw new NotImplementedException();
 
         public async Task<bool> SaveChangesAsync()
         {

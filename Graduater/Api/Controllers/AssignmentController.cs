@@ -42,7 +42,7 @@ namespace Api.Controllers
 
         [HttpPost]
         [EndpointPermission(Core.Entities.Database.UserPermission.Create)]
-        [RateLimitAttribute(10)]
+        [RateLimit(10)]
         public async Task<IActionResult> CreateAssignment([FromBody] AssignmentPostPayload assignmentPostPayload, [FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
@@ -63,7 +63,7 @@ namespace Api.Controllers
 
         [HttpPut]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
-        [RateLimitAttribute(20)]
+        [RateLimit(20)]
         public async Task<IActionResult> UpdateAssignment([FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
