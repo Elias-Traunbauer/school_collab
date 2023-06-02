@@ -5,8 +5,7 @@ import Link from "next/link";
 
 export default function Layout({ children }) {
     return <>
-        <Navbar>
-        </Navbar>
+    <Navbar></Navbar>
         {children}
         <footer>
         </footer>

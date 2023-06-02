@@ -1,4 +1,4 @@
-import styles from "../styles/Summary.module.scss";
+import styles from "../../styles/Summary.module.scss";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import SummaryPostCard from "../../components/SummaryPostCard";
