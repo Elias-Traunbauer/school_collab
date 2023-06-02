@@ -28,7 +28,7 @@ export default function PollDetail() {
     }
     const [selected, setSelected] = useState(false);
     const [voted, setVoted] = useState(false);
-    const [editMode, setEditMode] = useState(true);
+    const [editMode, setEditMode] = useState(false);
     const [backupPoll, setBackupPoll] = useState(mockPoll);
     const [editedDate, setEditedDate] = useState(new Date());
     const [isNoEndDate, setIsNoEndDate] = useState(mockPoll.end === null);
@@ -109,13 +109,11 @@ export default function PollDetail() {
         setVoted(true);
         const voteButton = document.getElementById('voteButton');
         voteButton.setAttribute('disabled', 'true');
+        const chart = document.getElementById('Chart');
 
         //delay scroll to bottom
         setTimeout(() => {
-            window.scrollTo({
-                top: document.documentElement.scrollHeight,
-                behavior: 'smooth',
-            });
+            chart.scrollIntoView({ behavior: 'smooth' });
         }, 100);
 
         //TODO: send vote to backend
@@ -283,10 +281,12 @@ export default function PollDetail() {
 
 
             {
-                voted && !editMode &&
+                voted && !editMode ?
                 <div>
-                    <canvas ref={chartRef} />
+                    <canvas id='Chart' ref={chartRef} />
                 </div>
+                :
+                <div id='Chart'></div>
             }
 
 
@@ -296,7 +296,8 @@ export default function PollDetail() {
                     <div className={styles.optionsContainer}>
                         <div>
                             {
-                                poll.votingOptions.map((option, index) => {
+
+                                poll.votingOptions.sort((a, b) => a.length - b.length).map((option, index) => {
                                     return (
                                         <button onClick={!voted ? setActive : () => { }} key={"option_" + index}>
                                             <p>{option}</p>
