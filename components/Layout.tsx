@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Footer from "./footer.js"
+import Footer from "./Footer";
 import Link from "next/link.js";
 
 
