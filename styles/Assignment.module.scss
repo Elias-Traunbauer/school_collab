@@ -1,4 +1,5 @@
 .assignmentcontainer {
+  width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -10,17 +11,24 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 40vw;
-  /*height: 25vh;*/
+  width: 50%;
   background-color: var(--background_1);
   border-radius: 1em;
   margin-bottom: 1em;
+
 }
 
 .assignmentcard:hover {
-  /*background: linear-gradient(131deg, var(--color_main) 0%, var(--background_2) 35%);
-  */
   background-color: var(--background_2);
+  cursor: pointer;
+}
+
+.editcontainer{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .assignmenthead {
@@ -42,21 +50,7 @@
   padding: .3em;
 }
 
-.descriptionwrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1em;
-}
 
-.descriptioncontainer {
-  background-color: var(--background_1);
-  width: 70%;
-  padding: .5em;
-  border-radius: .7em;
-}
 
 .instructionHeader{
   width: 100%;
@@ -103,6 +97,7 @@
   margin-bottom: 2em;
 }
 
+
 .uploadfileWrapper > p{
   margin: 0;
   opacity: .6;
@@ -127,21 +122,14 @@
 #uploadFileNotification{
   background-color: red;
 }
-.descriptioncontainer:hover {
-  background-color: var(--background_2);
-}
 
-.descriptioncontainer > textarea {
-  width: 100%;
-  height: auto;
-  outline: 0;
-  padding: .5em;
-  resize: vertical;
-  background-color: var(--background_2);
-}
-
-.descriptioncontainer > p{
-  word-wrap: break-word;
+.descriptionContainer{
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 2em;
 }
 
 .description {
@@ -179,6 +167,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  margin-bottom: 2em;
 }
 
 .editButton > div {
@@ -269,6 +258,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .activedrag {
@@ -339,6 +329,14 @@
 
 .descriptionSection {
   border-bottom: 1px solid rgb(0, 0, 0, .3);
+}
+
+.CreationContainer{
+  width: 100%;
+  height: 100vh;
+  margin-top: 3em;
+  display: flex;
+  justify-content: center;
 }
 
 .dropbtn {
@@ -435,6 +433,7 @@
   color: #fff;
   min-width: var(--container_width);
   box-shadow: 0 -2px 10px rgb(7, 7, 7);
+  height: fit-content;
 }
 
 .contenWrapper {
@@ -597,7 +596,6 @@
   justify-content: center;
   color: rgb(255, 255, 255);
   flex-direction: row;
-  margin-top: auto;
   margin-bottom: auto;
   width: 80%;
   height: auto;
@@ -643,6 +641,7 @@
   font-size: inherit;
   background-color: transparent;
   outline: 0;
+  text-align: center;
 }
 
 .edditOn {
@@ -657,41 +656,6 @@
   border-radius: .3em;
 }
 
-.plus > img {
-  width: 100%;
-  height: 100%;
-}
-
-.plusContainer {
-  width: 60%;
-  height: 4em;
-  background-color: var(--background_1);
-  border-radius: .3em;
-  display: flex;
-  align-items: center;
-  padding: 1em;
-  justify-content: space-between;
-}
-
-.plus {
-  width: 3em;
-  height: 3em;
-  float: right;
-  padding: .3em;
-  background-color: var(--color_main);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: .3em;
-}
-
-.plus:hover {
-  opacity: .7;
-}
-
-.plusContainer h1 {
-  text-align: center;
-}
 
 .inputHeader {
   padding-right: 1em;
@@ -1001,6 +965,92 @@
 }
 
 .markdownContainer{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.assignmentheader{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &>button{
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: .3em;
+    border: 1px solid var(--background_5);
+    margin: .3em 0;
+    padding: .5em .8em;
+    cursor: pointer;
+
+    &:hover{
+        filter: brightness(1.2);
+    }
+
+    &>p{
+        margin: 0;
+        width: fit-content;
+        font-size: larger;
+    }
+    
+}
+
+
+  &>div{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: .5em;
+  width: 70%;
+
+  &>input[type="text"]{
+      width: 100%;
+      height: 2em;
+      border-radius: .2em;
+      border: none;
+      padding: .5em .8em;
+      margin: .3em 0;
+      background-color: var(--background_1);
+      color: white;
+      font-size: larger;
+      outline: none;
+
+      &:hover{
+          filter: brightness(1.2);
+      }
+
+      &:focus{
+          filter: brightness(1.2);
+          border-bottom: 1px solid var(--color_main);
+      }
+  }
+
+  &>button{
+      background-color: var(--background_1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: .2em;
+      height: 2em;
+
+      &:hover{
+          filter: brightness(1.2);
+      }
+  }
+  }
+}
+
+.assignmentCardsContainer{
   width: 100%;
   display: flex;
   flex-direction: column;
