@@ -11,6 +11,7 @@
 
     & > img {
         cursor: pointer;
+        user-select: none;
     }
 
     width: fit-content;
@@ -53,7 +54,7 @@
 
 .Listcontainer > div {
     position: relative;
-    width: 99%;
+    width: 100%;
     vertical-align: middle;
 
     & * {
@@ -62,7 +63,6 @@
     }
 
     & p {
-        color: var(--color_link);
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
@@ -70,6 +70,7 @@
     & > img {
         cursor: pointer;
         font-size: 1.2em;
+        user-select: none;
     }
 }
 
@@ -87,11 +88,6 @@
         overflow: hidden;
         white-space: nowrap;
     }
-}
-
-.Listcontainer:hover {
-    background-color: var(--background_1);
-
 }
 
 .Listcontainer > img{
@@ -114,6 +110,7 @@
     padding: .2em;
     border-radius: 10em;
     width: fit-content;
+    user-select: none;
 }
 
 .deletContainer:hover {
@@ -122,6 +119,5 @@
 
 .deleteAnimation{
     opacity: 0;
-    overflow: hidden;
-    transition: opacity .5s;
+    transition: opacity .2s linear;
 }

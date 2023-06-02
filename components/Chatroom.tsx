@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import styles from "../styles/Chatroom.module.scss";
-import Message from "./Message";
+import MessageComponent from "./MessageComponent";
 import Image from "next/image";
+import FileListObject from "./FileListObject";
+import Message from "../models/Message";
 export default function Chatroom() {
   const mockName = "alo";
   const createdAt = new Date(1, 1, 1, 1, 1);
-  const mockuser = { id: 1, name: "alo", color: "red" };
+  const mockuser = { id: 2, name: "alo", color: "red" };
   const mockMemberList = [
     {
       name: "rsheed",
@@ -17,100 +19,30 @@ export default function Chatroom() {
     },
   ];
   const mockDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-const mockProfile = "TestProfile.jpeg";
+const mockProfile = "person.svg";
   const [profile, setProfile] = useState(mockProfile);
-  const mockmessages = [
+  const [scrollBody, setScrollBody] = useState(false);
+  // Message Mock using the interface
+  const mockmessages: Message[] = [
     {
       id: 1,
-      author: mockuser,
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
+      text: "Hello",
+      author: {id: 1, name: "tomas", color: "green"},
+      createdAt: new Date(2021, 1, 1, 1, 1),
+      files: [],
+      answer: null,
     },
     {
       id: 2,
-      author: { id: 2, name: "rsheed", color: "blue" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 3,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
+      text: "Hello",
+      author: {id: 1, name: "tomas", color: "green"},
+      createdAt: new Date(2021, 1, 1, 1, 1),
+      files: [],
+      answer: null,
+    }
   ];
+
+      
   const [messages, setMessages] = useState(mockmessages);
   const [files, setFiles] = useState([]);
   const [infoIsHidden, setInfoIsHidden] = useState(true);
@@ -118,6 +50,8 @@ const mockProfile = "TestProfile.jpeg";
   const [name, setName] = useState(mockName);
   const [backUpName, setBackUpName] = useState(mockName);
   const [description, setDescription] = useState(mockDescription);
+  const [answer, setAnswer] = useState(null);
+
 
   useEffect(() => {
     scrollDown();
@@ -169,22 +103,41 @@ const mockProfile = "TestProfile.jpeg";
   function sendMessage() {
     const input = document.getElementById("messageField") as HTMLInputElement;
     const message = input.value;
-    if (message.length > 0) {
+    if (message.length > 0 || files.length > 0) {
       const newMessage = {
         id: messages.length + 1,
         author: mockuser,
         text: message,
         createdAt: new Date(),
         files: files,
+        answer: answer,
       };
       setMessages([...messages, newMessage]);
       input.value = "";
+      setFiles([]);
+      setAnswer(null);
     }
   }
 
   function scrollDown() {
     const chatroom = document.getElementById("chatBody") as HTMLDivElement;
     chatroom.scrollTop = chatroom.scrollHeight;
+  }
+
+  function displayAnswer(answer:Message){
+    setAnswer(answer);
+  }
+
+  function scrollToMessage(e){
+    const chatroom = document.getElementById("chatBody") as HTMLDivElement;
+    const message = e.target;
+    chatroom.scrollTop = message.offsetTop - 100;
+    console.log(message);
+    message.classList.add(styles.highlight);
+
+    setTimeout(() => {
+      message.classList.remove(styles.highlight);
+    }, 2000);
   }
 
   function printMessages() {
@@ -197,34 +150,35 @@ const mockProfile = "TestProfile.jpeg";
             return (
               <>
                 <div key={"date_" + index} className={styles.dateSection}>
-                  <p>{getDate(message.createdAt)}</p>
+                  <div>
+                    <div></div>
+                    <p>{getDate(message.createdAt)}</p>
+                    <div></div>
+                  </div>
+
                 </div>
-                <Message
+                <MessageComponent
+                  callBackAnswerClicked={scrollToMessage}
                   key={"message_" + index}
-                  author={message.author}
-                  text={message.text}
-                  createdAt={message.createdAt}
-                  displayName={
-                    index != 0
-                      ? messages[index - 1].author.id != message.author.id
-                      : true
-                  }
-                ></Message>
+                  handleAnswer={displayAnswer}
+                  displayName={index != 0
+                    ? messages[index - 1].author.id != message.author.id
+                    : true} 
+                    message={message}                
+                    ></MessageComponent>
               </>
             );
           } else {
             return (
-              <Message
+              <MessageComponent
+                callBackAnswerClicked={scrollToMessage}
                 key={"message_" + index}
-                author={message.author}
-                text={message.text}
-                createdAt={message.createdAt}
-                displayName={
-                  index != 0
-                    ? messages[index - 1].author.id != message.author.id
-                    : true
-                }
-              ></Message>
+                handleAnswer={displayAnswer}
+                displayName={index != 0
+                  ? messages[index - 1].author.id != message.author.id
+                  : true} 
+                  message={message}             
+                ></MessageComponent>
             );
           }
         })}
@@ -235,11 +189,14 @@ const mockProfile = "TestProfile.jpeg";
   function addFiles() {
     const input = document.getElementById("fileInput") as HTMLInputElement;
     input.click();
+    console.log(answer != null || files.length > 0)
   }
 
   function uploadFile(e) {
     setFiles([...files, ...e.target.files]);
-    sendMessage();
+    e.target.value = "";
+    const input = document.getElementById("messageField") as HTMLInputElement;
+    input.focus();
   }
 
   function uploadProfile(e) {
@@ -279,26 +236,110 @@ function changeName(change:boolean){
     changeNameEditMode();
 }
 
+function deleteFileItem(itemKey = 0){
+  const newFiles = files.filter((file,index) => {
+    return index != itemKey;
+} );
+  setTimeout(() => {
+    setFiles(newFiles);
+  }, 200);
+    
+}
+
+
   function handleInfoProfileClick() {
     const input = document.getElementById(
       "infoProfileInput"
     ) as HTMLInputElement;
     input.click();
   }
+  function handleDragged(){
+    console.log("dragged");
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    chatBody.classList.add(styles.dragged);
+  }
+
+  function handleLeave(){
+    console.log("leave");
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    chatBody.classList.remove(styles.dragged);
+  }
+
+  function handleDropped(e){
+    e.preventDefault();
+    console.log("droped " + e.dataTransfer.files);
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    chatBody.classList.remove(styles.dragged);
+    const files = e.dataTransfer.files;
+    setFiles([...files]);
+  }
+
+  function handleScroll(){
+    // if position is at the bottom
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    const scrollBodyBtn = document.getElementById("scrollBodyBtn") as HTMLButtonElement;
+    if(chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight){
+      setScrollBody(false);
+    }
+    else{
+      setScrollBody(true);
+    }
+  }
 
   return (
-    <div className={styles.container}>
+    <div onDragOver={handleDragged} onDragLeave={handleLeave} className={styles.container}>
 
-      <div className={styles.contentWrapper}>
+      <div  className={styles.contentWrapper}>
         <div className={styles.contentContainer}>
-          <div id="chatBody" className={styles.body}>
+          <div onScroll={handleScroll} onDrop={(e)=>handleDropped(e)} id="chatBody" className={styles.body}>
             <div>
               {printMessages()}
               <p></p>
             </div>
           </div>
           <div className={styles.foot}>
-            <div>
+            {
+              scrollBody&&
+              <button onClick={scrollDown} id='scrollBodyBtn' className={styles.scrollBodyButton}>
+              <Image width={25} height={25} alt="dasd" src={"/arrow_left.svg"}></Image>
+            </button>
+            }
+            {
+                answer &&
+                <div style={{'--answerColor': answer.author.color} as CSSProperties}  className={styles.answer}>
+                <div>
+                <div>
+                  <p>{answer.author.name}</p>
+                  <p>{answer.text}</p>
+                </div>
+                <button onClick={() => setAnswer(null)}>
+                  <div></div>
+                  </button>
+                </div>
+              </div>
+            }
+
+            {
+                files.length>0 &&
+                <div className={`${styles.fileContainer} ${answer && styles.extention}`}>
+                  <div>
+                    <p>{files.length} Files</p>
+                    <div>
+                    {
+                     files.map((file,index) => {
+                        return (
+                            <FileListObject deleteFunction={deleteFileItem} key={"file_"+index} itemKey={index} asCard={false} file={{name:file.name}}></FileListObject>
+                        );
+                    })
+                }
+                    </div>
+                  
+                  </div>
+                
+            </div>
+            }
+            
+            <div  className={answer != null || files.length > 0 ? styles.extention : "" }>
               <div onClick={addFiles}>
                 <div className={styles.dataBtn}></div>
               </div>
@@ -307,6 +348,7 @@ function changeName(change:boolean){
                 id="messageField"
                 type="text"
                 placeholder="Type a message..."
+                autoComplete="off"
               ></input>
               <div onClick={sendMessage}>
                 <div className={styles.sendBtn}></div>
@@ -321,7 +363,8 @@ function changeName(change:boolean){
                 <button>Change</button>
             </div>
             
-          <div>
+            <div>
+            <div>
             {!nameEdit ? (
               <>
                 <h1>{name}</h1>
@@ -341,6 +384,8 @@ function changeName(change:boolean){
               </>
             )}
           </div>
+            </div>
+          
 
             <div>
                 <div>
