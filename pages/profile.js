@@ -1,8 +1,9 @@
 import Wizard from '../components/wizard';
-import { WizardField } from '../components/models/WizardField';
+import WizardField from '../models/WizardField';
 import styles from "../styles/profile.module.scss"
 import { useState } from "react";
 import Image from "next/image";
+import AccountLinking from '../components/accountLinking';
 
 export default function Profile() {
     let userDummy = {
@@ -61,6 +62,7 @@ export default function Profile() {
 
             </div>
         </div>
+        <AccountLinking/>
         </>
     )
 }
