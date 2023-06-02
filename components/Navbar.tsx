@@ -17,7 +17,7 @@ export default function Navbar() {
                 <Link href="/polls">
                     Polls
                 </Link>
-                <Link href="/summaryList">
+                <Link href="/summaries">
                     Summary
                 </Link>
                 <div className={styles.underline} id="underline"></div>
