@@ -4,6 +4,7 @@ import '../styles/globals.scss'
 import icon from '../public/icon.jpg'
 import { useEffect } from 'react'
 import { DialogContainer } from '../components/Dialog'
+import Footer from '../components/Footer'
 
 function MyApp({ Component, pageProps }) {
 
