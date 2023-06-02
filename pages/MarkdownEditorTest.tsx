@@ -15,7 +15,7 @@ export default function MarkdownEditorTest() {
         <div className={styles.test}>
             <MarkdownEditor isEditable={display}></MarkdownEditor>
         </div>
-        <button onClick={changeDisplay}></button>
+        <button onClick={changeDisplay}>edit</button>
         </>
 
     );
