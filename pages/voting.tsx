@@ -53,7 +53,6 @@ export default function Voting({ VoteId }) {
                     }
                 } as ChartOptions
             });
-            setChart(tmpChart);
         } else {
             chart.data.datasets[0].data = votes;
 
