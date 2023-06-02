@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import styles from '../styles/Chat.module.scss';
-import Chatroom from '../components/Chatroom';
 import Image from 'next/image';
-import ChatroomListitem from '../components/ChatroomListitem';
+import styles from '../../styles/Chat.module.scss';
+import ChatroomListitem from '../../components/ChatroomListitem';
+import Chatroom from '../../components/Chatroom';
 export default function Chat() {
     const [selectedChatRoom, setSelectedChatRoom] = useState(0);
     const mockProfile = 'person.svg';
