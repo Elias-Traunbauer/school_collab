@@ -1,0 +1,246 @@
+.test {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5em;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--background_1);
+  padding: 1em 1.5em;
+  border-radius: .5em;
+}
+
+.head {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  margin: auto;
+  flex-wrap: wrap-reverse;
+
+  @media (max-width: 1000px) {
+    width: 60%;
+    justify-content: center;
+  }
+  @media (max-width: 900px) {
+    width: 70%;
+    justify-content: center;
+  }
+  @media (max-width: 800px) {
+    width: 100%;
+  }
+  @media (max-width: 580px) {
+    width: 70%;
+    justify-content: center;
+  }
+    
+
+  & > div {
+    position: relative;
+    & > span {
+      position: absolute;
+      visibility: hidden;
+      width: max-content;
+      word-wrap: normal;
+      overflow-wrap: normal;
+      background-color: var(--tooltip_color);
+      color: #fff;
+      text-align: center;
+      border-radius: 1em;
+      padding: 0.5em;
+      z-index: 1;
+      bottom: 4.4em;
+      font-size: smaller;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.5em 1em;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: var(--tooltip_color) transparent transparent transparent;
+      }
+    }
+  }
+
+  & > div > input {
+    width: 3em;
+    height: 3em;
+    cursor: pointer;
+    border-radius: 0.2em;
+    margin-bottom: 0.2em;
+    background-color: white;
+    appearance: none;
+    mask: url(/display.svg) no-repeat center;
+
+    &:checked {
+      background-color: var(--color_main);
+    }
+  }
+}
+
+.img {
+  cursor: pointer;
+  border-radius: 0.2em;
+  margin-bottom: 0.2em;
+  position: relative;
+  --tooltip_color: var(--background_3);
+
+  &:hover {
+    background-color: var(--background_3);
+    & > span {
+      visibility: visible;
+    }
+
+    & > div{
+      scale: 1.1;
+     
+    }
+  }
+
+  & > div {
+    width: 3em;
+    height: 3em;
+    background-color: white;
+    transition: scale 0.2s ease-in-out;
+  }
+}
+
+.imgHeading {
+  mask: url(/heading.svg) no-repeat center;
+}
+
+.imgCode {
+  mask: url(/code.svg) no-repeat center;
+}
+
+.imgLink {
+  mask: url(/link.svg) no-repeat center;
+}
+
+.imgBlockQuote {
+  mask: url(/blockQuote.svg) no-repeat center;
+}
+
+.imgBold {
+  mask: url(/FormatBold.svg) no-repeat center;
+}
+
+.imgItalic {
+  mask: url(/formatItalic.svg) no-repeat center;
+}
+
+.imgBulletpoint {
+  mask: url(/ul.svg) no-repeat center;
+}
+
+.imgNumb {
+  mask: url(/imgNumb.svg) no-repeat center;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  & > textarea {
+    height: 15em;
+    width: 100%;
+    resize: none;
+    border: .5px solid #ccc;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    overflow: auto;
+    outline: 0;
+  }
+  & > div {
+    background-color: var(--background_4);
+    margin-top: .5em;
+    padding: 1em;
+    border-radius: .5em;
+
+    & > * {
+      word-wrap: break-word;
+    }
+
+    & > pre {
+      width: 90%;
+      padding: .5em;
+      margin: 0 auto;
+      margin-bottom: 1em;
+      border-radius: .5em;
+      background-color: var(--background);
+
+      & > code {
+        white-space: pre-wrap;
+        position: relative;
+      }
+        & > div{
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin-bottom: .3em;
+
+          & > button{
+            cursor: pointer;
+            border: none;
+            width: 1em;
+            height: 1em;
+            background-color: white;
+            opacity: 0.5;
+            mask: url(/clipBoard.svg) no-repeat center;
+            appearance: none;
+
+            &:hover{
+              opacity: 1;
+              scale: 1.1;
+            }
+          }
+
+          & > p{
+            margin: 0;
+            opacity: 0.5;
+          }
+      }
+    }
+  }
+}
+
+.placeholder{
+  border-radius: .5em;
+  padding: 1em;
+  margin-top: .5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &>h2{
+    margin: 0;
+    margin-bottom: .5em;
+  }
+
+  &>p{
+    margin: 0;
+    opacity: 0.5;
+  }
+}
+.hidden{
+  display: none !important;
+}
+
+.background{
+background-color: var(--background_1) !important;
+}
