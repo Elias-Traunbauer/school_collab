@@ -1,4 +1,4 @@
-import styles from '../styles/Assignment.module.css';
+import styles from '../styles/Assignment.module.scss';
 import { useState, useEffect, use } from 'react'
 import Datepicker from './Datepicker';
 import React from 'react';
@@ -229,7 +229,7 @@ export default function Wizard({ returnPath='/', callback,contentData = [[new Wi
 
     return (
         <>
-            <div id='wizzardContainer' style={{ minWidth: containerWidth + '%' }} className={styles.wizzardContainer}>
+            <div id='wizzardContainer' style={{ width: containerWidth + '%' }} className={styles.wizzardContainer}>
                 <div id='loaderContainer' className={`${styles.loader} ${styles.hidden}`}>
                     <div id='loader'></div>
                     <p>{loadingText}</p>
@@ -254,7 +254,7 @@ export default function Wizard({ returnPath='/', callback,contentData = [[new Wi
                         }
                     </ul>
 
-                    <div style={{ minWidth: containerWidth + '%' }} className={styles.wizardContentContainer}>
+                    <div className={styles.wizardContentContainer}>
                         {
                             contentData.map((item, formIndex) => {
                                 return (
