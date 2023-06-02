@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import styles from '../styles/Assignment.module.css';
+import styles from '../styles/Assignment.module.scss';
 import Image from 'next/image';
 
 export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, title, edittmode = false, fileExtentions = [] })
