@@ -82,7 +82,6 @@ export default function SummaryList() {
               <Image id={"expand"+i} alt="expand" src={'/expand.svg'} width={20} height={20}></Image>
               <p>{subject.subject}</p>
               </div>
-              <p>Alle Anzeigen</p>
             </div>
             <div className={`${styles.postContentContainer}`} id={"content"+i}>
               {
