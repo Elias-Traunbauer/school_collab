@@ -735,7 +735,7 @@
   width: 8em;
   height: 8em;
   border-radius: 10em;
-  background-color: var(--background_4);
+  background-color: var(--color_main);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -743,7 +743,7 @@
 
 .loader > div::after {
   content: '';
-  background-color: var(--color_main);
+  background-color: white;
   transition: 1s;
   width: 80%;
   height: 80%;
