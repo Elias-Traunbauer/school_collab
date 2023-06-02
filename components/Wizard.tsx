@@ -175,6 +175,7 @@ export default function Wizard({ returnPath='/', callback,contentData = [[new Wi
 
     function CancelWizard() {
         //backend code
+        console.log('cancel');
         router.push(returnPath);
     }
 
