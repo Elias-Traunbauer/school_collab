@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Countdown from './Countdown';
-import styles from '../styles/Assignment.module.css'
+import styles from '../styles/Assignment.module.scss'
 import { useRouter } from 'next/router'
 
 export default function Assignment({ assignment = { subject: "DBI", title: "JPA Lab 1: Generieren der IDs", deadline: new Date(2023, 1, 22, 13, 40), set: true} }) {
@@ -23,8 +23,8 @@ export default function Assignment({ assignment = { subject: "DBI", title: "JPA 
     });
 
     return (
-        <div className={styles.assignmentcontainer} onClick={() => router.push("./assignment_edit?assignmentId=1")}>
-            <div className={styles.assignmentcard}>
+        <div className={styles.assignmentcontainer} >
+            <div className={styles.assignmentcard} onClick={() => router.push("/assignments/edit?assignmentId=1")}>
                 <div className={styles.assignmenthead}>
                     <p>{assignmentState.subject}</p>
                 </div>
