@@ -221,6 +221,10 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  &>h1{
+    margin: 0;
+  }
 }
 
 .extentionWrapper {
