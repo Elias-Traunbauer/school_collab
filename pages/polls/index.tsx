@@ -70,7 +70,7 @@ export default function PollList(){
             </div>
             <div>
                 <div>
-                    <input onKeyDown={handleKeydown} id='searchInput' type="text" placeholder="Suche nach Umfragen"></input>
+                    <input onKeyDown={handleKeydown} id='searchInput' type="text" placeholder="Suche..."></input>
                     <button onClick={handleSearch}>
                         <Image src="/search.svg" alt="search" width={20} height={20}></Image>
                     </button>
