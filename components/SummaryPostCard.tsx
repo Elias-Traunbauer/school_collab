@@ -4,7 +4,7 @@ import FileListObject from './FileListObject'
 import { useState } from 'react'
 import VotingComponent from './VotingComponent'
 import { Router, useRouter } from 'next/router'
-export default function SummaryPostCard({ post = {author:'Yannie',title:'Info Team',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
+export default function SummaryPostCard({ post = {author:'Yannie',title:'Info Team',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}: { post?: any }) {
 
     const router = useRouter();
     const userDummy = {
@@ -63,14 +63,17 @@ export default function SummaryPostCard({ post = {author:'Yannie',title:'Info Te
             <div className={styles.postHeader}>
                 <Image alt='profile' src={'/ProfileDemo.svg'} width={200} height={200} />
                 <div>
-                        {post.author}
+                    <div>
+                        <p>{post.author}</p>
                         <span>{lastModified.modified? "last modified: " : "published: " } {getTimestamp()}</span>
+                    </div>
+                        
                         <h3>{post.title}</h3>
                         <p>If you&apos;re tired of using outline styles for secondary buttons, a soft solid background based on the text color can be a great alternative.</p>
                 </div>
             </div>
             <div className={styles.postFooter}>
-                <VotingComponent withScore={true}></VotingComponent>
+                <VotingComponent itemkey={post.votingId} withScore={true}></VotingComponent>
             </div>
         </div>
     )

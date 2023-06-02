@@ -78,19 +78,19 @@ export default function SummaryList() {
           <div key={"card_"+i} className={styles.listContainer}>
             
             <div onClick={()=>switchContentAperance(i)} className={styles.listHeader}>
-  	          <Image id={"expand"+i} alt="expand" src={'/expand.svg'} width={20} height={20}></Image>
+              <div>
+              <Image id={"expand"+i} alt="expand" src={'/expand.svg'} width={20} height={20}></Image>
               <p>{subject.subject}</p>
+              </div>
+              <p>Alle Anzeigen</p>
             </div>
             <div className={`${styles.postContentContainer}`} id={"content"+i}>
               {
                 getPostsBySubject(subject.subject).map((post,i) => {
-                  return <SummaryPostCard key={i} className={`${styles.hiddenElement}`} post={post}></SummaryPostCard>;
+                  return (
+                      <SummaryPostCard key={i}></SummaryPostCard>
+                  );
                 })
-              }
-              {
-                GetCountOfSubject(subject.subject) > 3 ?
-                <Image onClick={()=>changeContent(subject.subject)} alt='circleButton' src={subjects[subjects.findIndex((sub) => sub.subject === subject.subject)].showAll?'/remove_circle.svg':'/add_circle.svg'} width={50} height={50}></Image>
-                : ""
               }
             </div>
           

@@ -1,0 +1,32 @@
+import Link from 'next/link'
+import Wizard from '../components/Wizard'
+import styles from '../styles/WizardTest.module.css'
+import React from 'react';
+import WizardField from "../models/WizardField"
+import WizardResult from '../models/WizardResult';
+export default function WzTest() {
+    function callback(data:WizardResult[], setLoadingText, finishLoading){
+        console.log(data);
+        setLoadingText("Penis...");
+        setTimeout(() => {
+            finishLoading();
+            setLoadingText("done!");
+        }, 2000);
+    };
+
+    const allOptions = [
+        [new WizardField('text','text','hallo',true),new WizardField('text','text','hallo',false)],
+        [new WizardField('checkBox','checkBox',{value:false,text:'asdasdasdasd'},true),new WizardField('checkbox','checkbox',{value:true,text:'asdasdasdasd'},false)],
+        [new WizardField('date','date',new Date(),true),new WizardField('date','date',new Date(),false)],
+        [new WizardField('markdown','markdown','hallo',false),new WizardField('md','markdown','# hallo',false)],
+        [new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true),new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],false)]
+    ];
+
+    return (
+        <div className={styles.container}>
+            <Wizard contentData={allOptions} title='Test' callback={callback}></Wizard>
+        </div>
+
+    );
+
+}
