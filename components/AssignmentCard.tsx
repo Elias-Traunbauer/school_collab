@@ -24,7 +24,7 @@ export default function Assignment({ assignment = { subject: "DBI", title: "JPA 
 
     return (
         <div className={styles.assignmentcontainer} >
-            <div className={styles.assignmentcard} onClick={() => router.push("./assignment_edit?assignmentId=1")}>
+            <div className={styles.assignmentcard} onClick={() => router.push("/assignments/edit?assignmentId=1")}>
                 <div className={styles.assignmenthead}>
                     <p>{assignmentState.subject}</p>
                 </div>
