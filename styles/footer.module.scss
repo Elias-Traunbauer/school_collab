@@ -1,36 +1,24 @@
-.outercontainer{
-    padding: 2rem 0 2rem 0;
-    background-color: rgb(46, 46, 46);
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-}
-
 .container{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     bottom: 0;
-    background-color: white;
     width: 100vw;
+    background-color: rgb(46, 46, 46);
 
     & > div{
-
-        background-color: rgb(46, 46, 46);
-        display: inline-flex;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 30vw;
-        
-        &:not(:last-child) {
-            margin-right: 0.05rem;
-        }
+        width: 33.25vw;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    }
 
-        &:last-child {
-            margin-right: 0;
-        }
+    & > span{
+        height: 9vh;
+        width: 1px;
+        background-color: white;
+        align-self: center;
     }
 }
