@@ -5,9 +5,15 @@ import VotingComponent from '../../components/VotingComponent';
 import styles from "../../styles/SummaryDetail.module.scss";
 import FileUpload from '../../components/FileUpload';
 import FileListObject from '../../components/FileListObject';
-export default function SummaryDetail({ post = {author:'Yannie',title:'Info Teamssssssssssssssssssssssssssssssssssssssssssssssssssssssssss sssssssssss',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
+export default function SummaryDetail({ post = {author:'Yannie',title:'Info sssssssssssssssssssssssssssssssssssssssssssssss sssssssssss',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
     const [editMode, setEditMode] = useState(false);
     const [files, setFiles] = useState(post.files);
+    const [summary, setSummary] = useState({
+        title: post.title,
+        description: post.description,
+        files: post.files,
+        votingId: post.votingId,
+    });
 
     const mockUser = {
         name: 'Yannie',
@@ -51,20 +57,26 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
             <div className={styles.header}>
                 <input id='detail_edit' type='checkbox' onClick={()=>setEditMode(!editMode)} className={styles.edit}></input>
                     <div>
-                        <h1>{post.title}</h1>
+                        {
+                            editMode ?
+                            <input className={styles.title} defaultValue={summary.title}></input>
+                            :
+                            <h1>{summary.title}</h1>
+                        }
+                        
                         <div>
-                            <VotingComponent votingId={post.votingId} withScore={true} itemkey={0}></VotingComponent>
+                            <VotingComponent votingId={summary.votingId} withScore={true} itemkey={0}></VotingComponent>
                         </div> 
                     </div>
             </div>
             <div className={styles.MarkdownEditor}>
-                <MarkdownEditor isEditable={true}></MarkdownEditor>
+                <MarkdownEditor defaultText={summary.description} isEditable={true}></MarkdownEditor>
             </div>
 
             {
                 editMode &&
                 <div className={styles.fileUpload}>
-                    <FileUpload title={"das"} handleAcceptedFiles={handleAcceptedFiles} handleFilesUpdated={handleFilesUpdated} ></FileUpload>
+                    <FileUpload title={"Upload File"} handleAcceptedFiles={handleAcceptedFiles} handleFilesUpdated={handleFilesUpdated} ></FileUpload>
                 </div>
             }
 

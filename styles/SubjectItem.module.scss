@@ -1,0 +1,47 @@
+.container{
+    width: 20em;
+    height: 20em;
+    background-color: var(--background_2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+    border-radius: .3em;
+    overflow: hidden;
+
+    &:hover{
+        filter: brightness(120%);
+        cursor: pointer;
+    }
+
+    &>img{
+        width: 70%;
+        height: 60%;
+        margin-bottom: .5em;
+        border-radius: .3em;
+    }
+
+    &>h1{
+        font-size: 1.5em;
+        font-weight: 600;
+        margin: 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        text-align: start;
+        max-width: 80%;
+    }
+}
+
+.picturePlaceholder{
+    width: 70%;
+    height: 60%;
+    margin-bottom: .5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(53, 52, 52);
+    border-radius: .3em;
+}

@@ -80,7 +80,8 @@
 
 
 .ListContentcontainer:hover {
-    background-color: var(--background_4);
+    background-color: var(--background_1);
+    filter: brightness(130%);
 
     & p {
         text-decoration: underline 1px;
