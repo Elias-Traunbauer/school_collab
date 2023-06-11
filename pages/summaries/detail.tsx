@@ -14,6 +14,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
         files: post.files,
         votingId: post.votingId,
     });
+    const [backupSummary, setBackupSummary] = useState(summary);
 
     const mockUser = {
         name: 'Yannie',
@@ -43,12 +44,17 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
         setEditMode(false);
         const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
         editCheckbox.checked = false;
+        summary.title = (document.getElementsByClassName(styles.title)[0] as HTMLInputElement).value;
+        summary.description = (document.getElementsByClassName(styles.MarkdownEditor)[0] as HTMLInputElement).value;
+        summary.files = files;
+        setSummary(summary);
     }
 
     function handleCancel() {
         setEditMode(false);
         const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
         editCheckbox.checked = false;
+        setSummary(backupSummary);
     }
 
 
@@ -91,7 +97,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
                 <div>
                 {
                     files.length > 0 ?
-                    files.map((file, index) => {
+                    summary.files.map((file, index) => {
                         return(
                             <FileListObject key={"FileItem"+index} file={file} asCard={false}  deleteFunction={(e)=>deleteFileItem(e,index)} itemKey={index}></FileListObject>
                         );
