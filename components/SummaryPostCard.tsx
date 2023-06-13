@@ -55,7 +55,7 @@ export default function SummaryPostCard({ post = {author:'Yannie',title:'Info Te
     }
 
     function handleOpenDetails(){
-        router.push('/SummaryDetail');
+        router.push('/summaries/detail');
     }
 
     return (
