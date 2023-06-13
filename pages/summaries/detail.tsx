@@ -5,6 +5,7 @@ import VotingComponent from '../../components/VotingComponent';
 import styles from "../../styles/SummaryDetail.module.scss";
 import FileUpload from '../../components/FileUpload';
 import FileListObject from '../../components/FileListObject';
+import { useRouter } from 'next/router';
 export default function SummaryDetail({ post = {author:'Yannie',title:'Info sssssssssssssssssssssssssssssssssssssssssssssss sssssssssss',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
     const [editMode, setEditMode] = useState(false);
     const [files, setFiles] = useState(post.files);
@@ -15,6 +16,8 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
         votingId: post.votingId,
     });
     const [backupSummary, setBackupSummary] = useState(summary);
+    const router = useRouter(); 
+    const subject:string = "DBI";
 
     const mockUser = {
         name: 'Yannie',
@@ -38,6 +41,10 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
                 tmpList.push(files[i]);
         }
         setFiles(tmpList);
+    }
+
+    function handleExit() {
+        router.push(`/summaries/collection?subject=${subject}`);
     }
 
     function handleSave() {
@@ -125,7 +132,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
                         </>
                         
                     :
-                        <button className='btn btn-primary'>Exit</button>
+                        <button onClick={handleExit} className='btn btn-primary'>Exit</button>
                     
                     }
                     
