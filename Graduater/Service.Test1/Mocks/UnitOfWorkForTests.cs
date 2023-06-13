@@ -17,12 +17,15 @@ namespace Service.Test.Mocks
 
         public IAssignmentRepository AssignmentRepository { get; set; }
 
+        public IGroupRepository GroupRepository { get; set; }
+
         public UnitOfWorkForTests()
         {
             _appDbContext = new ApplicationDbContextForTesting();
             UserRepository = new UserRepository(_appDbContext);
             FileRepository = new FileRepository(_appDbContext);
-            AssignmentRepository = null!;
+            GroupRepository = new GroupRepository(_appDbContext);
+            AssignmentRepository = new AssignmentRepository(_appDbContext);
         }
 
         public UnitOfWorkForTests WithEntity(DatabaseEntity entity)
