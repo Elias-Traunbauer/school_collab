@@ -1,11 +1,12 @@
 import React from 'react';
+import Image from 'next/image';
 
 const FileIcon = ({ fileType }) => {
   let icon = '';
 
   switch (fileType) {
     case 'pdf':
-      icon = 'pdf-icon.svg';
+      icon = 'pdf.svg';
       break;
     case 'doc':
       icon = 'doc-icon.svg';
@@ -27,7 +28,7 @@ const FileIcon = ({ fileType }) => {
       break;
   }
 
-  return <img src={`/icons/${icon}`} alt={`${fileType}-icon`} />;
+  return <Image src={`/${icon}`} alt={`${fileType}-icon`} width={100} height={100}/>;
 };
 
 export default FileIcon;
