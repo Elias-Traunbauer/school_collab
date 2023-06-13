@@ -1,7 +1,13 @@
 .container{
-    width: 20em;
-    height: 20em;
-    background-color: var(--background_2);
+    width: 15em;
+    height: 15em;
+
+    @media screen and (max-width: 950px) {
+        width: 10em;
+        height: 10em;
+    }
+
+    background-color: var(--background_1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,6 +48,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgb(53, 52, 52);
+    background-color: rgb(57, 57, 57);
     border-radius: .3em;
 }
