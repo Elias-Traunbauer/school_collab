@@ -5,12 +5,14 @@ import React from 'react';
 import WizardField from '../models/WizardField';
 import MarkdownEditor from './MarkdownEditor';
 import WizardResult from '../models/WizardResult';
+import { useRouter } from 'next/router';
 
-export default function Wizard({ callback,contentData = [[new WizardField('checkBox','checkBox',{value:true,text:'asdasdasdasd'},true),new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true)],[new WizardField('date','date',new Date(),true)]], title = "Wizard", containerWidth = 50 }: { callback: Function, contentData?: WizardField[][], title: string, containerWidth?: number }) {
+export default function Wizard({ returnPath='/', callback,contentData = [[new WizardField('checkBox','checkBox',{value:true,text:'asdasdasdasd'},true),new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true)],[new WizardField('date','date',new Date(),true)]], title = "Wizard", containerWidth = 50 }: {returnPath?:string, callback: Function, contentData?: WizardField[][], title: string, containerWidth?: number }) {
         let inputList:HTMLInputElement[] = [];
     const [currentPage,setCurrentPage] = useState(0); 
     const [loadingText, setLoadingText] = useState("loading...");
     const [valid, setValid] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         checkFormFilled(0);
@@ -127,6 +129,7 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
         const year = parseInt(dateParts[2], 10);
         const hour = parseInt(timeParts[0], 10);
         const minute = parseInt(timeParts[1], 10);
+
         
         return new Date(year, month, day, hour, minute);
       }
@@ -172,6 +175,8 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
 
     function CancelWizard() {
         //backend code
+        console.log('cancel');
+        router.push(returnPath);
     }
 
     function printInput(item:WizardField, formIndex:number, indx:number) {
