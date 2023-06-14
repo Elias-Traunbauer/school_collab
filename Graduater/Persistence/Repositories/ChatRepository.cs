@@ -19,39 +19,55 @@ namespace Persistence.Repositories
             _context = context;
         }
 
-        public Task Create(Chat chat)
+        public async Task Create(Chat chat)
         {
-            throw new NotImplementedException();
+            // create chat
+            await _context.Chats.AddAsync(chat);
         }
 
-        public Task Delete(int chatId)
+        public async Task Delete(int chatId)
         {
-            throw new NotImplementedException();
+            var chat = await _context.Chats.FindAsync(chatId);
+            _context.Chats.Remove(chat);
         }
 
-        public Task<IEnumerable<Chat>> GetAllForUser(User user)
+        public async Task<IEnumerable<Chat>> GetAllForUser(User user)
         {
-            throw new NotImplementedException();
+            
+            var chats = _context.Chats.Where(c => c.ChatMembers!.Select(x => x.UserId).Contains(user.Id));
+            return chats;
         }
 
-        public Task<IEnumerable<ChatMessage>> GetMessages(int chatId, int count = 10, int start = 0)
+        public async Task<IEnumerable<ChatMessage>> GetMessages(int chatId, int count = 10, int start = 0)
         {
-            throw new NotImplementedException();
+            
+            var messages = _context.ChatMessages.Where(m => m.ChatId == chatId).Skip(start).Take(count);
+            return messages;
         }
 
-        public Task<IEnumerable<ChatMessage>> GetMessages(int chatId, DateTime start, int count = 10)
+        public async Task<IEnumerable<ChatMessage>> GetMessages(int chatId, DateTime start, int count = 10)
         {
-            throw new NotImplementedException();
+            
+            var messages = _context.ChatMessages.Where(m => m.ChatId == chatId && m.Created > start).Take(count);
+            return messages;
         }
 
-        public Task JoinChat(User user, Chat chat)
+        public async Task JoinChat(User user, Chat chat)
         {
-            throw new NotImplementedException();
+            
+            var chatMember = new ChatMember
+            {
+                ChatId = chat.Id,
+                UserId = user.Id,
+                Joined = DateTime.UtcNow
+            };
+            await _context.ChatMembers.AddAsync(chatMember);
         }
 
-        public Task SendMessage(ChatMessage chat)
+        public async Task SendMessage(ChatMessage chat)
         {
-            throw new NotImplementedException();
+            
+            await _context.ChatMessages.AddAsync(chat);
         }
     }
 }

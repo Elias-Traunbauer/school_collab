@@ -1,10 +1,11 @@
 import React from 'react'
-import AssignmentCard from '../components/AssignmentCard'
+import NewAssignmentCard from '../components/NewAssignmentCard'
+import styles from '../styles/CardTest.module.css'
 
 export default function CardTest() {
     return (
-        <div>
-            <AssignmentCard></AssignmentCard>
+        <div className={styles.container}>
+            <NewAssignmentCard></NewAssignmentCard>
         </div>
     )
 }
