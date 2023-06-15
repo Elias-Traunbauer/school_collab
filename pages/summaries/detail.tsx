@@ -5,9 +5,19 @@ import VotingComponent from '../../components/VotingComponent';
 import styles from "../../styles/SummaryDetail.module.scss";
 import FileUpload from '../../components/FileUpload';
 import FileListObject from '../../components/FileListObject';
-export default function SummaryDetail({ post = {author:'Yannie',title:'Info Teamssssssssssssssssssssssssssssssssssssssssssssssssssssssssss sssssssssss',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
+import { useRouter } from 'next/router';
+export default function SummaryDetail({ post = {author:'Yannie',title:'Info sssssssssssssssssssssssssssssssssssssssssssssss sssssssssss',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
     const [editMode, setEditMode] = useState(false);
     const [files, setFiles] = useState(post.files);
+    const [summary, setSummary] = useState({
+        title: post.title,
+        description: post.description,
+        files: post.files,
+        votingId: post.votingId,
+    });
+    const [backupSummary, setBackupSummary] = useState(summary);
+    const router = useRouter(); 
+    const subject:string = "DBI";
 
     const mockUser = {
         name: 'Yannie',
@@ -33,16 +43,25 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
         setFiles(tmpList);
     }
 
+    function handleExit() {
+        router.push(`/summaries/collection?subject=${subject}`);
+    }
+
     function handleSave() {
         setEditMode(false);
         const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
         editCheckbox.checked = false;
+        summary.title = (document.getElementsByClassName(styles.title)[0] as HTMLInputElement).value;
+        summary.description = (document.getElementsByClassName(styles.MarkdownEditor)[0] as HTMLInputElement).value;
+        summary.files = files;
+        setSummary(summary);
     }
 
     function handleCancel() {
         setEditMode(false);
         const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
         editCheckbox.checked = false;
+        setSummary(backupSummary);
     }
 
 
@@ -51,20 +70,26 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
             <div className={styles.header}>
                 <input id='detail_edit' type='checkbox' onClick={()=>setEditMode(!editMode)} className={styles.edit}></input>
                     <div>
-                        <h1>{post.title}</h1>
+                        {
+                            editMode ?
+                            <input className={styles.title} defaultValue={summary.title}></input>
+                            :
+                            <h1>{summary.title}</h1>
+                        }
+                        
                         <div>
-                            <VotingComponent votingId={post.votingId} withScore={true} itemkey={0}></VotingComponent>
+                            <VotingComponent votingId={summary.votingId} withScore={true} itemkey={0}></VotingComponent>
                         </div> 
                     </div>
             </div>
             <div className={styles.MarkdownEditor}>
-                <MarkdownEditor isEditable={true}></MarkdownEditor>
+                <MarkdownEditor defaultText={summary.description} isEditable={true}></MarkdownEditor>
             </div>
 
             {
                 editMode &&
                 <div className={styles.fileUpload}>
-                    <FileUpload title={"das"} handleAcceptedFiles={handleAcceptedFiles} handleFilesUpdated={handleFilesUpdated} ></FileUpload>
+                    <FileUpload title={"Upload File"} handleAcceptedFiles={handleAcceptedFiles} handleFilesUpdated={handleFilesUpdated} ></FileUpload>
                 </div>
             }
 
@@ -79,7 +104,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
                 <div>
                 {
                     files.length > 0 ?
-                    files.map((file, index) => {
+                    summary.files.map((file, index) => {
                         return(
                             <FileListObject key={"FileItem"+index} file={file} asCard={false}  deleteFunction={(e)=>deleteFileItem(e,index)} itemKey={index}></FileListObject>
                         );
@@ -107,7 +132,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info Team
                         </>
                         
                     :
-                        <button className='btn btn-primary'>Exit</button>
+                        <button onClick={handleExit} className='btn btn-primary'>Exit</button>
                     
                     }
                     

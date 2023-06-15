@@ -14,9 +14,18 @@ export default function CreateAssignment() {
             finishLoading();
             setLoadingText("done!");
 
+    const router = useRouter();
+
+    function finish(data:WizardResult[], setLoadingText, finishLoading){
+        console.log(data);
+        setLoadingText("Loading");
+        setTimeout(() => {
+            finishLoading();
+            setLoadingText("done!");
+
             setTimeout(() => {
-                router.push('/assignments')
-            },300);
+                router.push("/assignments");
+            },500);
         }, 2000);
     };
 
@@ -24,7 +33,7 @@ export default function CreateAssignment() {
 
     return (
         <div className={styles.CreationContainer}>
-            <Wizard contentData={data} callback={callback} title={"Assignment"}></Wizard>
+            <Wizard returnPath="/assignments/" contentData={data} callback={finish} title={"Assignment"}></Wizard>
         </div>
     )
 }

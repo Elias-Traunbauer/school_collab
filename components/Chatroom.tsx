@@ -398,8 +398,8 @@ function deleteFileItem(itemKey = 0){
 
             <div>
                 <div>
-                    <button>Verlassen</button>
-                    <button>Melden</button>
+                    <button><p>Verlassen</p></button>
+                    <button><p>Melden</p></button>
                 </div>
             </div>   
         </div>

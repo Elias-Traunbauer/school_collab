@@ -88,7 +88,7 @@ export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, t
             <div className={styles.uploadfieldcontainer}>
                 <div className={styles.wrapper}>
                     <div className={styles.headerContainer}>
-                        <header>{title ? title : "File Upload"}</header>
+                        <h1>{title ? title : "File Upload"}</h1>
                         <div className={styles.extentionWrapper}>
                             {
                                 edittmode ?
