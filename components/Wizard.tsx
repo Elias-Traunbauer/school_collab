@@ -6,29 +6,13 @@ import WizardField from '../models/WizardField';
 import MarkdownEditor from './MarkdownEditor';
 import WizardResult from '../models/WizardResult';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 export default function Wizard({ returnPath='/', callback,contentData = [[new WizardField('checkBox','checkBox',{value:true,text:'asdasdasdasd'},true),new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true)],[new WizardField('date','date',new Date(),true)]], title = "Wizard", containerWidth = 50 }: {returnPath?:string, callback: Function, contentData?: WizardField[][], title: string, containerWidth?: number }) {
     let inputList:HTMLInputElement[] = [];
     const [currentPage,setCurrentPage] = useState(0); 
     const [loadingText, setLoadingText] = useState("loading...");
     const [valid, setValid] = useState(false);
-    const [wizardList, setWizardList] = useState<[][][]>(extractList(contentData));
     const router = useRouter();
-
-    function extractList(contentData:WizardField[][]):[][][] {
-        let returnList:[][][] = [];
-        for (let page of contentData) {
-            let pageList = [];
-            for (let field of page) {
-                if(field.type == 'list')
-                    pageList.push(field);
-                
-            }
-            returnList.push(pageList);
-        }
-        return returnList;
-    }
 
     useEffect(() => {
         checkFormFilled(0);
@@ -104,6 +88,7 @@ export default function Wizard({ returnPath='/', callback,contentData = [[new Wi
 
         console.log('valid: ' + valid);
         setValid(valid);
+        
     }
 
     function finishWizard() {
@@ -170,7 +155,7 @@ export default function Wizard({ returnPath='/', callback,contentData = [[new Wi
             else if(contentData[formIndex][indx].type == 'date'){
                 tmpRes.value = parseDate((item.querySelector('input') as HTMLInputElement).value);
             }
-            else if(contentData[formIndex][indx].type == 'markdown' || contentData[formIndex][indx].type == 'md'){
+            else if(contentData[formIndex][indx].type == 'markdown'){
                 tmpRes.value = (item.querySelector('textarea') as HTMLTextAreaElement).value;
             }
             else{
@@ -190,22 +175,13 @@ export default function Wizard({ returnPath='/', callback,contentData = [[new Wi
 
     function CancelWizard() {
         //backend code
+        console.log('cancel');
         router.push(returnPath);
     }
 
-    function removeListItem(formIndex,listIndex,indx) {
-        wizardList[formIndex][listIndex].splice(indx,1);
-        setWizardList(wizardList);
-    }
-
-    function addWizardList(formIndex,listIndex){
-        wizardList[formIndex][listIndex].push('' as never);
-        setWizardList(wizardList);
-    }
-
-
     function printInput(item:WizardField, formIndex:number, indx:number) {
         
+
         return(
             <div key={'wzContent_'+formIndex + '_' + indx} className={styles.inputContainer}>
                 {
@@ -218,24 +194,16 @@ export default function Wizard({ returnPath='/', callback,contentData = [[new Wi
                     <MarkdownEditor containerWidth={100} isEditable={true}></MarkdownEditor>
                 </div>
                 :
+                item.type == 'list'?
+                    <div>
+                        
+                    </div>
+                :
                 item.type == 'date'?
                     <div className={styles.dateContainer}>
                     <Datepicker inputChanged={()=>checkFormFilled(formIndex)} title={item.name} dateParam={item.value} required={item.required}></Datepicker>
                     </div>
-                :
-                item.type == 'list'?
-                <div>
-                    {
-                     wizardList[formIndex].map((listItem:[],listIndex)=>{
-                        return(
-                            <div key={"ListItem_"+formIndex+"_"+indx+"_"+listIndex+"_"} className={styles.wizardListContainer}>
-                                {console.log(listItem)}
-                            </div>
-                        )})   
-                    }
-                </div>
-                :
-                item.type == 'checkBox' || item.type == 'checkbox'?
+                :item.type == 'checkBox' || item.type == 'checkbox'?
                     <div>
                         <input onInput={()=>checkFormFilled(formIndex)} type='checkbox' defaultChecked={item.value.defaultValue} required={item.required} />
                         <p><span>{item.required&& '* '}</span>{item.value.text}</p>
