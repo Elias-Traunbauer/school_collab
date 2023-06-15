@@ -25,9 +25,15 @@ export default function WzTest() {
         
     ];
 
+    const ListOptions = [
+        [new WizardField('List','list',{min:1,max:4,value:["a","b"]},false),new WizardField('nnnn','list',{min:1,max:4,value:["a","b"]},false)],      
+    ];
+
+
+
     return (
         <div className={styles.container}>
-            <Wizard contentData={allOptions} title='Test' callback={callback}></Wizard>
+            <Wizard contentData={ListOptions} title='Test' callback={callback}></Wizard>
         </div>
 
     );
