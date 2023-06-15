@@ -6,6 +6,7 @@ import WizardField from '../models/WizardField';
 import MarkdownEditor from './MarkdownEditor';
 import WizardResult from '../models/WizardResult';
 import { useRouter } from 'next/router';
+import WizardListComponent from './WizardListComponent';
 
 export default function Wizard({ returnPath='/', callback,contentData = [[new WizardField('checkBox','checkBox',{value:true,text:'asdasdasdasd'},true),new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true)],[new WizardField('date','date',new Date(),true)]], title = "Wizard", containerWidth = 50 }: {returnPath?:string, callback: Function, contentData?: WizardField[][], title: string, containerWidth?: number }) {
     let inputList:HTMLInputElement[] = [];
@@ -195,9 +196,10 @@ export default function Wizard({ returnPath='/', callback,contentData = [[new Wi
                 </div>
                 :
                 item.type == 'list'?
-                    <div>
-                        
-                    </div>
+                <>
+                 <WizardListComponent field={item}></WizardListComponent>
+                </>
+                
                 :
                 item.type == 'date'?
                     <div className={styles.dateContainer}>
