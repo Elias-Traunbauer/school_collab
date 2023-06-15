@@ -15,11 +15,14 @@ export default function WzTest() {
     };
 
     const allOptions = [
+        [new WizardField('List','list',{min:1,max:4,value:["a","b"]},false),new WizardField('nnnn','list',{min:1,max:4,value:["a","b"]},false)],
+        [new WizardField('22','list',{min:1,max:4,value:["a","b"]},false),new WizardField('33','list',{min:1,max:4,value:["a","b"]},false)],
         [new WizardField('text','text','hallo',true),new WizardField('text','text','hallo',false)],
         [new WizardField('checkBox','checkBox',{value:false,text:'asdasdasdasd'},true),new WizardField('checkbox','checkbox',{value:true,text:'asdasdasdasd'},false)],
         [new WizardField('date','date',new Date(),true),new WizardField('date','date',new Date(),false)],
         [new WizardField('markdown','markdown','hallo',false),new WizardField('md','markdown','# hallo',false)],
-        [new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true),new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],false)]
+        [new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true),new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],false)],
+        
     ];
 
     return (
