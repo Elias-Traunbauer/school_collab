@@ -32,10 +32,7 @@ export default function WzTest() {
 
 
     return (
-        <div className={styles.container}>
-            <Wizard contentData={ListOptions} title='Test' callback={callback}></Wizard>
-        </div>
-
+        <Wizard contentData={ListOptions} title='Test' callback={callback}></Wizard>
     );
 
 }

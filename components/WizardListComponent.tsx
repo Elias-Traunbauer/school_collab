@@ -25,7 +25,7 @@ export default function WizardListComponent({ field }: { field: WizardField }) {
             <div key={index}>
               <input type="text" defaultValue={item}></input>
               {list.length > field.value.min && (
-                <button onClick={() => deleteItem(index)}>
+                <button type="button" onClick={() => deleteItem(index)}>
                   <Image
                     src="/delete.svg"
                     alt="delete"
@@ -35,12 +35,13 @@ export default function WizardListComponent({ field }: { field: WizardField }) {
                 </button>
               )}
             </div>
-            {list.length < field.value.max && (
-              <button onClick={addItem}></button>
-            )}
+            
           </>
         );
       })}
+      {list.length < field.value.max && (
+              <button type="button" onClick={addItem}>Add</button>
+            )}
     </div>
   );
 }

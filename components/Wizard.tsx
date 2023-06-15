@@ -236,7 +236,7 @@ export default function Wizard({ returnPath='/', callback,contentData = [[new Wi
 
     return (
         <>
-            <div id='wizzardContainer' style={{ width: containerWidth + '%' }} className={styles.wizzardContainer}>
+            <div id='wizzardContainer' style={{ minWidth: containerWidth + '%' }} className={styles.wizzardContainer}>
                 <div id='loaderContainer' className={`${styles.loader} ${styles.hidden}`}>
                     <div id='loader'></div>
                     <p>{loadingText}</p>
