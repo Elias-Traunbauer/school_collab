@@ -429,6 +429,8 @@
 }
 
 .wizzardContainer {
+  width: min-content;
+  padding: 0.5em;
   position: relative;
   display: flex;
   align-items: center;
@@ -452,7 +454,7 @@
 }
 
 .contenWrapper > ul {
-  width: 80%;
+  min-width: 80%;
   height: 20%;
   display: flex;
   align-items: center;
@@ -516,7 +518,6 @@
   color: white;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   flex-wrap: wrap;
 }
 
@@ -534,7 +535,7 @@
   font-size: .9em;
   color: rgb(255, 255, 255);
   outline: 0;
-  border: 0;
+  border: 2px solid transparent;;
   padding: .3em;
   width: fit-content;
   min-width: 6em;
@@ -546,8 +547,29 @@
 }
 
 .inputContainer> div > input[type="checkBox"]{
-  width: 1.3em;
-  height: 1.3em;
+  width: 1.4em;
+  height: 1.4em;
+  appearance: none;
+  background-color: var(--background_3);
+  border-radius: .3em;
+  border: 2px solid rgb(91, 90, 90);
+
+  &:hover{
+    filter: brightness(1.2);
+  }
+
+
+  &:checked{
+    background-color: rgb(91, 90, 90);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &::after{
+      content: "✔";
+      font-size: 1em;
+      color: white;
+    }
+  }
 }
 
 .inputContainer > select > option{
@@ -578,13 +600,13 @@
   width: 100%;
 }
 
-.inputContainer > input[type="text"] {
+.inputContainer > input[type="text"]{
   background-color: var(--background_2);
   border-radius: .3em;
   font-size: 1.5em;
   color: rgb(255, 255, 255);
   outline: 0;
-  border: 0;
+  border: 2px solid transparent;
   padding: .3em;
   width: auto;
   min-width: 50%;
@@ -594,15 +616,14 @@
   font-size: .8em;
 }
 
-
 .wizardContentContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
   color: rgb(255, 255, 255);
   flex-direction: row;
   margin-bottom: auto;
-  width: 80%;
+  min-width: 80%;
+  width: min-content;
   height: auto;
 }
 
@@ -704,7 +725,7 @@
   width: 8em;
   height: 8em;
   border-radius: 10em;
-  background-color: var(--background_4);
+  background-color: var(--color_main);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -712,7 +733,7 @@
 
 .loader > div::after {
   content: '';
-  background-color: var(--color_main);
+  background-color: white;
   transition: 1s;
   width: 80%;
   height: 80%;
@@ -1061,4 +1082,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.error{
+  border: 2px solid red !important;
+}
+
+.disabledBtn{
+  filter: brightness(0.5) !important;
 }
