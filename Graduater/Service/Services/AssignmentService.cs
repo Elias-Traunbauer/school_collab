@@ -69,7 +69,7 @@ namespace Service.Services
 
             var groups = await _unitOfWork.GroupRepository.GetAllForUserAsync(userId);
 
-            var assignments = groups.Select(x => ((Group)x).Id).SelectMany(id => _unitOfWork.AssignmentRepository.GetAllAssignmentsOfGroupAsync(id).Result);
+            var assignments = groups.Select(x => ((Group)x).Id).AsEnumerable().SelectMany(id => _unitOfWork.AssignmentRepository.GetAllAssignmentsOfGroupAsync(id).Result);
 
             return new ServiceResult<ICollection<IAssignment>>(assignments.ToList());
         }
