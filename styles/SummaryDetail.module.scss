@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+
+
 }
 .header {
     display: flex;
@@ -9,6 +11,8 @@
     align-items: center;
     flex-direction: row;
     width: 100%;
+    margin-top: .5em;
+    margin-bottom: 2em;
 
     & > div{
         display: flex;
@@ -26,6 +30,24 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        &>input{
+            width: 80%;
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            border: none;
+            border-radius: .3em;
+            background-color: var(--background_1);
+            padding: .5em;
+            font-size: larger;
+            outline: none;
+
+            &:hover,&:focus{
+                filter: brightness(120%);
+            }
         }
     }
 }
@@ -58,15 +80,17 @@
     align-items: center;
     flex-direction: column;
     margin-top: 3em;
+    filter: brightness(.87);
 
     &>div:first-child{
         width: 70%;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: var(--background);
+        background-color: var(--background_1);
         border-top-left-radius: .3em;
         border-top-right-radius: .3em;
+
 
         &>div{
             width: 98%;
@@ -80,7 +104,6 @@
                 margin: 0;
                 padding: .5em;
                 border-radius: .3em;
-                background-color: var(--background);
                 color: var(--text);
                 font-size: 1.2em;
                 font-weight: 600;
@@ -106,7 +129,7 @@
         justify-content: flex-end;
         align-items: center;
         flex-direction: column;
-        background-color: var(--background);
+        background-color: var(--background_1);
         padding: .5em;
         border-bottom-left-radius: .3em;
         border-bottom-right-radius: .3em;
@@ -123,6 +146,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-bottom: 2em;
 }
 
 .buttonArray{
@@ -131,6 +155,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 2em;
+    margin-bottom: 2em;
 
     & > div{
         width: 70%;

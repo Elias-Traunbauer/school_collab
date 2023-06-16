@@ -5,7 +5,6 @@ import WizardResult from "../../models/WizardResult";
 import styles from '../../styles/Assignment.module.scss'
 
 export default function CreateAssignment() {
-
     const router = useRouter();
 
     function finish(data:WizardResult[], setLoadingText, finishLoading){

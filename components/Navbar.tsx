@@ -8,7 +8,7 @@ export default function Navbar() {
                 <Link href="/" className={styles.navactive}>
                     Home
                 </Link>
-                <Link href="/Chat">
+                <Link href="/chat">
                     Chat
                 </Link>
                 <Link href="/assignments">
