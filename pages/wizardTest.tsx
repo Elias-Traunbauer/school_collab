@@ -4,13 +4,16 @@ import styles from '../styles/WizardTest.module.css'
 import React from 'react';
 import WizardField from "../models/WizardField"
 import WizardResult from '../models/WizardResult';
+import { useRouter } from 'next/router';
 export default function WzTest() {
+    const router = useRouter();
     function callback(data:WizardResult[], setLoadingText, finishLoading){
         console.log(data);
         setLoadingText("Penis...");
         setTimeout(() => {
             finishLoading();
             setLoadingText("done!");
+            router.push("/");
         }, 2000);
     };
 
@@ -32,7 +35,7 @@ export default function WzTest() {
 
 
     return (
-        <Wizard contentData={ListOptions} title='Test' callback={callback}></Wizard>
+        <Wizard contentData={allOptions} title='Test' callback={callback}></Wizard>
     );
 
 }
