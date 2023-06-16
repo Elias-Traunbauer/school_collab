@@ -24,6 +24,7 @@ export default function Assignments() {
                 // Handle error
             }
         }
+        fetchDataAsync();
 
     }, []);
 
