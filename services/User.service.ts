@@ -1,4 +1,6 @@
+import UserLoginDTO from "../models/UserLoginDTO";
 import UserRegisterDTO from "../models/UserRegisterDTO";
+import UserRegisterError from "../models/UserRegisterError";
 
 const url = 'https://localhost:7119/api/User';
 export async function registerUser(user: UserRegisterDTO): Promise<any> {
@@ -11,11 +13,18 @@ export async function registerUser(user: UserRegisterDTO): Promise<any> {
             },
         });
         const data = await response.json();
-        return data;
+         if (data.status == 400) {
+            const errorData = data.errors;
+            
+            throw errorData;
+        }else if (data.status == 200) {
+            
+            return data;
+        }
     } catch (error) {
-        console.error('Error registering user:', error);
         throw error;
     }
+    
 }
 
 export async function checkEmailAvailable(email:string): Promise<any> {
@@ -24,9 +33,33 @@ export async function checkEmailAvailable(email:string): Promise<any> {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error('Error checking email:', error);
+        
         throw error;
     }
 }
 
-export async function loginUser(user: UserRegisterDTO): Promise<any> {}
+export async function loginUser(user: UserLoginDTO): Promise<any> {
+    try {
+        const response = await fetch(`${url}/login`, {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await response.json();
+        data.then((data) => {
+
+            if (data.status == 401) {
+                const errorData = data.errors;
+                throw errorData;
+            }
+    
+            console.log("logged in",data);
+        });
+
+        return response.status;
+    } catch (error) {
+        throw error;
+    }
+}

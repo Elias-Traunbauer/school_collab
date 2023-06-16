@@ -1,40 +1,65 @@
-import Form from "../../components/Form";
-import secureFetch from "../../components/fetchWrapper";
-import styles from "/styles/Login.module.css"
-import Router from "next/router";
-import { useState } from "react";
-
+import React from "react";
+import styles from "../../styles/User.module.scss";
+import {loginUser}  from "../../services/User.service";
+import UserLoginError from "../../models/UserLoginError";
+import { log } from "console";
+import UserLoginDTO from "../../models/UserLoginDTO";
+import { useRouter } from "next/router";
 export default function Login() {
-  const [error, setError] = useState("");
+    const[error, setError] = React.useState<UserLoginError>({});
+    const router = useRouter();
 
-  function callback(data: any) {
-    //backend
-    secureFetch("/api/user/login", {
-        method: "POST",
-        body: JSON.stringify(data),
-      }).then((res) => {
-        if (res.status === 200) {
-          console.log("success");
-          // router to mainpage
-          Router.push('/');
-        }
-        else {
-          console.log("error");
-          setError("Invalid email or password");
-        }
-      }
-    );
-  }
-
+    function handleSubmit(e) {
+        e.preventDefault();
+        const inputs = document.querySelectorAll(
+            "input[type=text], input[type=password]"
+        ) as unknown as HTMLInputElement[];
+        const user:UserLoginDTO = {
+            identifier: inputs[0].value,
+            password: inputs[1].value,
+        };
+        loginUser(user)
+            .then((res) => {
+                console.log("User logged in");
+                router.push("/");
+            })
+            .catch((err) => {
+                const tmperror = err as UserLoginError;
+                setError(tmperror);
+            });
+    }
   return (
-    <div className={styles.wizardWrapper}>
-      <Form title="Login" submitText="Submit" onSubmit={callback}>
-        <p>Email</p>
-        <input type="email" name="email" />
-        <p>Password</p>
-        <input type="password" name="password" />
-        <p className="error">{error}</p>
-      </Form>
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit}>
+        <h1>Login</h1>
+        <div className={styles.inputfield}>
+          <label>Username</label>
+          <input required type="text" placeholder="Username" />
+            {error.Identifier && error.Identifier.length > 0 && error.Identifier.map((err, index) => {
+                return (
+                    <p key={index} className={styles.errorMessage}>
+                        {err}
+                    </p>
+                );
+            })}
+        </div>
+
+        <div className={styles.inputfield}>
+          <label>Password</label>
+          <input required type="text" placeholder="Geheimnis123" />
+          {error.Password && error.Password.length > 0 && error.Password.map((err, index) => {
+                return (
+                    <p key={index} className={styles.errorMessage}>
+                        {err}
+                    </p>
+                );
+            })}
+        </div>
+
+        <div className={styles.buttonContainer}>
+          <input type="submit" value={"submit"}></input>
+        </div>
+      </form>
     </div>
-  )
+  );
 }

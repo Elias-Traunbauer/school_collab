@@ -17,6 +17,14 @@ namespace Api
             ApiConfig apiConfig = new();
             builder.Configuration.Bind("ApiConfig", apiConfig);
             builder.Services.AddSingleton(apiConfig);
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+            builder.Services.AddCors(o => o.AddPolicy(MyAllowSpecificOrigins, builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
 
             builder.Services.AddSingleton<IJsonWebTokenService, JsonWebTokenService>();
             builder.Services.AddSingleton<IRandomKeyService, RandomKeyService>();
@@ -32,10 +40,18 @@ namespace Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
             {
+                app.UseCors(builder =>
+                {
+                    builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }

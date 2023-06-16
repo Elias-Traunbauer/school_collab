@@ -1,0 +1,97 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    &>form{
+        width: 50%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--background_1);
+        border-radius: .3em;
+        gap: 1em; 
+        border-top: 3px solid var(--color_main);
+        margin-top: 3em;
+        
+    }
+}
+
+.inputfield{
+    width: 80%;
+    &>input{
+        width: 100%;
+        background-color: var(--background_2);
+        height: 2em;
+        font-size: large;
+        padding: .3em;
+        border: 2px solid transparent;
+        border-radius: .5em;
+        outline: none;
+    }
+
+    &>label{
+        text-align: left;
+        width: 100%;
+    }
+}
+
+.checkboxContainer{
+    width: 80%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: .3em;
+
+    &>div{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        
+
+        &>p{
+            margin: 0;
+            width: 100%;
+        }
+    }
+
+}
+
+.buttonContainer{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 1em;
+
+    &>input[type="submit"]{
+        background-color: var(--background_2);
+        border: none;
+        border-radius: .5em;
+        padding: .5em 1em;
+        font-size: large;
+        cursor: pointer;
+        transition: all .3s ease-in-out;
+        &:hover{
+            filter: brightness(1.2);
+        }
+    }
+}
+
+.error{
+    border: 2px solid red !important;
+}
+
+.errorMessage{
+    color: red;
+    font-size: small;
+    text-align: left;
+    width: 80%;
+    margin: 0;
+    margin-top: .5em;
+}
