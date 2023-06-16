@@ -82,9 +82,7 @@ export default function PollList(){
                     }
                 </div>
                 <button onClick={addNewPoll}>
-                    <p>
                         Umfrage Erstellen
-                    </p>
                 </button>
             </div>
             {displayPolls.map((poll) => {
