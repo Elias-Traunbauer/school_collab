@@ -23,8 +23,12 @@
             width: 2.8em;
             height: 2.8em;
             margin: .5em;
+            padding: .3em;
             border-radius: 10em;
+            background-color: var(--color_main);
         }
+
+
 
         
 
@@ -58,13 +62,31 @@
         }
 
         @media screen and (max-width: 800px) {
-            & > img{
-              display: none;
+            width: fit-content;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+            &>div:nth-child(2){
+              display: none !important;
             }
 
-            
-            & > .body{
-                max-width: 60%;
+            &>div:last-child{
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                display: flex;
+                &>p{
+                    background-color: transparent !important;
+                }
+
+            }
+
+            & > img{
+                width: 2em;
+                height: 2em;
             }
         }
 
@@ -80,6 +102,10 @@
                 margin: 0;
                 font-size: smaller;
                 padding: .2em 0;
+
+                @media screen and (max-width: 800px) {
+                    display: none;
+                }
             }
 
             & > .unreadMessages{

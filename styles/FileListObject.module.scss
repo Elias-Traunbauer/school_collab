@@ -1,41 +1,46 @@
 .Cardcontainer {
-    padding: .4em .8em;
-    border-radius: .5em;
-    gap: .3em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--background_2);
-    filter: brightness(0.9);
+    gap: .5em;
+    background-color: var(--background_1);
+    border-radius: .3em;
+    padding: .5em 1em;
+    width: 7em;
+
+    &:hover{
+        background-color: var(--background_2);
+        filter: brightness(130%);
+    }
+
 
     & > img {
         cursor: pointer;
+        user-select: none;
+        width: 3em;
+        height: 3em;
+        font-size: large;
     }
 
-    width: fit-content;
-    height: fit-content;
-    border-radius: .2em;
-    padding: .3em;
 
 }
 
 .Cardcontainer p {
     margin: 0;
-    color: var(--color_link);
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    font-size: large;
 }
 
 .Cardcontainer:hover p{
     text-decoration: underline 1px;
-    margin-top: .3em;
 }
 
 .Cardcontainer:hover {
     cursor: pointer;
-    filter: brightness(130%);
+    filter: brightness(110%);
 
 }
 
@@ -49,11 +54,12 @@
     border-radius: .2em;
     gap: .2em;
     cursor: pointer;
+    background-color: var(--background_1);
 }
 
 .Listcontainer > div {
     position: relative;
-    width: 99%;
+    width: 100%;
     vertical-align: middle;
 
     & * {
@@ -62,7 +68,6 @@
     }
 
     & p {
-        color: var(--color_link);
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
@@ -70,6 +75,7 @@
     & > img {
         cursor: pointer;
         font-size: 1.2em;
+        user-select: none;
     }
 }
 
@@ -79,7 +85,8 @@
 
 
 .ListContentcontainer:hover {
-    background-color: var(--background_4);
+    background-color: var(--background_1);
+    filter: brightness(130%);
 
     & p {
         text-decoration: underline 1px;
@@ -87,11 +94,16 @@
         overflow: hidden;
         white-space: nowrap;
     }
+
+    
 }
 
-.Listcontainer:hover {
-    background-color: var(--background_1);
-
+.ListContentcontainer{
+    padding: .3em;
+    &>img{
+        width: 2.5em;
+        height: 2.5em;
+    }
 }
 
 .Listcontainer > img{
@@ -114,14 +126,15 @@
     padding: .2em;
     border-radius: 10em;
     width: fit-content;
+    user-select: none;
 }
 
 .deletContainer:hover {
-    background-color: rgba(255, 255, 255, 0.205);
+    filter: brightness(140%);
+    background-color: var(--background_1);
 }
 
 .deleteAnimation{
     opacity: 0;
-    overflow: hidden;
-    transition: opacity .5s;
+    transition: opacity .2s linear;
 }

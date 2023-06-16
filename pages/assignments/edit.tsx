@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import Countdown from "../../components/Countdown";
-import styles from "../../styles/Assignment.module.css";
+import styles from "../../styles/Assignment.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import FileListObject from "../../components/FileListObject";
 import FileUpload from "../../components/FileUpload";
+import MarkdownEditor from "../../components/MarkdownEditor";
 
 export default function AssignmentEdit({ assignmentId }) {
   // TODO: fetch assignment
@@ -15,7 +16,8 @@ export default function AssignmentEdit({ assignmentId }) {
     title: "JPA Lab 1: Generieren der IDs",
     deadline: new Date(2024, 1, 22, 13, 40),
     set: true,
-    description: "dsasdasdadsadsadsss sssssssssssssssssss ssssssssssssssssssss sssssssssssssssss   sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+    description:
+      "dsasdasdadsadsadsss sssssssssssssssssss ssssssssssssssssssss sssssssssssssssss   sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
     creator: {
       name: "pfreyteaching",
     },
@@ -39,13 +41,46 @@ export default function AssignmentEdit({ assignmentId }) {
   let acceptedFilextentions = [];
   const router = useRouter();
 
+  useEffect(() => {
+    let instructionFiles = [];
+    let uploadFiles = [];
+
+    // Create File objects
+    const file1 = new File(["File 1 content"], "file1.txt", {
+      type: "text/plain",
+    });
+    const file2 = new File(["File 2 content"], "file2.pdf", {
+      type: "application/pdf",
+    });
+    const file3 = new File(["File 3 content"], "file3.jpg", {
+      type: "image/jpeg",
+    });
+    const file4 = new File(["File 4 content"], "file4.docx", {
+      type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    });
+
+    // Adding file objects to instructionFiles array
+    instructionFiles.push(file1);
+    instructionFiles.push(file2);
+
+    // Adding file objects to uploadFiles array
+    uploadFiles.push(file3);
+    uploadFiles.push(file4);
+
+    // Setting state
+    setAssignment({
+      ...assignment,
+      instrictionFiles: instructionFiles,
+      uploadFiles: uploadFiles,
+    });
+  }, []);
+
   function handleUploadFilesUpdate(list) {
     setAssignment({
       ...assignment,
       uploadFiles: [...assignment.uploadFiles, ...list],
     });
-    setUploadHidden(false)
-
+    setUploadHidden(false);
   }
   function handleInstructionFilesUpdate(list) {
     setAssignment({
@@ -62,7 +97,8 @@ export default function AssignmentEdit({ assignmentId }) {
   function handleCancelEdit() {
     setAssignment(assignmentBackup);
     setEdditMode(false);
-    (document.getElementById("titleInput") as HTMLInputElement).value = assignmentBackup.title;
+    (document.getElementById("titleInput") as HTMLInputElement).value =
+      assignmentBackup.title;
   }
 
   function handleEddit() {
@@ -71,79 +107,44 @@ export default function AssignmentEdit({ assignmentId }) {
   }
 
   function handleSaveEdit() {
-    assignment.description = (document.getElementById("descriptionInput") as HTMLInputElement).value;
+    const textarea = document.querySelector(
+      "." + styles.descriptionContainer + "textarea"
+    ) as HTMLTextAreaElement;
     setEdditMode(false);
-    setAssignment(assignment);
   }
 
   function handleSaveAssignment() {
     // TODO: Backend anbindung
-    router.push("./assignments");
+    const textarea = document.querySelector(
+      "." + styles.descriptionContainer + "textarea"
+    ) as HTMLTextAreaElement;
+    router.push("/assignments");
   }
 
   function handleCancelAssignment() {
-    router.push("./assignments");
-  }
-
-  function ExpandDescription() {
-    if (assignment.description.length < 100) {
-      setDescriptionHidden(false);
-      return;
-    }
-    setDescriptionHidden(!descriptionHidden);
+    router.push("/assignments");
   }
 
   function handleDeleteUploadFile(key) {
-    const newList = assignment.uploadFiles.slice(0, key).concat(assignment.uploadFiles.slice(key + 1));;
-    setTimeout(() => {
+    const newList = assignment.uploadFiles
+      .slice(0, key)
+      .concat(assignment.uploadFiles.slice(key + 1));
       setAssignment({
         ...assignment,
         uploadFiles: newList,
       });
-    }, 500);
   }
 
   function handleDeleInstructionFile(key) {
-    const newList = assignment.instrictionFiles.slice(0, key).concat(assignment.instrictionFiles.slice(key + 1));;
+    const newList = assignment.instrictionFiles
+      .slice(0, key)
+      .concat(assignment.instrictionFiles.slice(key + 1));
     setTimeout(() => {
       setAssignment({
         ...assignment,
         instrictionFiles: newList,
       });
     }, 500);
-  }
-
-  function GetDescription() {
-    if (edditMode)
-      return (
-        <textarea id='descriptionInput' defaultValue={assignment.description}></textarea>
-      )
-
-    if (assignment.description.length == 0)
-      return (
-        <p>No description</p>
-      )
-
-    if (assignment.description.length < 100)
-      return (
-        <p>{assignment.description}</p>
-      )
-
-    if (descriptionHidden)
-      return (
-        <>
-          <p>{assignment.description.substring(0, 100) + "... "}<b>Mehr Anzeigen</b></p>
-
-        </>
-      )
-
-    return (
-      <>
-        <p>{assignment.description}</p >
-        <br></br>
-        <b>Weniger Anzeigen</b>
-      </>
-    )
   }
 
   return (
@@ -165,18 +166,16 @@ export default function AssignmentEdit({ assignmentId }) {
           </div>
         </div>
 
-
-        <div className={styles.descriptionwrapper}>
-          <div onClick={ExpandDescription} className={styles.descriptioncontainer}>
-            {GetDescription()}
-          </div>
+        <div className={styles.descriptionContainer}>
+          <MarkdownEditor
+            containerWidth={100}
+            isEditable={edditMode}
+          ></MarkdownEditor>
         </div>
 
         <div className={styles.instructionHeader}>
           <div>
-            {
-              assignment.instrictionFiles.length > 0 && <h1>Instructions</h1>
-            }
+            {assignment.instrictionFiles.length > 0 && <h1>Instructions</h1>}
           </div>
         </div>
         <div className={styles.instructionWrapper}>
@@ -184,7 +183,7 @@ export default function AssignmentEdit({ assignmentId }) {
             {assignment.instrictionFiles.map((file, i) => {
               return (
                 <FileListObject
-                  key={"FileObj_"+i}
+                  key={"FileObj_" + i}
                   itemKey={i}
                   file={{ name: file.name }}
                   asCard={true}
@@ -197,22 +196,32 @@ export default function AssignmentEdit({ assignmentId }) {
 
         <FileUpload
           edittmode={edditMode}
-          handleAcceptedFiles={(acceptedFiles) => handleAcceptedFiles(acceptedFiles)}
+          handleAcceptedFiles={(acceptedFiles) =>
+            handleAcceptedFiles(acceptedFiles)
+          }
           title={edditMode ? "Upload Instructions" : "Upload Files"}
           handleFilesUpdated={
             edditMode
               ? (instrictionFiles) =>
-                handleInstructionFilesUpdate(instrictionFiles)
+                  handleInstructionFilesUpdate(instrictionFiles)
               : (uploadFiles) => handleUploadFilesUpdate(uploadFiles)
           }
         ></FileUpload>
 
+{
 
+}
         <div className={styles.uploadfileWrapper}>
-          <div className={styles.uploadfileheader}>
-            {
-              assignment.uploadFiles.length != 0 && <h1>Upload Files</h1>
-            }
+          {
+            assignment.uploadFiles.length == 0?
+<>
+              <h3>no Files Uploaded!</h3>
+              <p>Drag and drop Files to upload them</p>
+            </>
+            :
+            <>
+            <div className={styles.uploadfileheader}>
+            {assignment.uploadFiles.length != 0 && <h1>Upload Files</h1>}
           </div>
           <div className={styles.uploadfileContainer}>
             {assignment.uploadFiles.map((file, index) => {
@@ -226,36 +235,57 @@ export default function AssignmentEdit({ assignmentId }) {
                 ></FileListObject>
               );
             })}
-          </div>
-          {
-            assignment.uploadFiles.length == 0 &&
-            <>
-              <h3>no Files Uploaded!</h3>
-              <p>Drag and drop Files to upload them</p>
-            </>
-
+          </div></>
           }
         </div>
 
         <div className={styles.editButton}>
-          <div >
+          <div>
             {edditMode ? null : (
               <>
-                <button className="btn btn-primary" style={{float:'right'}} onClick={handleSaveAssignment}>Save</button>
-                <button className="btn btn-cancel" style={{float:'right'}} onClick={handleCancelAssignment}>Cancel</button>
+                <button
+                  className="btn btn-primary"
+                  style={{ float: "right" }}
+                  onClick={handleSaveAssignment}
+                >
+                  Save
+                </button>
+                <button
+                  className="btn btn-cancel"
+                  style={{ float: "right" }}
+                  onClick={handleCancelAssignment}
+                >
+                  Cancel
+                </button>
               </>
-
             )}
             {assignment.creator.name == currUserDummy.name ? (
               <>
                 {edditMode ? (
                   <>
-                  
-                    <button className="btn btn-primary" style={{float:'right'}} onClick={handleSaveEdit}>Change</button>
-                    <button className="btn btn-cancel" style={{float:'right'}} onClick={handleCancelEdit}>Discard</button>
+                    <button
+                      className="btn btn-primary"
+                      style={{ float: "right" }}
+                      onClick={handleSaveEdit}
+                    >
+                      Change
+                    </button>
+                    <button
+                      className="btn btn-cancel"
+                      style={{ float: "right" }}
+                      onClick={handleCancelEdit}
+                    >
+                      Discard
+                    </button>
                   </>
                 ) : (
-                  <button className="btn btn-seconday" style={{float:'right'}} onClick={handleEddit}>Edit</button>
+                  <button
+                    className="btn btn-secondary"
+                    style={{ float: "left" }}
+                    onClick={handleEddit}
+                  >
+                    Edit
+                  </button>
                 )}
               </>
             ) : (

@@ -1,16 +1,20 @@
-import styles from '../styles/Assignment.module.css';
+import styles from '../styles/Assignment.module.scss';
+import listStyles from '../styles/WizardListComponent.module.scss';
 import { useState, useEffect, use } from 'react'
 import Datepicker from './Datepicker';
 import React from 'react';
 import WizardField from '../models/WizardField';
 import MarkdownEditor from './MarkdownEditor';
 import WizardResult from '../models/WizardResult';
+import { useRouter } from 'next/router';
+import WizardListComponent from './WizardListComponent';
 
-export default function Wizard({ callback,contentData = [[new WizardField('checkBox','checkBox',{value:true,text:'asdasdasdasd'},true),new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true)],[new WizardField('date','date',new Date(),true)]], title = "Wizard", containerWidth = 50 }: { callback: Function, contentData?: WizardField[][], title: string, containerWidth?: number }) {
-        let inputList:HTMLInputElement[] = [];
+export default function Wizard({ returnPath='/', callback,contentData = [[new WizardField('checkBox','checkBox',{value:true,text:'asdasdasdasd'},true),new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true)],[new WizardField('date','date',new Date(),true)]], title = "Wizard", containerWidth = 50 }: {returnPath?:string, callback: Function, contentData?: WizardField[][], title: string, containerWidth?: number }) {
+    let inputList:HTMLInputElement[] = [];
     const [currentPage,setCurrentPage] = useState(0); 
     const [loadingText, setLoadingText] = useState("loading...");
     const [valid, setValid] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         checkFormFilled(0);
@@ -56,22 +60,41 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
         inputList[0].focus();
     }
 
-    function checkFormFilled(index) {
+    function checkFormFilled(index,highlight = false) {
         const formList = document.querySelectorAll('.' + styles.wizardContent);
         inputList = formList[index].querySelectorAll('input') as unknown as HTMLInputElement[];
-        const selectElements = formList[index].querySelectorAll('select') as unknown as HTMLSelectElement[]; 
+        const selectElements = formList[index].querySelectorAll('select') as unknown as HTMLSelectElement[];
+        const lists = formList[index].querySelectorAll('.' + listStyles.requredInput) as unknown as HTMLInputElement[];
         let valid = true;
+
+        for (let item of lists) {
+
+            if (item.value.length <= 0) {
+                valid = false;
+                if (highlight) {
+                    item.classList.add(styles.error);
+                }
+            }
+            else {
+                item.classList.remove(styles.error);
+            }
+        }
 
         for (let item of inputList) {
             if (item.hasAttribute('required') && item.type == 'checkbox' && !item.checked) {
                 valid = false;
-                console.log('invalid');
-                break;
+                if (highlight) {
+                    item.classList.add(styles.error);
+                }
             }
             else if (item.hasAttribute('required') && item.value.length <= 0) {
                 valid = false;
-                console.log('invalid');
-                break;
+                if (highlight) {
+                    item.classList.add(styles.error);
+                }
+            }
+            else{
+                item.classList.remove(styles.error);
             }
         }
         
@@ -79,14 +102,16 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
         for (let item of selectElements) {
             if (item.hasAttribute('required') && item.value == '-1') {
                 valid = false;
-                console.log('invalid');
-                break;
+                if (highlight) {
+                    item.classList.add(styles.error);
+                }
+            }
+            else{
+                item.classList.remove(styles.error);
             }
         }
 
-        console.log('valid: ' + valid);
         setValid(valid);
-        
     }
 
     function finishWizard() {
@@ -127,7 +152,7 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
         const year = parseInt(dateParts[2], 10);
         const hour = parseInt(timeParts[0], 10);
         const minute = parseInt(timeParts[1], 10);
-        
+
         return new Date(year, month, day, hour, minute);
       }
 
@@ -145,6 +170,14 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
             };
             if(contentData[formIndex][indx].type == 'checkBox' || contentData[formIndex][indx].type == 'checkbox' ){
                 tmpRes.value = (item.querySelector('input') as HTMLInputElement).checked;
+            }
+            else if(contentData[formIndex][indx].type == 'list'){
+                const list = item.querySelectorAll('input') as unknown as HTMLInputElement[];
+                const tmpList = [];
+                for (const item of list) {
+                    tmpList.push(item.value);
+                }
+                tmpRes.value = tmpList;
             }
             else if(contentData[formIndex][indx].type == 'select'){
                 tmpRes.value = (item.querySelector('select') as HTMLSelectElement).value;
@@ -167,11 +200,13 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
             }
             result.push(tmpRes);
         }
+        console.log(result);
         return result;
     }
 
     function CancelWizard() {
         //backend code
+        router.push(returnPath);
     }
 
     function printInput(item:WizardField, formIndex:number, indx:number) {
@@ -188,7 +223,9 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
                 <div className={styles.markdownContainer}>
                     <MarkdownEditor containerWidth={100} isEditable={true}></MarkdownEditor>
                 </div>
-
+                :
+                item.type == 'list'?
+                    <WizardListComponent formIndex={formIndex} validation={checkFormFilled} field={item}></WizardListComponent>  
                 :
                 item.type == 'date'?
                     <div className={styles.dateContainer}>
@@ -250,7 +287,7 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
                         }
                     </ul>
 
-                    <div style={{ minWidth: containerWidth + '%' }} className={styles.wizardContentContainer}>
+                    <div className={styles.wizardContentContainer}>
                         {
                             contentData.map((item, formIndex) => {
                                 return (
@@ -270,7 +307,7 @@ export default function Wizard({ callback,contentData = [[new WizardField('check
                     </div>
                     <div className={styles.wizardButtonContainer}>
                         <button className={currentPage == 0?'btn btn-cancel':'btn btn-primary'} onClick={currentPage == 0 ? CancelWizard : previousSection}>{currentPage == 0 ? "Cancel" : "Back"}</button>
-                        <button disabled={!valid} className='btn btn-primary' id='btnNextPage' onClick={currentPage == contentData.length - 1 ? finishWizard : nextSection}>{currentPage == contentData.length - 1 ? "Finish" : "Next"}</button>
+                        <button className={`btn btn-primary ${!valid?styles.disabledBtn:""}`} id='btnNextPage' onClick={!valid?()=>checkFormFilled(currentPage,true):currentPage == contentData.length - 1 ? finishWizard : nextSection}>{currentPage == contentData.length - 1 ? "Finish" : "Next"}</button>
                     </div>
                 </div>
             </div>

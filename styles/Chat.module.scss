@@ -20,6 +20,15 @@
             color: white;
         }
     }
+
+    @media screen and (max-width: 800px) {
+        width: fit-content;
+        &>div:first-child{
+            &>h2{
+                display: none;
+            }
+        }
+    }
 }
 
 .navbarHead{
@@ -54,7 +63,7 @@
     justify-content: center;
     align-items: center;
 
-    &>div{
+    &>button{
         width: 90%;
         height: 90%;
         display: flex;
@@ -77,7 +86,31 @@
             font-size: large;
         }
     }
+
+    @media screen and (max-width: 800px) {
+        margin-top: .5em;
+        &>button{
+            width: 80%;
+            background-color: transparent;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            border-radius: .3em;
+            border: 1px solid var(--background_5);
+            padding: .3em;
+            &>p{
+                appearance: none;
+                mask: url("/add.svg") no-repeat center;
+                width: 1em;
+                height: 1em;
+                background-color: white;
+            }
+        }
+    }
+
 }
+
 
 .searchContainer{
     display: flex;
@@ -89,8 +122,8 @@
 
     &> input{
         width: 100%;
-        height: 2em;
-        padding: 1em;
+        height: 2.5em;
+        padding: .8em;
         border-radius: .3em;
         border: none;
         outline: none;
@@ -100,12 +133,16 @@
             border-bottom: 1px solid var(--color_main) ;
         }
     }
+
+    @media screen and (max-width: 800px) {
+        display: none;
+    }
 }
 
 .ChatroomContainer{
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 100%;
     height: 100%;
     border-left: 1px solid var(--background);
 }
@@ -113,10 +150,30 @@
 .navbarBody{
     display: flex;
     flex-direction: column;
+    align-items:  center;
     width: 100%;
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
     scrollbar-width: none;
     gap: .3em;
+    padding-top: .5em;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--background_2) var(--background_1);
+    &::-webkit-scrollbar{
+        width: .5em;
+    }
+    &::-webkit-scrollbar-track{
+        background-color: var(--background_1);
+    }
+    &::-webkit-scrollbar-thumb{
+        background-color: var(--background_2);
+        border-radius: .5em;
+    }
+    &::-webkit-scrollbar-thumb:hover{
+        background-color: var(--background_4);
+    }
+
+
 }

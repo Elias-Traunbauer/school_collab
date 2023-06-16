@@ -6,13 +6,12 @@ import { text } from "stream/consumers";
 
 export default function MarkdownEditor({isEditable = true, containerWidth = 50 , defaultText='# Hello'}: {isEditable?: boolean, containerWidth?: number, defaultText?: string}) {
     const [displayState, setDisplayState] = useState(false);
-    const [mdText, setMdText] = useState('');
+    const [mdText, setMdText] = useState(defaultText);
     const contentRef = useRef(null);
 
     useEffect(()=>{
       highlight();
-    })
-
+    },[mdText])
 
     function highlight(){
       const textArea = document.getElementById('textArea') as HTMLTextAreaElement;
@@ -204,7 +203,7 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
                
               </div>
               <div className={styles.content}>
-                <textarea id='textArea' defaultValue={defaultText} onInput={highlight}></textarea>  
+                <textarea id='textArea' defaultValue={mdText} onInput={highlight}></textarea>  
                 {
                   displayState && mdText.length > 0 ?
                   <div ref={contentRef}>
