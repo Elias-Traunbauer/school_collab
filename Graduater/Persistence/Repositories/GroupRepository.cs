@@ -32,13 +32,13 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<IGroup>> GetAllAsync()
         {
             // get all groups
-            return await _context.Groups.ToListAsync();
+            return _context.Groups.AsEnumerable();
         }
 
         public async Task<IEnumerable<IGroup>> GetAllForUserAsync(int userId)
         {
             // get all groups where user is a member
-            return await _context.Groups.Where(x => x.GroupUsers!.Any(x => x.UserId == userId)).ToListAsync();
+            return _context.Groups.Where(x => x.GroupUsers!.Any(x => x.UserId == userId)).AsEnumerable();
         }
 
         public async Task<IGroup?> GetAsync(int id)
