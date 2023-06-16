@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
-
     public class ChatRepository : IChatRepository
     {
         private readonly ApplicationDbContext _context;
@@ -33,28 +32,28 @@ namespace Persistence.Repositories
 
         public async Task<IEnumerable<Chat>> GetAllForUser(User user)
         {
-            
+
             var chats = _context.Chats.Where(c => c.ChatMembers!.Select(x => x.UserId).Contains(user.Id));
             return chats;
         }
 
         public async Task<IEnumerable<ChatMessage>> GetMessages(int chatId, int count = 10, int start = 0)
         {
-            
+
             var messages = _context.ChatMessages.Where(m => m.ChatId == chatId).Skip(start).Take(count);
             return messages;
         }
 
-        public async Task<IEnumerable<ChatMessage>> GetMessages(int chatId, DateTime start, int count = 10)
+        public async Task<IEnumerable<ChatMessage>> GetMessages(int chatId, DateTime start, int startCount = 0, int count = 10)
         {
-            
-            var messages = _context.ChatMessages.Where(m => m.ChatId == chatId && m.Created > start).Take(count);
+
+            var messages = _context.ChatMessages.Where(m => m.ChatId == chatId && m.Created > start).Skip(startCount).Take(count);
             return messages;
         }
 
         public async Task JoinChat(User user, Chat chat)
         {
-            
+
             var chatMember = new ChatMember
             {
                 ChatId = chat.Id,
@@ -66,7 +65,7 @@ namespace Persistence.Repositories
 
         public async Task SendMessage(ChatMessage chat)
         {
-            
+
             await _context.ChatMessages.AddAsync(chat);
         }
     }
