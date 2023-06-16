@@ -122,12 +122,14 @@ namespace Persistence
             {
                 Id=1,
                 Name = "Subject 1",
+                ShortName = "Sub1"
             };
 
             Subject subject2 = new Subject
             {
                 Id = 2,
                 Name = "Subject 2",
+                ShortName = "Sub2",
             };
 
             List<Subject> subjects = new List<Subject> { subject1,subject2};
