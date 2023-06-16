@@ -7,15 +7,6 @@ import styles from '../../styles/Assignment.module.scss'
 export default function CreateAssignment() {
     const router = useRouter();
 
-    function callback(data:WizardResult[], setLoadingText, finishLoading){
-        console.log(data);
-        setLoadingText("Penis...");
-        setTimeout(() => {
-            finishLoading();
-            setLoadingText("done!");
-
-    const router = useRouter();
-
     function finish(data:WizardResult[], setLoadingText, finishLoading){
         console.log(data);
         setLoadingText("Loading");
