@@ -3,9 +3,16 @@ import Image from 'next/image';
 import styles from '../../styles/Chat.module.scss';
 import ChatroomListitem from '../../components/ChatroomListitem';
 import Chatroom from '../../components/Chatroom';
+import { useRouter } from 'next/router';
 export default function Chat() {
     const [selectedChatRoom, setSelectedChatRoom] = useState(0);
     const mockProfile = 'person.svg';
+    const router = useRouter();
+
+    function newChat() {
+        router.push('/chat/create');
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.navBar}>
@@ -14,7 +21,7 @@ export default function Chat() {
                 </div>
                 <div className={styles.navbarHead}>
                     <div className={styles.navbarHeading}>
-                        <button>
+                        <button onClick={newChat}>
                            <p>Neuer Chat</p>
                         </button>
                     </div>

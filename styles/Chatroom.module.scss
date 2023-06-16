@@ -514,7 +514,7 @@
         }
 
             &> button{
-                &>p{
+                &>span{
                     margin: 0;
                 }
             }
@@ -538,11 +538,17 @@
             &>div{
                 flex-direction: row;
                 justify-content: space-around;
+                max-width: 90%;
                 &>button:first-child{
                     background-color: transparent;
-                    width: fit-content;
+                    width: 100%;
+                    height: 2em;
                     padding: 0;
-                    &>p{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    &>span{
                         color: transparent;
                         width: 2em;
                         height: 2em;
@@ -556,13 +562,17 @@
                 }
                 &>button:last-child{
                     background-color: var(--color_warning);
-                    width: fit-content;
+                    width: 100%;
+                    height: 2em;
                     padding: 0;
-                    &>p{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    &>span{
                         color: transparent;
                         width: 2em;
                         height: 2em;
-                        mask: url("/delete.svg") no-repeat center;
+                        mask: url("/report.svg") no-repeat center;
                         background-color: white;
 
                         &:hover{

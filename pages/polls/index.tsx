@@ -30,7 +30,7 @@ export default function PollList(){
     const [searched, setSearched] = useState(false);
 
     function addNewPoll(){
-        router.push('/poll/create');
+        router.push('/polls/create');
     }
 
     function handleSearch(){

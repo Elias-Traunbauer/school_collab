@@ -62,7 +62,7 @@ export default function Assignments() {
                 <h1>Assignments</h1>
 
                 <div>
-                <input onKeyDown={handleKeyDown} id='searchInput' type="text" placeholder="Search..."></input>
+                <input onKeyDown={handleKeyDown} id='searchInput' type="text" placeholder="Suche..."></input>
                 <button onClick={search}>
                     <Image src="/search.svg" alt="search" width={20} height={20}></Image>
                 </button>
