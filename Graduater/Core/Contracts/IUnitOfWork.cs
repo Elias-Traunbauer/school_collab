@@ -2,7 +2,7 @@
 
 namespace Core.Contracts
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IAsyncDisposable, IDisposable
     {
         public IFileRepository FileRepository { get; }
         public IUserRepository UserRepository { get; }

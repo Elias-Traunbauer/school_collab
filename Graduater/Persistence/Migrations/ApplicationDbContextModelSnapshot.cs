@@ -107,6 +107,9 @@ namespace Persistence.Migrations
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Joined")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
