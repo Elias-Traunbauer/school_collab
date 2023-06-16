@@ -8,6 +8,7 @@ namespace Persistence
     {
         private readonly ApplicationDbContext _context;
         private UserRepository? _userRepository;
+        private GroupRepository? _groupRepository;
         private FileRepository? _fileRepository;
         private AssignmentRepository? _assignmentRepository;
 
@@ -43,7 +44,14 @@ namespace Persistence
             }
         }
 
-        public IGroupRepository GroupRepository => throw new NotImplementedException();
+        public IGroupRepository GroupRepository
+        {
+            get
+            {
+                _groupRepository ??= new GroupRepository(_context);
+                return _groupRepository;
+            }
+        }
 
         public async Task<bool> SaveChangesAsync()
         {
