@@ -2,7 +2,7 @@
 {
     public static class CookieHelper
     {
-        public static void SetCookie(this HttpResponse httpResponse, string key, string value, DateTime expires, string path = "/", bool secure = true, bool httpOnly = false)
+        public static void SetCookie(this HttpResponse httpResponse, string key, string value, DateTime expires, string path = "/", bool secure = true, bool httpOnly = true)
         {
             httpResponse.Cookies.Append(key, value, new CookieOptions()
             {
