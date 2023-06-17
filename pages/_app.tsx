@@ -6,6 +6,9 @@ import { useEffect,useState,createContext } from 'react'
 import { DialogContainer } from '../components/Dialog'
 import UserContext from '../components/UserContext'
 import { useRouter } from 'next/router'
+import {getUser} from '../services/User.service'
+import User from '../models/User'
+import { cookies } from 'next/headers'
 
 function MyApp({ Component, pageProps }) {
 
@@ -32,7 +35,19 @@ function MyApp({ Component, pageProps }) {
       username: 'test',
     };
 
-    const user = null;
+    const user:User | null = null;
+    console.log("cookies",document.cookie);
+
+    //const tmpCookies:string|undefined = cookies().get('access-token')[0];
+    const tmpCookies = document.cookie
+    if(tmpCookies != undefined){
+      getUser(tmpCookies).then((res) => {
+        console.log("result",res);
+      })
+      .catch(async (err) => {
+        console.error("Error",err);
+      });
+    }
 
     
     if (user == null && window.location.pathname != '/user/login/' && window.location.pathname != '/user/register/') {
@@ -43,7 +58,7 @@ function MyApp({ Component, pageProps }) {
     setUserContext(user);
     
 
-  }, []);
+  }, [router]);
 
   if (( router.pathname !== '/user/login' && router.pathname !== '/user/register') && !userContext) {
     return null;

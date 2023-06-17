@@ -24,20 +24,10 @@ export default function Login() {
         };
         loginUser(user)
             .then((res) => {
-                if(res == 200){
-                  const mockUser:User = {
-                    username: "test",
-                    firstName: "",
-                    lastName: "",
-                    permissions: UserPermission.None,
-                    privacySettings: UserPrivacy.None,
-                    id: 0,
-                    version: ""
-                  }; 
-                  context.setUserContext(mockUser);
-                  router.push("/");
+                console.log("loginResult",res);
+                if(res.status == 200){
+                  //router.push("/");
                 }
-
             })
             .catch(async (err) => {
               if(err.status == 401 || err.status == 400){

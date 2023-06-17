@@ -13,11 +13,11 @@ export default interface User extends DataBaseEntity{
     username: string;
     firstName: string;
     lastName: string;
+    email: string;
 
     profilePictureId?: number;
-    email?: string;
-    permissions: UserPermission;
-    privacySettings: UserPrivacy;
+    permissions?: UserPermission;
+    privacySettings?: UserPrivacy;
     assignments?: Assignment[];
     chats?: Chat[];
     comments?: Comment[];
