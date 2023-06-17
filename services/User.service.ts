@@ -12,15 +12,23 @@ export async function registerUser(user: UserRegisterDTO): Promise<any> {
                 'Content-Type': 'application/json',
             },
         });
-        const data = await response.json();
-         if (data.status == 400) {
-            const errorData = data.errors;
-            
-            throw errorData;
-        }else if (data.status == 200) {
-            
-            return data;
+        console.log("status",response.status);
+        if (response.status === 200) {
+            // If the response status is 200, check if there is a response body
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                const data = await response.json();
+
+                if (data.status != 200) {
+                    throw data;
+                }
+
+            }
+        } else {
+            throw response;
         }
+
+        return response.status;
     } catch (error) {
         throw error;
     }
@@ -47,16 +55,21 @@ export async function loginUser(user: UserLoginDTO): Promise<any> {
                 'Content-Type': 'application/json',
             },
         });
-        const data = await response.json();
-        data.then((data) => {
 
-            if (data.status == 401) {
-                const errorData = data.errors;
-                throw errorData;
+         if (response.status === 200) {
+            // If the response status is 200, check if there is a response body
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                const data = await response.json();
+
+                if (data.status != 200) {
+                    throw data;
+                }
+
             }
-    
-            console.log("logged in",data);
-        });
+        } else {
+                throw response;
+        }
 
         return response.status;
     } catch (error) {

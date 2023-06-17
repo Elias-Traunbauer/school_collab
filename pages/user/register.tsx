@@ -37,12 +37,18 @@ export default function Register() {
 
     registerUser(user)
       .then((res) => {
-        console.log("User registered");
-        router.push("/");
+        if(res == 200){
+          router.push("/");
+        }
       })
       .catch((err) => {
-        const tmperror = err as UserRegisterError;
-        setError(tmperror);
+        if(err.status == 400){
+          const tmperror = err.errors as UserRegisterError;
+          setError(tmperror);
+        }
+        else{
+          console.error(err);
+        }
       });
   }
 

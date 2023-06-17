@@ -20,12 +20,20 @@ export default function Login() {
         };
         loginUser(user)
             .then((res) => {
-                console.log("User logged in");
-                router.push("/");
+                if(res == 200){
+                  router.push("/");
+                }
+
             })
-            .catch((err) => {
-                const tmperror = err as UserLoginError;
+            .catch(async (err) => {
+              if(err.status == 401){
+                const tmperror = err.errors as UserLoginError;
                 setError(tmperror);
+              }
+              else{
+                console.error(err);
+              }
+ 
             });
     }
   return (
@@ -34,7 +42,7 @@ export default function Login() {
         <h1>Login</h1>
         <div className={styles.inputfield}>
           <label>Username</label>
-          <input required type="text" placeholder="Username" />
+          <input required type="text" defaultValue={"test"} placeholder="Username" />
             {error.Identifier && error.Identifier.length > 0 && error.Identifier.map((err, index) => {
                 return (
                     <p key={index} className={styles.errorMessage}>
@@ -46,7 +54,7 @@ export default function Login() {
 
         <div className={styles.inputfield}>
           <label>Password</label>
-          <input required type="text" placeholder="Geheimnis123" />
+          <input required type="text" defaultValue={"Geheimnis123"} placeholder="Geheimnis123" />
           {error.Password && error.Password.length > 0 && error.Password.map((err, index) => {
                 return (
                     <p key={index} className={styles.errorMessage}>
