@@ -53,9 +53,10 @@ export default function Register() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${styles.register}`}>
       <form onSubmit={handleSubmit}>
-        <h1>Register</h1>
+        <h1>Neuer Account</h1>
+
         <div className={styles.inputfield}>
           <label>UserName</label>
           <input required type="text" placeholder="Username" />
@@ -155,6 +156,14 @@ export default function Register() {
 
         <div className={styles.buttonContainer}>
           <input type="submit" value={"submit"}></input>
+        </div>
+
+        <div className={styles.linkContainer}>
+          <p>
+            Bereits einen Account? &nbsp;
+            <Link href="/user/login">Login</Link>
+          </p>
+
         </div>
       </form>
     </div>

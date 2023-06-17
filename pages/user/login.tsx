@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "../../styles/User.module.scss";
 import {loginUser}  from "../../services/User.service";
 import UserLoginError from "../../models/UserLoginError";
 import { log } from "console";
 import UserLoginDTO from "../../models/UserLoginDTO";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import UserContext from "../../components/UserContext";
+import User, { UserPermission, UserPrivacy } from "../../models/User";
 export default function Login() {
     const[error, setError] = React.useState<UserLoginError>({});
     const router = useRouter();
+    const context = useContext(UserContext);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -20,13 +24,13 @@ export default function Login() {
         };
         loginUser(user)
             .then((res) => {
-                if(res == 200){
-                  router.push("/");
+                console.log("loginResult",res);
+                if(res.status == 200){
+                  //router.push("/");
                 }
-
             })
             .catch(async (err) => {
-              if(err.status == 401){
+              if(err.status == 401 || err.status == 400){
                 const tmperror = err.errors as UserLoginError;
                 setError(tmperror);
               }
@@ -37,7 +41,7 @@ export default function Login() {
             });
     }
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${styles.login}`}>
       <form onSubmit={handleSubmit}>
         <h1>Login</h1>
         <div className={styles.inputfield}>
@@ -64,8 +68,19 @@ export default function Login() {
             })}
         </div>
 
+        <div className={styles.linkContainer}>
+            <Link href="/user/login">Passwort Vergessen?</Link>
+        </div>
+
         <div className={styles.buttonContainer}>
           <input type="submit" value={"submit"}></input>
+        </div>
+
+        <div className={styles.linkContainer}>
+          <p>
+            Keinen Account? &nbsp;
+            <Link href="/user/register">Registrieren</Link>
+          </p>
         </div>
       </form>
     </div>

@@ -41,6 +41,7 @@ namespace Api
             builder.Services.AddSwaggerGen();
 
 
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -52,6 +53,7 @@ namespace Api
                     .AllowAnyMethod()
                     .AllowAnyHeader();
                 });
+
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }

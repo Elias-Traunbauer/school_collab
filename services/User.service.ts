@@ -1,3 +1,4 @@
+import User from "../models/User";
 import UserLoginDTO from "../models/UserLoginDTO";
 import UserRegisterDTO from "../models/UserRegisterDTO";
 import UserRegisterError from "../models/UserRegisterError";
@@ -35,13 +36,20 @@ export async function registerUser(user: UserRegisterDTO): Promise<any> {
     
 }
 
-export async function checkEmailAvailable(email:string): Promise<any> {
+export async function getUser(cookie:string|undefined): Promise<any> {
+    console.log("cookie",cookie);
     try {
-        const response = await fetch(`${url}/email-available/${email}`);
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/txt',
+                'Authorization': cookie
+            },
+        });
         const data = await response.json();
+        console.log("status",data);
         return data;
     } catch (error) {
-        
         throw error;
     }
 }
@@ -55,7 +63,7 @@ export async function loginUser(user: UserLoginDTO): Promise<any> {
                 'Content-Type': 'application/json',
             },
         });
-
+            
          if (response.status === 200) {
             // If the response status is 200, check if there is a response body
             const contentType = response.headers.get('content-type');
@@ -71,7 +79,7 @@ export async function loginUser(user: UserLoginDTO): Promise<any> {
                 throw response;
         }
 
-        return response.status;
+        return response;
     } catch (error) {
         throw error;
     }
