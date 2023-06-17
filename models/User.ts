@@ -28,7 +28,7 @@ export default interface User extends DataBaseEntity{
     sessions?: UserSession[];
 }
 
-enum UserPermission{
+export enum UserPermission{
     None = 0,
     View = 1,
     Create = 2,
@@ -40,7 +40,7 @@ enum UserPermission{
     Default = View | Create
 }
 
-enum UserPrivacy{
+export enum UserPrivacy{
     None = 0,
     ShowFirstName = 1,
     ShowLastName = 2,
