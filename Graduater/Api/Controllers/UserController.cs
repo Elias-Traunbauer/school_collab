@@ -65,6 +65,37 @@ namespace Api.Controllers
             return Ok();
         }
 
+        public record UserDTO(
+            int Id,
+            string Username,
+            string Email,
+            string FirstName,
+            string LastName,
+            int? ProfilePictureId,
+            DateTime CreatedAt
+        );
+
+        [HttpGet]
+        public async Task<IActionResult> GetUser([FromServices] IUserService userService)
+        {
+            var user = (await userService.GetUser(HttpContext.GetUserInfo().User!.Id)).Value;
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(
+                 new UserDTO(
+                        user.Id,
+                        user.Username,
+                        user.Email,
+                        user.FirstName,
+                        user.LastName,
+                        user.ProfilePictureId,
+                        user.RegisteredAt
+                     )
+                );
+        }
+
         [HttpPost("register")]
         [NoAuthenticationRequired]
         [RateLimitAttribute(maxRequestsPerMinute: 20, rateLimitMode: RateLimitMode.FixedDelay)]
