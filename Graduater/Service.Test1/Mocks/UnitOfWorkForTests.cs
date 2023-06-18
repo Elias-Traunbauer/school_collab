@@ -40,5 +40,15 @@ namespace Service.Test.Mocks
             await _appDbContext.SaveChangesAsync();
             return true;
         }
+
+        public ValueTask DisposeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,7 +1,6 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  trailingSlash: true,
+  trailingSlash: false,
   swcMinify: true,
   images: {
     unoptimized: true,
@@ -11,7 +10,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path',
-        destination: 'http://localhost:7119/api/:path'
+        destination: 'http://localhost:7119/api/:path',
       }
     ]
   },

@@ -3,10 +3,10 @@ import UserLoginDTO from "../models/UserLoginDTO";
 import UserRegisterDTO from "../models/UserRegisterDTO";
 import UserRegisterError from "../models/UserRegisterError";
 
-const url = 'https://localhost:3000/api/User';
+const url = '/api/User';
 export async function registerUser(user: UserRegisterDTO): Promise<any> {
     try {
-        const response = await fetch(`${url}/register`, {
+        const response = await fetch(`${url}/register/`, {
             method: 'POST',
             body: JSON.stringify(user),
             headers: {
@@ -36,14 +36,12 @@ export async function registerUser(user: UserRegisterDTO): Promise<any> {
     
 }
 
-export async function getUser(cookie:string|undefined): Promise<any> {
-    console.log("cookie",cookie);
+export async function getUser(): Promise<any> {
     try {
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/txt',
-                'Authorization': cookie
+                'Content-Type': 'application/txt'
             },
         });
         const data = await response.json();
