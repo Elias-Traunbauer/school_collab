@@ -42,7 +42,7 @@ export async function getUser(): Promise<any> {
             method: 'GET'
         });
         if (response.status === 401) {
-            throw new Error('Unauthorized');
+            throw response;
         }
         const data = await response.json();
         console.log("status",data);

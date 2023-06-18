@@ -9,12 +9,25 @@ import { useRouter } from 'next/router'
 import {getUser} from '../services/User.service'
 import User from '../models/User'
 import { cookies } from 'next/headers'
+import LoadingState from '../models/Loadingstate'
 
 function MyApp({ Component, pageProps }) {
 
   const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>)
-  const [userContext, setUserContext] = useState(null);
-  const [redirectState, setRedirectState] = useState(false);
+  const [userContext, setUserContext] = useState<User>({
+    id: 0,
+    version: '0.0.0',
+    username: '...',
+    firstName: '...',
+    lastName: '...',
+    email: '...'
+  });
+  const[loadingState,setLoadingState] = useState<LoadingState>({
+    isLoaded: false,
+    triedLoading: false,
+    reload: false,
+  });
+  //const [redirectState, setRedirectState] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,35 +43,20 @@ function MyApp({ Component, pageProps }) {
 
     }; */
 
-    //TODO: get user from server
-    const mockUser = {
-      username: 'test',
-    };
-
-    const user:User | null = null;
-    console.log("cookies",document.cookie);
-
     //const tmpCookies:string|undefined = cookies().get('access-token')[0];
       getUser().then((res) => {
-        console.log("result",res);
+        setUserContext(res);
       })
       .catch(async (err) => {
-        console.error("Error",err);
+        if(err.status == 401 && (router.pathname != '/' && router.pathname != '/user/login' && router.pathname != '/user/register')){
+          router.push('/user/login');
+        }
       });
 
-    
-    if (user == null && window.location.pathname != '/user/login/' && window.location.pathname != '/user/register/') {
-      router.push('/user/login/');
-      setRedirectState(true);
-    }
-    else
-    setUserContext(user);
-    
-
-  }, []);
+  }, [router.pathname]);
 
   return (
-    <UserContext.Provider value={{userContext, setUserContext}}>
+    <UserContext.Provider value={{userContext, setUserContext,loadingState,setLoadingState}}>
 
     <Head>
         <title>graduater</title>

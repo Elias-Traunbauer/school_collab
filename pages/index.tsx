@@ -6,6 +6,7 @@ import { useContext } from 'react'
 
 const Home = () => {
   const context = useContext(UserContext);
+  console.log("context",context);
 
   return (
     <div className="container">
