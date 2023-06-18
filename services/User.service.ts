@@ -3,7 +3,7 @@ import UserLoginDTO from "../models/UserLoginDTO";
 import UserRegisterDTO from "../models/UserRegisterDTO";
 import UserRegisterError from "../models/UserRegisterError";
 
-const url = 'https://localhost:7119/api/User';
+const url = 'https://localhost:3000/api/User';
 export async function registerUser(user: UserRegisterDTO): Promise<any> {
     try {
         const response = await fetch(`${url}/register`, {

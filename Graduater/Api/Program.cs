@@ -21,10 +21,12 @@ namespace Api
 
             builder.Services.AddCors(o => o.AddPolicy(MyAllowSpecificOrigins, builder =>
             {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
             }));
+
 
             builder.Services.AddSingleton<IJsonWebTokenService, JsonWebTokenService>();
             builder.Services.AddSingleton<IRandomKeyService, RandomKeyService>();
@@ -44,20 +46,12 @@ namespace Api
 
             if (app.Environment.IsDevelopment())
             {
-                app.UseCors(builder =>
-                {
-                    builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-                });
-
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
             app.UseHsts();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseUserAuthentication();
             app.UseUserAuthorization();

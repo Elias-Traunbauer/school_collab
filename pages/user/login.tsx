@@ -26,7 +26,7 @@ export default function Login() {
             .then((res) => {
                 console.log("loginResult",res);
                 if(res.status == 200){
-                  //router.push("/");
+                  router.push("/");
                 }
             })
             .catch(async (err) => {
