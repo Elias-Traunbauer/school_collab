@@ -39,11 +39,11 @@ export async function registerUser(user: UserRegisterDTO): Promise<any> {
 export async function getUser(): Promise<any> {
     try {
         const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/txt'
-            },
+            method: 'GET'
         });
+        if (response.status === 401) {
+            throw new Error('Unauthorized');
+        }
         const data = await response.json();
         console.log("status",data);
         return data;
@@ -65,7 +65,7 @@ export async function loginUser(user: UserLoginDTO): Promise<any> {
          if (response.status === 200) {
             // If the response status is 200, check if there is a response body
             const contentType = response.headers.get('content-type');
-            if (contentType && contentType.includes('application/json')) {
+            if (contentType) {
                 const data = await response.json();
 
                 if (data.status != 200) {

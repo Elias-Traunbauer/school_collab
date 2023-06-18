@@ -39,15 +39,12 @@ function MyApp({ Component, pageProps }) {
     console.log("cookies",document.cookie);
 
     //const tmpCookies:string|undefined = cookies().get('access-token')[0];
-    const tmpCookies = document.cookie
-    if(tmpCookies != undefined){
-      getUser(tmpCookies).then((res) => {
+      getUser().then((res) => {
         console.log("result",res);
       })
       .catch(async (err) => {
         console.error("Error",err);
       });
-    }
 
     
     if (user == null && window.location.pathname != '/user/login/' && window.location.pathname != '/user/register/') {
@@ -58,11 +55,7 @@ function MyApp({ Component, pageProps }) {
     setUserContext(user);
     
 
-  }, [router]);
-
-  if (( router.pathname !== '/user/login' && router.pathname !== '/user/register') && !userContext) {
-    return null;
-  }
+  }, []);
 
   return (
     <UserContext.Provider value={{userContext, setUserContext}}>
