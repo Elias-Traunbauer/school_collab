@@ -27,7 +27,6 @@ namespace Api
                 .AllowAnyMethod();
             }));
 
-
             builder.Services.AddSingleton<IJsonWebTokenService, JsonWebTokenService>();
             builder.Services.AddSingleton<IRandomKeyService, RandomKeyService>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
@@ -35,8 +34,8 @@ namespace Api
 
             builder.Services.AddScoped<IFileService, FileService>();
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAssignmentService, AssignmentService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

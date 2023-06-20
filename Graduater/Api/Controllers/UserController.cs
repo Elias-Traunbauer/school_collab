@@ -31,7 +31,7 @@ namespace Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
             ILoginResult result = await userService.LoginAsync(loginInformation);
 
             if (result.ServiceResult.Status != 200)
