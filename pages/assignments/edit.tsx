@@ -10,6 +10,7 @@ import Assignment from "../../models/Assignment";
 import Group from "../../models/Group";
 import Subject from "../../models/Subject";
 import UserContext from '../../components/UserContext'
+import Datepicker from "../../components/Datepicker";
 
 export default function AssignmentEdit({ assignmentId }) {
   // TODO: fetch assignment
@@ -31,7 +32,7 @@ export default function AssignmentEdit({ assignmentId }) {
   let assignmentDummy:Assignment = {
     title: "...",
     description: "",
-    content: "",
+    content: "dasdassd",
     created: new Date(),
     modified: new Date(),
     due: new Date(),
@@ -47,17 +48,20 @@ export default function AssignmentEdit({ assignmentId }) {
     instructions: [],
   };
 
-  const currUserDummy = {
-    name: "pfreyteaching",
-  };
 
   const [assignment, setAssignment] = useState<Assignment>(assignmentDummy);
   const [edditMode, setEdditMode] = useState(false);
   const [assignmentBackup, setAssignmentBackup] = useState<Assignment>(assignmentDummy);
-  //const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
-  let acceptedFilextentions = [];
+  const [dueDate, setDueDate] = useState<Date>(assignmentDummy.due);
+  const [content, setContent] = useState<string>(assignmentDummy.content);
+  const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
   const router = useRouter();
-  console.log("assignment", assignment);
+
+
+  useEffect(() => {
+    console.log("content changed");
+  }, [content]);
+  
 
 
   function handleUploadFilesUpdate(list) {
@@ -73,39 +77,57 @@ export default function AssignmentEdit({ assignmentId }) {
     });
   }
   function handleAcceptedFiles(list) {
-    acceptedFilextentions = list;
-    console.log(acceptedFilextentions);
+    setAcceptedFilextentions(list);
+    
   }
 
   function handleCancelEdit() {
-    setAssignment(assignmentBackup);
     setEdditMode(false);
     (document.getElementById("titleInput") as HTMLInputElement).value =
       assignmentBackup.title;
+    const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
+    setDueDate(assignmentBackup.due); 
+    setContent(assignmentBackup.content);
+    setAssignment({...assignmentBackup,content: assignmentBackup.content});
   }
 
   function handleEddit() {
-    setAssignmentBackup(assignment);
+    let backup = assignment;
+    const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
+    backup.content = textarea.value;
+    backup.due = dueDate;
+    backup.title = (document.getElementById("titleInput") as HTMLInputElement).value;
+    
+    setAssignmentBackup(backup);
     setEdditMode(true);
   }
 
   function handleSaveEdit() {
-    const textarea = document.querySelector(
-      "." + styles.descriptionContainer + "textarea"
-    ) as HTMLTextAreaElement;
+    const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
+    setAssignment({
+      ...assignment,
+      content: textarea.value,
+      due: dueDate,
+      title: (document.getElementById("titleInput") as HTMLInputElement).value,
+    });
     setEdditMode(false);
   }
 
   function handleSaveAssignment() {
     // TODO: Backend anbindung
-    const textarea = document.querySelector(
-      "." + styles.descriptionContainer + "textarea"
-    ) as HTMLTextAreaElement;
+    const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
+    const title = (document.getElementById("titleInput") as HTMLInputElement)
+    // don't forget to add the dueDate
     router.push("/assignments");
   }
 
   function handleCancelAssignment() {
     router.push("/assignments");
+  }
+
+  function handleDateChange(date) {
+    setDueDate(date);
+    
   }
 
   function handleDeleteUploadFile(key) {
@@ -141,16 +163,32 @@ export default function AssignmentEdit({ assignmentId }) {
               defaultValue={assignment.title}
               id="titleInput"
             ></input>
+            {
+              !edditMode&&
+              <button onClick={handleEddit}>
+              <Image src="/edit.svg" width={20} height={20} alt={"edit"}></Image>
+            </button>
+            }
+            
           </div>
         </div>
         <div className={styles.countdownContainer}>
           <div>
-            <Countdown date={assignment.due}></Countdown>
+            {
+              !edditMode?
+              <Countdown date={assignment.due}></Countdown>
+              :
+              <Datepicker dateParam={assignment.due} inputChanged={handleDateChange}></Datepicker>
+            }
+            
           </div>
         </div>
 
         <div className={styles.descriptionContainer}>
           <MarkdownEditor
+            handleFromOutside={true}
+            setText={(text)=>setContent(text)}
+            defaultText={content}
             containerWidth={100}
             isEditable={edditMode}
           ></MarkdownEditor>
@@ -224,56 +262,30 @@ export default function AssignmentEdit({ assignmentId }) {
 
         <div className={styles.editButton}>
           <div>
-            {edditMode ? null : (
-              <>
                 <button
                   className="btn btn-primary"
                   style={{ float: "right" }}
-                  onClick={handleSaveAssignment}
+                  onClick={!edditMode?handleSaveAssignment:handleSaveEdit}
                 >
-                  Save
-                </button>
-                <button
+                  {
+                    !edditMode?
+                    "Spechern"
+                    :
+                    "Änderungen Speichern"
+                  }
+              </button>
+              <button
                   className="btn btn-cancel"
                   style={{ float: "right" }}
-                  onClick={handleCancelAssignment}
+                  onClick={!edditMode?handleCancelAssignment:handleCancelEdit}
                 >
-                  Cancel
+                  {
+                    !edditMode?
+                    "Abbrechen"
+                    :
+                    "Änderungen Verwerfen"
+                  }
                 </button>
-              </>
-            )}
-            {assignment.user.username == context.userContext.username ? (
-              <>
-                {edditMode ? (
-                  <>
-                    <button
-                      className="btn btn-primary"
-                      style={{ float: "right" }}
-                      onClick={handleSaveEdit}
-                    >
-                      Change
-                    </button>
-                    <button
-                      className="btn btn-cancel"
-                      style={{ float: "right" }}
-                      onClick={handleCancelEdit}
-                    >
-                      Discard
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    className="btn btn-secondary"
-                    style={{ float: "left" }}
-                    onClick={handleEddit}
-                  >
-                    Edit
-                  </button>
-                )}
-              </>
-            ) : (
-              <></>
-            )}
           </div>
         </div>
       </div>
