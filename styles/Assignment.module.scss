@@ -19,7 +19,7 @@
 }
 
 .assignmentcard:hover {
-  background-color: var(--background_2);
+  filter: brightness(1.2);
   cursor: pointer;
 }
 
@@ -189,7 +189,6 @@
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  background-color: var(--background);
 }
 
 .edithead > input {
@@ -213,7 +212,7 @@
 }
 
 .wrapper:hover {
-  background-color: var(--background_2);
+  filter: brightness(1.2);
 }
 
 .headerContainer {

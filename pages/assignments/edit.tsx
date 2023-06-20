@@ -38,7 +38,7 @@ export default function AssignmentEdit({ assignmentId }) {
     group: mockGroup,
     subject: mockSubject,
     user: context.userContext,
-    userId: 0,
+    userId: 4,
     groupId: 0,
     subjectId: 0,
     id: 0,
