@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Countdown from "../../components/Countdown";
 import styles from "../../styles/Assignment.module.scss";
 import Image from "next/image";
@@ -6,88 +6,71 @@ import { useRouter } from "next/router";
 import FileListObject from "../../components/FileListObject";
 import FileUpload from "../../components/FileUpload";
 import MarkdownEditor from "../../components/MarkdownEditor";
+import Assignment from "../../models/Assignment";
+import Group from "../../models/Group";
+import Subject from "../../models/Subject";
+import UserContext from '../../components/UserContext'
 
 export default function AssignmentEdit({ assignmentId }) {
   // TODO: fetch assignment
+  const context = useContext(UserContext);
 
+  const mockGroup:Group ={
+    creatorUserId: 0,
+    description: "",
+    name: "",
+    id: 0,
+    version: ""
+  };
+  const mockSubject:Subject = {
+    name: "",
+    id: 0,
+    version: ""
+  };
   //mock
-  let assignmentDummy = {
-    subject: "DBI",
-    title: "JPA Lab 1: Generieren der IDs",
-    deadline: new Date(2024, 1, 22, 13, 40),
-    set: true,
-    description:
-      "dsasdasdadsadsadsss sssssssssssssssssss ssssssssssssssssssss sssssssssssssssss   sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-    creator: {
-      name: "pfreyteaching",
-    },
-    instrictionFiles: [],
-    uploadFiles: [],
+  let assignmentDummy:Assignment = {
+    title: "...",
+    description: "",
+    content: "",
+    created: new Date(),
+    modified: new Date(),
+    due: new Date(),
+    group: mockGroup,
+    subject: mockSubject,
+    user: context.userContext,
+    userId: 0,
+    groupId: 0,
+    subjectId: 0,
+    id: 0,
+    version: "0",
+    files: [],
+    instructions: [],
   };
 
   const currUserDummy = {
     name: "pfreyteaching",
   };
 
-  const [instructionHidden, setInstructionHidden] = useState(false);
-  const [descriptionHidden, setDescriptionHidden] = useState(true);
-  const [uploadHidden, setUploadHidden] = useState(true);
-
-  const [uploadFiles, setUploadFiles] = useState([]);
-  const [assignment, setAssignment] = useState(assignmentDummy);
+  const [assignment, setAssignment] = useState<Assignment>(assignmentDummy);
   const [edditMode, setEdditMode] = useState(false);
-  const [assignmentBackup, setAssignmentBackup] = useState(assignmentDummy);
+  const [assignmentBackup, setAssignmentBackup] = useState<Assignment>(assignmentDummy);
   //const [acceptedFilextentions,setAcceptedFilextentions] = useState([]);
   let acceptedFilextentions = [];
   const router = useRouter();
+  console.log("assignment", assignment);
 
-  useEffect(() => {
-    let instructionFiles = [];
-    let uploadFiles = [];
-
-    // Create File objects
-    const file1 = new File(["File 1 content"], "file1.txt", {
-      type: "text/plain",
-    });
-    const file2 = new File(["File 2 content"], "file2.pdf", {
-      type: "application/pdf",
-    });
-    const file3 = new File(["File 3 content"], "file3.jpg", {
-      type: "image/jpeg",
-    });
-    const file4 = new File(["File 4 content"], "file4.docx", {
-      type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    });
-
-    // Adding file objects to instructionFiles array
-    instructionFiles.push(file1);
-    instructionFiles.push(file2);
-
-    // Adding file objects to uploadFiles array
-    uploadFiles.push(file3);
-    uploadFiles.push(file4);
-
-    // Setting state
-    setAssignment({
-      ...assignment,
-      instrictionFiles: instructionFiles,
-      uploadFiles: uploadFiles,
-    });
-  }, []);
 
   function handleUploadFilesUpdate(list) {
     setAssignment({
       ...assignment,
-      uploadFiles: [...assignment.uploadFiles, ...list],
+      files: [...assignment.files, ...list],
     });
-    setUploadHidden(false);
   }
   function handleInstructionFilesUpdate(list) {
     setAssignment({
       ...assignment,
-      instrictionFiles: [...assignment.instrictionFiles, ...list],
+      instructions: [...assignment.instructions, ...list],
     });
-    setInstructionHidden(false);
   }
   function handleAcceptedFiles(list) {
     acceptedFilextentions = list;
@@ -126,23 +109,23 @@ export default function AssignmentEdit({ assignmentId }) {
   }
 
   function handleDeleteUploadFile(key) {
-    const newList = assignment.uploadFiles
+    const newList = assignment.files
       .slice(0, key)
-      .concat(assignment.uploadFiles.slice(key + 1));
+      .concat(assignment.files.slice(key + 1));
       setAssignment({
         ...assignment,
-        uploadFiles: newList,
+        files: newList,
       });
   }
 
   function handleDeleInstructionFile(key) {
-    const newList = assignment.instrictionFiles
+    const newList = assignment.instructions
       .slice(0, key)
-      .concat(assignment.instrictionFiles.slice(key + 1));
+      .concat(assignment.instructions.slice(key + 1));
     setTimeout(() => {
       setAssignment({
         ...assignment,
-        instrictionFiles: newList,
+        instructions: newList,
       });
     }, 500);
   }
@@ -162,7 +145,7 @@ export default function AssignmentEdit({ assignmentId }) {
         </div>
         <div className={styles.countdownContainer}>
           <div>
-            <Countdown date={assignment.deadline}></Countdown>
+            <Countdown date={assignment.due}></Countdown>
           </div>
         </div>
 
@@ -175,12 +158,12 @@ export default function AssignmentEdit({ assignmentId }) {
 
         <div className={styles.instructionHeader}>
           <div>
-            {assignment.instrictionFiles.length > 0 && <h1>Instructions</h1>}
+            {assignment.instructions.length > 0 && <h1>Instructions</h1>}
           </div>
         </div>
         <div className={styles.instructionWrapper}>
           <div className={styles.instructionContainer}>
-            {assignment.instrictionFiles.map((file, i) => {
+            {assignment.instructions.map((file, i) => {
               return (
                 <FileListObject
                   key={"FileObj_" + i}
@@ -202,9 +185,9 @@ export default function AssignmentEdit({ assignmentId }) {
           title={edditMode ? "Upload Instructions" : "Upload Files"}
           handleFilesUpdated={
             edditMode
-              ? (instrictionFiles) =>
-                  handleInstructionFilesUpdate(instrictionFiles)
-              : (uploadFiles) => handleUploadFilesUpdate(uploadFiles)
+              ? (instructions) =>
+                  handleInstructionFilesUpdate(instructions)
+              : (files) => handleUploadFilesUpdate(files)
           }
         ></FileUpload>
 
@@ -213,7 +196,7 @@ export default function AssignmentEdit({ assignmentId }) {
 }
         <div className={styles.uploadfileWrapper}>
           {
-            assignment.uploadFiles.length == 0?
+            assignment.files.length == 0?
 <>
               <h3>no Files Uploaded!</h3>
               <p>Drag and drop Files to upload them</p>
@@ -221,10 +204,10 @@ export default function AssignmentEdit({ assignmentId }) {
             :
             <>
             <div className={styles.uploadfileheader}>
-            {assignment.uploadFiles.length != 0 && <h1>Upload Files</h1>}
+            {assignment.files.length != 0 && <h1>Upload Files</h1>}
           </div>
           <div className={styles.uploadfileContainer}>
-            {assignment.uploadFiles.map((file, index) => {
+            {assignment.files.map((file, index) => {
               return (
                 <FileListObject
                   key={index}
@@ -259,7 +242,7 @@ export default function AssignmentEdit({ assignmentId }) {
                 </button>
               </>
             )}
-            {assignment.creator.name == currUserDummy.name ? (
+            {assignment.user.username == context.userContext.username ? (
               <>
                 {edditMode ? (
                   <>
