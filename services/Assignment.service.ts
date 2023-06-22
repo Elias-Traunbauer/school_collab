@@ -5,14 +5,15 @@ const url = '/api/Assignment';
 
 export async function getAllAssignments(): Promise<Assignment[]> {
   try {
-    const response = await fetch(url, {
+    const response = await fetch(url+'/related', {
       method: 'GET'
     });
     if (response.status === 401) {
       throw response;
     }
-    console.log("res", response);
+    
     const data = await response.json();
+    console.log("data", data);
     return data;
   } catch (error) {
     console.error('Error fetching subjects:', error);
@@ -30,7 +31,7 @@ export async function createAssignment(assignment: AssignmentDTO){
       body: JSON.stringify(assignment)
     });
     if (response.status === 200) {
-      // If the response status is 200, check if there is a response body
+      
       const contentType = response.headers.get('content-type');
       if (contentType) {
         const data = await response.json();

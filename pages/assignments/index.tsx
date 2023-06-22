@@ -24,28 +24,10 @@ export default function Assignments() {
         id: 0,
         version: ""
       };
-      //mock
-      let mockAssignment:Assignment = {
-        title: "...",
-        description: "",
-        content: "# Hallo",
-        created: new Date(),
-        modified: new Date(),
-        due: new Date(),
-        group: mockGroup,
-        subject: mockSubject,
-        user: context.userContext,
-        userId: 4,
-        groupId: 0,
-        subjectId: 0,
-        id: 0,
-        version: "0",
-        files: [],
-        instructions: [],
-      };
 
-    const [assignmentData, setAssignmentData] = useState<Assignment[]>([mockAssignment]);
-    const [displayAssignments, setDisplayAssignments] = useState<Assignment[]>([mockAssignment]);
+
+    const [assignmentData, setAssignmentData] = useState<Assignment[]>([]);
+    const [displayAssignments, setDisplayAssignments] = useState<Assignment[]>([]);
     const router = useRouter();
     const [searched, setSearched] = useState(false);
     const [searchValue, setSearchValue] = useState('');
@@ -56,11 +38,17 @@ export default function Assignments() {
     useEffect(() => {
         async function fetchDataAsync() {
             getAllAssignments().then((res) => {
+                console.log(res);
+                //subject not implemented yet
+                res.forEach(element => {
+                    element.subject = mockSubject;
+                    element.due = new Date(element.due);
+                });
                 setAssignmentData(res);
                 setDisplayAssignments(res);
                 
             }).catch((err) => {
-                console.log("Error",err);
+                console.log(err);
             });
         }
         fetchDataAsync();
