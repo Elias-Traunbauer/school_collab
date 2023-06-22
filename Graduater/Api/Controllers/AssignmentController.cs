@@ -2,6 +2,7 @@
 using Api.Helpers;
 using Core.Contracts.Models;
 using Core.Contracts.Services;
+using Core.Entities.Database;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
 
@@ -37,7 +38,7 @@ namespace Api.Controllers
                 return Ok(result);
             }
 
-            return Ok(result.Value);
+            return Ok(result.Value!.Cast<Assignment>());
         }
 
         [HttpPost]
