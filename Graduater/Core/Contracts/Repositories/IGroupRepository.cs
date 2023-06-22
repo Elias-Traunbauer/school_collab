@@ -10,6 +10,8 @@ namespace Core.Contracts.Repositories
         Task<IGroup?> GetAsync(int id);
         Task<IEnumerable<IGroup>> GetAllAsync();
         Task<IEnumerable<IGroup>> GetAllForUserAsync(int userId);
+        Task JoinGroup(int userId, int groupId);
+        Task LeaveGroup(int userId, int groupId);
 
         Task CreateAsync(Group group);
         Task UpdateAsync(Group group);

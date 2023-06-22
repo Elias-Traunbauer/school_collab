@@ -10,11 +10,11 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class GroupController : Controller
+    public class AssignmentController : Controller
     {
         private readonly ApiConfig _config;
 
-        public GroupController(ApiConfig configuration)
+        public AssignmentController(ApiConfig configuration)
         {
             _config = configuration;
         }

@@ -47,6 +47,16 @@ namespace Persistence.Repositories
             return await _context.Groups.FindAsync(id);
         }
 
+        public async Task JoinGroup(int userId, int groupId)
+        {
+            await _context.GroupUsers.AddAsync(new GroupUser { UserId = userId, GroupId = groupId });
+        }
+
+        public async Task LeaveGroup(int userId, int groupId)
+        {
+            _context.GroupUsers.Remove(_context.GroupUsers.Where(x => x.UserId == userId && x.GroupId == groupId).FirstOrDefault());
+        }
+
         public Task UpdateAsync(Group group)
         {
             // update group

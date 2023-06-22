@@ -48,6 +48,10 @@ namespace Service.Services
 
             await _unitOfWork.SaveChangesAsync();
 
+            await _unitOfWork.GroupRepository.JoinGroup(group.CreatorUserId, group.Id);
+
+            await _unitOfWork.SaveChangesAsync();
+
             return new ServiceResult<int>(group.Id);
         }
 

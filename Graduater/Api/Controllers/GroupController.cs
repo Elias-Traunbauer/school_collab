@@ -11,11 +11,11 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class AssignmentController : Controller
+    public class GroupController : Controller
     {
         private readonly ApiConfig _config;
 
-        public AssignmentController(ApiConfig configuration)
+        public GroupController(ApiConfig configuration)
         {
             _config = configuration;
         }
@@ -23,7 +23,7 @@ namespace Api.Controllers
         [HttpGet("related")]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
         [RateLimitAttribute(20)]
-        public async Task<IActionResult> GetAssignmentsForUser([FromServices] IGroupService groupService)
+        public async Task<IActionResult> GetGroupsForUser([FromServices] IGroupService groupService)
         {
             if (!ModelState.IsValid)
             {
@@ -41,10 +41,12 @@ namespace Api.Controllers
             return Ok(result.Value);
         }
 
+        public record GroupPost(string Name, string Description);
+
         [HttpPost]
         [EndpointPermission(Core.Entities.Database.UserPermission.Create)]
         [RateLimit(10)]
-        public async Task<IActionResult> CreateGroup([FromBody] Group group, [FromServices] IGroupService groupService)
+        public async Task<IActionResult> CreateGroup([FromBody] GroupPost group, [FromServices] IGroupService groupService)
         {
             if (!ModelState.IsValid)
             {
@@ -52,9 +54,8 @@ namespace Api.Controllers
             }
 
             var user = HttpContext.GetUserInfo().User!;
-            group.CreatorUserId = user.Id;
 
-            var result = await groupService.CreateGroupAsync(group);
+            var result = await groupService.CreateGroupAsync(new Group() { Name = group.Name, Description = group.Description, CreatorUserId = user.Id });
 
             if (result.Status != 200)
             {
