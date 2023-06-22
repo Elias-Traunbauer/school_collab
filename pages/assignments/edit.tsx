@@ -117,7 +117,8 @@ export default function AssignmentEdit({ assignmentId }) {
     // TODO: Backend anbindung
     const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
     const title = (document.getElementById("titleInput") as HTMLInputElement)
-    // don't forget to add the dueDate
+    const dueDate = new Date();
+    
     router.push("/assignments");
   }
 
