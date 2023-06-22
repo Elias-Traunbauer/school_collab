@@ -36,6 +36,7 @@ namespace Api
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAssignmentService, AssignmentService>();
             builder.Services.AddScoped<IGroupService, GroupService>();
+            builder.Services.AddScoped<ISubjectService, SubjectService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddControllers();

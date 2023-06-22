@@ -1,4 +1,5 @@
-﻿using Core.Contracts.Models;
+﻿using Core.Contracts.Entities;
+using Core.Contracts.Models;
 using Core.Entities.Database;
 using Core.Entities.Models;
 
@@ -23,5 +24,7 @@ namespace Core.Contracts.Services
         Task<IServiceResult<bool>> IsUsernameTaken(string username);
 
         Task<IServiceResult<bool>> IsEmailTaken(string email);
+
+        Task<IServiceResult<ICollection<IUser>>> SearchUser(string username);
     }
 }

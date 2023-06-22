@@ -33,5 +33,22 @@ namespace Api.DataTransferObjects
             Email = ((user.PrivacySettings & UserPrivacy.ShowEmail) != 0) && respectPrivacy ? user.Email : null;
             Permissions = ((user.PrivacySettings & UserPrivacy.ShowPermissions) != 0) && respectPrivacy ? user.Permissions : null;
         }
+
+        public static explicit operator User(UserDTO user) 
+        { 
+            return new User
+            {
+                Id = user.Id,
+                Version = user.Version,
+                Username = user.Username,
+                FirstName = user.FirstName!,
+                LastName = user.LastName!,
+                ProfilePictureId = user.ProfilePictureId,
+                Email = user.Email!,
+                Permissions = user.Permissions ?? UserPermission.None
+            };
+        }
+
+        public static explicit operator UserDTO(User user) => new(user);
     }
 }
