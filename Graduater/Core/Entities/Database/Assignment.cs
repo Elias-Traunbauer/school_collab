@@ -27,7 +27,7 @@ public class Assignment : DatabaseEntity, IAssignment
     public virtual Subject Subject { get; set; } = null!;
 
     [ForeignKey(nameof(UserId))]
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; } = null!;
 
     public int UserId { get; set; }
 
