@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }) {
 
   const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>)
   const [userContext, setUserContext] = useState<User>({
-    id: 0,
+    id: -1,
     version: '0.0.0',
     username: '...',
     firstName: '...',
@@ -50,6 +50,9 @@ function MyApp({ Component, pageProps }) {
       .catch(async (err) => {
         if(err.status == 401 && (router.pathname != '/' && router.pathname != '/user/login' && router.pathname != '/user/register')){
           router.push('/user/login');
+        }
+        else if(err.status == 500){
+          router.push('/Error');
         }
       });
 

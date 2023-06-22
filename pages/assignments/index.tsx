@@ -60,10 +60,10 @@ export default function Assignments() {
                 setDisplayAssignments(res);
                 
             }).catch((err) => {
-                
+                console.log("Error",err);
             });
         }
-        //fetchDataAsync();
+        fetchDataAsync();
     }, []);
 
     function resetSearch(){
