@@ -1,8 +1,9 @@
+import User from '../models/User';
 import styles from '../styles/UserSelectionList.module.scss'
 import Image from 'next/image'
-export default function UserSelectionItem({ user, onUserSelected,id=1 }: { id?:number, user?: any, onUserSelected?: any }) {
+export default function UserSelectionItem({ user,onUserSelected }: { user: User, onUserSelected?: (user: User) => void}) {
     function handleClicked() {
-        const checkbox = document.getElementById("checkbox_"+id) as HTMLInputElement;
+        const checkbox = document.getElementById("checkbox_"+user.id) as HTMLInputElement;
         if (checkbox) {
             checkbox.checked = !checkbox.checked;
             if (onUserSelected) {
@@ -16,10 +17,10 @@ export default function UserSelectionItem({ user, onUserSelected,id=1 }: { id?:n
         <div>
             <div>
                 <div>
-                    <Image src="/person.svg" alt="profile" width={30} height={30}/>
-                    <p>Max Mustermann</p>
+                    <Image src="/TestProfile.jpeg" alt="profile" width={30} height={30}/>
+                    <p>{user.username}</p>
                 </div>
-                <input id={"checkbox_"+id} type="checkbox"/>
+                <input id={"checkbox_"+user.id} type="checkbox"/>
             </div>
             </div>
         </div>
