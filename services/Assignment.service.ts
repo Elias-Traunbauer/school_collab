@@ -22,6 +22,9 @@ export async function getAllAssignments(): Promise<Assignment[]> {
 };
 
 export async function getAssignmentById(id: number): Promise<Assignment> {
+  if(isNaN(id)){
+    return;
+  }
   try {
     const response = await fetch(url+'/'+id, {
       method: 'GET'
