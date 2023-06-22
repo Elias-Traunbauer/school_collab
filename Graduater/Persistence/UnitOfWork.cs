@@ -66,7 +66,7 @@ namespace Persistence
             await DeleteDatabaseAsync();
             await MigrateDatabaseAsync();
 
-            
+
 
             #region Users
             User user1 = new User
@@ -114,13 +114,13 @@ namespace Persistence
                 // Assignments, Chats, Comments, Groups, Notifications, Polls, Posts, Sessions can be left empty or assigned as needed
             };
 
-            List<User> users = new List<User>() { user1 ,user2,user3};
+            List<User> users = new List<User>() { user1, user2, user3 };
             #endregion
 
             #region Subjects
             Subject subject1 = new Subject
             {
-                Id=1,
+                Id = 1,
                 Name = "Subject 1",
                 ShortName = "Sub1"
             };
@@ -132,18 +132,17 @@ namespace Persistence
                 ShortName = "Sub2",
             };
 
-            List<Subject> subjects = new List<Subject> { subject1,subject2};
+            List<Subject> subjects = new List<Subject> { subject1, subject2 };
             #endregion
 
             #region Groups
             Group group1 = new Group
             {
 
-                Id=1,
+                Id = 1,
                 Name = "Group 1",
                 Description = "Description for Group 1",
                 CreatorUserId = 1, // Assuming CreatorUserId is 1 for the corresponding user
-                Assignments = new List<Assignment>()
             };
 
             Group group2 = new Group
@@ -152,10 +151,9 @@ namespace Persistence
                 Name = "Group 2",
                 Description = "Description for Group 2",
                 CreatorUserId = 2, // Assuming CreatorUserId is 2 for the corresponding user
-                Assignments = new List<Assignment>()
             };
 
-            List<Group> groups = new List<Group>() { group1 , group2 };
+            List<Group> groups = new List<Group>() { group1, group2 };
             #endregion
 
             #region Assignments
@@ -175,7 +173,7 @@ namespace Persistence
 
             Assignment assignment2 = new Assignment
             {
-                Id=2,
+                Id = 2,
                 Title = "Assignment 2",
                 Description = "Description for Assignment 2",
                 Content = "Content for Assignment 2",
@@ -189,7 +187,7 @@ namespace Persistence
 
             Assignment assignment3 = new Assignment
             {
-                Id= 3,
+                Id = 3,
                 Title = "Assignment 3",
                 Description = "Description for Assignment 3",
                 Content = "Content for Assignment 3",
@@ -201,7 +199,7 @@ namespace Persistence
                 UserId = 3 // Assuming UserId is 3 for the corresponding user
             };
 
-            List<Assignment> assignments = new List<Assignment>() { assignment1, assignment2 , assignment3};
+            List<Assignment> assignments = new List<Assignment>() { assignment1, assignment2, assignment3 };
             #endregion
 
             _context.Users.AddRange(users);

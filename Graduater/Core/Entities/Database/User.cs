@@ -41,20 +41,6 @@ public class User : DatabaseEntity, IUser
 
     public UserPrivacy PrivacySettings { get; set; }
 
-    public virtual ICollection<Assignment>? Assignments { get; set; }
-
-    public virtual ICollection<Chat>? Chats { get; set; }
-
-    public virtual ICollection<Comment>? Comments { get; set; }
-
-    public virtual ICollection<Group>? Groups { get; set; }
-
-    public virtual ICollection<Notification>? Notifications { get; set; }
-
-    public virtual ICollection<Poll>? Polls { get; set; }
-
-    public virtual ICollection<Post>? Posts { get; set; }
-
     public virtual ICollection<UserSession>? Sessions { get; set; }
 }
 
