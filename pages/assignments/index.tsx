@@ -46,7 +46,7 @@ export default function Assignments() {
             });
         }
         fetchDataAsync();
-    }, []);
+    }, [router]);
 
     function resetSearch(){
         const searchInput = document.getElementById('searchInput') as HTMLInputElement;

@@ -21,7 +21,8 @@ export default function AssignmentCard({ assignment }: { assignment: Assignment 
                     <p>{assignmentState.subject.name}</p>
                 </div>
                 <div className={styles.assignmentbody}>
-                    <h2>{assignmentState.title}</h2>
+                    <h1>{assignmentState.title}</h1>
+                    <p>{assignmentState.description}</p>
                 </div>
                 <div className={styles.assignmentfoot}>
                     <Countdown date={assignmentState.due}></Countdown>
