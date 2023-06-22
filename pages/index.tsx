@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div className="container">
       <h1 className="special" style={{ fontSize: 3 + 'em' }}>
-        Welcome to graduater {context.userContext.username} !
+        Welcome to graduater {context.userContext.id != -1&&context.userContext.username} !
       </h1>
       <h2>Useful links:</h2>
       <Link href="/user/login">Login</Link>

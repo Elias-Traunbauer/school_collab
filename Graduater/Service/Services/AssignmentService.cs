@@ -5,6 +5,7 @@ using Core.Contracts.Repositories;
 using Core.Contracts.Services;
 using Core.Entities.Database;
 using Core.Entities.Models;
+using Mysqlx.Resultset;
 
 namespace Service.Services
 {
@@ -69,7 +70,11 @@ namespace Service.Services
 
             var groups = await _unitOfWork.GroupRepository.GetAllForUserAsync(userId);
 
-            var assignments = groups.AsEnumerable().Select(x => ((Group)x).Id).AsEnumerable().SelectMany(id => _unitOfWork.AssignmentRepository.GetAllAssignmentsOfGroupAsync(id).GetAwaiter().GetResult());
+            List<IAssignment> assignments = new List<IAssignment>();
+            foreach (var item in groups.ToList())
+            {
+                assignments.AddRange((await _unitOfWork.AssignmentRepository.GetAllAssignmentsOfGroupAsync((item as Group)!.Id)).AsEnumerable());
+            }
 
             return new ServiceResult<ICollection<IAssignment>>(assignments.ToList());
         }

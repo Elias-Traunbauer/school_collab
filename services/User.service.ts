@@ -44,8 +44,10 @@ export async function getUser(): Promise<any> {
         if (response.status === 401) {
             throw response;
         }
+        else if (response.status === 500) {
+            throw response;
+        }
         const data = await response.json();
-        console.log("status",data);
         return data;
     } catch (error) {
         throw error;
