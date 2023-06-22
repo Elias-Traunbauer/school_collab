@@ -15,7 +15,7 @@ namespace Core.Contracts.Entities
         Subject Subject { get; set; }
         int SubjectId { get; set; }
         string Title { get; set; }
-        User User { get; set; }
+        User? User { get; set; }
         int UserId { get; set; }
     }
 }
