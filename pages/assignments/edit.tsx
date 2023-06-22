@@ -63,7 +63,7 @@ export default function AssignmentEdit({ assignmentId }) {
 
   useEffect(() => {
     async function fetchDataAsync() {
-      const assignmentId = router.query as unknown as number;
+      const assignmentId = parseInt(router.query.assignmentId as string);
       getAssignmentById(assignmentId).then((res) => {
         //subject not implemented yet
         res.subject = mockSubject;
