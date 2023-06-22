@@ -10,7 +10,6 @@ import { error } from "console";
 export default function AssignmentCreation() {
     const router = useRouter();
 
-    function finish(data:WizardResult[], setLoadingText, finishLoading){
     function finish(data: WizardResult[], setLoadingText, finishLoading) {
         const result:AssignmentDTO = {
             title: data[0].value,
