@@ -12,17 +12,11 @@ import Subject from '../../models/Subject';
 
 export default function Assignments() {
     const context = useContext(UserContext);
-    const mockGroup:Group ={
-        creatorUserId: 0,
-        description: "",
-        name: "",
-        id: 0,
-        version: ""
-      };
+
       const mockSubject:Subject = {
-        name: "",
+        name: "DBI",
         id: 0,
-        version: ""
+        version: "0"
       };
 
 
@@ -38,7 +32,7 @@ export default function Assignments() {
     useEffect(() => {
         async function fetchDataAsync() {
             getAllAssignments().then((res) => {
-                console.log(res);
+                
                 //subject not implemented yet
                 res.forEach(element => {
                     element.subject = mockSubject;
@@ -48,7 +42,7 @@ export default function Assignments() {
                 setDisplayAssignments(res);
                 
             }).catch((err) => {
-                console.log(err);
+                
             });
         }
         fetchDataAsync();

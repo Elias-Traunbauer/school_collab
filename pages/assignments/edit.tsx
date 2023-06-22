@@ -11,6 +11,7 @@ import Group from "../../models/Group";
 import Subject from "../../models/Subject";
 import UserContext from '../../components/UserContext'
 import Datepicker from "../../components/Datepicker";
+import {getAssignmentById} from '../../services/Assignment.service';
 
 export default function AssignmentEdit({ assignmentId }) {
   // TODO: fetch assignment
@@ -24,7 +25,7 @@ export default function AssignmentEdit({ assignmentId }) {
     version: ""
   };
   const mockSubject:Subject = {
-    name: "",
+    name: "DBI",
     id: 0,
     version: ""
   };
@@ -49,6 +50,8 @@ export default function AssignmentEdit({ assignmentId }) {
   };
 
 
+
+
   const [assignment, setAssignment] = useState<Assignment>(assignmentDummy);
   const [edditMode, setEdditMode] = useState(false);
   const [assignmentBackup, setAssignmentBackup] = useState<Assignment>(assignmentDummy);
@@ -59,8 +62,23 @@ export default function AssignmentEdit({ assignmentId }) {
 
 
   useEffect(() => {
-    console.log("content changed");
-  }, [content]);
+    async function fetchDataAsync() {
+      const  assignmentId = router.query as unknown as number;
+      getAssignmentById(assignmentId).then((res) => {
+        //subject not implemented yet
+        res.subject = mockSubject;
+        res.due = new Date(res.due);
+        setAssignment(res);
+        setAssignmentBackup(res);
+        setDueDate(res.due);
+        setContent(res.content);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+
+    //fetchDataAsync();
+  }, []);
   
 
 

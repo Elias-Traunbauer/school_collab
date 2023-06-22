@@ -13,13 +13,30 @@ export async function getAllAssignments(): Promise<Assignment[]> {
     }
     
     const data = await response.json();
-    console.log("data", data);
+    
     return data;
   } catch (error) {
-    console.error('Error fetching subjects:', error);
+    
     throw error;
   }
 };
+
+export async function getAssignmentById(id: number): Promise<Assignment> {
+  try {
+    const response = await fetch(url+'/'+id, {
+      method: 'GET'
+    });
+    if (response.status === 401) {
+      throw response;
+    }
+    const data = await response.json();
+    
+    return data;
+  } catch (error) {
+    
+    throw error;
+  }
+}
 
 export async function createAssignment(assignment: AssignmentDTO){
   try {
@@ -30,6 +47,7 @@ export async function createAssignment(assignment: AssignmentDTO){
       },
       body: JSON.stringify(assignment)
     });
+
     if (response.status === 200) {
       
       const contentType = response.headers.get('content-type');
@@ -41,11 +59,12 @@ export async function createAssignment(assignment: AssignmentDTO){
         }
 
       }
+      return response;
     } else {
       throw response;
     }
   } catch (error) {
-    console.error('Error fetching subjects:', error);
+    
     throw error;
   }
 }

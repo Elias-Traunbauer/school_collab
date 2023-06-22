@@ -19,12 +19,11 @@ export default function AssignmentCreation() {
             groupId: data[3].value,
             subjectId: data[2].value,
         }
-        console.log(result);
 
         createAssignment(result).then((res) => {
-            console.log(res);
+            console.log("res",res);
         }).catch((error) => {
-            console.error(error);
+            console.log(error);
         });
 
 
