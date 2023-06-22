@@ -24,6 +24,15 @@ export default function UserSelectionList() {
             tmpusers.push(u);
         }
 
+        tmpusers.push({
+            username: `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`,
+            firstName: `First${count+1}`,
+            lastName: `Last${count+1}`,
+            email: `user${count+1}@example.com`,
+            id: count+1,
+            version: '1.0'
+          });
+
         return tmpusers;
     }
 
@@ -59,9 +68,6 @@ export default function UserSelectionList() {
         <div className={styles.container}>
             <div>
                 <input onInput={handleSearch} type="text" placeholder='Suchen...' />
-                <button>
-                    <Image src={'/person_add.svg'} alt={'Add'} width={30} height={30}></Image>
-                </button>
             </div>
 
             <div className={styles.listContainer}>

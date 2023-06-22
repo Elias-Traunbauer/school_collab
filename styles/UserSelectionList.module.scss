@@ -1,5 +1,5 @@
 .container{
-    width: 50%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -79,6 +79,7 @@
 .listContainer{
     width: 100%;
     max-height: 73%;
+    min-height: 10em;
     overflow-y: scroll;
     border-radius: .3em;
 
@@ -146,13 +147,22 @@
             justify-content: flex-start;
             align-items: center;
             gap: .5em;
+            width: 80%;
 
             &>img{
-                width: 2.5em;
-                height: 2.5em;
+                width: 3.5em;
+                height: 3.5em;
                 border-radius: 50%;
                 padding: .2em;
                 border-radius: 10em;
+            }
+
+            &>p{
+                //add elipsis
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 80%;
             }
         }
     }
