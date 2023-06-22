@@ -1,31 +1,69 @@
 import styles from '../../styles/Assignment.module.scss'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import AssignmentCard from '../../components/AssignmentCard';
 import Image from 'next/image';
 import { useRouter } from 'next/router'
 import Assignment from '../../models/Assignment';
 import {getAllAssignments} from '../../services/Assignment.service';
+import UserContext from '../../components/UserContext'
+import { get } from 'http';
+import Group from '../../models/Group';
+import Subject from '../../models/Subject';
 
 export default function Assignments() {
+    const context = useContext(UserContext);
+    const mockGroup:Group ={
+        creatorUserId: 0,
+        description: "",
+        name: "",
+        id: 0,
+        version: ""
+      };
+      const mockSubject:Subject = {
+        name: "",
+        id: 0,
+        version: ""
+      };
+      //mock
+      let mockAssignment:Assignment = {
+        title: "...",
+        description: "",
+        content: "# Hallo",
+        created: new Date(),
+        modified: new Date(),
+        due: new Date(),
+        group: mockGroup,
+        subject: mockSubject,
+        user: context.userContext,
+        userId: 4,
+        groupId: 0,
+        subjectId: 0,
+        id: 0,
+        version: "0",
+        files: [],
+        instructions: [],
+      };
 
-    const [assignmentData, setAssignmentData] = useState<Assignment[]>([]);
-    const [displayAssignments, setDisplayAssignments] = useState([]);
+    const [assignmentData, setAssignmentData] = useState<Assignment[]>([mockAssignment]);
+    const [displayAssignments, setDisplayAssignments] = useState<Assignment[]>([mockAssignment]);
     const router = useRouter();
     const [searched, setSearched] = useState(false);
     const [searchValue, setSearchValue] = useState('');
 
+
+
+
     useEffect(() => {
         async function fetchDataAsync() {
-            try {
-                const tmpAssignments = await getAllAssignments();
-                setAssignmentData(tmpAssignments);
-                setDisplayAssignments(tmpAssignments);
-              } catch (error) {
-                // Handle error
-            }
+            getAllAssignments().then((res) => {
+                setAssignmentData(res);
+                setDisplayAssignments(res);
+                
+            }).catch((err) => {
+                
+            });
         }
-        fetchDataAsync();
-
+        //fetchDataAsync();
     }, []);
 
     function resetSearch(){

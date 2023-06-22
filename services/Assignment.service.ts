@@ -1,6 +1,6 @@
 import Assignment from "../models/Assignment";
 
-const url = 'https://localhost:7119/api/Assignment';
+const url = '/api/Assignment';
 
 export const getAllAssignments = async (): Promise<Assignment[]> => {
     try {

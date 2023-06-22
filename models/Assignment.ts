@@ -18,6 +18,7 @@ export default interface Assignment extends DataBaseEntity{
     due: Date;
 
     files?: File[];
+    instructions?: File[];
 
     group: Group;
 

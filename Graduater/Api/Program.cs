@@ -17,6 +17,15 @@ namespace Api
             ApiConfig apiConfig = new();
             builder.Configuration.Bind("ApiConfig", apiConfig);
             builder.Services.AddSingleton(apiConfig);
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+            builder.Services.AddCors(o => o.AddPolicy(MyAllowSpecificOrigins, builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+            }));
 
             builder.Services.AddSingleton<IJsonWebTokenService, JsonWebTokenService>();
             builder.Services.AddSingleton<IRandomKeyService, RandomKeyService>();
@@ -42,7 +51,7 @@ namespace Api
             }
 
             app.UseHsts();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseUserAuthentication();
             app.UseUserAuthorization();
