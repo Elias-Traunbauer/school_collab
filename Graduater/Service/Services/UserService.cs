@@ -240,5 +240,10 @@ namespace Service.Services
         {
             return new ServiceResult<User?>((User?)await _unitOfWork.UserRepository.GetUserByIdAsync(id));
         }
+
+        public async Task<IServiceResult<ICollection<IUser>>> SearchUser(string username)
+        {
+            return new ServiceResult<ICollection<IUser>>((await _unitOfWork.UserRepository.SearchUserAsync(username)).Cast<IUser>().ToList());
+        }
     }
 }

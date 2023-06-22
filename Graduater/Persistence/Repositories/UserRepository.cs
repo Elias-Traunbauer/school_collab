@@ -1,6 +1,8 @@
 ﻿using Core.Contracts.Entities;
+using Core.Contracts.Models;
 using Core.Contracts.Repositories;
 using Core.Entities.Database;
+using Core.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
@@ -81,6 +83,11 @@ namespace Persistence.Repositories
         {
             var users = _context.Users.Where(x => x.Username == username);
             return await users.SingleOrDefaultAsync();
+        }
+
+        public async Task<ICollection<IUser>> SearchUserAsync(string username)
+        {
+            return await _context.Users.Where(s => s.Username.ToLower().Contains(username.ToLower())).Cast<IUser>().ToListAsync();
         }
     }
 }

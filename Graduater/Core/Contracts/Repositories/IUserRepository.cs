@@ -1,4 +1,5 @@
 ﻿using Core.Contracts.Entities;
+using Core.Contracts.Models;
 using Core.Entities.Database;
 
 namespace Core.Contracts.Repositories
@@ -34,5 +35,6 @@ namespace Core.Contracts.Repositories
         Task CreateUserAsync(User user);
 
         Task<bool> DeleteUserAsync(int id);
+        Task<ICollection<IUser>> SearchUserAsync(string username);
     }
 }

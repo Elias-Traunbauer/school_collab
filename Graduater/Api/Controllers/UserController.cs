@@ -1,4 +1,5 @@
 ﻿using Api.Attributes;
+using Api.DataTransferObjects;
 using Api.Helpers;
 using Core.Contracts.Models;
 using Core.Contracts.Services;
@@ -44,6 +45,35 @@ namespace Api.Controllers
             return Ok();
         }
 
+        [HttpGet("{id}")]
+        [EndpointPermission(UserPermission.View)]
+        [RateLimit(maxRequestsPerMinute: 20, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
+        public async Task<IActionResult> GetUser([FromRoute] int id, [FromServices] IUserService userService)
+        {
+            var user = (await userService.GetUser(id)).Value;
+            if (user == null)
+            {
+                return Ok(
+                    new
+                    {
+                        Status = 404
+                    });
+            }
+            return Ok(
+                        (UserDTO) user!
+                   );
+        }
+
+        [HttpGet("search/{query}")]
+        public async Task<IActionResult> SearchUser([FromRoute] string query, [FromServices] IUserService userService)
+        {
+            var users = (await userService.SearchUser(query)).Value;
+
+            return Ok(
+                      users!.Cast<UserDTO>()
+                   );
+        }
+
         [HttpPut]
         [RateLimitAttribute(maxRequestsPerMinute: 5, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> UpdateUser([FromBody] User updateInfo, [FromServices] IUserService userService)
@@ -65,7 +95,7 @@ namespace Api.Controllers
             return Ok();
         }
 
-        public record UserDTO(
+        public record UserDataDTO(
             int Id,
             string Username,
             string Email,
@@ -84,7 +114,7 @@ namespace Api.Controllers
                 return NotFound();
             }
             return Ok(
-                 new UserDTO(
+                 new UserDataDTO(
                         user.Id,
                         user.Username,
                         user.Email,

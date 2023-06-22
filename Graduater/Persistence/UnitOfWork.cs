@@ -14,6 +14,7 @@ namespace Persistence
         private GroupRepository? _groupRepository;
         private FileRepository? _fileRepository;
         private AssignmentRepository? _assignmentRepository;
+        private SubjectRepository? _subjectRepository;
 
         public UnitOfWork()
         {
@@ -53,6 +54,14 @@ namespace Persistence
             {
                 _groupRepository ??= new GroupRepository(_context);
                 return _groupRepository;
+            }
+        }
+
+        public ISubjectRepository SubjectRepository {
+            get
+            {
+                _subjectRepository ??= new SubjectRepository(_context);
+                return _subjectRepository;
             }
         }
 
