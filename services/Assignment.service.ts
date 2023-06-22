@@ -8,7 +8,7 @@ export async function getAllAssignments(): Promise<Assignment[]> {
     const response = await fetch(url+'/related', {
       method: 'GET'
     });
-    if (response.status === 401) {
+    if (response.status != 200) {
       throw response;
     }
     
