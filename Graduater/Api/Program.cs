@@ -25,8 +25,9 @@ namespace Api
 
             builder.Services.AddScoped<IFileService, FileService>();
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAssignmentService, AssignmentService>();
+            builder.Services.AddScoped<IGroupService, GroupService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

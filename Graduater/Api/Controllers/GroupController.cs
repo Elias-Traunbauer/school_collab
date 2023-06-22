@@ -2,6 +2,7 @@
 using Api.Helpers;
 using Core.Contracts.Models;
 using Core.Contracts.Services;
+using Core.Entities.Database;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
 
@@ -10,11 +11,11 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class GroupController : Controller
+    public class AssignmentController : Controller
     {
         private readonly ApiConfig _config;
 
-        public GroupController(ApiConfig configuration)
+        public AssignmentController(ApiConfig configuration)
         {
             _config = configuration;
         }
@@ -22,7 +23,7 @@ namespace Api.Controllers
         [HttpGet("related")]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
         [RateLimitAttribute(20)]
-        public async Task<IActionResult> GetAssignmentsForUser([FromServices] IAssignmentService assignmentService)
+        public async Task<IActionResult> GetAssignmentsForUser([FromServices] IGroupService groupService)
         {
             if (!ModelState.IsValid)
             {
@@ -30,7 +31,7 @@ namespace Api.Controllers
             }
 
             var user = HttpContext.GetUserInfo().User!;
-            var result = await assignmentService.GetAssignmentsForUserAsync(user.Id);
+            var result = await groupService.GetGroupsForUserAsync(user.Id);
 
             if (result.Status != 200)
             {
@@ -43,7 +44,7 @@ namespace Api.Controllers
         [HttpPost]
         [EndpointPermission(Core.Entities.Database.UserPermission.Create)]
         [RateLimit(10)]
-        public async Task<IActionResult> CreateAssignment([FromBody] AssignmentPostPayload assignmentPostPayload, [FromServices] IAssignmentService assignmentService)
+        public async Task<IActionResult> CreateGroup([FromBody] Group group, [FromServices] IGroupService groupService)
         {
             if (!ModelState.IsValid)
             {
@@ -51,40 +52,25 @@ namespace Api.Controllers
             }
 
             var user = HttpContext.GetUserInfo().User!;
-            var result = await assignmentService.CreateAssignmentAsync(assignmentPostPayload, user.Id);
+            group.CreatorUserId = user.Id;
+
+            var result = await groupService.CreateGroupAsync(group);
 
             if (result.Status != 200)
             {
                 return Ok(result);
             }
 
-            return Ok();
+            return Ok(new
+            {
+                Id = result.Value
+            });
         }
 
-        [HttpPut]
-        [EndpointPermission(Core.Entities.Database.UserPermission.View)]
-        [RateLimit(20)]
-        public async Task<IActionResult> UpdateAssignment([FromServices] IAssignmentService assignmentService)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = HttpContext.GetUserInfo().User!;
-            var result = await assignmentService.GetAssignmentsForUserAsync(user.Id);
-
-            if (result.Status != 200)
-            {
-                return Ok(result);
-            }
-
-            return Ok(result.Value);
-        }
-
-        [HttpDelete("{assignmentId}")]
+        [HttpDelete("{groupId}")]
+        [EndpointPermission(Core.Entities.Database.UserPermission.Delete)]
         [RateLimitAttribute(10)]
-        public async Task<IActionResult> DeleteAssignment(int assignmentId, [FromServices] IAssignmentService assignmentService)
+        public async Task<IActionResult> DeleteGroup(int groupId, [FromServices] IGroupService groupService)
         {
             if (!ModelState.IsValid)
             {
@@ -92,8 +78,17 @@ namespace Api.Controllers
             }
 
             var user = HttpContext.GetUserInfo().User!;
+            var group = await groupService.GetGroupAsync(groupId);
+            if (user.Id != group.Value.CreatorUserId)
+            {
+                return Unauthorized(new
+                {
+                    Message = "You are not the creator of this group."
+                });
+            }
+            var result = await groupService.DeleteGroupAsync(groupId);
 
-            return Ok();
+            return Ok(result);
         }
     }
 }

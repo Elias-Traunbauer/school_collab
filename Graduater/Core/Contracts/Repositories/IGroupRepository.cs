@@ -13,6 +13,6 @@ namespace Core.Contracts.Repositories
 
         Task CreateAsync(Group group);
         Task UpdateAsync(Group group);
-        Task DeleteAsync(int id);
+        Task<bool> DeleteAsync(int id);
     }
 }

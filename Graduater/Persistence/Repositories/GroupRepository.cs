@@ -24,9 +24,10 @@ namespace Persistence.Repositories
             await _context.Groups.AddAsync(group);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             _context.Groups.Remove(_context.Groups.Find(id));
+            return true;
         }
 
         public async Task<IEnumerable<IGroup>> GetAllAsync()
