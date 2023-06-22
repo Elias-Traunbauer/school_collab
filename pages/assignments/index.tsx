@@ -28,7 +28,7 @@ export default function Assignments() {
       let mockAssignment:Assignment = {
         title: "...",
         description: "",
-        content: "",
+        content: "# Hallo",
         created: new Date(),
         modified: new Date(),
         due: new Date(),
@@ -58,9 +58,9 @@ export default function Assignments() {
             getAllAssignments().then((res) => {
                 setAssignmentData(res);
                 setDisplayAssignments(res);
-                console.log("Assignments",res);
+                
             }).catch((err) => {
-                console.error(err);
+                
             });
         }
         //fetchDataAsync();

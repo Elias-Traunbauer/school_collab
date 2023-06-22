@@ -8,7 +8,7 @@ export default function CreateAssignment() {
     const router = useRouter();
 
     function finish(data:WizardResult[], setLoadingText, finishLoading){
-        console.log(data);
+        
         setLoadingText("Loading");
         setTimeout(() => {
             finishLoading();
