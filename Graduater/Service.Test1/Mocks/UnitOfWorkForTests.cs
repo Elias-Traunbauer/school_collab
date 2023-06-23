@@ -19,6 +19,8 @@ namespace Service.Test.Mocks
 
         public IGroupRepository GroupRepository { get; set; }
 
+        public ISubjectRepository SubjectRepository => throw new NotImplementedException();
+
         public UnitOfWorkForTests()
         {
             _appDbContext = new ApplicationDbContextForTesting();
