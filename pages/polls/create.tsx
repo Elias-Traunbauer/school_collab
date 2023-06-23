@@ -33,13 +33,13 @@ export default function PollCreate() {
       finishLoading();
       setTimeout(() => {
         //Route to PollList
-        router.push("/poll/list");
+        router.push("/polls/");
       }, 1000);
     }, 2000);
   }
 
   function backToList(){
-    router.push('/poll/list');
+    router.push('/polls/');
   }
 
   return (
