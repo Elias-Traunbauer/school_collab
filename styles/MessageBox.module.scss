@@ -1,0 +1,45 @@
+.container {
+    position: fixed;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+    padding: 4rem 1rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow-y: auto;
+    z-index: 1000;
+
+    & > div {
+        pointer-events: auto;
+        animation: msg 5s forwards;
+        background-color: rgb(53, 53, 53);
+        border-radius: 0.5rem;    
+        padding: 1rem;
+        max-width: 20vw;
+        overflow: hidden;
+        margin: 0 0 1rem 0;
+
+        &:hover {
+            animation: emptyanim;
+            filter: brightness(1.2);
+        }
+    }
+}
+
+@keyframes msg {
+    80% {
+        max-height: 100vh;
+        opacity: 1;
+        margin: 0 0 1rem 0;
+        padding: 1rem;
+    }
+    100% {
+        max-height: 0;
+        opacity: 0;
+        margin: 0;
+        padding: 0rem 1rem 0 1rem;
+    }
+}
+
+@keyframes emptyanim {}

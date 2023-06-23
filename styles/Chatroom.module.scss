@@ -361,8 +361,7 @@
             height: 6em;
             width: 6em;
             border-radius: 10em;
-            background-color: var(--color_main);
-            padding: .3em;
+
             &:hover{
                 cursor: pointer;
                 filter: brightness(.8);
@@ -655,11 +654,12 @@
     border-top-left-radius: .5em;
     border-top-right-radius: .5em;
     overflow-y: hidden;
+    --fileBackground: rgb(17, 17, 17);
 
 
     &> div{
         width: 90%;
-        background-color: var(--background);
+        background-color: var(--fileBackground);
         filter: brightness(1); 
         border-radius: .3em;
 
@@ -667,15 +667,19 @@
             margin: .5em 0 .5em .5em;
         }
 
-        & >div >div:hover{
-            background-color: var(--background) !important;
-            filter: brightness(.8);
-        }
-
         &>div{
             width: 100%;
             max-height: 9.4em;
             overflow-y: auto;
+
+            &>div{
+                background-color: var(--fileBackground);
+
+                &>div:hover{
+                    background-color: var(--fileBackground) !important;
+                    filter: brightness(1.3) !important;
+                }
+            }
         }
     }
 }
@@ -712,4 +716,8 @@
 }
 .highlight{
     background-color: red;
+}
+.defaultProfile{
+    background-color: var(--color_main);
+    padding: .3em;
 }

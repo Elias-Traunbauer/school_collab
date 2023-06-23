@@ -49,9 +49,6 @@ export default function AssignmentEdit({ assignmentId }) {
     instructions: [],
   };
 
-
-
-
   const [assignment, setAssignment] = useState<Assignment>(assignmentDummy);
   const [edditMode, setEdditMode] = useState(false);
   const [assignmentBackup, setAssignmentBackup] = useState<Assignment>(assignmentDummy);
@@ -81,7 +78,6 @@ export default function AssignmentEdit({ assignmentId }) {
   }, []);
 
 
-
   function handleUploadFilesUpdate(list) {
     setAssignment({
       ...assignment,
@@ -96,7 +92,6 @@ export default function AssignmentEdit({ assignmentId }) {
   }
   function handleAcceptedFiles(list) {
     setAcceptedFilextentions(list);
-
   }
 
   function handleCancelEdit() {
@@ -115,7 +110,6 @@ export default function AssignmentEdit({ assignmentId }) {
     backup.content = textarea.value;
     backup.due = dueDate;
     backup.title = (document.getElementById("titleInput") as HTMLInputElement).value;
-
     setAssignmentBackup(backup);
     setEdditMode(true);
   }
@@ -136,7 +130,6 @@ export default function AssignmentEdit({ assignmentId }) {
     const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
     const title = (document.getElementById("titleInput") as HTMLInputElement)
     const dueDate = new Date();
-
     router.push("/assignments");
   }
 
@@ -146,7 +139,6 @@ export default function AssignmentEdit({ assignmentId }) {
 
   function handleDateChange(date) {
     setDueDate(date);
-
   }
 
   function handleDeleteUploadFile(key) {
@@ -188,7 +180,6 @@ export default function AssignmentEdit({ assignmentId }) {
                 <Image src="/edit.svg" width={20} height={20} alt={"edit"}></Image>
               </button>
             }
-
           </div>
         </div>
         <div className={styles.countdownContainer}>

@@ -46,16 +46,6 @@
 .ownMessage{
     align-self: flex-end;
     background-color: var(--color_main)!important;
-
-    & > .fileContainer{
-        background-color: var(--color_main_dark)!important;
-        filter: brightness(0.8);
-
-        & > div > div:hover{
-            background-color: var(--color_main_dark)!important;
-            filter: brightness(0.9);
-        }
-    }
 }
 
 .head{
@@ -153,6 +143,7 @@
 }
 
 .answer{
+    min-width: 5em;
     width: 100%;
     display: flex;
     flex-direction: column;
