@@ -51,10 +51,8 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    border-radius: .2em;
     gap: .2em;
     cursor: pointer;
-    background-color: var(--background_1);
 }
 
 .Listcontainer > div {
@@ -85,8 +83,7 @@
 
 
 .ListContentcontainer:hover {
-    background-color: var(--background_1);
-    filter: brightness(130%);
+    filter: brightness(120%);
 
     & p {
         text-decoration: underline 1px;
@@ -99,6 +96,7 @@
 }
 
 .ListContentcontainer{
+    background-color: var(--background_1);
     padding: .3em;
     &>img{
         width: 2.5em;

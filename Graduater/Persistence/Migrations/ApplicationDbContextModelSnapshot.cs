@@ -107,6 +107,9 @@ namespace Persistence.Migrations
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Joined")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -548,6 +551,10 @@ namespace Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ShortName")
                         .IsRequired()
                         .HasColumnType("longtext");
 

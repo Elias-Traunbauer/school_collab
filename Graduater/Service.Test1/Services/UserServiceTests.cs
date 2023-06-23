@@ -64,7 +64,8 @@ namespace Service.Services.Tests
         {
             IUser user = new User()
             {
-                Email = "test@email.com"
+                Email = "test@email.com",
+                IsEmailVerified = true
             };
 
             var userRepository = new Mock<IUserRepository>();
@@ -90,11 +91,12 @@ namespace Service.Services.Tests
             {
                 Username = "testUsername",
                 PasswordHash = PasswordServiceMock.HashPassword("", ""),
-                Sessions = new List<UserSession>()
+                Sessions = new List<UserSession>(),
+                IsEmailVerified = true
             };
 
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetUserByUsernameAsync("testUsername"))
+            userRepository.Setup(x => x.GetUserByUsernameWithSessionsAsync("testUsername"))
                 .ReturnsAsync(user);
 
             var unitOfWork = new Mock<IUnitOfWork>();
@@ -123,11 +125,12 @@ namespace Service.Services.Tests
             {
                 Email = "test@email.com",
                 PasswordHash = PasswordServiceMock.HashPassword("", ""),
-                Sessions = new List<UserSession>()
+                Sessions = new List<UserSession>(),
+                IsEmailVerified = true
             };
 
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetUserByEmailAsync("test@email.com"))
+            userRepository.Setup(x => x.GetUserByEmailWithSessionsAsync("test@email.com"))
                 .ReturnsAsync(user);
 
             var unitOfWork = new Mock<IUnitOfWork>();
@@ -139,7 +142,7 @@ namespace Service.Services.Tests
             var res = await userService.LoginAsync(new Core.Entities.Models.UserLoginPayload()
             {
                 Identifier = "test@email.com",
-                Password = "doesntMatter"
+                Password = "doesntMatterBecauseHashIsRigged"
             });
 
             Assert.AreEqual(200, res.ServiceResult.Status);
@@ -248,13 +251,14 @@ namespace Service.Services.Tests
             IUser user = new User()
             {
                 Email = "test@email.com",
-                PasswordHash = PasswordServiceMock.HashPassword("", "")
+                PasswordHash = PasswordServiceMock.HashPassword("", ""),
+                IsEmailVerified = true
             };
 
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetUserByEmailAsync("test@email.com"))
+            userRepository.Setup(x => x.GetUserByEmailWithSessionsAsync("test@email.com"))
                 .ReturnsAsync(user);
-            userRepository.Setup(x => x.GetUserByUsernameAsync(It.IsAny<string>()))
+            userRepository.Setup(x => x.GetUserByUsernameWithSessionsAsync(It.IsAny<string>()))
                 .ReturnsAsync((User?)null);
             userRepository.Setup(x => x.CreateUserAsync(It.IsAny<User>())).Verifiable();
 
@@ -284,13 +288,14 @@ namespace Service.Services.Tests
             IUser user = new User()
             {
                 Username = "test",
-                PasswordHash = PasswordServiceMock.HashPassword("", "")
+                PasswordHash = PasswordServiceMock.HashPassword("", ""),
+                IsEmailVerified = true
             };
 
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetUserByEmailAsync(It.IsAny<string>()))
+            userRepository.Setup(x => x.GetUserByEmailWithSessionsAsync(It.IsAny<string>()))
                 .ReturnsAsync((User?)null);
-            userRepository.Setup(x => x.GetUserByUsernameAsync("test"))
+            userRepository.Setup(x => x.GetUserByUsernameWithSessionsAsync("test"))
                 .ReturnsAsync(user);
             userRepository.Setup(x => x.CreateUserAsync(It.IsAny<User>())).Verifiable();
 
@@ -446,11 +451,12 @@ namespace Service.Services.Tests
                         SessionKey = "testKey",
                         Expires = DateTime.UtcNow.AddMinutes(5)
                     }
-                }
+                },
+                IsEmailVerified = true
             };
 
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetUserByIdAsync(0))
+            userRepository.Setup(x => x.GetUserByIdWithSessionsAsync(0))
                 .ReturnsAsync(user);
 
             var unitOfWork = new Mock<IUnitOfWork>();

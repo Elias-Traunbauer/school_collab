@@ -52,6 +52,7 @@ export default function Datepicker({ id, inputChanged, title = 'date', dateParam
             }
         }
 
+        inputChanged(tmpDate);
         setDate(tmpDate);
         calc(tmpDate);
     }
@@ -266,7 +267,7 @@ export default function Datepicker({ id, inputChanged, title = 'date', dateParam
         }
 
         e.target.classList.remove(styles.errorInput);
-        console.log(tmpdate);
+        inputChanged(tmpdate);
         setDate(tmpdate);
         calc(tmpdate);
     }

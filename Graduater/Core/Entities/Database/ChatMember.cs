@@ -9,6 +9,8 @@ public class ChatMember : DatabaseEntity, IChatMember
 
     public int UserId { get; set; }
 
+    public DateTime Joined { get; set; }
+
     [ForeignKey(nameof(ChatId))]
     public virtual Chat? Chat { get; set; }
 

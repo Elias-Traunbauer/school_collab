@@ -11,8 +11,6 @@ public class Group : DatabaseEntity, IGroup
 
     public int CreatorUserId { get; set; }
 
-    public virtual ICollection<Assignment>? Assignments { get; set; }
-
     [ForeignKey(nameof(CreatorUserId))]
     public virtual User? CreatorUser { get; set; }
 

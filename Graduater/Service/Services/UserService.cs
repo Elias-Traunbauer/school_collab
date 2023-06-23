@@ -24,7 +24,7 @@ namespace Service.Services
         }
 
         /// <summary>
-        /// Only returns ServiceResult.Completed for privacy and security reasons
+        /// Only returns ServiceResult.Completed for security reasons
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
@@ -234,6 +234,11 @@ namespace Service.Services
         {
             var user = await _unitOfWork.UserRepository.GetUserByEmailAsync(email);
             return new ServiceResult<bool>(user != null);
+        }
+
+        public async Task<IServiceResult<User?>> GetUser(int id)
+        {
+            return new ServiceResult<User?>((User?)await _unitOfWork.UserRepository.GetUserByIdAsync(id));
         }
     }
 }
