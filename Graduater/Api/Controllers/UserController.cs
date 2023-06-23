@@ -31,7 +31,7 @@ namespace Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
             ILoginResult result = await userService.LoginAsync(loginInformation);
 
             if (result.ServiceResult.Status != 200)
@@ -63,6 +63,37 @@ namespace Api.Controllers
             //HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, result.AccessToken!, DateTime.Now.Add(_config.AccessTokenLifetime));
             //HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, result.RefreshToken!, DateTime.Now.Add(_config.RefreshTokenLifetime));
             return Ok();
+        }
+
+        public record UserDTO(
+            int Id,
+            string Username,
+            string Email,
+            string FirstName,
+            string LastName,
+            int? ProfilePictureId,
+            DateTime CreatedAt
+        );
+
+        [HttpGet]
+        public async Task<IActionResult> GetUser([FromServices] IUserService userService)
+        {
+            var user = (await userService.GetUser(HttpContext.GetUserInfo().User!.Id)).Value;
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(
+                 new UserDTO(
+                        user.Id,
+                        user.Username,
+                        user.Email,
+                        user.FirstName,
+                        user.LastName,
+                        user.ProfilePictureId,
+                        user.RegisteredAt
+                     )
+                );
         }
 
         [HttpPost("register")]

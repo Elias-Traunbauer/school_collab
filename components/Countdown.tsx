@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 
 /// Countdown Component
 /// @param {Date} date - Date to count down to
-export default function Countdown({ date }) {
+export default function Countdown({ date }: { date: Date }) {
 
     function formatDate(seconds) {
 

@@ -2,6 +2,7 @@
 using Api.Helpers;
 using Core.Contracts.Models;
 using Core.Contracts.Services;
+using Core.Entities.Database;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
 
@@ -37,12 +38,12 @@ namespace Api.Controllers
                 return Ok(result);
             }
 
-            return Ok(result.Value);
+            return Ok(result.Value!.Cast<Assignment>());
         }
 
         [HttpPost]
         [EndpointPermission(Core.Entities.Database.UserPermission.Create)]
-        [RateLimitAttribute(10)]
+        [RateLimit(10)]
         public async Task<IActionResult> CreateAssignment([FromBody] AssignmentPostPayload assignmentPostPayload, [FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
@@ -63,7 +64,7 @@ namespace Api.Controllers
 
         [HttpPut]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
-        [RateLimitAttribute(20)]
+        [RateLimit(20)]
         public async Task<IActionResult> UpdateAssignment([FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)

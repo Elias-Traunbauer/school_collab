@@ -18,6 +18,7 @@ public class Assignment : DatabaseEntity, IAssignment
     public DateTime Due { get; set; }
 
     public virtual List<File>? Files { get; set; }
+    public virtual List<File>? Instructions { get; set; }
 
     [ForeignKey(nameof(GroupId))]
     public virtual Group Group { get; set; } = null!;
@@ -26,7 +27,7 @@ public class Assignment : DatabaseEntity, IAssignment
     public virtual Subject Subject { get; set; } = null!;
 
     [ForeignKey(nameof(UserId))]
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; } = null!;
 
     public int UserId { get; set; }
 
