@@ -191,7 +191,7 @@ export default function Wizard({ returnPath = '/', callback, contentData = [[new
             else if (contentData[formIndex][indx].type == 'date') {
                 tmpRes.value = parseDate((item.querySelector('input') as HTMLInputElement).value);
             }
-            else if (contentData[formIndex][indx].type == 'markdown') {
+            else if (contentData[formIndex][indx].type == 'markdown' || contentData[formIndex][indx].type == 'md') {
                 tmpRes.value = (item.querySelector('textarea') as HTMLTextAreaElement).value;
             }
             else {
