@@ -46,7 +46,7 @@ export default function Login() {
         <h1>Login</h1>
         <div className={styles.inputfield}>
           <label>Username</label>
-          <input required type="text" defaultValue={"test"} placeholder="Username" />
+          <input required type="text" defaultValue={"user1"} placeholder="Username" />
             {error.Identifier && error.Identifier.length > 0 && error.Identifier.map((err, index) => {
                 return (
                     <p key={index} className={styles.errorMessage}>
