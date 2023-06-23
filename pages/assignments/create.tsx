@@ -54,7 +54,6 @@ export default function AssignmentCreation() {
             console.log(error);
         });
 
-
         setLoadingText("Loading");
         setTimeout(() => {
             finishLoading();
