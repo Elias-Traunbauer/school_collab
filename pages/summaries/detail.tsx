@@ -18,6 +18,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
     const [backupSummary, setBackupSummary] = useState(summary);
     const router = useRouter(); 
     const subject:string = "DBI";
+    const [fileUpdateDate, setFileUpdateDate] = useState(new Date());
 
     const mockUser = {
         name: 'Yannie',
@@ -29,6 +30,10 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
 
     function handleFilesUpdated(updatedfiles: File[]) {
         setFiles([...files,...updatedfiles]);
+    }
+
+    function downloadFile(file){
+        console.log(file);
     }
 
     function deleteFileItem(e, key) {
@@ -48,12 +53,13 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
     }
 
     function handleSave() {
-        setEditMode(false);
         const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
         editCheckbox.checked = false;
-        summary.title = (document.getElementsByClassName(styles.title)[0] as HTMLInputElement).value;
+        summary.title = (document.getElementById('SumTitle') as HTMLInputElement).value;
         summary.description = (document.getElementsByClassName(styles.MarkdownEditor)[0] as HTMLInputElement).value;
         summary.files = files;
+
+        setEditMode(false);
         setSummary(summary);
     }
 
@@ -64,6 +70,16 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
         setSummary(backupSummary);
     }
 
+    function printDate(date: Date) {
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth();
+        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+        const min = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+
+        return `${day}.${month}.${year} ${hour}:${min}`;
+    }
+
 
     return(
         <div className={styles.container}>
@@ -72,7 +88,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
                     <div>
                         {
                             editMode ?
-                            <input className={styles.title} defaultValue={summary.title}></input>
+                            <input id='SumTitle' className={styles.title} defaultValue={summary.title}></input>
                             :
                             <h1>{summary.title}</h1>
                         }
@@ -83,7 +99,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
                     </div>
             </div>
             <div className={styles.MarkdownEditor}>
-                <MarkdownEditor defaultText={summary.description} isEditable={true}></MarkdownEditor>
+                <MarkdownEditor containerWidth={editMode?50:80} defaultText={summary.description} isEditable={editMode}></MarkdownEditor>
             </div>
 
             {
@@ -97,7 +113,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
                 <div>
                     <div>
                         <p>Files</p>
-                        <span>download Files</span>
+                        <span>download all Files</span>
                     </div>
                 </div>
                 
@@ -106,7 +122,7 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
                     files.length > 0 ?
                     summary.files.map((file, index) => {
                         return(
-                            <FileListObject key={"FileItem"+index} file={file} asCard={false}  deleteFunction={(e)=>deleteFileItem(e,index)} itemKey={index}></FileListObject>
+                            <FileListObject key={"FileItem"+index} file={file} asCard={false}  downloadabel={!editMode} downloadFunction={()=>downloadFile(file)} deleteFunction={(e)=>deleteFileItem(e,index)} itemKey={index}></FileListObject>
                         );
                     })
                     :
@@ -118,6 +134,9 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
                         }
                     </div>
                 }
+                </div>
+                <div>
+                    <p>last updated <span>{printDate(fileUpdateDate)}</span></p>
                 </div>
             </div>
             

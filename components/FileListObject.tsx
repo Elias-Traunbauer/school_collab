@@ -29,8 +29,16 @@ export default function FileListObject({
     return res;
   }
 
-  function uploadItem() {
+  function uploadItem(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     downloadFunction(itemKey);
+    
+    // get child element
+    const element = e.target as HTMLElement;
+    const child = element.children[0] as HTMLImageElement;
+    // change image to check.svg
+    child.src = "/checklist.svg";
+    
+
   }
 
   function deleteItem(e) {
@@ -60,7 +68,7 @@ export default function FileListObject({
             ></Image>
             <p>{file.name}</p>
             {downloadabel ? (
-              <div onClick={uploadItem} className={styles.deletContainer}>
+              <div onClick={(e)=>uploadItem(e)} className={styles.deletContainer}>
                 <Image
                   alt="download"
                   width={30}

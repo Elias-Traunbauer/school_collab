@@ -227,7 +227,7 @@ export default function MarkdownEditor({handleFromOutside = false,setText,isEdit
               </div>
             </div>
             :
-              <div className={styles.content}>
+              <div style={{ width: containerWidth + "%" }} className={styles.content}>
                 <textarea hidden id='textArea' defaultValue={defaultText}></textarea>  
                 {
                   mdText.length > 0 ?
