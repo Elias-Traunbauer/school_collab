@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import MarkdownEditor from '../../components/MarkdownEditor';
-import Voting from '../voting';
-import VotingComponent from '../../components/VotingComponent';
-import styles from "../../styles/SummaryDetail.module.scss";
-import FileUpload from '../../components/FileUpload';
-import FileListObject from '../../components/FileListObject';
+import MarkdownEditor from '../../../components/MarkdownEditor';
+import Voting from '../../voting';
+import VotingComponent from '../../../components/VotingComponent';
+import styles from "../../../styles/SummaryDetail.module.scss";
+import FileUpload from '../../../components/FileUpload';
+import FileListObject from '../../../components/FileListObject';
 import { useRouter } from 'next/router';
 export default function SummaryDetail({ post = {author:'Yannie',title:'Info sssssssssssssssssssssssssssssssssssssssssssssss sssssssssss',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
     const [editMode, setEditMode] = useState(false);

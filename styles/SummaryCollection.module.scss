@@ -43,4 +43,9 @@
             transform: translate(-50%, -50%);
         }
     }
+
+    &>button:nth-child(2){
+        width: 60%;
+        padding: .5em 0;
+    }
 }

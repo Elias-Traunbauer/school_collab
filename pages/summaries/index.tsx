@@ -3,6 +3,9 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import SummaryPostCard from "../../components/SummaryPostCard";
 import SubjectItem from "../../components/SubjectItem";
+import Wizard from "../../components/Wizard";
+import WizardField from "../../models/WizardField";
+import { Router, useRouter } from "next/router";
 
 export default function SummaryList() {
   const posts = [{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "Math"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"}];
@@ -12,6 +15,7 @@ export default function SummaryList() {
   const handleDropdownClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+  const router = useRouter();
 
   
   function handleSearch(e) {
@@ -21,6 +25,20 @@ export default function SummaryList() {
     });
     setDisplayedSubjects(filteredSubjects);
   }
+  function newSubject() {
+    router.push(`/summaries/newSubject`);
+  }
+
+  function handleCalllback(text,callbackLoadingText,finishLoading) {
+    //delay for 2 seconds
+    setTimeout(() => {
+      finishLoading();
+      const dialog = document.getElementById("dialog") as HTMLDialogElement;
+      dialog.close();
+      alert(text);
+    }, 2000);
+
+  }
 
   return (
     <div className={styles.container}>
@@ -28,19 +46,19 @@ export default function SummaryList() {
     <div >
     	<h1>Summary</h1>
       <div>
-        <input onInput={(e)=>handleSearch(e)} placeholder='Search...'></input>
-        <Image onClick={handleDropdownClick} alt="options" width={40} height={40} src={'/more_horiz.svg'}></Image>
-        {isDropdownOpen && (
-           <div>
-              <button>+ Subject</button>
-              <button>+ Summary</button>
-          </div>
-       )}
+      <input onChange={handleSearch} placeholder="Search..."></input>
+      <button onClick={newSubject}>
+        new subject +
+      </button>
       </div>
+      
     </div>
     </div>
     
     <div className={styles.subjectContainer}>
+    <dialog id="dialog">
+        <Wizard contentData={[[new WizardField('Name', 'text', '', true)]]} callback={handleCalllback} title={"New Subject"}></Wizard>
+    </dialog>
       <div>
           {
           displayedSubjects.map((subject, i) => {
