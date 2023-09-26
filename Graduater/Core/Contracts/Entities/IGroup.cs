@@ -4,7 +4,6 @@ namespace Core.Contracts.Entities
 {
     public interface IGroup
     {
-        ICollection<Assignment>? Assignments { get; set; }
         User? CreatorUser { get; set; }
         int CreatorUserId { get; set; }
         string Description { get; set; }

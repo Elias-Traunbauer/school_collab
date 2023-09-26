@@ -28,9 +28,9 @@ namespace Persistence.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<IAssignment>> GetAllAssignmentsAsync()
+        public async Task<IEnumerable<IAssignment>> GetAllAssignmentsAsync(int userId)
         {
-            var res = _context.Assignments;
+            var res = _context.Assignments.Where(x => x.UserId == userId);
             return await res.ToListAsync();
         }
 
@@ -38,6 +38,25 @@ namespace Persistence.Repositories
         {
             var assignments = _context.Assignments.Where(x => x.Id == id);
             return await assignments.SingleOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateAssignmentAsync(Assignment assignment)
+        {
+            if (assignment == null) throw new ArgumentNullException(nameof(assignment));
+            Assignment? assignmentToUpdate = (Assignment?)await GetAssignmentByIdAsync(assignment.Id);
+            if (assignmentToUpdate == null) return false;
+            assignmentToUpdate.Title = assignment.Title;
+            assignmentToUpdate.Description = assignment.Description;
+            assignmentToUpdate.Due = assignment.Due;
+            assignmentToUpdate.GroupId = assignment.GroupId;
+            return true;
+        }
+
+        public async Task<IEnumerable<IAssignment>> GetAllAssignmentsOfGroupAsync(int groupId)
+        {
+
+            var res = _context.Assignments.Where(x => x.GroupId == groupId);
+            return await res.ToListAsync();
         }
     }
 }

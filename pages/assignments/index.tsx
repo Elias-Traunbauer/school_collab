@@ -1,28 +1,52 @@
 import styles from '../../styles/Assignment.module.scss'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import AssignmentCard from '../../components/AssignmentCard';
 import Image from 'next/image';
 import { useRouter } from 'next/router'
+import Assignment from '../../models/Assignment';
+import {getAllAssignments} from '../../services/Assignment.service';
+import UserContext from '../../components/UserContext'
+import { get } from 'http';
+import Group from '../../models/Group';
+import Subject from '../../models/Subject';
 
 export default function Assignments() {
+    const context = useContext(UserContext);
 
-    const [assignmentData, setAssignmentData] = useState([]);
-    const [displayAssignments, setDisplayAssignments] = useState([]);
+      const mockSubject:Subject = {
+        name: "DBI",
+        id: 0,
+        version: "0"
+      };
+
+
+    const [assignmentData, setAssignmentData] = useState<Assignment[]>([]);
+    const [displayAssignments, setDisplayAssignments] = useState<Assignment[]>([]);
     const router = useRouter();
     const [searched, setSearched] = useState(false);
     const [searchValue, setSearchValue] = useState('');
 
-    useEffect(() => {
-        (async () => {
-            const data = await fetch("/api/assignments");
-            const json = await data.json();
-            setAssignmentData(json.data);
-        })();
 
-        const data = [{ subject: "DBI", title: "JPA Lab 1: Generieren der IDs", deadline: new Date(2023, 1, 22, 13, 40), set: true }];
-        setAssignmentData(data);
-        setDisplayAssignments(data);
-    }, []);
+
+
+    useEffect(() => {
+        async function fetchDataAsync() {
+            getAllAssignments().then((res) => {
+                
+                //subject not implemented yet
+                res.forEach(element => {
+                    element.subject = mockSubject;
+                    element.due = new Date(element.due);
+                });
+                setAssignmentData(res);
+                setDisplayAssignments(res);
+                
+            }).catch((err) => {
+                
+            });
+        }
+        fetchDataAsync();
+    }, [router]);
 
     function resetSearch(){
         const searchInput = document.getElementById('searchInput') as HTMLInputElement;
@@ -39,7 +63,7 @@ export default function Assignments() {
         }
         else{
             const filteredAssignments = assignmentData.filter((assignment) => {
-                return assignment.title.toLowerCase().includes(searchValue.toLowerCase()) || assignment.subject.toLowerCase().includes(searchValue.toLowerCase());
+                return assignment.title.toLowerCase().includes(searchValue.toLowerCase()) || assignment.subject.name.toLowerCase().includes(searchValue.toLowerCase());
             })
             setDisplayAssignments(filteredAssignments);
             setSearched(true);
