@@ -14,7 +14,7 @@ export default function SummaryCollection() {
     }
 
     function handleNewSumary() {
-
+        router.push(`/summaries/newSummary?subject=${subject}`);
     }
 
     return (
