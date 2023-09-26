@@ -1,0 +1,117 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.chartContainer {
+    width: 50%;
+    background-color: var(--background_1);
+    padding: 2em 2em 0 2em;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.chartElement {
+    width: 3em;
+    transition: 1s;
+    position: relative;
+    border-bottom: 0 !important;
+}
+
+.chartElement:hover {
+    transition: .6s;
+    opacity: 1;
+    z-index: 5;
+}
+
+.chartElement::before {
+    content: attr(data-value);
+    position: absolute;
+    font-size: .8em;
+    pointer-events: none;
+    opacity: 0;
+    font-size: auto;
+    text-align: center;
+    margin-top: -2.5em;
+    padding: .3em .5em .3em .5em !important;
+    background-color: var(--background_4);
+    border-radius: .5em;
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 5;
+}
+
+.chartElement:hover::before {
+    transition: none;
+    opacity: 1 !important;
+}
+
+.chartScale {
+    background-color: white;
+    width: 100%;
+}
+
+.verticalLine {
+    height: 100%;
+    background-color: white;
+    width: .1em;
+    z-index: 1;
+}
+
+.chartScale {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20em;
+    width: 48%;
+    background-color: transparent;
+    margin-left: -1em;
+    z-index: 1;
+}
+
+.horizontalLines {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    z-index: 1;
+
+}
+
+.horizontalLines div {
+    height: .1em;
+    width: 100%;
+    background-color: rgb(255, 255, 255, .1);
+    z-index: 1;
+}
+
+.chart {
+    z-index: 5;
+}
+
+.horizontalLineText {
+    position: absolute;
+    color: white;
+    font-size: .8em;
+    z-index: 1;
+    width: 2em;
+
+}
+
+.horizontalLineText p {
+    width: 2em;
+    text-align: center;
+    position: absolute;
+    margin-top: -.7em;
+    margin-left: -1.8em;
+    color: white !important;
+}

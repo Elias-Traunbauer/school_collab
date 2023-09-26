@@ -1,5 +1,6 @@
 <?php
 
-interface IValidateable {
-    public function validate() : array|bool;
+interface IValidateable
+{
+    public function validate(): array|bool;
 }

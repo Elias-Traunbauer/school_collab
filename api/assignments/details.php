@@ -1,5 +1,9 @@
 <?php
 
+require_once dirname(__FILE__, 2) . "/database/identification.php";
+apiStart();
+authenticate_and_authorize();
+
 echo '
 {
     "subject": "DBI",
@@ -8,5 +12,3 @@ echo '
     "deadline": "2023-01-22T23:59:59.999Z"
 }
 ';
-
-?>

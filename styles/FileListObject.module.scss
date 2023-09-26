@@ -1,0 +1,138 @@
+.Cardcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .5em;
+    background-color: var(--background_1);
+    border-radius: .3em;
+    padding: .5em 1em;
+    width: 7em;
+
+    &:hover{
+        background-color: var(--background_2);
+        filter: brightness(130%);
+    }
+
+
+    & > img {
+        cursor: pointer;
+        user-select: none;
+        width: 3em;
+        height: 3em;
+        font-size: large;
+    }
+
+
+}
+
+.Cardcontainer p {
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: large;
+}
+
+.Cardcontainer:hover p{
+    text-decoration: underline 1px;
+}
+
+.Cardcontainer:hover {
+    cursor: pointer;
+    filter: brightness(110%);
+
+}
+
+.Listcontainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: .2em;
+    cursor: pointer;
+}
+
+.Listcontainer > div {
+    position: relative;
+    width: 100%;
+    vertical-align: middle;
+
+    & * {
+        display: inline-block;
+        margin: 0;
+    }
+
+    & p {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    & > img {
+        cursor: pointer;
+        font-size: 1.2em;
+        user-select: none;
+    }
+}
+
+.Listcontainer > div * {
+    vertical-align: middle;
+}
+
+
+.ListContentcontainer:hover {
+    filter: brightness(120%);
+
+    & p {
+        text-decoration: underline 1px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    
+}
+
+.ListContentcontainer{
+    background-color: var(--background_1);
+    padding: .3em;
+    &>img{
+        width: 2.5em;
+        height: 2.5em;
+    }
+}
+
+.Listcontainer > img{
+    user-select: none;
+}
+
+.Listcontainer > div p {
+    margin-left: .5em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 60%;
+}
+
+.deletContainer {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2%;
+    padding: .2em;
+    border-radius: 10em;
+    width: fit-content;
+    user-select: none;
+}
+
+.deletContainer:hover {
+    filter: brightness(140%);
+    background-color: var(--background_1);
+}
+
+.deleteAnimation{
+    opacity: 0;
+    transition: opacity .2s linear;
+}
