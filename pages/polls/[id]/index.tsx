@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from '../../styles/PollDetail.module.scss';
-import Countdown from '../../components/Countdown';
-import MarkdownEditor from '../../components/MarkdownEditor';
+import styles from '../../../styles/PollDetail.module.scss';
+import Countdown from '../../../components/Countdown';
+import MarkdownEditor from '../../../components/MarkdownEditor';
 import { ChartData, ChartOptions } from 'chart.js';
 import Chart from 'chart.js/auto';
 import { useRouter } from 'next/router';
-import Datepicker from '../../components/Datepicker';
+import Datepicker from '../../../components/Datepicker';
 
 export default function PollDetail() {
     const mockPoll = {
@@ -13,7 +13,7 @@ export default function PollDetail() {
         title: 'Poll Title',
         description: 'Poll Description',
         end: new Date('2024-07-20T00:00:00'),
-        votingOptions: ["Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", "Maybe", "I don't know"],
+        votingOptions: [" dolor sit amet.", "it amet.", "Maybe", "I don't know"],
         user: 'Yannie'
     }
 
@@ -107,6 +107,10 @@ export default function PollDetail() {
 
     function vote() {
         setVoted(true);
+        if(poll.end < new Date()){
+            return;
+        }
+
         const voteButton = document.getElementById('voteButton');
         voteButton.setAttribute('disabled', 'true');
         const chart = document.getElementById('Chart');
@@ -121,7 +125,7 @@ export default function PollDetail() {
     }
 
     function backToList() {
-        router.push('/poll/list');
+        router.push('/polls');
     }
 
     function deleteOption(index:number) {
@@ -208,12 +212,6 @@ export default function PollDetail() {
     useEffect(() => {
         if (poll.end < new Date()) {
             setVoted(true);
-        }
-        else {
-            setTimeout(() => {
-                setVoted(true);
-            }
-                , poll.end.getTime() - new Date().getTime());
         }
 
 
@@ -339,6 +337,7 @@ export default function PollDetail() {
                         editMode ?
                         <div className={styles.buttonArray}>
                             <div>
+                            <button className='btn btn-danger' onClick={deletePoll}>Delete</button>
                             <button className='btn btn-cancel' onClick={cancelEdit}>Cancel</button>
                             <button className='btn btn-primary' onClick={saveEdit}>Save</button>
                             </div>
@@ -347,7 +346,7 @@ export default function PollDetail() {
                             <div className={styles.deleteButtonContainer}>
                                 <div>
                                     <button className='btn btn-secondary' onClick={edit}>Edit</button>
-                                    <button className='btn btn-danger' onClick={deletePoll}>Delete</button>
+                                    
                                 </div>
                             </div>
                             

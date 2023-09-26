@@ -26,11 +26,11 @@ export default function PollCreate() {
     console.log(result);
     callbackLoadingText("loading...");
     setTimeout(() => {
-      callbackLoadingText("loading done");
+      callbackLoadingText("done");
       finishLoading();
       setTimeout(() => {
         //Route to PollList
-        router.push("/poll/list");
+        router.push("/polls");
       }, 1000);
     }, 2000);
   }
@@ -51,9 +51,7 @@ export default function PollCreate() {
         title={"Umfrage Erstellen"}
         contentData={mockData}
       ></Wizard>
-      <div className={styles.bottom}>
-
-      </div>
+      <div className={styles.bottom}></div>
     </>
   );
 }
