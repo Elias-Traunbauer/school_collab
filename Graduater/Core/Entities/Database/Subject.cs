@@ -6,5 +6,7 @@ public class Subject : DatabaseEntity, ISubject
 {
     public string Name { get; set; } = null!;
 
+    public string ShortName { get; set; } = null!;
+
     public virtual ICollection<Assignment>? Assignments { get; set; }
 }

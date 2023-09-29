@@ -3,7 +3,7 @@
   --color_main_dark: #5829af;
   --background: #151313;
   --background_1_dark: #17191a;
-  --background_1: #1f2223;
+  --background_1: #1e1e1f;
   --background_2: #2a2b30;
   --background_3: #282a2e;
   --background_4: #373a41;
@@ -99,8 +99,10 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
+  //width: 100vw;
   overflow-x: hidden;
+  height: auto;
+
   margin: 0;
   padding: 0;
 }
@@ -155,6 +157,7 @@ button {
   min-width: 4em;
   min-height: 1.8em;
   cursor: pointer;
+  transition: .2s;
 }
 .btn:hover {
   filter: brightness(120%);
@@ -163,7 +166,7 @@ button {
 .btn-primary {
   color: white;
   background-color: var(--color_main);
-  border: .2em solid var(--color_main);
+  border: 1px solid var(--color_main);
   border-radius: .2em;
 }
 .btn-primary:disabled {
@@ -174,18 +177,20 @@ button {
 
 .btn-primary:hover {
   filter: brightness(120%);
+  border-radius: .2em;
   background-color: var(--color_main);
 }
 
 .btn-cancel {
   color: white;
   background-color: transparent ;
-  border: .1em solid white ;
+  border: 1px solid white ;
   border-radius: .2em;
 }
 
 .btn-cancel:hover {
   background-color: var(--color_red) ;
+  border-radius: .2em;
 }
 
 .btn-secondary {
@@ -195,7 +200,8 @@ button {
 }
 
 .btn-seconday:hover {
-  background-color: var(--background_2)
+  filter: brightness(120%);
+  border-radius: .2em;
 }
 
 .btn-danger {

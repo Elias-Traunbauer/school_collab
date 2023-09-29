@@ -19,8 +19,8 @@ export default function Chatroom() {
     },
   ];
   const mockDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-const mockProfile = "person.svg";
-  const [profile, setProfile] = useState(mockProfile);
+const defaultProfile = "person.svg";
+  const [profile, setProfile] = useState(defaultProfile);
   const [scrollBody, setScrollBody] = useState(false);
   // Message Mock using the interface
   const mockmessages: Message[] = [
@@ -128,16 +128,8 @@ const mockProfile = "person.svg";
     setAnswer(answer);
   }
 
-  function scrollToMessage(e){
-    const chatroom = document.getElementById("chatBody") as HTMLDivElement;
-    const message = e.target;
-    chatroom.scrollTop = message.offsetTop - 100;
-    console.log(message);
-    message.classList.add(styles.highlight);
-
-    setTimeout(() => {
-      message.classList.remove(styles.highlight);
-    }, 2000);
+  function scrollToMessage(id:number){
+    // TODO: scroll to message with id
   }
 
   function printMessages() {
@@ -359,7 +351,7 @@ function deleteFileItem(itemKey = 0){
 
         <div id="info" className={styles.info}>
             <div>
-                <Image src={'/'+profile} width={20} height={20} alt='Profile'></Image>
+                <Image className={profile==defaultProfile&&styles.defaultProfile} src={'/'+profile} width={20} height={20} alt='Profile'></Image>
                 <button>Change</button>
             </div>
             
@@ -398,8 +390,8 @@ function deleteFileItem(itemKey = 0){
 
             <div>
                 <div>
-                    <button>Verlassen</button>
-                    <button>Melden</button>
+                    <button><span>Verlassen</span></button>
+                    <button><span>Melden</span></button>
                 </div>
             </div>   
         </div>

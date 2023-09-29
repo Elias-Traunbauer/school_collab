@@ -1,0 +1,53 @@
+.container{
+    width: 15em;
+    height: 15em;
+
+    @media screen and (max-width: 950px) {
+        width: 10em;
+        height: 10em;
+    }
+
+    background-color: var(--background_1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+    border-radius: .3em;
+    overflow: hidden;
+
+    &:hover{
+        filter: brightness(120%);
+        cursor: pointer;
+    }
+
+    &>img{
+        width: 70%;
+        height: 60%;
+        margin-bottom: .5em;
+        border-radius: .3em;
+    }
+
+    &>h1{
+        font-size: 1.5em;
+        font-weight: 600;
+        margin: 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        text-align: start;
+        max-width: 80%;
+    }
+}
+
+.picturePlaceholder{
+    width: 70%;
+    height: 60%;
+    margin-bottom: .5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(57, 57, 57);
+    border-radius: .3em;
+}

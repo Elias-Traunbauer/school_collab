@@ -1,42 +1,46 @@
 .Cardcontainer {
-    padding: .4em .8em;
-    border-radius: .5em;
-    gap: .3em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--background_2);
-    filter: brightness(0.9);
+    gap: .5em;
+    background-color: var(--background_1);
+    border-radius: .3em;
+    padding: .5em 1em;
+    width: 7em;
+
+    &:hover{
+        background-color: var(--background_2);
+        filter: brightness(130%);
+    }
+
 
     & > img {
         cursor: pointer;
         user-select: none;
+        width: 3em;
+        height: 3em;
+        font-size: large;
     }
 
-    width: fit-content;
-    height: fit-content;
-    border-radius: .2em;
-    padding: .3em;
 
 }
 
 .Cardcontainer p {
     margin: 0;
-    color: var(--color_link);
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    font-size: large;
 }
 
 .Cardcontainer:hover p{
     text-decoration: underline 1px;
-    margin-top: .3em;
 }
 
 .Cardcontainer:hover {
     cursor: pointer;
-    filter: brightness(130%);
+    filter: brightness(110%);
 
 }
 
@@ -47,9 +51,7 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    border-radius: .2em;
     gap: .2em;
-    cursor: pointer;
 }
 
 .Listcontainer > div {
@@ -79,14 +81,16 @@
 }
 
 
-.ListContentcontainer:hover {
-    background-color: var(--background_4);
 
-    & p {
-        text-decoration: underline 1px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
+.ListContentcontainer{
+    background-color: var(--background_1);
+    padding: .3em;
+    &>img{
+        width: 2.5em;
+        height: 2.5em;
+    }
+    &:hover{
+        filter: brightness(130%);
     }
 }
 
@@ -111,13 +115,24 @@
     border-radius: 10em;
     width: fit-content;
     user-select: none;
+
+    &>img{
+        pointer-events: none;
+    }
 }
 
 .deletContainer:hover {
-    background-color: rgba(255, 255, 255, 0.205);
+    filter: brightness(140%);
+    background-color: var(--background_1);
+    cursor: pointer;
 }
 
 .deleteAnimation{
+    opacity: 0;
+    transition: opacity .2s linear;
+}
+
+.downloadAnimation{
     opacity: 0;
     transition: opacity .2s linear;
 }

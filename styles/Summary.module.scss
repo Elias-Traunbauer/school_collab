@@ -21,6 +21,11 @@
     margin-top: 2em;
 }
 
+.container{
+    width: 100%;
+    margin-bottom: 2em;
+}
+
 .listHeader{
     width: 65%;
     display: flex;
@@ -132,70 +137,63 @@
 }
 
 .navBar{
-    display: inline-block;
-    width: 80%;
-    margin-left: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     margin-top: 2em;
-    padding: 0 1em;
-    background-color: var(--background_1);
-    z-index: 1;
-    border-radius: .2em;
-
-    & > *{
-        display: inline-block;
-        vertical-align: middle;
-        margin: 0;
-    }
-
-    & > h1{
-        margin-top: .2em;
-        margin-left: .3em;
-    }
 
     &>div{
-        float: right;
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        min-width: 20%;
-        height: 3em;
-        gap: 1em;
-        position: relative;
-    }
-
-    &>div>input{
-        border: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.685);
-        background-color: transparent;
-        width: 10em;
-        outline: none;
-        font-size: large;
-        
-    }
-    &>div>img{
-        padding: .3em;
-        
-    }
-    &>div>div{
-        position: absolute;
-        top: 120%;
-        left: 62%;
+        width: 69%;
+        background-color: var(--background_1);
         z-index: 1;
-    }
+        border-radius: .2em;
+        padding: .5em 1em;
+        justify-content: space-between;
+        align-items: center;
 
-    &>div>div button{
-        width: 8em;
-        height: 2em;
-        border-radius: 0em;
-        background-color: var(--background_2);
-        border: 0;
-        color: rgba(255, 255, 255, 0.74);
-    }
+        &>h1{
+            margin: 0;
+        }
 
-    &>div>div button:hover{
-        filter: brightness(120%);
+        &>div{
+            display: flex;
+            flex-direction: row;
+            gap: 1em;
+            align-items: center;
+
+            &>input{
+                height: 2em;
+                background-color: transparent;
+                outline: none;
+                border: none;
+                border-bottom: 1px solid white; 
+                font-size: large;
+            };
+
+            &>button{
+                margin: 0;
+                padding: 0;
+                padding: .5em;
+                display:  flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: .2em;
+                &>img{
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                }
+            }
+        }
+
+
+
+    
     }
+    
 }
 
 /*Post*/
@@ -206,10 +204,12 @@
     border-radius: .5em;
     padding: .7em  .7em  .2em .7em;
     background-color: var(--background_1);
+    min-height: 10em;
 }
 
 .post:hover{
     Filter: brightness(120%);
+    cursor: pointer;
 }
 
 .postHeader{
@@ -266,4 +266,29 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: auto;
+}
+.subjectContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2em;
+
+    &>div{
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: .5em;
+    }
+}
+
+.new{
+    margin-top: 2em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
