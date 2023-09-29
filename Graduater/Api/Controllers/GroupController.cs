@@ -80,7 +80,7 @@ namespace Api.Controllers
 
             var user = HttpContext.GetUserInfo().User!;
             var group = await groupService.GetGroupAsync(groupId);
-            if (user.Id != group.Value.CreatorUserId)
+            if (user.Id != group.Value!.CreatorUserId)
             {
                 return Unauthorized(new
                 {

@@ -43,8 +43,8 @@ export default function AssignmentCreation() {
             setLoadingText("done!");
 
             setTimeout(() => {
-                //router.push("/assignments");
-            }, 500);
+                router.push("/assignments");
+            }, 200);
         }, 2000);
     };
 

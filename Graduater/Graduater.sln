@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Test", "Core.Test\Core
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Test", "Service.Test1\Service.Test.csproj", "{FE568785-3D79-4473-9797-704F8975C671}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleFillDatabase", "ConsoleFillDatabase\ConsoleFillDatabase.csproj", "{B5EF9588-7385-4BED-8F44-A2E915EF7AB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleFillDatabase", "ConsoleFillDatabase\ConsoleFillDatabase.csproj", "{B5EF9588-7385-4BED-8F44-A2E915EF7AB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

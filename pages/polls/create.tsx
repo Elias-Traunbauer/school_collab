@@ -15,10 +15,7 @@ export default function PollCreate() {
       new WizardField("Ende", "date", new Date(), false),
     ],
     [
-      new WizardField("Option 1", "text", "", true),
-      new WizardField("Option 2", "text", "", true),
-      new WizardField("Option 3", "text", "", false),
-      new WizardField("Option 4", "text", "", false),
+      new WizardField("Options", "list", {min:2,max:8,value:["Ja","Nein"]}, true),
     ],
   ];
   function handleCallback(
@@ -29,11 +26,11 @@ export default function PollCreate() {
     console.log(result);
     callbackLoadingText("loading...");
     setTimeout(() => {
-      callbackLoadingText("loading done");
+      callbackLoadingText("done");
       finishLoading();
       setTimeout(() => {
         //Route to PollList
-        router.push("/polls/");
+        router.push("/polls");
       }, 1000);
     }, 2000);
   }
@@ -54,6 +51,7 @@ export default function PollCreate() {
         title={"Umfrage Erstellen"}
         contentData={mockData}
       ></Wizard>
+      <div className={styles.bottom}></div>
     </>
   );
 }

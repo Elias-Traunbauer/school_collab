@@ -44,7 +44,7 @@ export default function PollCard({poll = {
     }
 
     function openDetail(){
-        router.push(`/polls/detail`);
+        router.push(`/polls/${poll.id}`);
     }
 
     return(
