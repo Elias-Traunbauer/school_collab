@@ -14,8 +14,9 @@ export default function ChatroomListitem({
     profile: string;
     lastMessage: { text: string; createdAt: Date };
     unreadMessages: number;
-    onClick: () => void;
+    onClick?: () => void;
   }) {
+    const defaultProfile = 'person.svg';
 
         function unsetActive(){
             const active = document.getElementsByClassName(styles.active);
@@ -49,7 +50,7 @@ export default function ChatroomListitem({
         return (
             <div  className={styles.wrapper} onClick={(e)=>handleClick(e)}>
                 <div id={'container_'+id}>
-                    <Image width={30} height={30} src={'/'+profile} alt="profile"></Image>
+                    <Image className={profile === defaultProfile&& styles.defaultProfile } width={30} height={30} src={'/'+profile} alt="profile"></Image>
                     <div className={styles.body}>
                         <p>{name}</p>
                         <p>{lastMessage.text}</p>

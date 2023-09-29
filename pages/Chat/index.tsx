@@ -5,12 +5,49 @@ import ChatroomListitem from '../../components/ChatroomListitem';
 import Chatroom from '../../components/Chatroom';
 import { useRouter } from 'next/router';
 export default function Chat() {
-    const [selectedChatRoom, setSelectedChatRoom] = useState(0);
     const mockProfile = 'person.svg';
     const router = useRouter();
+    const [selectedChatRoom, setSelectedChatRoom] = useState(0);
+    const [chatRooms, setChatRooms] = useState([{
+    id: 0,
+    name: "Hallo",
+    profile: mockProfile,
+    lastMessage: {
+        text: "Hallo",
+        createdAt: new Date(),
+    },
+    unreadMessages: 1
+    },
+    {
+        id: 2,
+        name: "Sueee",
+        profile: "TestProfile.jpeg",
+        lastMessage: {
+            text: "dadasdasd",
+            createdAt: new Date(),
+        },
+        unreadMessages: 0
+    },
+    {
+        id: 3,
+        name: "Robert",
+        profile: mockProfile,
+        lastMessage: {
+            text: "Test",
+            createdAt: new Date(),
+        },
+        unreadMessages: 5
+    }
+]);
+    const [displayedChatRooms, setDisplayedChatRooms] = useState(chatRooms);
+
 
     function newChat() {
         router.push('/chat/create');
+    }
+
+    function hanldeSearch() {
+
     }
 
     return (
@@ -26,27 +63,27 @@ export default function Chat() {
                         </button>
                     </div>
                     <div className={styles.searchContainer}>
-                        <input type="text" placeholder="Search" />
+                        <input onInput={hanldeSearch} type="text" placeholder="Search" />
                         <Image src='/search.svg' width='20' height= '20' alt='search'></Image>
                     </div>
 
                 </div>
                 <div className={styles.navbarBody}>
                     {
-                        //TODO: Map through the list of members and display them here
+                        displayedChatRooms.map((chatRoom, index) => {
+                            return (
+                                <ChatroomListitem
+                                    key={index}
+                                    id={chatRoom.id}
+                                    name={chatRoom.name}
+                                    profile={chatRoom.profile}
+                                    lastMessage={chatRoom.lastMessage}
+                                    unreadMessages={chatRoom.unreadMessages}
+                                    onClick={() => setSelectedChatRoom(chatRoom.id)}
+                                ></ChatroomListitem>
+                            )
+                        })
                     }
-                    <ChatroomListitem id={1} name={'Trauni'} profile={mockProfile} lastMessage={{
-                        text: 'dsadsassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
-                        createdAt: new Date()
-                    }} unreadMessages={2} onClick={function (): void {
-                        
-                    } }></ChatroomListitem>
-                    <ChatroomListitem id={2} name={'Thomas'} profile={mockProfile} lastMessage={{
-                        text: 'Hallo',
-                        createdAt: new Date()
-                    }} unreadMessages={0} onClick={function (): void {
-                        
-                    } }></ChatroomListitem>
                 </div>
             </div>
             <div className={styles.ChatroomContainer}>

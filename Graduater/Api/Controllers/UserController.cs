@@ -1,4 +1,5 @@
 ﻿using Api.Attributes;
+using Api.DataTransferObjects;
 using Api.Helpers;
 using Core.Contracts.Models;
 using Core.Contracts.Services;
@@ -31,7 +32,7 @@ namespace Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
             ILoginResult result = await userService.LoginAsync(loginInformation);
 
             if (result.ServiceResult.Status != 200)
@@ -42,6 +43,35 @@ namespace Api.Controllers
             HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, result.AccessToken!, DateTime.UtcNow.Add(_config.AccessTokenLifetime));
             HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, result.RefreshToken!, DateTime.UtcNow.Add(_config.RefreshTokenLifetime));
             return Ok();
+        }
+
+        [HttpGet("{id}")]
+        [EndpointPermission(UserPermission.View)]
+        [RateLimit(maxRequestsPerMinute: 20, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
+        public async Task<IActionResult> GetUser([FromRoute] int id, [FromServices] IUserService userService)
+        {
+            var user = (await userService.GetUser(id)).Value;
+            if (user == null)
+            {
+                return Ok(
+                    new
+                    {
+                        Status = 404
+                    });
+            }
+            return Ok(
+                        (UserDTO) user!
+                   );
+        }
+
+        [HttpGet("search/{query}")]
+        public async Task<IActionResult> SearchUser([FromRoute] string query, [FromServices] IUserService userService)
+        {
+            var users = (await userService.SearchUser(query)).Value;
+
+            return Ok(
+                      users!.Cast<UserDTO>()
+                   );
         }
 
         [HttpPut]
@@ -63,6 +93,37 @@ namespace Api.Controllers
             //HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, result.AccessToken!, DateTime.Now.Add(_config.AccessTokenLifetime));
             //HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, result.RefreshToken!, DateTime.Now.Add(_config.RefreshTokenLifetime));
             return Ok();
+        }
+
+        public record UserDataDTO(
+            int Id,
+            string Username,
+            string Email,
+            string FirstName,
+            string LastName,
+            int? ProfilePictureId,
+            DateTime CreatedAt
+        );
+
+        [HttpGet]
+        public async Task<IActionResult> GetUser([FromServices] IUserService userService)
+        {
+            var user = (await userService.GetUser(HttpContext.GetUserInfo().User!.Id)).Value;
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(
+                 new UserDataDTO(
+                        user.Id,
+                        user.Username,
+                        user.Email,
+                        user.FirstName,
+                        user.LastName,
+                        user.ProfilePictureId,
+                        user.RegisteredAt
+                     )
+                );
         }
 
         [HttpPost("register")]

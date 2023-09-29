@@ -2,6 +2,7 @@
 using Api.Helpers;
 using Core.Contracts.Models;
 using Core.Contracts.Services;
+using Core.Entities.Database;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
 
@@ -21,7 +22,7 @@ namespace Api.Controllers
 
         [HttpGet("related")]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
-        [RateLimitAttribute(20)]
+        [RateLimit(20)]
         public async Task<IActionResult> GetAssignmentsForUser([FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
@@ -37,12 +38,30 @@ namespace Api.Controllers
                 return Ok(result);
             }
 
+            return Ok(result.Value!.Cast<Assignment>());
+        }
+
+        [HttpGet("{assignmentId}")]
+        [EndpointPermission(Core.Entities.Database.UserPermission.View)]
+        [RateLimit(20)]
+        public async Task<IActionResult> GetAssignment(int assignmentId, [FromServices] IAssignmentService assignmentService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assignmentService.GetAssignmentByIdAsync(assignmentId);
+            if (result.Status != 200)
+            {
+                return Ok(result);
+            }
             return Ok(result.Value);
         }
 
         [HttpPost]
         [EndpointPermission(Core.Entities.Database.UserPermission.Create)]
-        [RateLimitAttribute(10)]
+        [RateLimit(10)]
         public async Task<IActionResult> CreateAssignment([FromBody] AssignmentPostPayload assignmentPostPayload, [FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
@@ -63,7 +82,7 @@ namespace Api.Controllers
 
         [HttpPut]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
-        [RateLimitAttribute(20)]
+        [RateLimit(20)]
         public async Task<IActionResult> UpdateAssignment([FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)

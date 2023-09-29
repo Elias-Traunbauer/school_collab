@@ -4,19 +4,33 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { text } from "stream/consumers";
 
-export default function MarkdownEditor({isEditable = true, containerWidth = 50 , defaultText='# Hello'}: {isEditable?: boolean, containerWidth?: number, defaultText?: string}) {
+export default function MarkdownEditor({handleFromOutside = false,setText,isEditable = true, containerWidth = 50 , defaultText='# Hello'}: {handleFromOutside?:boolean,setText?:Function,isEditable?: boolean, containerWidth?: number, defaultText?: string}) {
     const [displayState, setDisplayState] = useState(false);
-    const [mdText, setMdText] = useState(defaultText);
     const contentRef = useRef(null);
+    const [mdText, setMdText] = useState(defaultText);
+
+    useEffect(()=>{
+      setMdText(defaultText);
+    },[defaultText])
 
     useEffect(()=>{
       highlight();
+      console.log('highlight');
     },[mdText])
 
     function highlight(){
       const textArea = document.getElementById('textArea') as HTMLTextAreaElement;
-      setMdText(textArea.value);
       addCodeButtons();
+    }
+    function handleSetText(){
+      console.log('handleSetText');
+      const textArea = document.getElementById('textArea') as HTMLTextAreaElement;
+      if(handleFromOutside){
+        setText(textArea.value);
+      }
+      else{
+        setMdText(textArea.value);
+      }
     }
 
     function addCodeButtons(){
@@ -32,6 +46,7 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
           langElement.innerText = lang;
 
           const button = document.createElement('button');
+          button.type = "button";
           button.addEventListener('click', ()=>{
             navigator.clipboard.writeText(preElement.innerText);
           });
@@ -57,7 +72,6 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
       textArea.value = newText;
       textArea.focus();
       textArea.setSelectionRange(selectionStart + 2, selectionEnd + 2);
-      setMdText(newText);
     }
 
     function InsertCode(){
@@ -70,7 +84,6 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
       textArea.value = newText;
       textArea.focus();
       textArea.setSelectionRange(selectionStart + 4, selectionEnd + 4);
-      setMdText(newText);
     }
 
     function InsertLink(){
@@ -84,7 +97,6 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
       textArea.value = newText;
       textArea.focus();
       textArea.setSelectionRange(selectionStart + 1, selectionEnd + 1);
-      setMdText(newText);
     }
     function InsertQuotes(){
       const textArea:HTMLTextAreaElement = document.getElementById('textArea') as HTMLTextAreaElement;
@@ -96,7 +108,6 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
       textArea.value = newText;
       textArea.focus();
       textArea.setSelectionRange(selectionStart + 2, selectionEnd + 2);
-      setMdText(newText);
     }
 
     function InsertBold(){
@@ -109,7 +120,6 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
       textArea.value = newText;
       textArea.focus();
       textArea.setSelectionRange(selectionStart + 2, selectionEnd + 2);
-      setMdText(newText);
     }
 
     function InsertItalic(){
@@ -122,7 +132,6 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
       textArea.value = newText;
       textArea.focus();
       textArea.setSelectionRange(selectionStart + 1, selectionEnd + 1);
-      setMdText(newText);
     }
 
     function InsertBulletpoint(){
@@ -135,7 +144,6 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
       textArea.value = newText;
       textArea.focus();
       textArea.setSelectionRange(selectionStart + 2, selectionEnd + 2);
-      setMdText(newText);
     }
     
     function InsertNumberdList(){
@@ -155,7 +163,6 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
       textarea.focus();
       const selectionPos = cursorPos + value.toString().length + 2
       textarea.setSelectionRange(selectionPos, selectionPos);
-      setMdText(textContent);
     }
 
   return (
@@ -203,11 +210,11 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
                
               </div>
               <div className={styles.content}>
-                <textarea id='textArea' defaultValue={mdText} onInput={highlight}></textarea>  
+                <textarea id='textArea' defaultValue={defaultText} onInput={handleSetText}></textarea>  
                 {
                   displayState && mdText.length > 0 ?
                   <div ref={contentRef}>
-                    <ReactMarkdown>{mdText}</ReactMarkdown>
+                    <ReactMarkdown>{handleFromOutside?defaultText:mdText}</ReactMarkdown>
                   </div>
                   : displayState &&
                   <div ref={contentRef} className={styles.placeholder}>
@@ -221,11 +228,11 @@ export default function MarkdownEditor({isEditable = true, containerWidth = 50 ,
             </div>
             :
               <div className={styles.content}>
-                <textarea hidden id='textArea' defaultValue={defaultText} onInput={highlight}></textarea>  
+                <textarea hidden id='textArea' defaultValue={defaultText}></textarea>  
                 {
                   mdText.length > 0 ?
                   <div className={styles.background} ref={contentRef}>
-                    <ReactMarkdown>{mdText}</ReactMarkdown>
+                    <ReactMarkdown>{handleFromOutside?defaultText:mdText}</ReactMarkdown>
                   </div>
                   : 
                   <div ref={contentRef} className={styles.placeholder}>
