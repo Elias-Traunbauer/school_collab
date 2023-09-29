@@ -1,0 +1,23 @@
+.container {
+  background-color: transparent;
+  display: flex;
+  height: 2.5em;
+  z-index: 999;
+
+  & > a{
+    display: flex;
+    justify-content: center;
+    border-radius: .25em;
+    margin: .5em;
+    padding: 1em;
+    align-items: center;
+  }
+
+  & > a:hover{
+    background-color: var(--color_main);
+  }
+}
+
+.active{
+  background-color: var(--color_main);
+}

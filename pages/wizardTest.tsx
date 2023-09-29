@@ -35,7 +35,7 @@ export default function WzTest() {
 
 
     return (
-        <Wizard contentData={allOptions} title='Test' callback={callback}></Wizard>
+        <Wizard contentData={ListOptions} title='Test' callback={callback}></Wizard>
     );
 
 }

@@ -31,7 +31,7 @@ return (
           <div key={index}>
             <input required={index<=field.value.min} className={index<=field.value.min?styles.requredInput:""} onInput={validateList} type="text" defaultValue={item}>
             </input>
-            {list.length > field.value.min && index > field.value.min && (
+            {list.length >= field.value.min && index >= field.value.min && (
               <button type="button" onClick={() => deleteItem(index)}>
                 <Image
                   src="/delete.svg"
