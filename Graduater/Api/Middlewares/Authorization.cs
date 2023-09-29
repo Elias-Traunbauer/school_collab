@@ -24,7 +24,7 @@ namespace Api.Middlewares
 
                 if (requstUserInfo.Authenticated)
                 {
-                    UserPermission userPerms = requstUserInfo.User!.Permissions; // check if user is disabled
+                    UserPermission userPerms = requstUserInfo.User!.Permissions; // check if user is disabled and if rights are sufficient
                     if ((userPerms & permissionAttribute.Required) != 0 && (userPerms & UserPermission.Disabled) == 0)
                     {
                         await _next(httpContext);
