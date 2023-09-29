@@ -4,7 +4,7 @@ import Group from "./Group";
 import Subject from "./Subject";
 import User from "./User";
 
-export default interface Assignment extends DataBaseEntity{
+export default interface Assignment extends DataBaseEntity {
     title: string;
 
     description: string;
@@ -18,6 +18,7 @@ export default interface Assignment extends DataBaseEntity{
     due: Date;
 
     files?: File[];
+    instructions?: File[];
 
     group: Group;
 

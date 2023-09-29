@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { func } from 'prop-types';
 
-export default function Datepicker({ inputChanged, title = 'date', dateParam = new Date(), required=false }: { inputChanged: Function, title?: string, dateParam?: Date,required?:boolean }) {
+export default function Datepicker({ id, inputChanged, title = 'date', dateParam = new Date(), required=false }: {id?:number, inputChanged: Function, title?: string, dateParam?: Date,required?:boolean }) {
 
     const [displayDatesArray, setDisplayDatesArray] = useState([]);
     //const displayDatesArray = [];
@@ -52,6 +52,7 @@ export default function Datepicker({ inputChanged, title = 'date', dateParam = n
             }
         }
 
+        inputChanged(tmpDate);
         setDate(tmpDate);
         calc(tmpDate);
     }
@@ -222,16 +223,20 @@ export default function Datepicker({ inputChanged, title = 'date', dateParam = n
     }
 
     function showDatepicker() {
-        const datepickerContainer = document.getElementById('datepickerContainer');
+        var datepickerContainer = document.getElementById('datepickerContainer'+id);
+        
 
         if (datepickerContainer.classList.contains(styles.hidden)) {
             datepickerContainer.classList.remove(styles.hidden);
+            datepickerContainer.scrollIntoView({ behavior: 'smooth' });
         }
         else {
             datepickerContainer.classList.add(styles.hidden);
         }
        calc(date);
     }
+      
+      
 
     function handleInputChange(e, input) {
         if (input && e.key != 'Enter') {
@@ -262,7 +267,7 @@ export default function Datepicker({ inputChanged, title = 'date', dateParam = n
         }
 
         e.target.classList.remove(styles.errorInput);
-        console.log(tmpdate);
+        inputChanged(tmpdate);
         setDate(tmpdate);
         calc(tmpdate);
     }
@@ -278,7 +283,7 @@ export default function Datepicker({ inputChanged, title = 'date', dateParam = n
 
                 </div>
 
-                <div id='datepickerContainer' className={`${styles.container} ${styles.hidden}`}>
+                <div id={'datepickerContainer'+id} className={`${styles.container} ${styles.hidden}`}>
                     <div className={styles.dateHeaderContainer}>
                         <div className={styles.dateHeader}>
                             <Image onClick={()=>changeToPreviousMonth(date)} src={'/chevron.svg'} width={10} height={10} alt='left'></Image>

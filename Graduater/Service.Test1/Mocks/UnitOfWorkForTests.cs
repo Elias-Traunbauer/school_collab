@@ -17,12 +17,18 @@ namespace Service.Test.Mocks
 
         public IAssignmentRepository AssignmentRepository { get; set; }
 
+        public IGroupRepository GroupRepository { get; set; }
+
+        public ISubjectRepository SubjectRepository { get; set; }
+
         public UnitOfWorkForTests()
         {
             _appDbContext = new ApplicationDbContextForTesting();
             UserRepository = new UserRepository(_appDbContext);
             FileRepository = new FileRepository(_appDbContext);
-            AssignmentRepository = null!;
+            GroupRepository = new GroupRepository(_appDbContext);
+            AssignmentRepository = new AssignmentRepository(_appDbContext);
+            SubjectRepository = new SubjectRepository(_appDbContext);
         }
 
         public UnitOfWorkForTests WithEntity(DatabaseEntity entity)
@@ -36,6 +42,16 @@ namespace Service.Test.Mocks
         {
             await _appDbContext.SaveChangesAsync();
             return true;
+        }
+
+        public ValueTask DisposeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

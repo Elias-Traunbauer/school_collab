@@ -30,7 +30,7 @@ export default function PollList(){
     const [searched, setSearched] = useState(false);
 
     function addNewPoll(){
-        router.push('/poll/create');
+        router.push('/polls/create');
     }
 
     function handleSearch(){
@@ -55,6 +55,13 @@ export default function PollList(){
         setSearched(false);
     }
 
+    function handleKeydown(event){
+        console.log(event.key);
+        if(event.key === 'Enter'){
+            handleSearch();
+        }
+    }
+
 
     return(
         <div className={styles.container}>
@@ -63,7 +70,7 @@ export default function PollList(){
             </div>
             <div>
                 <div>
-                    <input id='searchInput' type="text" placeholder="Suche nach Umfragen"></input>
+                    <input onKeyDown={handleKeydown} id='searchInput' type="text" placeholder="Suche..."></input>
                     <button onClick={handleSearch}>
                         <Image src="/search.svg" alt="search" width={20} height={20}></Image>
                     </button>
@@ -75,9 +82,7 @@ export default function PollList(){
                     }
                 </div>
                 <button onClick={addNewPoll}>
-                    <p>
                         Umfrage Erstellen
-                    </p>
                 </button>
             </div>
             {displayPolls.map((poll) => {

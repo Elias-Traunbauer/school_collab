@@ -20,6 +20,15 @@
             color: white;
         }
     }
+
+    @media screen and (max-width: 800px) {
+        width: fit-content;
+        &>div:first-child{
+            &>h2{
+                display: none;
+            }
+        }
+    }
 }
 
 .navbarHead{
@@ -77,7 +86,31 @@
             font-size: large;
         }
     }
+
+    @media screen and (max-width: 800px) {
+        margin-top: .5em;
+        &>button{
+            width: 80%;
+            background-color: transparent;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            border-radius: .3em;
+            border: 1px solid var(--background_5);
+            padding: .3em;
+            &>p{
+                appearance: none;
+                mask: url("/add.svg") no-repeat center;
+                width: 1em;
+                height: 1em;
+                background-color: white;
+            }
+        }
+    }
+
 }
+
 
 .searchContainer{
     display: flex;
@@ -100,12 +133,16 @@
             border-bottom: 1px solid var(--color_main) ;
         }
     }
+
+    @media screen and (max-width: 800px) {
+        display: none;
+    }
 }
 
 .ChatroomContainer{
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 100%;
     height: 100%;
     border-left: 1px solid var(--background);
 }
@@ -113,6 +150,7 @@
 .navbarBody{
     display: flex;
     flex-direction: column;
+    align-items:  center;
     width: 100%;
     height: 100%;
     overflow-y: scroll;
@@ -136,4 +174,6 @@
     &::-webkit-scrollbar-thumb:hover{
         background-color: var(--background_4);
     }
+
+
 }

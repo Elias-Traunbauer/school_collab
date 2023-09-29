@@ -1,0 +1,5 @@
+C:\School\school_collab\Graduater\ConsoleFillDatabase\obj\Debug\net7.0\ConsoleFillDatabase.csproj.AssemblyReference.cache
+C:\School\school_collab\Graduater\ConsoleFillDatabase\obj\Debug\net7.0\ConsoleFillDatabase.GeneratedMSBuildEditorConfig.editorconfig
+C:\School\school_collab\Graduater\ConsoleFillDatabase\obj\Debug\net7.0\ConsoleFillDatabase.AssemblyInfoInputs.cache
+C:\School\school_collab\Graduater\ConsoleFillDatabase\obj\Debug\net7.0\ConsoleFillDatabase.AssemblyInfo.cs
+C:\School\school_collab\Graduater\ConsoleFillDatabase\obj\Debug\net7.0\ConsoleFillDatabase.csproj.CoreCompileInputs.cache

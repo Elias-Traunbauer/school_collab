@@ -24,7 +24,7 @@ namespace Service.Services
         }
 
         /// <summary>
-        /// Only returns ServiceResult.Completed for privacy and security reasons
+        /// Only returns ServiceResult.Completed for security reasons
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
@@ -108,7 +108,7 @@ namespace Service.Services
                 return new ServiceResult(nameof(userRegisterPayload.RepeatedPassword), "Passwords do not match");
             }
             User? searchUser = (User?)await _unitOfWork.UserRepository.GetUserByUsernameAsync(userRegisterPayload.Username);
-            if (searchUser != null && searchUser.EmailVerificationTokenExpiration > DateTime.UtcNow)
+            if (searchUser != null && (searchUser.EmailVerificationTokenExpiration > DateTime.UtcNow || searchUser.IsEmailVerified))
             {
                 return new ServiceResult(nameof(userRegisterPayload.Username), "Username already taken");
             }
@@ -117,7 +117,7 @@ namespace Service.Services
                 await _unitOfWork.UserRepository.DeleteUserAsync(searchUser.Id);
             }
             searchUser = (User?)await _unitOfWork.UserRepository.GetUserByEmailAsync(userRegisterPayload.Email);
-            if (searchUser != null && searchUser.EmailVerificationTokenExpiration > DateTime.UtcNow)
+            if (searchUser != null && (searchUser.EmailVerificationTokenExpiration > DateTime.UtcNow || searchUser.IsEmailVerified))
             {
                 return new ServiceResult(nameof(userRegisterPayload.Email), "Email is already registered");
             }
@@ -234,6 +234,16 @@ namespace Service.Services
         {
             var user = await _unitOfWork.UserRepository.GetUserByEmailAsync(email);
             return new ServiceResult<bool>(user != null);
+        }
+
+        public async Task<IServiceResult<User?>> GetUser(int id)
+        {
+            return new ServiceResult<User?>((User?)await _unitOfWork.UserRepository.GetUserByIdAsync(id));
+        }
+
+        public async Task<IServiceResult<ICollection<IUser>>> SearchUser(string username)
+        {
+            return new ServiceResult<ICollection<IUser>>((await _unitOfWork.UserRepository.SearchUserAsync(username)).Cast<IUser>().ToList());
         }
     }
 }

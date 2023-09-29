@@ -2,103 +2,76 @@ import styles from "../../styles/Summary.module.scss";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import SummaryPostCard from "../../components/SummaryPostCard";
+import SubjectItem from "../../components/SubjectItem";
+import Wizard from "../../components/Wizard";
+import WizardField from "../../models/WizardField";
+import { Router, useRouter } from "next/router";
 
 export default function SummaryList() {
   const posts = [{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "Math"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"}];
-  const [subjects,setSubjects] = useState([{subject:"DBI",showAll:false},{subject:"Math",showAll:false},{subject:"English",showAll:false},{subject:"Science",showAll:false}]);
+  const [subjects,setSubjects] = useState(["DBI","M","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T"]);
+  const [displayedSubjects, setDisplayedSubjects] = useState(subjects);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const handleDropdownClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+  const router = useRouter();
 
-  function getPostsBySubject(subject) {
-    let result = posts.filter((post) => post.subject === subject);
-
-    if(!subjects[subjects.findIndex((sub) => sub.subject === subject)].showAll)
-    return result.slice(0,3);
-
-    return result;
-  }
-
-  function changeContent(subject) {
-    let tmp = [...subjects];
-    tmp[subjects.findIndex((sub) => sub.subject === subject)].showAll = !tmp[subjects.findIndex((sub) => sub.subject === subject)].showAll;
-    setSubjects(tmp);
-  }
-
-  function GetCountOfSubject (subject) {
-    return posts.filter((post) => post.subject === subject).length;
-  }
   
   function handleSearch(e) {
-    //TODO: implement search
+    const searchValue = e.target.value;
+    const filteredSubjects = subjects.filter((subject) => {
+      return subject.toLowerCase().includes(searchValue.toLowerCase());
+    });
+    setDisplayedSubjects(filteredSubjects);
+  }
+  function newSubject() {
+    router.push(`/summaries/newSubject`);
   }
 
-  function switchContentAperance(contentindex) {
-    const tmpContent = document.getElementById("content"+contentindex);
-    const tmpImage = document.getElementById("expand"+contentindex);
+  function handleCalllback(text,callbackLoadingText,finishLoading) {
+    //delay for 2 seconds
+    setTimeout(() => {
+      finishLoading();
+      const dialog = document.getElementById("dialog") as HTMLDialogElement;
+      dialog.close();
+      alert(text);
+    }, 2000);
 
-    let children = tmpContent.children;
-    if (children.length === 0) return;
-
-    if (!children[0].classList.contains(styles.hiddenElement)) {
-      let iterator = 0;
-      for (let i = children.length-1; i >= 0 ; i--) {
-          children[i].classList.add(styles.hiddenElement);
-        iterator++;
-      }
-      tmpImage.classList.add(styles.rotateExpandImage);
-    }
-    else {
-      for (let i = 0; i < children.length; i++) {
-          children[i].classList.remove(styles.hiddenElement);
-      }
-      tmpImage.classList.remove(styles.rotateExpandImage);
-    }
   }
 
   return (
-    <>
+    <div className={styles.container}>
     <div className={styles.navBar}>
+    <div >
     	<h1>Summary</h1>
       <div>
-        <input onInput={(e)=>handleSearch(e)} placeholder='Search...'></input>
-        <Image onClick={handleDropdownClick} alt="options" width={40} height={40} src={'/more_horiz.svg'}></Image>
-        {isDropdownOpen && (
-           <div>
-              <button>New Subject</button>
-              <button>New Sumary</button>
-          </div>
-       )}
+      <input onChange={handleSearch} placeholder="Search..."></input>
+      <button onClick={newSubject}>
+        new subject +
+      </button>
       </div>
+      
     </div>
-    {
-      subjects.filter((subject) => GetCountOfSubject(subject.subject) !== 0).map((subject,i) => {
-        return (
-          <div key={"card_"+i} className={styles.listContainer}>
-            
-            <div onClick={()=>switchContentAperance(i)} className={styles.listHeader}>
-              <div>
-              <Image id={"expand"+i} alt="expand" src={'/expand.svg'} width={20} height={20}></Image>
-              <p>{subject.subject}</p>
-              </div>
-              <p>Alle Anzeigen</p>
-            </div>
-            <div className={`${styles.postContentContainer}`} id={"content"+i}>
-              {
-                getPostsBySubject(subject.subject).map((post,i) => {
-                  return (
-                      <SummaryPostCard key={i}></SummaryPostCard>
-                  );
-                })
-              }
-            </div>
-          
-        </div>
-        );
-      })
-    }
-    </>
+    </div>
     
+    <div className={styles.subjectContainer}>
+    <dialog id="dialog">
+        <Wizard contentData={[[new WizardField('Name', 'text', '', true)]]} callback={handleCalllback} title={"New Subject"}></Wizard>
+    </dialog>
+      <div>
+          {
+          displayedSubjects.map((subject, i) => {
+            return (
+              <SubjectItem subject={subject} key={i}></SubjectItem>
+            )
+          })
+        }
+      </div>
+    
+              
+    </div>
+
+    </div>
       );
 }
