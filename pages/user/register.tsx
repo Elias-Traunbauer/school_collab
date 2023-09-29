@@ -71,6 +71,8 @@ export default function Register() {
             })}
         </div>
 
+        <div className={styles.inputContainer}>
+
         <div className={styles.inputfield}>
           <label>Vorname</label>
           <input required type="text" placeholder="Robert" />
@@ -98,6 +100,8 @@ export default function Register() {
               );
             })}
         </div>
+        </div>
+
 
         <div className={styles.inputfield}>
           <label>Email</label>
