@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100vw;
+    width: 100%;
     bottom: 0;
     position: relative;
     margin-top: 1em;
@@ -13,7 +13,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 33.25vw;
+        width: 33%;
         padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     }
 

@@ -95,3 +95,4 @@ C:\School\school_collab\Graduater\Api\obj\Debug\net6.0\refint\Api.dll
 C:\School\school_collab\Graduater\Api\obj\Debug\net6.0\Api.pdb
 C:\School\school_collab\Graduater\Api\obj\Debug\net6.0\Api.genruntimeconfig.cache
 C:\School\school_collab\Graduater\Api\obj\Debug\net6.0\ref\Api.dll
+C:\School\school_collab\Graduater\Api\obj\Debug\net6.0\Api.MvcApplicationPartsAssemblyInfo.cs
