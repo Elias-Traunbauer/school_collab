@@ -1,0 +1,17 @@
+C:\School\school_collab\Graduater\Persistence\bin\Debug\net6.0\Core.dll
+C:\School\school_collab\Graduater\Persistence\bin\Debug\net6.0\Core.pdb
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.csproj.AssemblyReference.cache
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.GeneratedMSBuildEditorConfig.editorconfig
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.AssemblyInfoInputs.cache
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.AssemblyInfo.cs
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.csproj.CoreCompileInputs.cache
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.csproj.CopyComplete
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.dll
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\refint\Persistence.dll
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.pdb
+C:\School\school_collab\Graduater\Persistence\bin\Debug\net6.0\Persistence.deps.json
+C:\School\school_collab\Graduater\Persistence\bin\Debug\net6.0\Persistence.runtimeconfig.json
+C:\School\school_collab\Graduater\Persistence\bin\Debug\net6.0\Persistence.dll
+C:\School\school_collab\Graduater\Persistence\bin\Debug\net6.0\Persistence.pdb
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.genruntimeconfig.cache
+C:\School\school_collab\Graduater\Persistence\obj\Debug\net6.0\ref\Persistence.dll

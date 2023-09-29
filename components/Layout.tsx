@@ -1,13 +1,11 @@
-import Head from "next/head";
 import Navbar from "./Navbar";
-import Link from "next/link";
+import Footer from "./Footer";
 
 
 export default function Layout({ children }) {
     return <>
     <Navbar></Navbar>
         {children}
-        <footer>
-        </footer>
+    <Footer></Footer>
     </>
 }

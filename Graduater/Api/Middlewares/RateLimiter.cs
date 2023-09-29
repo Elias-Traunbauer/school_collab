@@ -6,7 +6,7 @@ namespace Api.Middlewares;
 
 public class RateLimitMiddleware
 {
-    private record struct ClientFingerprint(string RemoteIp, string UserAgent, string? XForwardedFor, int? userId);
+    private record struct ClientFingerprint(string RemoteIp, string UserAgent, string? XForwardedFor, int? UserId);
 
     // Dictionary of client fingerprints to their respective Dictionaries for rate limiting
     private readonly Dictionary<ClientFingerprint, ConcurrentDictionary<string, ConcurrentQueue<long>>> _requests;
@@ -45,7 +45,7 @@ public class RateLimitMiddleware
 
         if (ip == null || userAgent == null)
         {
-            // i will pose as a teapot if the client thinks he wants to trick me
+            // i will pose as a teapot if the client thinks he can trick me
             context.Response.StatusCode = 418;
 
             // output a small nice text about me being a teapot
@@ -55,8 +55,7 @@ public class RateLimitMiddleware
                     Message = "I am the mighty teapot!" + "\n" +
                               "I am not a coffee machine, I am not a server, I am a teapot!" + "\n" +
                               "I will not serve you coffee, I will not serve you tea, I will not serve you anything!" + "\n" +
-                              "I am a teapot!" + "\n\n" +
-                              "Actually... I didn't find your UserAgent or your IP..."
+                              "I am a teapot!" + "\n\n"
                 });
 
             return;
