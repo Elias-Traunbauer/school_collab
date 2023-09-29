@@ -52,7 +52,7 @@
 
 .dialog_background > .dialog {
     background-color: var(--background);
-    border-radius: .5em;
+    border-radius: 1em;
     min-width: 30em;
     max-width: 40rem;
     display: flex;
@@ -73,30 +73,26 @@
 
 .dialog_background > .dialog > .dialog_title {
     margin-top: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
     padding: 0.3em;
 }
 
 .dialog_background > .dialog > .dialog_content {
-    padding: 0 1em 1em 1em;
+    padding: 0 1em 0.5em 1em;
 }
 
 .dialog_background > .dialog > .dialog_buttons > button {
-    border-radius: .4em;
+    border-radius: 1em;
     border: none;
+    padding: 0.8em;
     cursor: pointer;
     color: black;
-    transition: 0.2s;
-    padding: 0.5em 1em;
-    background-color: white;
+    transition: 0.5s;
+    background-color: rgb(220, 220, 220);
 }
 
 .dialog_background > .dialog > .dialog_buttons > button:hover {
-    scale: 1.05;
-}
-
-.dialog_background > .dialog > .dialog_buttons > button:focus {
-    scale: .95;
+    background-color: white;
 }
 
 .dialog_background > .dialog > .dialog_buttons > :nth-child(1) {
