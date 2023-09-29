@@ -36,7 +36,7 @@ export default function PollCreate() {
   }
 
   function backToList(){
-    router.push('/poll/list');
+    router.push('/polls/');
   }
 
   return (

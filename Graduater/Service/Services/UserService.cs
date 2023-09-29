@@ -108,7 +108,7 @@ namespace Service.Services
                 return new ServiceResult(nameof(userRegisterPayload.RepeatedPassword), "Passwords do not match");
             }
             User? searchUser = (User?)await _unitOfWork.UserRepository.GetUserByUsernameAsync(userRegisterPayload.Username);
-            if (searchUser != null && searchUser.EmailVerificationTokenExpiration > DateTime.UtcNow)
+            if (searchUser != null && (searchUser.EmailVerificationTokenExpiration > DateTime.UtcNow || searchUser.IsEmailVerified))
             {
                 return new ServiceResult(nameof(userRegisterPayload.Username), "Username already taken");
             }
@@ -117,7 +117,7 @@ namespace Service.Services
                 await _unitOfWork.UserRepository.DeleteUserAsync(searchUser.Id);
             }
             searchUser = (User?)await _unitOfWork.UserRepository.GetUserByEmailAsync(userRegisterPayload.Email);
-            if (searchUser != null && searchUser.EmailVerificationTokenExpiration > DateTime.UtcNow)
+            if (searchUser != null && (searchUser.EmailVerificationTokenExpiration > DateTime.UtcNow || searchUser.IsEmailVerified))
             {
                 return new ServiceResult(nameof(userRegisterPayload.Email), "Email is already registered");
             }

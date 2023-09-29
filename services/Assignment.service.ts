@@ -62,10 +62,11 @@ export async function createAssignment(assignment: AssignmentDTO){
         }
 
       }
-      return response;
+      
     } else {
       throw response;
     }
+    return response;
   } catch (error) {
     
     throw error;

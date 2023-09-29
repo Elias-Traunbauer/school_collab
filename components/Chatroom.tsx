@@ -121,11 +121,16 @@ const defaultProfile = "person.svg";
 
   function scrollDown() {
     const chatroom = document.getElementById("chatBody") as HTMLDivElement;
-    chatroom.scrollTop = chatroom.scrollHeight;
+    chatroom.scrollTo({
+      top: chatroom.scrollHeight,
+      behavior: "smooth"
+    });
   }
 
   function displayAnswer(answer:Message){
     setAnswer(answer);
+    const input = document.getElementById("messageField") as HTMLInputElement;
+    input.focus();
   }
 
   function scrollToMessage(id:number){
