@@ -1,9 +1,9 @@
-import Wizard from '../components/wizard';
-import WizardField from '../models/WizardField';
-import styles from "../styles/profile.module.scss"
+import Wizard from '../../components/Wizard';
+import WizardField from '../../models/WizardField';
+import styles from "../../styles/Profile.module.scss";
 import { useState } from "react";
 import Image from "next/image";
-import AccountLinking from '../components/accountLinking';
+import AccountLinking from '../../components/AccountLinking';
 
 export default function Profile() {
     let userDummy = {
@@ -27,9 +27,13 @@ export default function Profile() {
     }
 
     function handleFileChanged(e){
-        e.target.files[0].text().then((text) => {
-            console.log(text);
-        })
+        var profilePic = document.getElementById('pic');
+
+        profilePic.setAttribute('src',URL.createObjectURL(e.target.files[0]));
+    }
+    
+    function callback(){
+        setPasswordChange(false);
     }
 
     return( 
@@ -39,7 +43,7 @@ export default function Profile() {
                 <div className={styles.container}>
                 <input type="file" id="file" hidden={true} onChange={(e) => handleFileChanged(e)}/>
 
-                <Image width={20} height={20} alt='Pic' src='/cancelicon.svg' onClick={openFileExplorer} className={styles.pic}>
+                <Image id='pic' width={20} height={20} alt='Pic' src='/cancelicon.svg' onClick={openFileExplorer} className={styles.pic}>
 
                 </Image>    
                 <button className='btn' onClick={openFileExplorer}>Change</button>
@@ -57,7 +61,7 @@ export default function Profile() {
                             <button className='btn' onClick={(e) => changePasswordOnClick(e)}>change password</button>
                         </form> 
                     </div>
-                    {passwordChange ? <Wizard containerWidth={5} contentData={contentData} title='Change password'/> : null}
+                    {passwordChange ? <Wizard containerWidth={5} returnPath='/user/profile' callback={() => callback()} contentData={contentData} title='Change password'/> : null}
                 </div>
 
             </div>

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj": {}
+    "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj": {}
   },
   "projects": {
-    "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj": {
+    "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\43660\\.nuget\\packages\\",
-        "outputPath": "C:\\School\\school_collab\\Graduater\\Core\\obj\\",
+        "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\lucaf\\.nuget\\packages\\",
+        "outputPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\43660\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lucaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -73,17 +73,17 @@
         }
       }
     },
-    "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
+    "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
-        "packagesPath": "C:\\Users\\43660\\.nuget\\packages\\",
-        "outputPath": "C:\\School\\school_collab\\Graduater\\Persistence\\obj\\",
+        "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
+        "packagesPath": "C:\\Users\\lucaf\\.nuget\\packages\\",
+        "outputPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\43660\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lucaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -97,8 +97,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj": {
-                "projectPath": "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj"
+              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj": {
+                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj"
               }
             }
           }
@@ -178,17 +178,17 @@
         }
       }
     },
-    "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj": {
+    "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj",
+        "projectUniqueName": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj",
         "projectName": "Service",
-        "projectPath": "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj",
-        "packagesPath": "C:\\Users\\43660\\.nuget\\packages\\",
-        "outputPath": "C:\\School\\school_collab\\Graduater\\Service\\obj\\",
+        "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj",
+        "packagesPath": "C:\\Users\\lucaf\\.nuget\\packages\\",
+        "outputPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\43660\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lucaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -202,11 +202,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj": {
-                "projectPath": "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj"
+              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj": {
+                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj"
               },
-              "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
-                "projectPath": "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
+              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
+                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
               }
             }
           }

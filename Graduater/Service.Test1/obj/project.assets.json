@@ -9762,19 +9762,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\43660\\.nuget\\packages\\": {}
+    "C:\\Users\\lucaf\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\School\\school_collab\\Graduater\\Service.Test1\\Service.Test.csproj",
+      "projectUniqueName": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service.Test1\\Service.Test.csproj",
       "projectName": "Service.Test",
-      "projectPath": "C:\\School\\school_collab\\Graduater\\Service.Test1\\Service.Test.csproj",
-      "packagesPath": "C:\\Users\\43660\\.nuget\\packages\\",
-      "outputPath": "C:\\School\\school_collab\\Graduater\\Service.Test1\\obj\\",
+      "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service.Test1\\Service.Test.csproj",
+      "packagesPath": "C:\\Users\\lucaf\\.nuget\\packages\\",
+      "outputPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service.Test1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\43660\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lucaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9788,8 +9788,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj": {
-              "projectPath": "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj"
+            "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj": {
+              "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj"
             }
           }
         }
