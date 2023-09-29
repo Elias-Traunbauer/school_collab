@@ -12,7 +12,7 @@ namespace Api.Controllers
     {
         [HttpGet("{id}")]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
-        [RateLimitAttribute(30, RateLimitMode.SlidingTimeWindow)]
+        [RateLimit(30, RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> GetFile(int id, [FromServices] IFileService fileService)
         {
             if (!ModelState.IsValid)
