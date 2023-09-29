@@ -214,3 +214,13 @@ button {
   background-color: var(--color_red);
   border-radius: .4em;
 }
+.layoutContainer{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+
+  &>div:nth-child(2){
+    flex: 1;
+  }
+}
