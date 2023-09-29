@@ -26,7 +26,7 @@ export default function Chat() {
             text: "dadasdasd",
             createdAt: new Date(),
         },
-        unreadMessages: 0
+        unreadMessages: 5
     },
     {
         id: 3,
@@ -36,7 +36,7 @@ export default function Chat() {
             text: "Test",
             createdAt: new Date(),
         },
-        unreadMessages: 5
+        unreadMessages: 0
     }
 ]);
     const [displayedChatRooms, setDisplayedChatRooms] = useState(chatRooms);

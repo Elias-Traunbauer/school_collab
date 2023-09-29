@@ -38,7 +38,7 @@ namespace Api.Controllers
                 return Ok(result);
             }
 
-            return Ok(result.Value);
+            return Ok(result.Value!.Cast<Group>());
         }
 
         public record GroupPost(string Name, string Description);

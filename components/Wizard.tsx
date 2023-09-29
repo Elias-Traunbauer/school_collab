@@ -99,7 +99,7 @@ export default function Wizard({ returnPath = '/', callback, contentData = [[new
             }
         }
 
-
+        console.log(selectElements);
         for (let item of selectElements) {
             if (item.hasAttribute('required') && item.value == '-1') {
                 valid = false;
@@ -136,6 +136,9 @@ export default function Wizard({ returnPath = '/', callback, contentData = [[new
 
     function finishLoading() {
         const loader = document.getElementById('loader') as HTMLDivElement;
+        if (loader == null) {
+            return;
+        }
         loader.classList.remove(styles.loading);
         loader.classList.add(styles.finished);
     }
@@ -169,6 +172,7 @@ export default function Wizard({ returnPath = '/', callback, contentData = [[new
                 field: contentData[formIndex][indx],
                 value: ''
             };
+            
             if (contentData[formIndex][indx].type == 'checkBox' || contentData[formIndex][indx].type == 'checkbox') {
                 tmpRes.value = (item.querySelector('input') as HTMLInputElement).checked;
             }
@@ -180,13 +184,14 @@ export default function Wizard({ returnPath = '/', callback, contentData = [[new
                 }
                 tmpRes.value = tmpList;
             }
-            else if (contentData[formIndex][indx].type == 'select') {
+            else if (contentData[formIndex][indx].type == 'select' || contentData[formIndex][indx].type == 'groupSelect' || contentData[formIndex][indx].type == 'subjectSelect') {
+                
                 tmpRes.value = (item.querySelector('select') as HTMLSelectElement).value;
             }
             else if (contentData[formIndex][indx].type == 'date') {
                 tmpRes.value = parseDate((item.querySelector('input') as HTMLInputElement).value);
             }
-            else if (contentData[formIndex][indx].type == 'markdown') {
+            else if (contentData[formIndex][indx].type == 'markdown' || contentData[formIndex][indx].type == 'md') {
                 tmpRes.value = (item.querySelector('textarea') as HTMLTextAreaElement).value;
             }
             else {
@@ -237,7 +242,10 @@ export default function Wizard({ returnPath = '/', callback, contentData = [[new
                                         <input onInput={() => checkFormFilled(formIndex)} type='checkbox' defaultChecked={item.value.defaultValue} required={item.required} />
                                         <p><span>{item.required && '* '}</span>{item.value.text}</p>
                                     </div>
-                                    : item.type == 'select' ?
+                                :
+                                item.type == 'groupSelect' ?
+                                <WizardSelect selectType='group' required={item.required} onChange={checkFormFilled} formIndex={formIndex}></WizardSelect>
+                                : item.type == 'select' ?
                                         <WizardSelect field={item} onChange={checkFormFilled} formIndex={formIndex}></WizardSelect>
                                         : <input onInput={() => {
                                             checkFormFilled(formIndex)
