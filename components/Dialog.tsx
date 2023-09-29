@@ -27,7 +27,7 @@ export function DecisionDialog({ message, title = "Information", confirmCallback
         }
     }
 
-    let color = type == "info" ? "#727272" : type == "warning" ? "#c87b24" : type == "error" ? "red" : "green";
+    let color = type == "info" ? "#1A03C5" : type == "warning" ? "#c87b24" : type == "error" ? "red" : "green";
 
     return (
         <>
@@ -38,8 +38,8 @@ export function DecisionDialog({ message, title = "Information", confirmCallback
                         {message}
                     </div>
                     <div className={styles.dialog_buttons}>
-                        <button className='time_unlock' onClick={(e) => finishDialog(e, true)}>Confirm</button>
                         <button onClick={(e) => finishDialog(e, false)}>Cancel</button>
+                        <button className='time_unlock' onClick={(e) => finishDialog(e, true)}>Confirm</button>
                     </div>
                 </div>
             </div>

@@ -19,6 +19,8 @@ namespace Service.Test.Mocks
 
         public IGroupRepository GroupRepository { get; set; }
 
+        public ISubjectRepository SubjectRepository { get; set; }
+
         public UnitOfWorkForTests()
         {
             _appDbContext = new ApplicationDbContextForTesting();
@@ -26,6 +28,7 @@ namespace Service.Test.Mocks
             FileRepository = new FileRepository(_appDbContext);
             GroupRepository = new GroupRepository(_appDbContext);
             AssignmentRepository = new AssignmentRepository(_appDbContext);
+            SubjectRepository = new SubjectRepository(_appDbContext);
         }
 
         public UnitOfWorkForTests WithEntity(DatabaseEntity entity)
