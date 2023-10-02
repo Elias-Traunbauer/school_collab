@@ -1,0 +1,20 @@
+.container{
+    background-color: var(--background_1);
+    border: none;
+    border-radius: .2em;
+    width: 8em;
+    height: 10em;
+    transition: .2s ease-in-out;
+
+    &>img{
+        width: 4em;
+        height: 4em;
+    }
+
+
+    &:hover{
+        filter: brightness(120%);
+        border-radius: .2em;
+        scale: 1.1;
+    }
+}
