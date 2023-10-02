@@ -252,13 +252,14 @@ namespace Service.Services.Tests
             {
                 Email = "test@email.com",
                 PasswordHash = PasswordServiceMock.HashPassword("", ""),
-                IsEmailVerified = true
+                IsEmailVerified = true,
+                EmailVerificationTokenExpiration = DateTime.Now.AddDays(-1),
             };
 
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetUserByEmailWithSessionsAsync("test@email.com"))
+            userRepository.Setup(x => x.GetUserByEmailAsync("test@email.com"))
                 .ReturnsAsync(user);
-            userRepository.Setup(x => x.GetUserByUsernameWithSessionsAsync(It.IsAny<string>()))
+            userRepository.Setup(x => x.GetUserByUsernameAsync(It.IsAny<string>()))
                 .ReturnsAsync((User?)null);
             userRepository.Setup(x => x.CreateUserAsync(It.IsAny<User>())).Verifiable();
 
@@ -289,13 +290,14 @@ namespace Service.Services.Tests
             {
                 Username = "test",
                 PasswordHash = PasswordServiceMock.HashPassword("", ""),
-                IsEmailVerified = true
+                IsEmailVerified = true,
+                EmailVerificationTokenExpiration = DateTime.Now.AddDays(-1),
             };
 
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetUserByEmailWithSessionsAsync(It.IsAny<string>()))
+            userRepository.Setup(x => x.GetUserByEmailAsync(It.IsAny<string>()))
                 .ReturnsAsync((User?)null);
-            userRepository.Setup(x => x.GetUserByUsernameWithSessionsAsync("test"))
+            userRepository.Setup(x => x.GetUserByUsernameAsync("test"))
                 .ReturnsAsync(user);
             userRepository.Setup(x => x.CreateUserAsync(It.IsAny<User>())).Verifiable();
 

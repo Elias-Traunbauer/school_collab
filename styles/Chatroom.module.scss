@@ -654,12 +654,12 @@
     border-top-left-radius: .5em;
     border-top-right-radius: .5em;
     overflow-y: hidden;
-    --fileBackground: rgb(17, 17, 17);
+    --fileBackground: rgb(23, 23, 23);
 
 
     &> div{
         width: 90%;
-        background-color: var(--fileBackground);
+        background-color: var(--fileBackground) !important;
         filter: brightness(1); 
         border-radius: .3em;
 
@@ -671,14 +671,14 @@
             width: 100%;
             max-height: 9.4em;
             overflow-y: auto;
-
             &>div{
-                background-color: var(--fileBackground);
-
-                &>div:hover{
+                &>div{
                     background-color: var(--fileBackground) !important;
-                    filter: brightness(1.3) !important;
+                    &:hover{
+                        filter: brightness(1.2) !important;
+                    }
                 }
+                
             }
         }
     }
