@@ -1,9 +1,8 @@
-import Wizard from '../components/Wizard';
-import WizardField from '../models/WizardField';
-import styles from "../styles/profile.module.scss"
+import Wizard from '../../components/Wizard';
+import WizardField from '../../models/WizardField';
+import styles from "../../styles/Profile.module.scss"
 import { useState } from "react";
 import Image from "next/image";
-import AccountLinking from '../components/AccountLinking';
 
 export default function Profile() {
     let userDummy = {
@@ -15,6 +14,7 @@ export default function Profile() {
     const contentData = [[new WizardField('Type in your password','text',{value:true,text:'asdasdasdasd'},true),new WizardField('Type in your new password','text',[{value:1,displayText:'password'},{value:1,displayText:'süba'},{value:1,displayText:'süba'}],true)]]
 
     const [passwordChange, setPasswordChange] = useState(false);
+    const [pictureClicked, setPictureClicked] = useState(false);
 
     function changePasswordOnClick(e){
         e.preventDefault();
@@ -27,9 +27,13 @@ export default function Profile() {
     }
 
     function handleFileChanged(e){
-        e.target.files[0].text().then((text) => {
-            console.log(text);
-        })
+        var profilePic = document.getElementById('pic');
+
+        /*if(e.target.files.length > 0)
+            profilePic.setAttribute('src',URL.createObjectURL(e.target.files[0]));*/
+        
+
+        setPictureClicked(!pictureClicked);
     }
 
     function callback(){
@@ -42,11 +46,10 @@ export default function Profile() {
             <div className={styles.container}>
                 <div className={styles.container}>
                 <input type="file" id="file" hidden={true} onChange={(e) => handleFileChanged(e)}/>
-
-                <Image width={20} height={20} alt='Pic' src='/cancelicon.svg' onClick={openFileExplorer} className={styles.pic}>
-
-                </Image>    
-                <button className='btn' onClick={openFileExplorer}>Change</button>
+                {
+                    pictureClicked ? <Image id='pic' width={150} height={150} alt='Pic' src='/cancelicon.svg' onClick={() => setPictureClicked(!pictureClicked)} className={styles.pic}></Image>
+                                   : <Image id='pic' width={250} height={250} alt='Pic' src='/cancelicon.svg' onClick={() => setPictureClicked(!pictureClicked)} className={styles.pic}></Image>
+                }
                 </div>
 
                 <div>
@@ -66,7 +69,6 @@ export default function Profile() {
 
             </div>
         </div>
-        <AccountLinking/>
         </>
     )
 }
