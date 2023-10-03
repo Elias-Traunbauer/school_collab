@@ -1,0 +1,30 @@
+.container{
+    width: 100%;
+    padding: .2em;
+}
+.item{
+    width: 100%;
+    padding: 0em .5em 0em .8em;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+    cursor: pointer;
+    transition: .2s;
+    border-radius: .3em;
+    background-color: var(--background_1);
+
+    &:hover{
+        filter: brightness(1.3);
+    }
+
+    &>img{
+        width: 1.5em;
+        height: 1.5em;
+    }
+}
+
+.active{
+    background-color: var(--background_2);
+}

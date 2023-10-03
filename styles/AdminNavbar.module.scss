@@ -1,0 +1,44 @@
+.navbar{
+    width: 15%;
+    height: 100%;
+    min-height: 78vh;
+    background-color: var(--background_1);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: .5em;
+}
+.navbarHead{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+    padding: .5em;
+    border-radius: .3em;
+    cursor: pointer;
+    margin-bottom: .5em;
+    background-color: var(--background_1);
+
+    width: 100%;
+
+    &>img{
+        border-radius: 50%;
+        width: 2.5em;
+        height: 2.5em;
+        border: 1px solid white;
+        padding: .1em;
+    }
+
+    &>p{
+        margin: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &:hover{
+        filter: brightness(1.3);
+    }
+
+}
