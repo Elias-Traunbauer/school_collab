@@ -7,16 +7,14 @@ import Group from '../models/Group';
 import Subject from '../models/Subject';
 import UserContext from '../components/UserContext'
 
-export default function AssignmentCard({ assignment }: { assignment: Assignment }) {
+export default function AssignmentCard({ assignment,width = 50 }: { assignment: Assignment,width?:number }) {
     const router = useRouter();
     const [assignmentState, setAssignment] = useState(assignment);
     console.log(assignment);
 
-    
-
     return (
         <div className={styles.assignmentcontainer} >
-            <div className={styles.assignmentcard} onClick={() => router.push(`assignments/edit?assignmentId=${assignment.id}`)}>
+            <div style={{width: width+'%'}} className={styles.assignmentcard} onClick={() => router.push(`assignments/edit?assignmentId=${assignment.id}`)}>
                 <div className={styles.assignmenthead}>
                     <p>{assignmentState.subject.name}</p>
                 </div>

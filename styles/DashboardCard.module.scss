@@ -1,7 +1,7 @@
 .container{
     background-color: var(--background_1);
     border: none;
-    border-radius: .2em;
+    border-radius: .5em;
     width: 8em;
     height: 10em;
     transition: .2s ease-in-out;
@@ -14,7 +14,7 @@
 
     &:hover{
         filter: brightness(120%);
-        border-radius: .2em;
+        border-radius: .5em;
         scale: 1.1;
     }
 }
