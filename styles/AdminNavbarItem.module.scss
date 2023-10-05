@@ -23,6 +23,18 @@
         width: 1.5em;
         height: 1.5em;
     }
+
+    @media screen and (max-width: 1030px) {
+        justify-content: center;
+        padding: .5em;
+        &>p{
+            display: none;
+        }
+        &>img{
+            width: 3em;
+            height: 3em;
+        }
+    }
 }
 
 .active{

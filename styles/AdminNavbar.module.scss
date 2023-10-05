@@ -8,8 +8,25 @@
     flex-direction: column;
     justify-content: flex-start;
     padding: .5em;
+    border-top-right-radius: 1em;
+    border-bottom-right-radius: 1em;
+
+    @media screen and (max-width: 1030px) {
+        width: fit-content;
+    }
 }
 .navbarHead{
+    @media screen and (max-width: 1030px) {
+        justify-content: center;
+        &>p{
+            display: none;
+        }
+        &>img{
+            width: 3em;
+            height: 3em;
+        }
+    }
+
     display: flex;
     flex-direction: row;
     justify-content: flex-start;

@@ -4,6 +4,9 @@ export default function AdminPage() {
     return (
         <div className={styles.adminContainer}>
             <AdminNavbar></AdminNavbar>
+            <div>
+                <h2>Dashboard</h2>
+            </div>
         </div>
     )
 }

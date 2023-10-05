@@ -1,7 +1,9 @@
 .adminContainer{
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
     width: 100%;
+    &>div:nth-child(2){
+        width: 100%;
+        padding-left: 1em;
+    }
 }
