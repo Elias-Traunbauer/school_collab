@@ -11,51 +11,27 @@
     border-top-right-radius: 1em;
     border-bottom-right-radius: 1em;
 
+    //change mby
+    margin-bottom: 1em;
+
     @media screen and (max-width: 1030px) {
         width: fit-content;
     }
 }
 .navbarHead{
-    @media screen and (max-width: 1030px) {
-        justify-content: center;
-        &>p{
-            display: none;
-        }
-        &>img{
-            width: 3em;
-            height: 3em;
-        }
-    }
-
+    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    gap: 1em;
-    padding: .5em;
-    border-radius: .3em;
-    cursor: pointer;
-    margin-bottom: .5em;
-    background-color: var(--background_1);
+    margin-bottom: 1em;
 
-    width: 100%;
 
     &>img{
-        border-radius: 50%;
-        width: 2.5em;
-        height: 2.5em;
-        border: 1px solid white;
-        padding: .1em;
+        width: 3.5em;
+        height: 3.5em;
+        border: 0;
     }
 
-    &>p{
-        margin: 0;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
-    &:hover{
-        filter: brightness(1.3);
-    }
 
 }

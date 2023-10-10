@@ -28,8 +28,7 @@ export default function AdminNavbar() {
     return (
         <div className={styles.navbar}>
             <div className={styles.navbarHead}>
-                <Image width={10} height={10} src={'/person.svg'} alt={''}></Image>
-                <p>John Doe</p>
+                <Image width={10} height={10} src={'/admin.svg'} alt={''}></Image>
             </div>
             {
                 Links.map((link, index) => {

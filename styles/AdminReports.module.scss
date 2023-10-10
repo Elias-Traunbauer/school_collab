@@ -75,6 +75,12 @@
             transform: rotate(90deg);
         }
     }
+
+    @media screen and (max-width: 800px) {
+        &>div:first-child{
+            width: 30%;
+        }
+    }
     
 }
 
