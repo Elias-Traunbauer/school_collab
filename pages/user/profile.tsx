@@ -1,8 +1,18 @@
 import styles from "../../styles/Profile.module.scss";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Profile() {
+    const user = {
+        username: "if190135",
+        firstname: "Luca",
+        lastname: "Fuchsjäger",
+        class: "5BHIF",
+    }
+
+    const links = ["github", "google", "yahoo", "bing"];
+
 
     return( 
         <>
@@ -12,10 +22,28 @@ export default function Profile() {
                 </div>
                 <div className={styles.infoContainer}>    
                     <div>
-                        hallo
+                        {Object.values(user).map((value, index) => {
+                            return (
+                                <div key={index}>
+                                    <label>{Object.keys(user)[index]}</label>
+                                    <p>{value}</p>
+                                </div>
+                            )
+                            
+                        })}
                     </div>
                     <div>
-                        hallo
+                        {links.map((link, index) => {
+                            return (
+                                <div className={styles.linkContainer} key={index}>
+                                    <Image src={"/jpg.svg"} width={20} height={20} alt="cancel"></Image>
+                                    <label>{link}</label>
+                                    <p>{link}_Name</p>
+                                </div>
+                            )
+                            
+                        }
+                        )}
                     </div>
                 </div>
             </div>
