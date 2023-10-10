@@ -17,6 +17,11 @@ export default function AdminNavbar() {
         name: 'Users',
         href: '/users',
         picture: '/users.svg'
+    },
+    {
+        name: 'Reports',
+        href: '/reports',
+        picture: '/reports.svg'
     },];
     
 

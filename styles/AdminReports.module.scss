@@ -1,0 +1,158 @@
+.list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.componentContainer{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: var(--background_1);
+    border-radius: .3em;
+
+    margin-bottom: .5em;
+    padding: .5em 0;
+    &:hover{
+        filter: brightness(1.3);
+    }
+}
+.componentHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 0 2em;
+    align-items: center;
+    gap: .5em;
+    width: 100%;
+
+    &>p{
+        margin: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+
+
+    &>div:first-child{
+        width: 20%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: .5em;
+
+        &>p{
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        &>img{
+            width: 2em;
+            height: 2em;
+        }
+    }
+
+    &>button{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--background_1);
+        border: none;
+        cursor: pointer;
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        &:hover{
+            filter: brightness(1.3);
+        }
+        &>img{
+            width: 2em;
+            height: 2em;
+            transform: rotate(90deg);
+        }
+    }
+    
+}
+
+.componentBody{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+
+    &>div{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        &>span{
+            width: 10%;
+        }
+
+        &>p{
+            font-weight: bold;
+            margin: .5em;
+        }
+    }
+}
+
+.noAttachments{
+    &>h3{
+        opacity: .5;
+        margin: 0;
+    }
+    &>p{
+        opacity: .5;
+        margin: .5em;
+    }
+}
+
+.attachments{
+        display: flex;
+        flex-direction: column !important;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 100%;
+        &>span{
+            width: 100% !important;
+        }
+        &>div{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+}
+
+.btnContainer{
+    padding: .5em 0;
+    justify-content: flex-end !important;
+    &>button{
+        &:active{
+            scale: .9;
+        }
+    }
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+// expand animation
+.expanded{
+    animation: expand .3s ease-in-out forwards;
+}
+
+@keyframes expand{
+    0%{
+        height: 0;
+        opacity: 0;
+    }
+    100%{
+        height: 100%;
+        opacity: 1;
+    }
+}
