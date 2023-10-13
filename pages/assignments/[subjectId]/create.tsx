@@ -1,15 +1,15 @@
 import { useRouter } from "next/router";
-import Wizard from "../../components/Wizard";
-import WizardField from "../../models/WizardField";
-import WizardResult from "../../models/WizardResult";
-import styles from '../../styles/Assignment.module.scss'
-import AssignmentDTO from "../../models/AssignmentDTO";
-import {createAssignment} from "../../services/Assignment.service";
+import Wizard from "../../../components/Wizard";
+import WizardField from "../../../models/WizardField";
+import WizardResult from "../../../models/WizardResult";
+import styles from '../../../styles/Assignment.module.scss'
+import AssignmentDTO from "../../../models/AssignmentDTO";
+import {createAssignment} from "../../../services/Assignment.service";
 import { error } from "console";
 import { use, useEffect, useState } from "react";
-import Group from "../../models/Group";
-import { getAllGroups } from "../../services/Group.service";
-import SelectItem from "../../models/SelectItem";
+import Group from "../../../models/Group";
+import { getAllGroups } from "../../../services/Group.service";
+import SelectItem from "../../../models/SelectItem";
 
 export default function AssignmentCreation() {
     const router = useRouter();
@@ -17,6 +17,7 @@ export default function AssignmentCreation() {
         {value:1,displayText:'Fach1'},
         {value:2,displayText:"Fach2"}
     ]);
+    const subject = router.query.subjectId;
 
     function finish(data: WizardResult[], setLoadingText, finishLoading) {
         const result:AssignmentDTO = {
@@ -32,7 +33,7 @@ export default function AssignmentCreation() {
 
         createAssignment(result).then((res) => {
             console.log("res",res);
-            router.push("/assignments");
+            router.push("/assignments/"+subject);
         }).catch((error) => {
             console.log(error);
         });
@@ -56,7 +57,7 @@ export default function AssignmentCreation() {
 
     return (
         <div className={styles.CreationContainer}>
-            <Wizard returnPath="/assignments/" contentData={data} callback={finish} title={"Assignment"}></Wizard>
+            <Wizard returnPath={"/assignments/"+subject} contentData={data} callback={finish} title={"Assignment"}></Wizard>
         </div>
     )
 }
