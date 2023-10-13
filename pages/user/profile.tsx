@@ -39,6 +39,7 @@ export default function Profile() {
                                     <Image src={"/jpg.svg"} width={20} height={20} alt="cancel"></Image>
                                     <label>{link}</label>
                                     <p>{link}_Name</p>
+                                    <button className="btn-primary">X</button>
                                 </div>
                             )
                             

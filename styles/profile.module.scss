@@ -1,5 +1,5 @@
 .container{
-    width: 80vw;
+    width: 70vw;
     margin: 1rem;
     padding: 0 1rem 1rem 1rem;
     background-color: var(--background_1);
@@ -16,35 +16,38 @@
 .infoContainer{
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items:flex-start;
 
     justify-content: left;
 
     border-radius: 0 0 1rem 1rem;
-    gap: 10%;
+    gap: 5%;
 
     & > div{
-        width: 50%;
+        width: 55%;
         display: flex;
+        padding: 1rem;
         flex-direction: column;
         align-items: left;
-        border-radius: 0 0 0 1rem;
+        border-radius: 1rem;
+        background-color: grey;
 
         & > div{
+            background-color: lightgray;
             padding: .5rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            border-bottom: grey 1px solid;
 
             & > label{
-                padding: .5rem;
-                font-size: smaller;
+                padding: 0 0 0 .5rem;
+                font-size: .7rem;
             }
 
-            & > p, a{
+            & > p{
                 border-radius: .5rem;
                 margin: 0;
-                padding: .5rem;
+                padding: 0 0 0 .5rem;
                 font-size: 1.5rem;
                 font-weight: 500;
             }
@@ -54,17 +57,29 @@
                 transition: .3s;
             }
         }
+
+        & > div:nth-child(1){
+            border-radius: 1rem 1rem 0 0;
+        }
+
+        & > div:last-child{
+            border-radius: 0 0 1rem 1rem;  
+            border: none; 
+        }
     }
 
     & > div:nth-child(2){
-        width: 25%;
+        width: 40%;
         gap: 1rem;
         & > div{
+            width: 100%;
             display: grid;
-            grid-template-columns: 20% 75%;
-            column-gap: 5%;
-            border-radius: .5rem;
-            background-color: grey;
+            padding: .8rem;
+            grid-template-columns: 25% 50% 25%;
+            row-gap: 0;
+            border-radius: 1rem;
+            background-color: lightgray;
+            align-self: center;
             
 
             & > img{
@@ -76,6 +91,25 @@
                 grid-row: span 2;
                 align-self: center;
                 background-color: green;
+            }
+
+            & > label{
+                font-size: 1.5rem;
+                padding: 0;
+                grid-column: 2;
+                grid-row: 1;
+            }
+
+            & > p, a{
+                font-size: .7rem;
+                padding: 0 0 0 1rem;
+                grid-column: 2;
+                grid-row: 2;
+            }
+
+            & > button{
+                grid-column: 3;
+                grid-row: span 2;
             }
         }
     }
