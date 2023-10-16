@@ -11,8 +11,12 @@ export default function Profile() {
         class: "5BHIF",
     }
 
-    const links = ["github", "google", "yahoo", "bing"];
+    const [links, setLinks] = useState(["github", "google", "yahoo", "bing"]);
 
+    function removeLink(link: string){
+        const newLinks = links.filter((l) => l !== link);
+        setLinks(newLinks);
+    }
 
     return( 
         <>
@@ -33,13 +37,17 @@ export default function Profile() {
                         })}
                     </div>
                     <div>
+                        <div>
+                            <button>+</button>
+                        </div>
+
                         {links.map((link, index) => {
                             return (
                                 <div className={styles.linkContainer} key={index}>
                                     <Image src={"/jpg.svg"} width={20} height={20} alt="cancel"></Image>
                                     <label>{link}</label>
                                     <p>{link}_Name</p>
-                                    <button className="btn-primary">X</button>
+                                    <button className="btn-primary" onClick={() => removeLink(link)}>X</button>
                                 </div>
                             )
                             
