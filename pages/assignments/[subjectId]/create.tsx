@@ -10,6 +10,7 @@ import { use, useEffect, useState } from "react";
 import Group from "../../../models/Group";
 import { getAllGroups } from "../../../services/Group.service";
 import SelectItem from "../../../models/SelectItem";
+import User from "../../../models/User";
 
 export default function AssignmentCreation() {
     const router = useRouter();
@@ -19,14 +20,24 @@ export default function AssignmentCreation() {
     ]);
     const subject = router.query.subjectId;
 
+    const user:User={
+        username: "Nix",
+        firstName: "Hallo",
+        lastName: "test",
+        email: "emil",
+        id: 0,
+        version: ""
+    }
+
     function finish(data: WizardResult[], setLoadingText, finishLoading) {
         const result:AssignmentDTO = {
             title: data[0].value,
-            description: data[4].value,
-            content: data[5].value,
+            description: data[2].value,
+            content: data[3].value,
             due: data[1].value,
-            groupId: data[3].value,
-            subjectId: data[2].value,
+            //TODO: groub and subjectID from User and url
+            groupId: 0,
+            subjectId: 0
         }
 
         console.log(result);
@@ -51,7 +62,6 @@ export default function AssignmentCreation() {
 
     const data = [
         [new WizardField('title', 'text', '', true), new WizardField('deadline', 'date', new Date(), true)],
-        [new WizardField('subject', 'select', subjects, true), new WizardField('group', 'groupSelect', [], true)],
         [new WizardField('description', 'text', '', true),new WizardField('content', 'md', '', false)]
     ]
 
