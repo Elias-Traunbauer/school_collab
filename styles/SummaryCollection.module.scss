@@ -4,6 +4,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1em;
+    margin-bottom: 2em;
 
     &>div:first-child{
         width: 80%;
@@ -41,5 +42,10 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+    }
+
+    &>button:nth-child(2){
+        width: 60%;
+        padding: .5em 0;
     }
 }

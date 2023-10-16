@@ -52,7 +52,6 @@
     justify-content: center;
     align-items: center;
     gap: .2em;
-    cursor: pointer;
 }
 
 .Listcontainer > div {
@@ -82,18 +81,6 @@
 }
 
 
-.ListContentcontainer:hover {
-    filter: brightness(120%);
-
-    & p {
-        text-decoration: underline 1px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-    }
-
-    
-}
 
 .ListContentcontainer{
     background-color: var(--background_1);
@@ -101,6 +88,9 @@
     &>img{
         width: 2.5em;
         height: 2.5em;
+    }
+    &:hover{
+        filter: brightness(130%);
     }
 }
 
@@ -125,14 +115,24 @@
     border-radius: 10em;
     width: fit-content;
     user-select: none;
+
+    &>img{
+        pointer-events: none;
+    }
 }
 
 .deletContainer:hover {
     filter: brightness(140%);
     background-color: var(--background_1);
+    cursor: pointer;
 }
 
 .deleteAnimation{
+    opacity: 0;
+    transition: opacity .2s linear;
+}
+
+.downloadAnimation{
     opacity: 0;
     transition: opacity .2s linear;
 }
