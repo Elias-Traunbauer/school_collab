@@ -145,7 +145,7 @@ namespace Api.Controllers
 
         [HttpGet("username-available/{username}")]
         [NoAuthenticationRequired]
-        [RateLimitAttribute(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
+        [RateLimit(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
         public async Task<IActionResult> UsernameTaken(string username, [FromServices] IUserService userService)
         {
             var result = await userService.IsUsernameTaken(username);
@@ -159,7 +159,7 @@ namespace Api.Controllers
 
         [HttpGet("email-available/{email}")]
         [NoAuthenticationRequired]
-        [RateLimitAttribute(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
+        [RateLimit(maxRequestsPerMinute: 40, rateLimitMode: RateLimitMode.FixedDelay)]
         public async Task<IActionResult> EmailTaken([EmailAddress] string email, [FromServices] IUserService userService)
         {
             if (!ModelState.IsValid)
