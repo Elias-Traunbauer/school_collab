@@ -4,14 +4,35 @@ import FileListObject from './FileListObject'
 import { useState } from 'react'
 import VotingComponent from './VotingComponent'
 import { Router, useRouter } from 'next/router'
-export default function SummaryPostCard({ post = {author:'Yannie',title:'Info Team',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}: { post?: any }) {
+import Summary from '../models/Summary'
+export default function SummaryPostCard({ post = {
+    id: 0,
+    title: 'Test',
+    descritpion: 'nix',
+    publishdate: new Date(),
+    subject: {
+        name: 'DBI',
+        id: 1,
+        version: ''
+    },
+    author: {
+        username: 'Test',
+        firstName: 'Test',
+        lastName: 'Test',
+        email: 'Test',
+        id: 0,
+        version: ''
+    }
+}}: { post?: Summary }) {
 
     const router = useRouter();
+    const subject = router.query.subjectId;
+    console.log("SUB",subject);
     const userDummy = {
         name: 'Yannie',
     }
     const [editMode, setEditMode] = useState(false)
-    const [lastModified, setLastModified] = useState({date: post.publishDate, modified: false})
+    const [lastModified, setLastModified] = useState({date: post.publishdate, modified: false})
     let backup = post;
 
     function downloadFiles() {
@@ -55,7 +76,7 @@ export default function SummaryPostCard({ post = {author:'Yannie',title:'Info Te
     }
 
     function handleOpenDetails(){
-        router.push('/summaries/detail');
+        router.push('/summaries/'+subject+'/'+post.id);
     }
 
     return (
@@ -64,7 +85,7 @@ export default function SummaryPostCard({ post = {author:'Yannie',title:'Info Te
                 <Image alt='profile' src={'/ProfileDemo.svg'} width={200} height={200} />
                 <div>
                     <div>
-                        <p>{post.author}</p>
+                        <p>{post.author.username}</p>
                         <span>{lastModified.modified? "last modified: " : "published: " } {getTimestamp()}</span>
                     </div>
                         
@@ -73,7 +94,7 @@ export default function SummaryPostCard({ post = {author:'Yannie',title:'Info Te
                 </div>
             </div>
             <div className={styles.postFooter}>
-                <VotingComponent itemkey={post.votingId} withScore={true}></VotingComponent>
+                <VotingComponent itemkey={post.id} withScore={true}></VotingComponent>
             </div>
         </div>
     )

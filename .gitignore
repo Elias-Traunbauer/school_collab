@@ -412,3 +412,11 @@ FodyWeavers.xsd
 *.sln.iml
 
 appsettings.json
+
+# Chache files
+Api.csproj.AssemblyReference.cache
+ConsoleFillDatabase.csproj.AssemblyReference.cache
+Core.Test.csproj.AssemblyReference.cache
+Persistence.csproj.AssemblyReference.cache
+Service.Test.csproj.AssemblyReference.cache
+Service.csproj.AssemblyReference.cache

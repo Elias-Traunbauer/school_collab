@@ -6,7 +6,7 @@ import NewSubject from "../../components/NewSubject";
 
 export default function AddSubject() {
     const router = useRouter();
-    const returnPath = "/summaries"
+    const returnPath = "/assignments"
 
     return (
         <NewSubject returnPath={returnPath}></NewSubject>
