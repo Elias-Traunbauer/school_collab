@@ -4,6 +4,9 @@
     padding: 0 1rem 1rem 1rem;
     background-color: var(--background_1);
     border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .picContainer{
@@ -11,6 +14,11 @@
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.wizard{
+    position: absolute;
+    align-self: center;
 }
 
 .infoContainer{
@@ -72,17 +80,17 @@
         width: 40%;
         gap: .8rem;
 
-        & > div:first-child{
+        & > div:last-child{
             border-radius: .5rem;
             padding: 0;
             border: none;
             background-color: transparent;
             & > button{
                 border-radius: .5rem;
-                border-color: var(--color_main);
+                //border-color: var(--color_main);
                 padding: .5rem;
                 font-size: 1.5rem;
-                color: var(--color_main);
+                //color: var(--color_main);
                 background-color: var(--background_3);
             }
 
@@ -91,7 +99,7 @@
             }
         }
 
-        & > div:not(:first-child){
+        & > div:not(:last-child){
             width: 100%;
             display: grid;
             padding: 0 0 0 .5rem;
@@ -113,16 +121,16 @@
                 background-color: var(--background_3);
             }
 
-            & > label{
-                height: 1rem;
+            & > a{
                 justify-content: center;
+                align-self: center;
                 font-size: 1.5rem;
-                padding: .5rem 0 1rem 0;
+                padding: 0;
                 grid-column: 2;
-                grid-row: 1;
+                grid-row: span 2;
             }
 
-            & > p, a{
+            & > p{
                 font-size: .7rem;
                 padding: 0 0 0 1rem;
                 grid-column: 2;
