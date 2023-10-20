@@ -13,12 +13,84 @@
     padding: 1rem;
     width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: .5rem;
+    align-items: center;
+
+    & > img{
+        padding: .5rem;
+        background-color: var(--background);
+        border-radius: 5rem;
+    }
 }
 
 .wizard{
     position: absolute;
     align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30vw;
+    border-radius: .5rem;
+    background-color: var(--background_2);
+    padding: 1rem;
+
+    & > form{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        gap: 2rem;
+
+        & > h1{
+            margin-block-start: 1.5rem;
+            margin-block-end: .5rem;
+            text-align: center;
+        }
+
+        & > div:not(:last-child){
+            display: flex;
+            flex-direction: column;
+            border-radius: 1rem;
+
+            & > label{
+                font-size: 1rem;
+                padding: 0 0 .4rem .5rem;
+            }
+
+            & > p{
+                margin: 0;
+                padding: 0 0 .4rem 1rem;
+                font-size: smaller;
+                color: var(--color_main);
+            }
+
+            & > input{
+                border: none;
+                outline: none;
+                border-radius: .5rem;
+                height: 3.5rem;
+                padding-left: .5rem;
+                font-size: 1.3rem;
+            }
+        }
+
+        & > div:last-child{
+            display: flex;
+            justify-content: center;
+
+            & > input{
+                border: none;
+                border-radius: .5rem;
+                padding: .5rem;
+                font-size: 1.5rem;
+                width: 100%;
+                cursor: pointer;
+            }
+        }
+    }
 }
 
 .infoContainer{
@@ -87,10 +159,8 @@
             background-color: transparent;
             & > button{
                 border-radius: .5rem;
-                //border-color: var(--color_main);
                 padding: .5rem;
                 font-size: 1.5rem;
-                //color: var(--color_main);
                 background-color: var(--background_3);
             }
 
