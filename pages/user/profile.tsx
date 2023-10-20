@@ -5,19 +5,41 @@ import Link from "next/link";
 import Wizard from "../../components/Wizard";
 import WizardField from "../../models/WizardField";
 import { json } from "stream/consumers";
+import User from "../../models/User";
+import { getUser } from "../../services/User.service";
 
 export default function Profile() {
-    const user = {
-        username: "if190135",
-        firstname: "Luca",
-        lastname: "Fuchsjäger",
-        class: "5BHIF",
-    }
+    const [user,setUser] = useState<User>({
+        id: 0,
+        version: "",
+        username: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+    });
 
     const data = [[new WizardField('Plattform', 'text', '', true),new WizardField('Link zu Ihrem Profil', 'text', '', true)]];
 
     const [links, setLinks] = useState([["github", "www.github.com"], ["google", "www.google.com"], ["yahoo", "www.yahoo.com"], ["bing", "www.bing.com"]]);
     const [addLink, setAddLink] = useState(false);
+
+    useEffect(() => {
+        fetchDataAsync();
+
+    },[]);
+
+    function fetchDataAsync() {
+        var res = getUser();
+        var newUser = user;
+
+        res.then((res) => {
+            if(res.status == 200){
+                newUser = res.data as User;
+            }   
+        });
+
+        setUser(newUser);
+    }
 
     function removeLink(link: string[]){
         const newLinks = links.filter((l) => l !== link);
