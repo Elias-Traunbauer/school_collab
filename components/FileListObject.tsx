@@ -1,22 +1,31 @@
+import { useEffect, useState } from "react";
 import styles from "../styles/FileListObject.module.scss";
 import Image from "next/image";
-
+import { getFileById } from "../services/File.service";
 export default function FileListObject({
   itemKey,
   deleteFunction,
   downloadFunction,
   downloadabel = false,
   asCard = true,
-  file = { name: "File" },
+  fileId,
 }: {
   downloadabel?: boolean;
   itemKey: number;
   downloadFunction?: (key: number) => void | null;
   deleteFunction?: (key: number) => void | null;
   asCard?: boolean;
-  file?: { name: string };
+  fileId: number;
 }) {
-  const filename = GetFilename(file);
+  const [displayFile, setDisplayFile] = useState<File>();
+
+  useEffect(() => {
+    async function fetchData() {
+      const tmpFile = await getFileById(itemKey);
+      setDisplayFile(tmpFile);
+    }
+    fetchData();
+  }, []);
 
   function GetFilename(file) {
     let maxLen = 50;
@@ -37,8 +46,6 @@ export default function FileListObject({
     const child = element.children[0] as HTMLImageElement;
     // change image to check.svg
     child.src = "/checklist.svg";
-    
-
   }
 
   function deleteItem(e) {
@@ -55,7 +62,7 @@ export default function FileListObject({
       {asCard ? (
         <div className={styles.Cardcontainer}>
           <Image alt="File" src="/fileIcon.svg" width={60} height={60}></Image>
-          <p>{file.name}</p>
+          <p>{GetFilename(displayFile)}</p>
         </div>
       ) : (
         <div id="listContainer" className={styles.Listcontainer}>
@@ -66,7 +73,7 @@ export default function FileListObject({
               width={50}
               height={50}
             ></Image>
-            <p>{file.name}</p>
+            <p>{GetFilename(displayFile)}</p>
             {downloadabel ? (
               <div onClick={(e)=>uploadItem(e)} className={styles.deletContainer}>
                 <Image

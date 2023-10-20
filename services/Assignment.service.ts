@@ -1,3 +1,5 @@
+
+import { error } from "console";
 import Assignment from "../models/Assignment";
 import AssignmentDTO from "../models/AssignmentDTO";
 
@@ -67,6 +69,56 @@ export async function createAssignment(assignment: AssignmentDTO){
       throw response;
     }
     return response;
+  } catch (error) {
+    
+    throw error;
+  }
+}
+
+export async function updateAssignment(assignment: AssignmentDTO){
+  try {
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(assignment)
+    });
+
+    if (response.status === 200) {
+      
+      const contentType = response.headers.get('content-type');
+      if (contentType) {
+        const data = await response.json();
+
+        if (data.status != 200) {
+          throw data;
+        }
+
+      }
+      
+    } else {
+      throw response;
+    }
+    return response;
+  } catch (error) {
+    
+    throw error;
+  }
+}
+
+async function getAssignmentBySubjectId(subjectId:number){
+  try {
+    const response = await fetch(url+'/subject/'+subjectId, {
+      method: 'GET'
+    });
+    if (response.status != 200) {
+      throw response;
+    }
+    
+    const data = await response.json();
+    
+    return data;
   } catch (error) {
     
     throw error;

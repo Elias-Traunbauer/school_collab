@@ -11,84 +11,58 @@ import Group from "../../../../models/Group";
 import Subject from "../../../../models/Subject";
 import UserContext from '../../../../components/UserContext'
 import Datepicker from "../../../../components/Datepicker";
-import { getAssignmentById } from '../../../../services/Assignment.service';
+import { getAssignmentById,updateAssignment } from '../../../../services/Assignment.service';
+import { postFiles } from "../../../../services/File.service";
+import FileObject from "../../../../models/File";
 
-export default function AssignmentEdit({ assignmentId }) {
+export default function AssignmentEdit() {
   // TODO: fetch assignment
   const context = useContext(UserContext);
 
-  const mockGroup: Group = {
-    creatorUserId: 0,
-    description: "",
-    name: "",
-    id: 0,
-    version: ""
-  };
-  const mockSubject: Subject = {
-    name: "DBI",
-    id: 0,
-    version: ""
-  };
-  //mock
-  let assignmentDummy: Assignment = {
-    title: "...",
-    description: "sadasda",
-    content: "dasdassd",
-    created: new Date(),
-    modified: new Date(),
-    due: new Date(),
-    group: mockGroup,
-    subject: mockSubject,
-    user: context.userContext,
-    userId: context.userContext.id,
-    groupId: 0,
-    subjectId: 0,
-    id: -1,
-    version: "0",
-    files: [],
-    instructions: [],
-  };
-
-  const [assignment, setAssignment] = useState<Assignment>(assignmentDummy);
+  const [assignment, setAssignment] = useState<Assignment>();
   const [edditMode, setEdditMode] = useState(false);
-  const [assignmentBackup, setAssignmentBackup] = useState<Assignment>(assignmentDummy);
-  const [dueDate, setDueDate] = useState<Date>(assignmentDummy.due);
-  const [content, setContent] = useState<string>(assignmentDummy.content);
+  const [assignmentBackup, setAssignmentBackup] = useState<Assignment>();
+  const [dueDate, setDueDate] = useState<Date>();
+  const [content, setContent] = useState<string>();
   const [acceptedFilextentions, setAcceptedFilextentions] = useState([]);
   const router = useRouter();
-  const subject = router.query.subjectId;
+  const assignmentId = router.query.assignmentId;
 
 
   useEffect(() => {
     async function fetchDataAsync() {
-      const assignmentId = parseInt(router.query.assignmentId as string);
-      getAssignmentById(assignmentId).then((res) => {
-        //subject not implemented yet
-        res.subject = mockSubject;
-        res.due = new Date(res.due);
+      const assignmentIdAsNumber = parseInt(assignmentId as string);
+
+      if(isNaN(assignmentIdAsNumber)){
+        return;
+      }
+
+      getAssignmentById(assignmentIdAsNumber).then((res) => {
         setAssignment(res);
         setAssignmentBackup(res);
         setDueDate(res.due);
         setContent(res.content);
       }).catch((err) => {
-        console.log(err);
+        console.error(err);
       });
     }
 
-    //fetchDataAsync();
+    fetchDataAsync();
   }, []);
 
 
-  function handleUploadFilesUpdate(list) {
+  async function handleUploadFilesUpdate(list:FileObject[]) {
+    const tmpFiles:string[] = await postFiles(list);
     setAssignment({
       ...assignment,
-      files: [...assignment.files, ...list],
+      files: [...assignment.files, ...tmpFiles],
     });
   }
-  function handleInstructionFilesUpdate(list) {
+  async function handleInstructionFilesUpdate(list:FileObject[]) {
+    const tmpFiles:string[] = await postFiles(list);
     setAssignment({
       ...assignment,
-      instructions: [...assignment.instructions, ...list],
+      instructions: [...assignment.instructions, ...tmpFiles],
     });
   }
   function handleAcceptedFiles(list) {
@@ -127,15 +101,13 @@ export default function AssignmentEdit({ assignmentId }) {
   }
 
   function handleSaveAssignment() {
-    // TODO: Backend anbindung
-    const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
-    const title = (document.getElementById("titleInput") as HTMLInputElement)
-    const dueDate = new Date();
-    router.push("/assignments/"+subject);
+    updateAssignment(assignment).then((res) => {
+      router.push("/assignments/"+assignment.subjectId);
+    }).catch((err) => {});
   }
 
   function handleCancelAssignment() {
-    router.push("/assignments/"+subject);
+    router.push("/assignments/"+assignment.subjectId);
   }
 
   function handleDateChange(date) {
@@ -194,7 +166,6 @@ export default function AssignmentEdit({ assignmentId }) {
                   :
                   <p>Abgelaufen</p>
             }
-
           </div>
         </div>
 
@@ -234,7 +205,7 @@ export default function AssignmentEdit({ assignmentId }) {
                     <FileListObject
                       key={"FileObj_" + i}
                       itemKey={i}
-                      file={{ name: file.name }}
+                      fileId={file}
                       asCard={true}
                       deleteFunction={() => handleDeleInstructionFile(i)}
                     ></FileListObject>
@@ -281,7 +252,7 @@ export default function AssignmentEdit({ assignmentId }) {
                       <FileListObject
                         key={index}
                         itemKey={index}
-                        file={{ name: file.name }}
+                        fileId={file}
                         asCard={false}
                         deleteFunction={handleDeleteUploadFile}
                       ></FileListObject>

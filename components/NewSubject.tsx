@@ -7,6 +7,7 @@ export default function NewSubject({returnPath}: {returnPath: string}) {
     const router = useRouter();
 
     function finisheWizard(text,callbackLoadingText,finishLoading) {
+        //TODO: change Wizard and add subject properly
         setTimeout(() => {
             finishLoading();
             alert(text);
@@ -15,7 +16,7 @@ export default function NewSubject({returnPath}: {returnPath: string}) {
 
     return (
         <div className={styles.new}>
-            <Wizard returnPath="/summaries" containerWidth={50} contentData={[[new WizardField('Name','text','',true),new WizardField('Abkürzung','text','',false)]]} callback={finisheWizard} title={"New Subject"}></Wizard>
+            <Wizard returnPath={returnPath} containerWidth={50} contentData={[[new WizardField('Name','text','',true),new WizardField('Abkürzung','text','',false)]]} callback={finisheWizard} title={"New Subject"}></Wizard>
         </div>
     )
 }

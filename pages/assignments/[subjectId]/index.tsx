@@ -9,6 +9,7 @@ import UserContext from '../../../components/UserContext'
 import { get } from 'http';
 import Group from '../../../models/Group';
 import Subject from '../../../models/Subject';
+import { getSubjectById } from '../../../services/Subject.service';
 
 export default function Assignments() {
     const context = useContext(UserContext);
@@ -25,15 +26,23 @@ export default function Assignments() {
     const router = useRouter();
     const [searched, setSearched] = useState(false);
     const [searchValue, setSearchValue] = useState('');
-    const subject = router.query.subjectId;
+    const subjectId = router.query.subjectId;
+    const [subject, setSubject] = useState<Subject>();
 
     useEffect(() => {
         async function fetchDataAsync() {
+            // check if subjectId is a number
+            if(isNaN(parseInt(subjectId as string))){
+                return;
+            }
+
+            const subjectIdToNumber = parseInt(subjectId as string);
+            const tmpSubject = await getSubjectById(subjectIdToNumber);
+            setSubject(tmpSubject);
             getAllAssignments().then((res) => {
-                
                 //subject not implemented yet
                 res.forEach(element => {
-                    element.subject = mockSubject;
+                    element.subject = tmpSubject;
                     element.due = new Date(element.due);
                 });
                 setAssignmentData(res);
@@ -44,7 +53,7 @@ export default function Assignments() {
             });
         }
         fetchDataAsync();
-    }, [router]);
+    }, []);
 
     function resetSearch(){
         const searchInput = document.getElementById('searchInput') as HTMLInputElement;

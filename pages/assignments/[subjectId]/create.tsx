@@ -11,57 +11,59 @@ import Group from "../../../models/Group";
 import { getAllGroups } from "../../../services/Group.service";
 import SelectItem from "../../../models/SelectItem";
 import User from "../../../models/User";
+import Subject from "../../../models/Subject";
+import { getSubjectById } from "../../../services/Subject.service";
+import { getUser } from "../../../services/User.service";
 
 export default function AssignmentCreation() {
     const router = useRouter();
-    const [subjects, setSubjects] = useState<SelectItem[]>([
-        {value:1,displayText:'Fach1'},
-        {value:2,displayText:"Fach2"}
-    ]);
-    const subject = router.query.subjectId;
+    const subjectId = router.query.subjectId;
+    const [subject, setSubject] = useState<Subject>();
+    const [user, setUser] = useState<User>();
 
-    const user:User={
-        username: "Nix",
-        firstName: "Hallo",
-        lastName: "test",
-        email: "emil",
-        id: 0,
-        version: ""
-    }
+    useEffect(() => {
+        async function fetchData() {
+            // check if subjectId is a number
+            const subjectIdToNumber = parseInt(subjectId as string);
+            if(isNaN(subjectIdToNumber)){
+                return;
+            }
+            const tmpSubject = await getSubjectById(subjectIdToNumber);
+            setSubject(tmpSubject);
+            const tmpUser = await getUser();
+            setUser(tmpUser);
+        }
+        fetchData();
+    }, []);
 
     function finish(data: WizardResult[], setLoadingText, finishLoading) {
         const result:AssignmentDTO = {
             title: data[0].value,
-            description: data[2].value,
-            content: data[3].value,
+            description: data[3].value,
+            content: data[4].value,
             due: data[1].value,
-            //TODO: groub and subjectID from User and url
-            groupId: 0,
-            subjectId: 0
+            //TODO: groub from Wizard
+            groupId: data[2].value,
+            subjectId: subject.id,
         }
+        setLoadingText("Creating assignment...");
 
         console.log(result);
 
         createAssignment(result).then((res) => {
-            console.log("res",res);
-            router.push("/assignments/"+subject);
+            setLoadingText("done!");
+            setTimeout(() => {
+                finishLoading();
+                router.push("/assignments/"+subjectId);
+            }, 200);
         }).catch((error) => {
             console.log(error);
         });
-
-        setLoadingText("Loading");
-        setTimeout(() => {
-            finishLoading();
-            setLoadingText("done!");
-
-            setTimeout(() => {
-                router.push("/assignments");
-            }, 200);
-        }, 2000);
     };
 
     const data = [
         [new WizardField('title', 'text', '', true), new WizardField('deadline', 'date', new Date(), true)],
+        [new WizardField('group', 'select', '', true)],
         [new WizardField('description', 'text', '', true),new WizardField('content', 'md', '', false)]
     ]
 

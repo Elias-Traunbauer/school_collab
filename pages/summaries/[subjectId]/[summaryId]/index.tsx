@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MarkdownEditor from '../../../../components/MarkdownEditor';
 import Voting from '../../../voting';
 import VotingComponent from '../../../../components/VotingComponent';
@@ -6,30 +6,48 @@ import styles from "../../../../styles/SummaryDetail.module.scss";
 import FileUpload from '../../../../components/FileUpload';
 import FileListObject from '../../../../components/FileListObject';
 import { useRouter } from 'next/router';
-export default function SummaryDetail({ post = {author:'Yannie',title:'Info sssssssssssssssssssssssssssssssssssssssssssssss sssssssssss',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI",votingId: 1}}) {
+import Summary from '../../../../models/Summary';
+import { getSummaryById , updateSummary} from '../../../../services/Summary.service';
+import Subject from '../../../../models/Subject';
+import { getSubjectById } from '../../../../services/Subject.service';
+import { postFiles } from '../../../../services/File.service';
+export default function SummaryDetail(){
     const [editMode, setEditMode] = useState(false);
-    const [files, setFiles] = useState(post.files);
-    const [summary, setSummary] = useState({
-        title: post.title,
-        description: post.description,
-        files: post.files,
-        votingId: post.votingId,
-    });
-    const [backupSummary, setBackupSummary] = useState(summary);
+    const [files, setFiles] = useState<string[]>();
+    const [summary, setSummary] = useState<Summary>();
+    const [backupSummary, setBackupSummary] = useState<Summary>();
     const router = useRouter(); 
-    const subject:string = "DBI";
+    const subjectId = router.query.subjectId;
     const [fileUpdateDate, setFileUpdateDate] = useState(new Date());
+    const summaryId = router.query.summaryId;
+    const [subject, setSubject] = useState<Subject>();
 
-    const mockUser = {
-        name: 'Yannie',
-    }
+    useEffect(() => {
+        async function fetchData() {
+            const subjectIdAsNumber = parseInt(subjectId as string);
+            if(isNaN(subjectIdAsNumber)) {
+                return;
+            }
+            const tmpSubject = await getSubjectById(subjectIdAsNumber);
+            setSubject(tmpSubject);
 
-    function handleAcceptedFiles(files: File[]) {
+            const summaryIdAsNumber = parseInt(summaryId as string);
+            if(isNaN(summaryIdAsNumber)) {
+                return;
+            }
+            const tmpSummary = await getSummaryById(summaryIdAsNumber);
+            setSummary(tmpSummary);
+            setBackupSummary(tmpSummary);
+        }
+    }, []);
+
+    function handleAcceptedFiles(files: string[]) {
         console.log(files);
     }
 
-    function handleFilesUpdated(updatedfiles: File[]) {
-        setFiles([...files,...updatedfiles]);
+    async function handleFilesUpdated(updatedfiles: File[]) {
+        const res:string[] = await postFiles(updatedfiles);
+        setFiles([...files,...res]);
     }
 
     function downloadFile(file){
@@ -49,14 +67,17 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
     }
 
     function handleExit() {
-        router.push(`/summaries/${subject}`);
+        updateSummary(summary).then((res) => {
+            router.push(`/summaries/${subject}`);
+        });
+        
     }
 
     function handleSave() {
         const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
         editCheckbox.checked = false;
         summary.title = (document.getElementById('SumTitle') as HTMLInputElement).value;
-        summary.description = (document.getElementsByClassName(styles.MarkdownEditor)[0] as HTMLInputElement).value;
+        summary.descritpion = (document.getElementsByClassName(styles.MarkdownEditor)[0] as HTMLInputElement).value;
         summary.files = files;
 
         setEditMode(false);
@@ -94,12 +115,12 @@ export default function SummaryDetail({ post = {author:'Yannie',title:'Info ssss
                         }
                         
                         <div>
-                            <VotingComponent votingId={summary.votingId} withScore={true} itemkey={0}></VotingComponent>
+                            <VotingComponent votingId={summary.id} withScore={true} itemkey={0}></VotingComponent>
                         </div> 
                     </div>
             </div>
             <div className={styles.MarkdownEditor}>
-                <MarkdownEditor containerWidth={editMode?50:80} defaultText={summary.description} isEditable={editMode}></MarkdownEditor>
+                <MarkdownEditor containerWidth={editMode?50:80} defaultText={summary.descritpion} isEditable={editMode}></MarkdownEditor>
             </div>
 
             {

@@ -3,22 +3,27 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import SubjectItem from "../components/SubjectItem";
 import { Router, useRouter } from "next/router";
+import {getSubjects} from '../services/Subject.service'
+import Subject from "../models/Subject";
 
 export default function SummaryList({title,link}: {title: string, link: string,}) {
   const posts = [{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "Math"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"}];
-  const [subjects,setSubjects] = useState(["DBI","M","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T"]);
-  const [displayedSubjects, setDisplayedSubjects] = useState(subjects);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const handleDropdownClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+  const [subjects,setSubjects] = useState<Subject[]>();
+  const [displayedSubjects, setDisplayedSubjects] = useState<Subject[]>();
   const router = useRouter();
+
+  useEffect(() => {
+    getSubjects().then((subjects) => {
+      setSubjects(subjects);
+      setDisplayedSubjects(subjects);
+    });
+  }, []);
 
   
   function handleSearch(e) {
     const searchValue = e.target.value;
     const filteredSubjects = subjects.filter((subject) => {
-      return subject.toLowerCase().includes(searchValue.toLowerCase());
+      return subject.name.toLowerCase().includes(searchValue.toLowerCase());
     });
     setDisplayedSubjects(filteredSubjects);
   }

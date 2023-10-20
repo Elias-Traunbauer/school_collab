@@ -9,5 +9,4 @@ export default interface Summary {
     publishdate: Date;
     subject: Subject;
     author: User;
-
 }
