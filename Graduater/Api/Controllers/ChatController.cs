@@ -22,7 +22,8 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateChat([FromBody] CreateChatRequest body, [FromServices] IChatService chatService)
         {
-            var createResult = await chatService.CreateChat(body.Name, body.Description, body.Members);
+            var user = HttpContext.GetUserInfo().User!;
+            var createResult = await chatService.CreateChat(body.Name, body.Description, body.Members, user.Id);
 
             return Ok(createResult);
         }

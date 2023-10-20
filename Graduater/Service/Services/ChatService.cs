@@ -21,7 +21,7 @@ namespace Service.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<IServiceResult<int>> CreateChat(string name, string description, List<int> members)
+        public async Task<IServiceResult<int>> CreateChat(string name, string description, List<int> members, int creator)
         {
             // check if members exist
             var users = members.Select(x => unitOfWork.UserRepository.GetUserByIdAsync(x).GetAwaiter().GetResult());
@@ -39,7 +39,8 @@ namespace Service.Services
                 {
                     UserId = m,
                     Joined = DateTime.UtcNow
-                }).ToList()
+                }).ToList(),
+                CreatorUserId = creator
             };
 
             await unitOfWork.ChatRepository.Create(chat);

@@ -10,7 +10,7 @@ namespace Core.Contracts.Services
 {
     public interface IChatService
     {
-        Task<IServiceResult<int>> CreateChat(string name, string description, List<int> members);
+        Task<IServiceResult<int>> CreateChat(string name, string description, List<int> members, int creator);
         Task<IServiceResult> SendMessage(int chatId, string content, int sender);
         Task<IServiceResult<Chat>> GetChat(int id);
         Task<IServiceResult<List<ChatMessage>>> GetMessages(int chatId, int requester, int count = 10, int start = 0);
