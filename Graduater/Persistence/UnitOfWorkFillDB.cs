@@ -63,6 +63,8 @@ namespace Persistence
 
         public ISubjectRepository SubjectRepository => throw new NotImplementedException();
 
+        public IChatRepository ChatRepository => throw new NotImplementedException();
+
         public async Task<bool> SaveChangesAsync()
         {
             return (await _context.SaveChangesAsync()) > 0;
