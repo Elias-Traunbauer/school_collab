@@ -1,17 +1,17 @@
 import { useState, useEffect, useContext } from "react";
-import Countdown from "../../components/Countdown";
-import styles from "../../styles/Assignment.module.scss";
+import Countdown from "../../../../components/Countdown";
+import styles from "../../../../styles/Assignment.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import FileListObject from "../../components/FileListObject";
-import FileUpload from "../../components/FileUpload";
-import MarkdownEditor from "../../components/MarkdownEditor";
-import Assignment from "../../models/Assignment";
-import Group from "../../models/Group";
-import Subject from "../../models/Subject";
-import UserContext from '../../components/UserContext'
-import Datepicker from "../../components/Datepicker";
-import { getAssignmentById } from '../../services/Assignment.service';
+import FileListObject from "../../../../components/FileListObject";
+import FileUpload from "../../../../components/FileUpload";
+import MarkdownEditor from "../../../../components/MarkdownEditor";
+import Assignment from "../../../../models/Assignment";
+import Group from "../../../../models/Group";
+import Subject from "../../../../models/Subject";
+import UserContext from '../../../../components/UserContext'
+import Datepicker from "../../../../components/Datepicker";
+import { getAssignmentById } from '../../../../services/Assignment.service';
 
 export default function AssignmentEdit({ assignmentId }) {
   // TODO: fetch assignment
@@ -56,6 +56,7 @@ export default function AssignmentEdit({ assignmentId }) {
   const [content, setContent] = useState<string>(assignmentDummy.content);
   const [acceptedFilextentions, setAcceptedFilextentions] = useState([]);
   const router = useRouter();
+  const subject = router.query.subjectId;
 
 
   useEffect(() => {
@@ -130,11 +131,11 @@ export default function AssignmentEdit({ assignmentId }) {
     const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
     const title = (document.getElementById("titleInput") as HTMLInputElement)
     const dueDate = new Date();
-    router.push("/assignments");
+    router.push("/assignments/"+subject);
   }
 
   function handleCancelAssignment() {
-    router.push("/assignments");
+    router.push("/assignments/"+subject);
   }
 
   function handleDateChange(date) {

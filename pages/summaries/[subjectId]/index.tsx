@@ -1,20 +1,23 @@
 import { useRouter } from "next/router";
-import SummaryPostCard from "../../components/SummaryPostCard";
-import styles from '../../styles/SummaryCollection.module.scss'
+import SummaryPostCard from "../../../components/SummaryPostCard";
+import styles from '../../../styles/SummaryCollection.module.scss'
 import Image from "next/image";
-import Wizard from "../../components/Wizard";
+import Wizard from "../../../components/Wizard";
 
+//slug is the subject
 export default function SummaryCollection() {
     const posts = [{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "Math"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"}];
     const router = useRouter();
-    const subject = router.query.subject;
+    const slug = router.query.subjectId;
+    const subject = slug;
+    
 
     function goBack() {
         router.push('/summaries');
     }
 
     function handleNewSumary() {
-        router.push(`/summaries/newSummary?subject=${subject}`);
+        router.push(`/summaries/${subject}/newSummary`);
     }
 
     return (
@@ -29,7 +32,7 @@ export default function SummaryCollection() {
             
             {
                 posts.map((post, i) => {
-                    return <SummaryPostCard key={i} post={post}></SummaryPostCard>
+                    return <SummaryPostCard key={i}></SummaryPostCard>
                 })
             }
         </div>
