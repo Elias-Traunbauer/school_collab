@@ -2,26 +2,27 @@ import { useEffect, useState } from "react";
 import styles from "../styles/FileListObject.module.scss";
 import Image from "next/image";
 import { getFileById } from "../services/File.service";
+import FileObject from "../models/File";
 export default function FileListObject({
   itemKey,
   deleteFunction,
   downloadFunction,
   downloadabel = false,
   asCard = true,
-  fileId,
+  file,
 }: {
   downloadabel?: boolean;
   itemKey: number;
   downloadFunction?: (key: number) => void | null;
   deleteFunction?: (key: number) => void | null;
   asCard?: boolean;
-  fileId: number;
+  file: FileObject;
 }) {
   const [displayFile, setDisplayFile] = useState<File>();
 
   useEffect(() => {
     async function fetchData() {
-      const tmpFile = await getFileById(itemKey);
+      const tmpFile = await getFileById(file.id);
       setDisplayFile(tmpFile);
     }
     fetchData();

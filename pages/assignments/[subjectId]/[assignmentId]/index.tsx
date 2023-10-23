@@ -12,7 +12,7 @@ import Subject from "../../../../models/Subject";
 import UserContext from '../../../../components/UserContext'
 import Datepicker from "../../../../components/Datepicker";
 import { getAssignmentById,updateAssignment } from '../../../../services/Assignment.service';
-import { postFiles } from "../../../../services/File.service";
+import { getFilesByIds, postFiles } from "../../../../services/File.service";
 import FileObject from "../../../../models/File";
 
 export default function AssignmentEdit() {
@@ -51,18 +51,46 @@ export default function AssignmentEdit() {
   }, []);
 
 
-  async function handleUploadFilesUpdate(list:FileObject[]) {
-    const tmpFiles:string[] = await postFiles(list);
+  async function handleUploadFilesUpdate(list:File[]) {
+    const tmpFiles:number[] = await postFiles(list);
+    const tmpFileObjects:FileObject[] = [];
+    for (const iterator of tmpFiles) {
+      const obj:FileObject = {
+        content: "",
+        name: "",
+        contentType: "",
+        mimeType: "",
+        size: 0,
+        uploadedById: context.userContext.id,
+        id: iterator,
+        version: ""
+      }
+      tmpFileObjects.push(obj);
+    }
     setAssignment({
       ...assignment,
-      files: [...assignment.files, ...tmpFiles],
+      files: [...assignment.files, ...tmpFileObjects],
     });
   }
-  async function handleInstructionFilesUpdate(list:FileObject[]) {
-    const tmpFiles:string[] = await postFiles(list);
+  async function handleInstructionFilesUpdate(list:File[]) {
+    const tmpFiles:number[] = await postFiles(list);
+    const tmpFileObjects:FileObject[] = [];
+    for (const iterator of tmpFiles) {
+      const obj:FileObject = {
+        content: "",
+        name: "",
+        contentType: "",
+        mimeType: "",
+        size: 0,
+        uploadedById: context.userContext.id,
+        id: iterator,
+        version: ""
+      }
+      tmpFileObjects.push(obj);
+    }
     setAssignment({
       ...assignment,
-      instructions: [...assignment.instructions, ...tmpFiles],
+      instructions: [...assignment.instructions, ...tmpFileObjects],
     });
   }
   function handleAcceptedFiles(list) {
@@ -205,7 +233,7 @@ export default function AssignmentEdit() {
                     <FileListObject
                       key={"FileObj_" + i}
                       itemKey={i}
-                      fileId={file}
+                      file={file}
                       asCard={true}
                       deleteFunction={() => handleDeleInstructionFile(i)}
                     ></FileListObject>
@@ -252,7 +280,7 @@ export default function AssignmentEdit() {
                       <FileListObject
                         key={index}
                         itemKey={index}
-                        fileId={file}
+                        file={file}
                         asCard={false}
                         deleteFunction={handleDeleteUploadFile}
                       ></FileListObject>

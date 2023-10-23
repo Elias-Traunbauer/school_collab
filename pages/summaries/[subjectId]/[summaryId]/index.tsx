@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MarkdownEditor from '../../../../components/MarkdownEditor';
 import Voting from '../../../voting';
 import VotingComponent from '../../../../components/VotingComponent';
@@ -11,9 +11,11 @@ import { getSummaryById , updateSummary} from '../../../../services/Summary.serv
 import Subject from '../../../../models/Subject';
 import { getSubjectById } from '../../../../services/Subject.service';
 import { postFiles } from '../../../../services/File.service';
+import FileObject from '../../../../models/File';
+import UserContext from '../../../../components/UserContext';
 export default function SummaryDetail(){
     const [editMode, setEditMode] = useState(false);
-    const [files, setFiles] = useState<string[]>();
+    const [files, setFiles] = useState<FileObject[]>();
     const [summary, setSummary] = useState<Summary>();
     const [backupSummary, setBackupSummary] = useState<Summary>();
     const router = useRouter(); 
@@ -21,6 +23,8 @@ export default function SummaryDetail(){
     const [fileUpdateDate, setFileUpdateDate] = useState(new Date());
     const summaryId = router.query.summaryId;
     const [subject, setSubject] = useState<Subject>();
+
+    const context = useContext(UserContext);
 
     useEffect(() => {
         async function fetchData() {
@@ -46,8 +50,23 @@ export default function SummaryDetail(){
     }
 
     async function handleFilesUpdated(updatedfiles: File[]) {
-        const res:string[] = await postFiles(updatedfiles);
-        setFiles([...files,...res]);
+        const res:number[] = await postFiles(updatedfiles);
+        const tmpFiles: FileObject[] = [];
+        for (const iterator of res) {
+            const obj:FileObject = {
+                content: '',
+                name: '',
+                contentType: '',
+                mimeType: '',
+                size: 0,
+                uploadedById: context.userContext.id,
+                id: iterator,
+                version: ''
+            }
+            tmpFiles.push(obj);
+        }
+
+        setFiles([...files,...tmpFiles]);
     }
 
     function downloadFile(file){
