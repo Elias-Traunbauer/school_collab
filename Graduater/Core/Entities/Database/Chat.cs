@@ -17,4 +17,9 @@ public class Chat : DatabaseEntity, IChat
 
     [ForeignKey(nameof(CreatorUserId))]
     public virtual User CreatorUser { get; set; } = null!;
+
+    [ForeignKey(nameof(PictureId))]
+    public virtual File? Picture { get; set; }
+
+    public int? PictureId { get; set; }
 }

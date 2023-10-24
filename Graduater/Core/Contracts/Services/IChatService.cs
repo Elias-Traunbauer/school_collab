@@ -15,5 +15,8 @@ namespace Core.Contracts.Services
         Task<IServiceResult<Chat>> GetChat(int id);
         Task<IServiceResult<List<ChatMessage>>> GetMessages(int chatId, int requester, int count = 10, int start = 0);
         Task<IServiceResult<List<ChatMessage>>> GetMessages(int chatId, int requester, DateTime start, int startCount = 0, int count = 10);
+        Task<IServiceResult<List<Chat>>> GetChats(int id);
+        Task<IServiceResult<List<object>>> AddReadFieldToMessages(List<ChatMessage> messages, int userId);
+        Task<IServiceResult> ReadMessage(int chatId, int messageId, int userId);
     }
 }

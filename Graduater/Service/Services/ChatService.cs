@@ -21,6 +21,23 @@ namespace Service.Services
             this.unitOfWork = unitOfWork;
         }
 
+        public async Task<IServiceResult<List<object>>> AddReadFieldToMessages(List<ChatMessage> messages, int userId)
+        {
+            int lastMessageId = await unitOfWork.ChatRepository.GetLastReadMessageId(messages.First().ChatId, userId);
+
+            var result = messages.Select(x => new
+            {
+                x.Id,
+                x.ChatId,
+                x.Content,
+                x.Created,
+                x.UserId,
+                Read = x.Id <= lastMessageId
+            });
+
+            return new ServiceResult<List<object>>(result.Cast<object>().ToList());
+        }
+
         public async Task<IServiceResult<int>> CreateChat(string name, string description, List<int> members, int creator)
         {
             // check if members exist
@@ -60,6 +77,13 @@ namespace Service.Services
             }
 
             return new ServiceResult<Chat>(chat);
+        }
+
+        public async Task<IServiceResult<List<Chat>>> GetChats(int id)
+        { 
+            var chats = await unitOfWork.ChatRepository.GetChats(id);
+
+            return new ServiceResult<List<Chat>>(chats.ToList());
         }
 
         public async Task<IServiceResult<List<ChatMessage>>> GetMessages(int chatId, int requester, int count = 10, int start = 0)
@@ -103,6 +127,15 @@ namespace Service.Services
             return new ServiceResult<List<ChatMessage>>(messages.ToList());
         }
 
+        public async Task<IServiceResult> ReadMessage(int chatId, int messageId, int userId)
+        {
+            await unitOfWork.ChatRepository.ReadMessage(chatId, messageId, userId);
+
+            await unitOfWork.SaveChangesAsync();
+
+            return new ServiceResult();
+        }
+
         public async Task<IServiceResult> SendMessage(int chatId, string content, int sender)
         {
             var chat = await unitOfWork.ChatRepository.GetChatById(chatId);
@@ -132,5 +165,7 @@ namespace Service.Services
 
             return new ServiceResult();
         }
+
+        
     }
 }

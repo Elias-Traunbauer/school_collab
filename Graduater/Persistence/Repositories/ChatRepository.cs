@@ -44,6 +44,18 @@ namespace Persistence.Repositories
             return Task.FromResult(chat);
         }
 
+        public async Task<IEnumerable<Chat>> GetChats(int id)
+        {
+            var chats = _context.Chats.Where(c => c.ChatMembers!.Select(x => x.UserId).Contains(id));
+            return chats;
+        }
+
+        public async Task<int> GetLastReadMessageId(int chatId, int userId)
+        {
+            var lastReadMessage = await _context.ChatMembers.Where(x => x.UserId == userId && x.ChatId == chatId).FirstOrDefaultAsync();
+            return lastReadMessage?.LastSeenMessageId ?? 0;
+        }
+
         public async Task<IEnumerable<ChatMessage>> GetMessages(int chatId, int count = 10, int start = 0)
         {
             var messages = _context.ChatMessages.Where(m => m.ChatId == chatId).Skip(start).Take(count);
@@ -58,7 +70,6 @@ namespace Persistence.Repositories
 
         public async Task JoinChat(User user, Chat chat)
         {
-
             var chatMember = new ChatMember
             {
                 ChatId = chat.Id,
@@ -66,6 +77,16 @@ namespace Persistence.Repositories
                 Joined = DateTime.UtcNow
             };
             await _context.ChatMembers.AddAsync(chatMember);
+        }
+
+        public async Task ReadMessage(int chatId, int messageId, int userId)
+        {
+            var chatMember = await _context.ChatMembers.Where(x => x.UserId == userId && x.ChatId == chatId).FirstOrDefaultAsync();
+            if (chatMember == null)
+            {
+                return;
+            }
+            chatMember.LastSeenMessageId = messageId;
         }
 
         public async Task SendMessage(ChatMessage chat)

@@ -1,6 +1,8 @@
 ﻿using Api.Helpers;
 using Core.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
+using Service.Services;
+using System.Threading;
 
 namespace Api.Controllers
 {
@@ -35,7 +37,7 @@ namespace Api.Controllers
         {
             var userInfo = HttpContext.GetUserInfo();
 
-            var sendResult = await chatService.SendMessage(message.chatId, message.Message, userInfo.User.Id);
+            var sendResult = await chatService.SendMessage(message.chatId, message.Message, userInfo.User!.Id);
 
             return Ok(sendResult);
         }
@@ -47,7 +49,7 @@ namespace Api.Controllers
 
             var messages = await chatService.GetMessages(chatId, userInfo.User!.Id, count, start);
 
-            return Ok(messages);
+            return Ok(await chatService.AddReadFieldToMessages(messages.Value!, userInfo.User!.Id));
         }
 
         [HttpGet(nameof(Messages) + "/since")]
@@ -57,7 +59,60 @@ namespace Api.Controllers
 
             var messages = await chatService.GetMessages(chatId, userInfo.User!.Id, start, startCount, count);
 
-            return Ok(messages);
+            return Ok(await chatService.AddReadFieldToMessages(messages.Value!, userInfo.User!.Id));
+        }
+
+        [HttpGet(nameof(MyChats))]
+        public async Task<IActionResult> MyChats([FromServices] IChatService chatService)
+        {
+            var userInfo = HttpContext.GetUserInfo();
+
+            var chats = await chatService.GetChats(userInfo.User!.Id);
+
+            return Ok(chats);
+        }
+
+        [HttpPost(nameof(Read))]
+        public async Task<IActionResult> Read(int chatId, int messageId, [FromServices] IChatService chatService)
+        {
+            var userInfo = HttpContext.GetUserInfo();
+
+            var result = await chatService.ReadMessage(chatId, messageId, userInfo.User!.Id);
+
+            return Ok(result);
+        }
+
+        [HttpGet(nameof(SubscribeToNewMessages))]
+        public async Task<IActionResult> SubscribeToNewMessages(CancellationToken cancellationToken)
+        {
+            HttpResponse resp = Response;
+
+            var chart = ChartService.Instance;
+            if (chart == null)
+            {
+                resp.StatusCode = 500;
+                return;
+            }
+
+            resp.StatusCode = 200;
+            resp.Headers.Add("Content-Type", "text/event-stream");
+            resp.Headers.Add("Cache-Control", "no-cache");
+            resp.Headers.Add("Connection", "keep-alive");
+            resp.Headers.Add("Content-Encoding", "none");
+            await resp.BodyWriter.FlushAsync(cancellationToken);
+
+
+            for (var i = 0; !cancellationToken.IsCancellationRequested; ++i)
+            {
+                await resp.WriteAsync($"data: {chart.CurrentValue.ToString().Replace(',', '.')}\r\r", cancellationToken);
+
+                await resp.Body.FlushAsync(cancellationToken);
+
+                await Task.Delay(updateFrequency, cancellationToken);
+            }
+
+            return;
+            return Ok();
         }
     }
 }

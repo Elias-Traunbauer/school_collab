@@ -18,5 +18,8 @@ namespace Core.Contracts.Repositories
         Task<IEnumerable<ChatMessage>> GetMessages(int chatId, DateTime start, int startCount = 0, int count = 10);
         Task JoinChat(User user, Chat chat);
         Task<Chat?> GetChatById(int chatId);
+        Task<IEnumerable<Chat>> GetChats(int id);
+        Task<int> GetLastReadMessageId(int chatId, int userId);
+        Task ReadMessage(int chatId, int messageId, int userId);
     }
 }
