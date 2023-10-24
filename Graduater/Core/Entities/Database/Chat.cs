@@ -11,15 +11,15 @@ public class Chat : DatabaseEntity, IChat
 
     public int CreatorUserId { get; set; }
 
-    public virtual ICollection<ChatMember>? ChatMembers { get; set; }
+    public ICollection<ChatMember> ChatMembers { get; set; } = null!;
 
-    public virtual ICollection<ChatMessage>? ChatMessages { get; set; }
+    public ICollection<ChatMessage> ChatMessages { get; set; } = null!;
 
     [ForeignKey(nameof(CreatorUserId))]
-    public virtual User CreatorUser { get; set; } = null!;
+    public User? CreatorUser { get; set; } = null!;
 
     [ForeignKey(nameof(PictureId))]
-    public virtual File? Picture { get; set; }
+    protected virtual File? Picture { get; set; }
 
     public int? PictureId { get; set; }
 }

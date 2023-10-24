@@ -82,6 +82,10 @@ namespace Service.Services
 
             await unitOfWork.SaveChangesAsync();
 
+            await unitOfWork.ChatRepository.JoinChat(creator, chat.Id);
+
+            await unitOfWork.SaveChangesAsync();
+
             return new ServiceResult<int>(chat.Id);
         }
 
@@ -154,7 +158,7 @@ namespace Service.Services
             return new ServiceResult();
         }
 
-        public async Task<IServiceResult> SendMessage(int chatId, string content, int sender)
+        public async Task<IServiceResult> SendMessage(int chatId, string content, int sender, int? replyToMessageId)
         {
             var chat = await unitOfWork.ChatRepository.GetChatById(chatId);
 
@@ -174,12 +178,22 @@ namespace Service.Services
                 ChatId = chatId,
                 Content = content,
                 Created = DateTime.UtcNow,
+                ReplyToMessageId = replyToMessageId,
                 UserId = sender
             };
 
             await unitOfWork.ChatRepository.SendMessage(message);
 
             await unitOfWork.SaveChangesAsync();
+
+            var user = await unitOfWork.UserRepository.GetUserByIdAsync(sender);
+
+            message.User = new User()
+            {
+                Username = user!.Username,
+                ProfilePictureId = user.ProfilePictureId,
+                Id = sender
+            };
 
             await realTimeChatMessageService.NotifyChat(chatId, message, unitOfWork);
 
