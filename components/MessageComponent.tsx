@@ -1,7 +1,10 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useContext, useEffect, useState } from "react";
 import styles from "../styles/MessageComponent.module.scss";
 import FileListObject from "./FileListObject";
-import Message from "../models/Message";
+import ChatMessage from "../models/ChatMessage";
+import UserContext from "./UserContext";
+import User from "../models/User";
+import {getChatMessageById} from '../services/Chat.service';
 export default function MessageComponent({
   message,
   displayName = false,
@@ -9,14 +12,27 @@ export default function MessageComponent({
   callBackAnswerClicked
 }: {
     callBackAnswerClicked?: Function;
-    message:Message,
+    message:ChatMessage,
     displayName: boolean;
-    handleAnswer: (answer:Message) => void;
+    handleAnswer: (answer:ChatMessage) => void;
 }) {
-  const mockuser = { id: 2,name: "alo" , color:'blue'};
+
+  const context = useContext(UserContext);
+  const [replyMessage, setReplyMessage] = useState<ChatMessage>();
+
+  useEffect(() => {
+    if(message.replyMessageId){
+      async function fetchData(){
+        const res = await getChatMessageById(message.replyMessageId);
+        setReplyMessage(res);
+      }
+      fetchData();
+    }
+  }, []);
+
   function DisplayDate() {
-    const hour = message.createdAt.getHours().toString().padStart(2, "0");
-    const minute = message.createdAt.getMinutes().toString().padStart(2, "0");
+    const hour = message.created.getHours().toString().padStart(2, "0");
+    const minute = message.created.getMinutes().toString().padStart(2, "0");
     return `${hour}:${minute}`;
   }
 
@@ -36,10 +52,10 @@ export default function MessageComponent({
   }
 
   return (
-    <div style={displayName ? { marginTop: '.3em' } : {}} className={`${styles.wrapper} ${message.author.id == mockuser.id? styles.wrapRight : styles.wrapLeft}`}>
+    <div id={`message${message.id}`} style={displayName ? { marginTop: '.3em' } : {}} className={`${styles.wrapper} ${message.userId == context.userContext.id? styles.wrapRight : styles.wrapLeft}`}>
 
       {
-        message.author.id == mockuser.id&&
+        message.userId == context.userContext.id&&
         <div className={styles.popUp}>
           <div>
             <button onClick={handleMessageClicked}></button>
@@ -48,43 +64,31 @@ export default function MessageComponent({
       }
     
 
-      <div className={`${styles.container} ${message.author.id == mockuser.id&& styles.ownMessage}`}>
-      {displayName && message.author.id != mockuser.id && (
+      <div className={`${styles.container} ${message.userId == context.userContext.id&& styles.ownMessage}`}>
+      {displayName && message.userId != context.userContext.id && (
         <div className={styles.head}>
-          <p style={{color:message.author.color}}>{message.author.name}</p>
+          <p>{message.user.username}</p>
         </div>
       )}
 
-      {message.answer && (
-        <div onClick={handleAnswerClicked} style={{'--answerColor': message.answer.author.color} as CSSProperties} className={styles.answer}>
+
+      {
+        
+      message.replyMessageId && (
+        <div onClick={handleAnswerClicked} className={styles.answer}>
           <div >
             <div className={styles.answerHead}>
-              <p style={{color:message.answer.author.color}}>{message.answer.author.name}</p>
+              <p style={{color:'--answerColor'}}>{replyMessage.user.username}</p>
             </div>
             <div className={styles.answerBody}>
-              <p>{message.answer.text}</p>
+              <p>{replyMessage.content}</p>
             </div>
-            
           </div>
-          
         </div>
       )}
-              {
-            message.files.length > 0 &&
-            <div className={styles.fileContainer}>
-              
-                {
-                     message.files.map((file,index) => {
-                        return (
-                            <FileListObject downloadFunction={handleDownload} downloadabel={true} key={"file_"+index} itemKey={index} asCard={false} file={{name:file.name}}></FileListObject>
-                        );
-                    })
-                }
-            </div>
-        }
 
       <div className={styles.body}>
-        <p>{message.text}</p>
+        <p>{message.content}</p>
       </div>
       
 
@@ -94,7 +98,7 @@ export default function MessageComponent({
       </div>
     </div>
     {
-        message.author.id != mockuser.id&&
+        message.userId != context.userContext.id&&
         <div className={styles.popUp}>
           <div>
             <button onClick={handleMessageClicked} ></button>

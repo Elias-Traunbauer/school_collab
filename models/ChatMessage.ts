@@ -9,4 +9,6 @@ export default interface ChatMessage extends DataBaseEntity{
     created: Date;
     user?: User;
     userId: number;
+    read:boolean;
+    replyMessageId?: number;
 }

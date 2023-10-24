@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../styles/ChatroomListitem.module.scss';
 import Image from 'next/image';
+import ChatMessage from '../models/ChatMessage';
 export default function ChatroomListitem({
     id,
     name,
@@ -11,9 +12,9 @@ export default function ChatroomListitem({
   }: {
     id: number;
     name: string;
-    profile: string;
-    lastMessage: { text: string; createdAt: Date };
-    unreadMessages: number;
+    profile?: string;
+    lastMessage: ChatMessage;
+    unreadMessages: ChatMessage[];
     onClick?: () => void;
   }) {
     const defaultProfile = 'person.svg';
@@ -53,14 +54,14 @@ export default function ChatroomListitem({
                     <Image className={profile === defaultProfile&& styles.defaultProfile } width={30} height={30} src={'/'+profile} alt="profile"></Image>
                     <div className={styles.body}>
                         <p>{name}</p>
-                        <p>{lastMessage.text}</p>
+                        <p>{lastMessage.content}</p>
                     </div>
                     <div className={styles.info}>
                         {
-                            unreadMessages > 0 ?
-                            <p className={styles.unreadMessages}>{unreadMessages > 9999?'viele':unreadMessages}</p>
+                            unreadMessages.length > 0 ?
+                            <p className={styles.unreadMessages}>{unreadMessages.length > 300?'>300':unreadMessages.length}</p>
                             :
-                            <p className={styles.date}>{getDate(lastMessage.createdAt)}</p>
+                            <p className={styles.date}>{getDate(lastMessage.created)}</p>
                         }
                         
                     </div>
