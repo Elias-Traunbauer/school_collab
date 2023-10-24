@@ -9,6 +9,8 @@ public class ChatMessage : DatabaseEntity, IChatMessage
 
     public int UserId { get; set; }
 
+    public int? ReplyToMessageId { get; set; }
+
     public string Content { get; set; } = null!;
 
     public DateTime Created { get; set; }

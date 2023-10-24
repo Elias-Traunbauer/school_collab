@@ -1,6 +1,7 @@
 ﻿using Api.Helpers;
 using Core.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Service.Services;
 using System.Threading;
 
@@ -30,14 +31,14 @@ namespace Api.Controllers
             return Ok(createResult);
         }
 
-        public record SendMessageRequest(int chatId, string Message);
+        public record SendMessageRequest(int ChatId, string Message, int? ReplyToMessageId);
 
         [HttpPost("message")]
         public async Task<IActionResult> SendMessage([FromBody]SendMessageRequest message, [FromServices] IChatService chatService)
         {
             var userInfo = HttpContext.GetUserInfo();
 
-            var sendResult = await chatService.SendMessage(message.chatId, message.Message, userInfo.User!.Id);
+            var sendResult = await chatService.SendMessage(message.ChatId, message.Message, userInfo.User!.Id);
 
             return Ok(sendResult);
         }
@@ -49,7 +50,7 @@ namespace Api.Controllers
 
             var messages = await chatService.GetMessages(chatId, userInfo.User!.Id, count, start);
 
-            return Ok(await chatService.AddReadFieldToMessages(messages.Value!, userInfo.User!.Id));
+            return Ok(await chatService.AddMessageMetadata(messages.Value!, userInfo.User!.Id));
         }
 
         [HttpGet(nameof(Messages) + "/since")]
@@ -59,7 +60,7 @@ namespace Api.Controllers
 
             var messages = await chatService.GetMessages(chatId, userInfo.User!.Id, start, startCount, count);
 
-            return Ok(await chatService.AddReadFieldToMessages(messages.Value!, userInfo.User!.Id));
+            return Ok(await chatService.AddMessageMetadata(messages.Value!, userInfo.User!.Id));
         }
 
         [HttpGet(nameof(MyChats))]
@@ -83,12 +84,13 @@ namespace Api.Controllers
         }
 
         [HttpGet(nameof(SubscribeToNewMessages))]
-        public async Task<IActionResult> SubscribeToNewMessages(CancellationToken cancellationToken)
+        public async Task SubscribeToNewMessages([FromServices] IRealTimeChatMessageService realTimeChatMessageService, CancellationToken cancellationToken)
         {
+            var user = HttpContext.GetUserInfo().User!;
+
             HttpResponse resp = Response;
 
-            var chart = ChartService.Instance;
-            if (chart == null)
+            if (user == null)
             {
                 resp.StatusCode = 500;
                 return;
@@ -101,18 +103,21 @@ namespace Api.Controllers
             resp.Headers.Add("Content-Encoding", "none");
             await resp.BodyWriter.FlushAsync(cancellationToken);
 
-
-            for (var i = 0; !cancellationToken.IsCancellationRequested; ++i)
+            await realTimeChatMessageService.SubscribeToMessages(user.Id, async (message) =>
             {
-                await resp.WriteAsync($"data: {chart.CurrentValue.ToString().Replace(',', '.')}\r\r", cancellationToken);
+                await resp.WriteAsync($"data: {JsonConvert.SerializeObject(message)}\r\r", cancellationToken);
 
                 await resp.Body.FlushAsync(cancellationToken);
+            });
 
-                await Task.Delay(updateFrequency, cancellationToken);
+            for (var i = 0; !cancellationToken.IsCancellationRequested && !HttpContext.RequestAborted.IsCancellationRequested; ++i)
+            {
+                await Task.Delay(1000, cancellationToken);
             }
 
+            await realTimeChatMessageService.UnsubscribeFromMessages(user.Id);
+
             return;
-            return Ok();
         }
     }
 }

@@ -15,13 +15,15 @@ namespace Service.Services
     public class ChatService : IChatService
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IRealTimeChatMessageService realTimeChatMessageService;
 
-        public ChatService(IUnitOfWork unitOfWork)
+        public ChatService(IUnitOfWork unitOfWork, IRealTimeChatMessageService realTimeChatMessageService)
         {
             this.unitOfWork = unitOfWork;
+            this.realTimeChatMessageService = realTimeChatMessageService;
         }
 
-        public async Task<IServiceResult<List<object>>> AddReadFieldToMessages(List<ChatMessage> messages, int userId)
+        public async Task<IServiceResult<List<object>>> AddMessageMetadata(List<ChatMessage> messages, int userId)
         {
             int lastMessageId = await unitOfWork.ChatRepository.GetLastReadMessageId(messages.First().ChatId, userId);
 
@@ -32,10 +34,26 @@ namespace Service.Services
                 x.Content,
                 x.Created,
                 x.UserId,
-                Read = x.Id <= lastMessageId
+                Read = x.Id <= lastMessageId,
+                User = unitOfWork.UserRepository.GetUserByIdAsync(x.UserId).GetAwaiter().GetResult()
+            });
+            var res = result.Select(x => new
+            {
+                x.Id,
+                x.ChatId,
+                x.Content,
+                x.Created,
+                x.UserId,
+                x.Read,
+                User = new
+                {
+                    x.UserId,
+                    x.User!.Username,
+                    x.User.ProfilePictureId
+                }
             });
 
-            return new ServiceResult<List<object>>(result.Cast<object>().ToList());
+            return new ServiceResult<List<object>>(res.Cast<object>().ToList());
         }
 
         public async Task<IServiceResult<int>> CreateChat(string name, string description, List<int> members, int creator)
@@ -162,6 +180,8 @@ namespace Service.Services
             await unitOfWork.ChatRepository.SendMessage(message);
 
             await unitOfWork.SaveChangesAsync();
+
+            await realTimeChatMessageService.NotifyChat(chatId, message, unitOfWork);
 
             return new ServiceResult();
         }
