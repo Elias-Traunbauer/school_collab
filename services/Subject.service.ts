@@ -8,12 +8,14 @@ export async function getSubjects(): Promise<Subject[]>{
         return assignment.subject;
     });
 
-    const summaryresult = await getAllAssignments();
+    const summaryresult = await getAllSummaries();
     const summarySubjects = summaryresult.map((assignment) => {
         return assignment.subject;
     });
 
     const subjects = assignmentSubjects.concat(summarySubjects);
+
+    
     return subjects;
   }
 

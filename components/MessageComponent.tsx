@@ -6,11 +6,13 @@ import UserContext from "./UserContext";
 import User from "../models/User";
 import {getChatMessageById} from '../services/Chat.service';
 export default function MessageComponent({
+  key,
   message,
   displayName = false,
   handleAnswer,
   callBackAnswerClicked
 }: {
+    key?:any;
     callBackAnswerClicked?: Function;
     message:ChatMessage,
     displayName: boolean;

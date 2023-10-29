@@ -7,15 +7,15 @@ import {getSubjects} from '../services/Subject.service'
 import Subject from "../models/Subject";
 
 export default function SummaryList({title,link}: {title: string, link: string,}) {
-  const posts = [{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "Math"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"}];
-  const [subjects,setSubjects] = useState<Subject[]>();
-  const [displayedSubjects, setDisplayedSubjects] = useState<Subject[]>();
+  const [subjects,setSubjects] = useState<Subject[]>([]);
+  const [displayedSubjects, setDisplayedSubjects] = useState<Subject[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     getSubjects().then((subjects) => {
       setSubjects(subjects);
       setDisplayedSubjects(subjects);
+      console.log("SUB",subjects);
     });
   }, []);
 
@@ -50,6 +50,7 @@ export default function SummaryList({title,link}: {title: string, link: string,}
       <div>
           {
           displayedSubjects.map((subject, i) => {
+            console.log(subject);
             return (
               <SubjectItem link={link} subject={subject} key={i}></SubjectItem>
             )

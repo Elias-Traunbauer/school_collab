@@ -5,19 +5,29 @@ import Image from "next/image";
 import FileListObject from "./FileListObject";
 import Chat from "../models/Chat";
 import ChatMessage from "../models/ChatMessage";
-import { sendMessage, updateChat, updateMessage } from "../services/Chat.service";
-export default function Chatroom({chat}: {chat:Chat}) {
+import { getMessages, readChat, sendMessage, updateChat, updateMessage } from "../services/Chat.service";
+import { get } from "http";
+export default function Chatroom({ chat }: { chat: Chat }) {
   const defaultProfile = "person.svg";
-  const [files, setFiles] = useState([]);
   const [infoIsHidden, setInfoIsHidden] = useState(true);
   const [nameEdit, setNameEdit] = useState(false);
   const [answer, setAnswer] = useState<ChatMessage>(null);
   const [scrollBody, setScrollBody] = useState(false);
   const [backUpName, setBackUpName] = useState(chat.name);
   const [name, setName] = useState(chat.name);
+  const [loadNewMessages, setLoadNewMessages] = useState(false);
 
 
   useEffect(() => {
+    async function fetchData() {
+      if (!chat) {
+        return;
+      }
+      const firstMessages = await getMessages(chat.id);
+      chat.chatMessages = firstMessages;
+      await readChat(chat.id, chat.chatMessages[chat.chatMessages.length - 1].id);
+    }
+    fetchData();
     scrollDown();
   }, []);
 
@@ -63,10 +73,9 @@ export default function Chatroom({chat}: {chat:Chat}) {
   async function handleSendMessage() {
     const input = document.getElementById("messageField") as HTMLInputElement;
     const message = input.value;
-    if (message.length > 0 || files.length > 0) {
+    if (message.length > 0) {
       input.value = "";
-      await sendMessage(chat.id,message,answer&&answer.id);
-      setFiles([]);
+      await sendMessage(chat.id, message, answer && answer.id);
       setAnswer(null);
     }
   }
@@ -79,17 +88,20 @@ export default function Chatroom({chat}: {chat:Chat}) {
     });
   }
 
-  function displayAnswer(answer:ChatMessage){
+  function displayAnswer(answer: ChatMessage) {
     setAnswer(answer);
     const input = document.getElementById("messageField") as HTMLInputElement;
     input.focus();
   }
 
-  function scrollToMessage(id:number){
+  function scrollToMessage(id: number) {
     //TODO:Scroll to message
   }
 
   function printMessages() {
+    if (!chat || !chat.chatMessages) {
+      return <></>;
+    }
     let currentDate = chat.chatMessages[0].created;
     return (
       <>
@@ -112,9 +124,9 @@ export default function Chatroom({chat}: {chat:Chat}) {
                   handleAnswer={displayAnswer}
                   displayName={index != 0
                     ? chat.chatMessages[index - 1].userId != message.userId
-                    : true} 
-                    message={message}                
-                    ></MessageComponent>
+                    : true}
+                  message={message}
+                ></MessageComponent>
               </>
             );
           } else {
@@ -125,22 +137,14 @@ export default function Chatroom({chat}: {chat:Chat}) {
                 handleAnswer={displayAnswer}
                 displayName={index != 0
                   ? chat.chatMessages[index - 1].userId != message.userId
-                  : true} 
-                  message={message}             
-                ></MessageComponent>
+                  : true}
+                message={message}
+              ></MessageComponent>
             );
           }
         })}
       </>
     );
-  }
-
-
-  function uploadFile(e) {
-    setFiles([...files, ...e.target.files]);
-    e.target.value = "";
-    const input = document.getElementById("messageField") as HTMLInputElement;
-    input.focus();
   }
 
   function uploadProfile(e) {
@@ -161,65 +165,78 @@ export default function Chatroom({chat}: {chat:Chat}) {
     setInfoIsHidden(!infoIsHidden);
   }
 
-function changeNameEditMode(){
-    if(!nameEdit){
-        setBackUpName(chat.name);
+  function changeNameEditMode() {
+    if (!nameEdit) {
+      setBackUpName(chat.name);
     }
     setNameEdit(!nameEdit);
-}
+  }
 
-async function changeName(change:boolean){
-    if(change){
-        const input = document.getElementById("nameInput") as HTMLInputElement;
-        setName(input.value);
-        chat.name = input.value;
-        await updateChat(chat);
+  async function changeName(change: boolean) {
+    if (change) {
+      const input = document.getElementById("nameInput") as HTMLInputElement;
+      setName(input.value);
+      chat.name = input.value;
+      await updateChat(chat);
     }
     else
-        setName(backUpName);
+      setName(backUpName);
 
     changeNameEditMode();
-}
+  }
 
-  function handleDragged(){
+  function handleDragged() {
     console.log("dragged");
     const chatBody = document.getElementById("chatBody") as HTMLDivElement;
     chatBody.classList.add(styles.dragged);
   }
 
-  function handleLeave(){
+  function handleLeave() {
     console.log("leave");
     const chatBody = document.getElementById("chatBody") as HTMLDivElement;
     chatBody.classList.remove(styles.dragged);
   }
 
-  function handleDropped(e){
+  function handleDropped(e) {
     e.preventDefault();
     console.log("droped " + e.dataTransfer.files);
     const chatBody = document.getElementById("chatBody") as HTMLDivElement;
     chatBody.classList.remove(styles.dragged);
     const files = e.dataTransfer.files;
-    setFiles([...files]);
   }
 
-  function handleScroll(){
+  function handleScroll() {
     // if position is at the bottom
     const chatBody = document.getElementById("chatBody") as HTMLDivElement;
     const scrollBodyBtn = document.getElementById("scrollBodyBtn") as HTMLButtonElement;
-    if(chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight){
+    if (chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight) {
       setScrollBody(false);
     }
-    else{
+    else {
       setScrollBody(true);
+    }
+
+    // if position is at the top
+    if (chatBody.scrollTop == 0 || !loadNewMessages) {
+      getMessages(chat.id, chat.chatMessages.length).then((messages) => {
+        if(messages.length == 0){
+          setLoadNewMessages(false);
+          return;
+        }
+        const tmpMessages = messages;
+        tmpMessages.push(...chat.chatMessages);
+        chat.chatMessages = tmpMessages;
+        setLoadNewMessages(true);
+      });
     }
   }
 
   return (
     <div onDragOver={handleDragged} onDragLeave={handleLeave} className={styles.container}>
 
-      <div  className={styles.contentWrapper}>
+      <div className={styles.contentWrapper}>
         <div className={styles.contentContainer}>
-          <div onScroll={handleScroll} onDrop={(e)=>handleDropped(e)} id="chatBody" className={styles.body}>
+          <div onScroll={handleScroll} onDrop={(e) => handleDropped(e)} id="chatBody" className={styles.body}>
             <div>
               {printMessages()}
               <p></p>
@@ -227,27 +244,27 @@ async function changeName(change:boolean){
           </div>
           <div className={styles.foot}>
             {
-              scrollBody&&
+              scrollBody &&
               <button onClick={scrollDown} id='scrollBodyBtn' className={styles.scrollBodyButton}>
-              <Image width={25} height={25} alt="dasd" src={"/arrow_left.svg"}></Image>
-            </button>
+                <Image width={25} height={25} alt="dasd" src={"/arrow_left.svg"}></Image>
+              </button>
             }
             {
-                answer &&
-                <div className={styles.answer}>
+              answer &&
+              <div className={styles.answer}>
                 <div>
-                <div>
-                  <p>{answer.user.username}</p>
-                  <p>{answer.content}</p>
-                </div>
-                <button onClick={() => setAnswer(null)}>
-                  <div></div>
+                  <div>
+                    <p>{answer.user.username}</p>
+                    <p>{answer.content}</p>
+                  </div>
+                  <button onClick={() => setAnswer(null)}>
+                    <div></div>
                   </button>
                 </div>
               </div>
             }
 
-            <div  className={answer != null || files.length > 0 ? styles.extention : "" }>
+            <div className={answer != null ? styles.extention : ""}>
               <input
                 onKeyDown={(e) => handleInputChange(e)}
                 id="messageField"
@@ -263,62 +280,59 @@ async function changeName(change:boolean){
         </div>
 
         <div id="info" className={styles.info}>
-            <div>
-                <Image className={chat.picture==defaultProfile&&styles.defaultProfile} src={'/'+chat.picture} width={20} height={20} alt='Profile'></Image>
+          {
+            chat &&
+            <>
+              <div>
+                <Image className={chat.picture == defaultProfile && styles.defaultProfile} src={'/' + chat.picture} width={20} height={20} alt='Profile'></Image>
                 <button>Change</button>
-            </div>
-            
-            <div>
-            <div>
-            {!nameEdit ? (
-              <>
-                <h1>{name}</h1>
-                <div>
-                    <button onClick={changeNameEditMode} className={styles.editName}></button>
-                </div>
-              </>
-            ) : (
-              <>
-                <input id="nameInput" type="text" defaultValue={name}></input>
-                <div>
-                    <button onClick={()=>changeName(true)} className={styles.check}></button>
-                </div>
-                <div>
-                    <button onClick={()=>changeName(false)} className={styles.cancel}></button>
-                </div>
-              </>
-            )}
-          </div>
-            </div>
-          
+              </div>
 
-            <div>
+              <div>
                 <div>
-                    <h1>Description</h1>
-                    <p>{chat.description.length>0?chat.description:<span>No Description</span>}</p>
+                  {!nameEdit ? (
+                    <>
+                      <h1>{name}</h1>
+                      <div>
+                        <button onClick={changeNameEditMode} className={styles.editName}></button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <input id="nameInput" type="text" defaultValue={name}></input>
+                      <div>
+                        <button onClick={() => changeName(true)} className={styles.check}></button>
+                      </div>
+                      <div>
+                        <button onClick={() => changeName(false)} className={styles.cancel}></button>
+                      </div>
+                    </>
+                  )}
                 </div>
-            </div> 
+              </div>
 
-
-
-            <div>
+              <div>
                 <div>
-                    <button><span>Verlassen</span></button>
-                    <button><span>Melden</span></button>
+                  <h1>Description</h1>
+                  <p>{chat.description.length > 0 ? chat.description : <span>No Description</span>}</p>
                 </div>
-            </div>   
+              </div>
+
+              <div>
+                <div>
+                  <button><span>Verlassen</span></button>
+                  <button><span>Melden</span></button>
+                </div>
+              </div>
+            </>
+          }
+
         </div>
       </div>
 
       <input
         onChange={(e) => uploadProfile(e)}
         id="infoProfileInput"
-        type="file"
-        hidden={true}
-      ></input>
-      <input
-        onChange={(e) => uploadFile(e)}
-        id="fileInput"
         type="file"
         hidden={true}
       ></input>

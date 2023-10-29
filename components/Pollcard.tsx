@@ -2,7 +2,7 @@ import { CSSProperties, use, useEffect, useState } from 'react';
 import styles from '../styles/PollCard.module.scss'
 import { useRouter } from 'next/router';
 import Poll from '../models/Poll';
-export default function PollCard({poll}: {poll: Poll}){
+export default function PollCard({key,poll}: {key:any,poll: Poll}){
     const backgroundcolor = 'var(--background_1)';
 
     const router = useRouter();

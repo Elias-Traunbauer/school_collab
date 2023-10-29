@@ -5,7 +5,7 @@ import ChatroomListitem from '../../components/ChatroomListitem';
 import Chatroom from '../../components/Chatroom';
 import { useRouter } from 'next/router';
 import Chat from '../../models/Chat';
-import { getChats } from '../../services/Chat.service';
+import { getChatById, getChats, readChat } from '../../services/Chat.service';
 import ChatMessage from '../../models/ChatMessage';
 import UserContext from '../../components/UserContext';
 import User from '../../models/User';
@@ -43,7 +43,7 @@ export default function DisplayChat() {
     };
     const mockProfile = 'person.svg';
     const router = useRouter();
-    const [selectedChat, setSelectedChat] = useState<Chat>(mockChat);
+    const [selectedChat, setSelectedChat] = useState<Chat>(null);
     const [chats, setChats] = useState<Chat[]>([]);
     const [displayChats, setDisplayChats] = useState<Chat[]>([]);
 
@@ -52,8 +52,13 @@ export default function DisplayChat() {
             const res = await getChats();
             setChats(res);
             setDisplayChats(res);
+            if(res.length > 0){
+                var chat = await getChatById(res[0].id);
+                setSelectedChat(chat);
+                //TODO: implement SSE
+            }
         }
-        //fetchData();
+        fetchData();
     }, []);
 
 
@@ -104,7 +109,7 @@ export default function DisplayChat() {
                         displayChats.map((chat, index) => {
                             return (
                                 <ChatroomListitem
-                                    key={chat.id}
+                                    key={index}
                                     id={chat.id}
                                     name={chat.name}
                                     lastMessage={GetLastMessage(chat.chatMessages)}

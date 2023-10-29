@@ -9,8 +9,8 @@ export default function PollList(){
 
     const router = useRouter();
     
-    const [polls, setPolls] = useState<Poll[]>();
-    const [displayPolls, setDisplayPolls] = useState<Poll[]>();
+    const [polls, setPolls] = useState<Poll[]>([]);
+    const [displayPolls, setDisplayPolls] = useState<Poll[]>([]);
     const [searched, setSearched] = useState<boolean>(false);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export default function PollList(){
             setPolls(res);
             setDisplayPolls(res);
         }
-        fetchData();
+        //fetchData();
     },[]);
 
     function addNewPoll(){

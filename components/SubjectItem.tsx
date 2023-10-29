@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import styles from '../styles/SubjectItem.module.scss'
 import Image from "next/image";
 import Subject from '../models/Subject';
-export default function SubjectItem({subject,picture,link}: {subject: Subject, picture?: boolean, link?: string}) {
+export default function SubjectItem({key,subject,picture,link}: {key:any,subject: Subject, picture?: boolean, link?: string}) {
     const router = useRouter();
     function openCollection() {
         router.push(`${link}/${subject.id}`);
@@ -15,12 +15,12 @@ export default function SubjectItem({subject,picture,link}: {subject: Subject, p
                 :
                 <>
                     <div className={styles.picturePlaceholder}>
-                        <h1>{subject[0]}</h1>
+                        <h1>{subject&&subject[0]}</h1>
                     </div>
                 </>
             }
             
-            <h1>{subject.name}</h1>
+            <h1>{subject&&subject.name}</h1>
         </div>
     )
 }
