@@ -8,7 +8,8 @@ namespace Core.Contracts.Entities
         DateTime Created { get; set; }
         string Description { get; set; }
         DateTime Due { get; set; }
-        List<Core.Entities.Database.File>? Files { get; set; }
+        ICollection<Core.Entities.Database.AssignmentFile>? Files { get; set; }
+        ICollection<Core.Entities.Database.AssignmentFile>? Instructions { get; set; }
         Group Group { get; set; }
         int GroupId { get; set; }
         DateTime Modified { get; set; }

@@ -65,6 +65,8 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<UserSession> UserSession { get; set; }
 
+    public virtual DbSet<AssignmentFile> AssignmentFiles { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (_config?.DatabaseConnectionString == null)
@@ -73,5 +75,14 @@ public partial class ApplicationDbContext : DbContext
         }
         optionsBuilder
             .UseMySQL(_config.DatabaseConnectionString);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Assignment>()
+            .HasMany(e => e.Files);
+        modelBuilder.Entity<Assignment>()
+            .HasMany(e => e.Instructions);
+        base.OnModelCreating(modelBuilder);
     }
 }

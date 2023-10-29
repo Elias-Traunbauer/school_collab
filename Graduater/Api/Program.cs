@@ -31,6 +31,7 @@ namespace Api
             builder.Services.AddSingleton<IRandomKeyService, RandomKeyService>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
             builder.Services.AddSingleton<ICaptchaRegistryService, CaptchaRegistryService>();
+            builder.Services.AddSingleton<IRealTimeChatMessageService, RealTimeChatMessageService>();
 
             builder.Services.AddScoped<IFileService, FileService>();
             builder.Services.AddScoped<IUserService, UserService>();
@@ -38,6 +39,7 @@ namespace Api
             builder.Services.AddScoped<IGroupService, GroupService>();
             builder.Services.AddScoped<ISubjectService, SubjectService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IChatService, ChatService>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
