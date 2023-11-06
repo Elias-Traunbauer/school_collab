@@ -1,9 +1,12 @@
 using Api.Middlewares;
 using Core.Contracts;
 using Core.Contracts.Services;
+using Microsoft.AspNetCore.Http.Json;
 using Persistence;
 using Ribbon.API.Middlewares;
 using Service.Services;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Api
 {
@@ -41,7 +44,10 @@ namespace Api
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IChatService, ChatService>();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
