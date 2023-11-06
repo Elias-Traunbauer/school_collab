@@ -49,14 +49,18 @@ export default function DisplayChat() {
 
     useEffect(() => {
         async function fetchData(){
-            const res = await getChats();
-            setChats(res);
-            setDisplayChats(res);
-            if(res.length > 0){
-                var chat = await getChatById(res[0].id);
-                setSelectedChat(chat);
-                //TODO: implement SSE
-            }
+            getChats().then((res) => {
+                setChats(res);
+                setDisplayChats(res);
+                if(res.length > 0){
+                    getChatById(res[0].id).then((chat) => {
+                        setSelectedChat(chat);
+                        //TODO: implement SSE
+                    });
+                    
+                }
+            });
+            
         }
         fetchData();
     }, []);

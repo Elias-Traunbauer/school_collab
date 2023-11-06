@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
@@ -6,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Fortnite : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,12 +22,28 @@ namespace Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    ShortName = table.Column<string>(type: "longtext", nullable: false),
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subjects", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "AssignmentFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    AssignmentId = table.Column<int>(type: "int", nullable: false),
+                    AssignmentIdInstruction = table.Column<int>(type: "int", nullable: false),
+                    FileId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssignmentFiles", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -45,8 +62,7 @@ namespace Persistence.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     GroupId = table.Column<int>(type: "int", nullable: false),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,8 +84,9 @@ namespace Persistence.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     ChatId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Joined = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastSeenMessageId = table.Column<int>(type: "int", nullable: false),
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,10 +102,10 @@ namespace Persistence.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     ChatId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    ReplyToMessageId = table.Column<int>(type: "int", nullable: true),
                     Content = table.Column<string>(type: "longtext", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,8 +122,8 @@ namespace Persistence.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
                     CreatorUserId = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    PictureId = table.Column<int>(type: "int", nullable: true),
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,8 +140,7 @@ namespace Persistence.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "longtext", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,19 +156,15 @@ namespace Persistence.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Content = table.Column<byte[]>(type: "longblob", nullable: false),
+                    ContentType = table.Column<string>(type: "longtext", nullable: false),
+                    MIME_Type = table.Column<string>(type: "longtext", nullable: false),
                     UploadedById = table.Column<int>(type: "int", nullable: false),
-                    AssignmentId = table.Column<int>(type: "int", nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Size = table.Column<long>(type: "bigint", nullable: false),
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Files", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Files_Assignments_AssignmentId",
-                        column: x => x.AssignmentId,
-                        principalTable: "Assignments",
-                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -162,11 +174,11 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Username = table.Column<string>(type: "longtext", nullable: false),
+                    Username = table.Column<string>(type: "varchar(255)", nullable: false),
                     FirstName = table.Column<string>(type: "longtext", nullable: false),
                     LastName = table.Column<string>(type: "longtext", nullable: false),
-                    ProfilePictureId = table.Column<int>(type: "int", nullable: false),
-                    Email = table.Column<string>(type: "longtext", nullable: false),
+                    ProfilePictureId = table.Column<int>(type: "int", nullable: true),
+                    Email = table.Column<string>(type: "varchar(255)", nullable: false),
                     PasswordHash = table.Column<string>(type: "longtext", nullable: false),
                     PasswordSalt = table.Column<string>(type: "longtext", nullable: false),
                     EmailVerificationToken = table.Column<string>(type: "longtext", nullable: true),
@@ -177,8 +189,7 @@ namespace Persistence.Migrations
                     IsEmailVerified = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Permissions = table.Column<int>(type: "int", nullable: false),
                     PrivacySettings = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -187,8 +198,7 @@ namespace Persistence.Migrations
                         name: "FK_Users_Files_ProfilePictureId",
                         column: x => x.ProfilePictureId,
                         principalTable: "Files",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -201,8 +211,7 @@ namespace Persistence.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
                     CreatorUserId = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,8 +236,7 @@ namespace Persistence.Migrations
                     Content = table.Column<string>(type: "longtext", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     IsRead = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -254,8 +262,7 @@ namespace Persistence.Migrations
                     Due = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     IsAnonymous = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -279,8 +286,7 @@ namespace Persistence.Migrations
                     Title = table.Column<string>(type: "longtext", nullable: false),
                     Content = table.Column<string>(type: "longtext", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -306,8 +312,7 @@ namespace Persistence.Migrations
                     Ip = table.Column<string>(type: "longtext", nullable: false),
                     Expires = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     LastAction = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -329,8 +334,7 @@ namespace Persistence.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     GroupId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -359,8 +363,7 @@ namespace Persistence.Migrations
                     PollId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Votes = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -382,8 +385,7 @@ namespace Persistence.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     PostId = table.Column<int>(type: "int", nullable: false),
                     CommentId = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "longblob", rowVersion: true, nullable: true)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -519,6 +521,21 @@ namespace Persistence.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AssignmentFiles_AssignmentId",
+                table: "AssignmentFiles",
+                column: "AssignmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignmentFiles_AssignmentIdInstruction",
+                table: "AssignmentFiles",
+                column: "AssignmentIdInstruction");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignmentFiles_FileId",
+                table: "AssignmentFiles",
+                column: "FileId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Assignments_GroupId",
                 table: "Assignments",
                 column: "GroupId");
@@ -562,11 +579,6 @@ namespace Persistence.Migrations
                 name: "IX_Comments_UserId",
                 table: "Comments",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Files_AssignmentId",
-                table: "Files",
-                column: "AssignmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Files_UploadedById",
@@ -699,14 +711,50 @@ namespace Persistence.Migrations
                 column: "UserSessionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_ProfilePictureId",
                 table: "Users",
                 column: "ProfilePictureId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserSession_UserId",
                 table: "UserSession",
                 column: "UserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AssignmentFiles_Assignments_AssignmentId",
+                table: "AssignmentFiles",
+                column: "AssignmentId",
+                principalTable: "Assignments",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AssignmentFiles_Assignments_AssignmentIdInstruction",
+                table: "AssignmentFiles",
+                column: "AssignmentIdInstruction",
+                principalTable: "Assignments",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AssignmentFiles_Files_FileId",
+                table: "AssignmentFiles",
+                column: "FileId",
+                principalTable: "Files",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Assignments_Groups_GroupId",
@@ -785,23 +833,17 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Assignments_Groups_GroupId",
-                table: "Assignments");
+                name: "FK_Users_Files_ProfilePictureId",
+                table: "Users");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Assignments_Subjects_SubjectId",
-                table: "Assignments");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Assignments_Users_UserId",
-                table: "Assignments");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Files_Users_UploadedById",
-                table: "Files");
+            migrationBuilder.DropTable(
+                name: "AssignmentFiles");
 
             migrationBuilder.DropTable(
                 name: "Reports");
+
+            migrationBuilder.DropTable(
+                name: "Assignments");
 
             migrationBuilder.DropTable(
                 name: "ChatMembers");
@@ -825,7 +867,13 @@ namespace Persistence.Migrations
                 name: "UserSession");
 
             migrationBuilder.DropTable(
+                name: "Subjects");
+
+            migrationBuilder.DropTable(
                 name: "Chats");
+
+            migrationBuilder.DropTable(
+                name: "Groups");
 
             migrationBuilder.DropTable(
                 name: "Polls");
@@ -837,19 +885,10 @@ namespace Persistence.Migrations
                 name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "Groups");
-
-            migrationBuilder.DropTable(
-                name: "Subjects");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "Files");
 
             migrationBuilder.DropTable(
-                name: "Assignments");
+                name: "Users");
         }
     }
 }

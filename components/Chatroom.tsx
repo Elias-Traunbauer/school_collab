@@ -7,14 +7,14 @@ import Chat from "../models/Chat";
 import ChatMessage from "../models/ChatMessage";
 import { getMessages, readChat, sendMessage, updateChat, updateMessage } from "../services/Chat.service";
 import { get } from "http";
-export default function Chatroom({ chat }: { chat: Chat }) {
+export default function Chatroom({ chat }: { chat: Chat | undefined }) {
   const defaultProfile = "person.svg";
   const [infoIsHidden, setInfoIsHidden] = useState(true);
   const [nameEdit, setNameEdit] = useState(false);
   const [answer, setAnswer] = useState<ChatMessage>(null);
   const [scrollBody, setScrollBody] = useState(false);
-  const [backUpName, setBackUpName] = useState(chat.name);
-  const [name, setName] = useState(chat.name);
+  const [backUpName, setBackUpName] = useState(chat&&chat.name);
+  const [name, setName] = useState(chat&&chat.name);
   const [loadNewMessages, setLoadNewMessages] = useState(false);
 
 
@@ -23,9 +23,11 @@ export default function Chatroom({ chat }: { chat: Chat }) {
       if (!chat) {
         return;
       }
-      const firstMessages = await getMessages(chat.id);
-      chat.chatMessages = firstMessages;
-      await readChat(chat.id, chat.chatMessages[chat.chatMessages.length - 1].id);
+      getMessages(chat.id).then((firstMessages) => {
+        chat.chatMessages = firstMessages;
+        if(chat.chatMessages.length > 0)
+        readChat(chat.id, chat.chatMessages[chat.chatMessages.length - 1].id);
+      });
     }
     fetchData();
     scrollDown();
