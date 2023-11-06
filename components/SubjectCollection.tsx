@@ -13,6 +13,7 @@ export default function SummaryList({title,link}: {title: string, link: string,}
 
   useEffect(() => {
     getSubjects().then((subjects) => {
+      console.log("SUB",subjects);
       setSubjects(subjects);
       setDisplayedSubjects(subjects);
       console.log("SUB",subjects);

@@ -15,6 +15,6 @@ export default function Test() {
     }
 
     return (
-            <FileUpload handleFilesUpdated={handleFilesUpdated} handleAcceptedFiles={handleAcceptedFiles} title={"test"}></FileUpload>
+        <FileUpload handleFilesUpdated={handleFilesUpdated} handleAcceptedFiles={handleAcceptedFiles} title={"test"}></FileUpload>
     )
 }
