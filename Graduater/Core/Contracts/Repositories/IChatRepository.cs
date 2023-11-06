@@ -16,7 +16,7 @@ namespace Core.Contracts.Repositories
         Task<IEnumerable<Chat>> GetAllForUser(User user);
         Task<IEnumerable<ChatMessage>> GetMessages(int chatId, int count = 10, int start = 0);
         Task<IEnumerable<ChatMessage>> GetMessages(int chatId, DateTime start, int startCount = 0, int count = 10);
-        Task JoinChat(User user, Chat chat);
+        Task JoinChat(int userId, int chatId);
         Task<Chat?> GetChatById(int chatId);
         Task<IEnumerable<Chat>> GetChats(int id);
         Task<int> GetLastReadMessageId(int chatId, int userId);

@@ -1,9 +1,9 @@
 ﻿using Core.Contracts.Entities;
 using Core.Contracts.Repositories;
 using Core.Entities.Database;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,7 +46,7 @@ namespace Persistence.Repositories
 
         public async Task<IEnumerable<Chat>> GetChats(int id)
         {
-            var chats = _context.Chats.Where(c => c.ChatMembers!.Select(x => x.UserId).Contains(id));
+            var chats = _context.Chats.Include(x => x.ChatMembers).Where(c => c.ChatMembers!.Select(x => x.UserId).Contains(id) || c.CreatorUserId == id);
             return chats;
         }
 
@@ -68,12 +68,12 @@ namespace Persistence.Repositories
             return messages;
         }
 
-        public async Task JoinChat(User user, Chat chat)
+        public async Task JoinChat(int userId, int chatId)
         {
             var chatMember = new ChatMember
             {
-                ChatId = chat.Id,
-                UserId = user.Id,
+                ChatId = chatId,
+                UserId = userId,
                 Joined = DateTime.UtcNow
             };
             await _context.ChatMembers.AddAsync(chatMember);

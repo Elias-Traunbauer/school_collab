@@ -38,7 +38,7 @@ namespace Api.Controllers
         {
             var userInfo = HttpContext.GetUserInfo();
 
-            var sendResult = await chatService.SendMessage(message.ChatId, message.Message, userInfo.User!.Id);
+            var sendResult = await chatService.SendMessage(message.ChatId, message.Message, userInfo.User!.Id, message.ReplyToMessageId);
 
             return Ok(sendResult);
         }
@@ -105,7 +105,13 @@ namespace Api.Controllers
 
             await realTimeChatMessageService.SubscribeToMessages(user.Id, async (message) =>
             {
-                await resp.WriteAsync($"data: {JsonConvert.SerializeObject(message)}\r\r", cancellationToken);
+                await resp.WriteAsync($"data: " + JsonConvert.SerializeObject(new
+                {
+                    message.User,
+                    message.Content,
+                    message.ChatId,
+                    message.Created
+                }) + "\r\r", cancellationToken);
 
                 await resp.Body.FlushAsync(cancellationToken);
             });
