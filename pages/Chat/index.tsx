@@ -50,6 +50,7 @@ export default function DisplayChat() {
     useEffect(() => {
         async function fetchData(){
             const res = await getChats();
+            console.log("MYCHATS",res);
             setChats(res);
             setDisplayChats(res);
             if(res.length > 0){

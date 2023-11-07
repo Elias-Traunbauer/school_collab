@@ -13,8 +13,8 @@ export default function Chatroom({ chat }: { chat: Chat }) {
   const [nameEdit, setNameEdit] = useState(false);
   const [answer, setAnswer] = useState<ChatMessage>(null);
   const [scrollBody, setScrollBody] = useState(false);
-  const [backUpName, setBackUpName] = useState(chat.name);
-  const [name, setName] = useState(chat.name);
+  const [backUpName, setBackUpName] = useState(chat&&chat.name);
+  const [name, setName] = useState(chat&&chat.name);
   const [loadNewMessages, setLoadNewMessages] = useState(false);
 
 

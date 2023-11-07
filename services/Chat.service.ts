@@ -1,7 +1,7 @@
 import Chat from "../models/Chat";
 import ChatMessage from "../models/ChatMessage";
 
-const url = "/api/Chats"
+const url = "/api/Chat"
 export async function getChats(): Promise<Chat[]>{
     try{
         const response = await fetch(url+'/MyChats',{
