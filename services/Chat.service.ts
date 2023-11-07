@@ -10,7 +10,9 @@ export async function getChats(): Promise<Chat[]>{
         if(response.status != 200){
             throw response;
         }
+        console.log(response);
         const data = await response.json();
+        console.log(data);
         return data;
     }
     catch(error){

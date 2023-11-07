@@ -15,11 +15,14 @@ export default function PollList(){
 
     useEffect(() => {
         async function fetchData() {
-            const res:Poll[] = await getPolls();
-            setPolls(res);
-            setDisplayPolls(res);
+            getPolls().then((res) => {
+                console.log("POLLS" + res);
+                setPolls(res);
+                setDisplayPolls(res);
+            });
+            
         }
-        //fetchData();
+        fetchData();
     },[]);
 
     function addNewPoll(){
