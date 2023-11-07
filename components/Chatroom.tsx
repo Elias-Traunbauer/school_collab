@@ -20,7 +20,10 @@ export default function Chatroom({ chat }: { chat: Chat | undefined }) {
 
   useEffect(() => {
     async function fetchData() {
-      if (!chat) {
+      console.log("CHATROOM",chat);
+      setName(chat&&chat.name);
+
+      if (!chat || !chat.chatMessages) {
         return;
       }
       getMessages(chat.id).then((firstMessages) => {
@@ -31,7 +34,7 @@ export default function Chatroom({ chat }: { chat: Chat | undefined }) {
     }
     fetchData();
     scrollDown();
-  }, []);
+  }, [chat]);
 
   function compareDate(currentDate: Date, date: Date) {
     if (
@@ -316,7 +319,7 @@ export default function Chatroom({ chat }: { chat: Chat | undefined }) {
               <div>
                 <div>
                   <h1>Description</h1>
-                  <p>{chat.description.length > 0 ? chat.description : <span>No Description</span>}</p>
+                  <p>{chat&&chat.description&&chat.description.length > 0 ? chat.description : <span>No Description</span>}</p>
                 </div>
               </div>
 

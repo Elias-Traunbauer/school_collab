@@ -13,7 +13,7 @@ export async function getChats(): Promise<Chat[]>{
         console.log(response);
         const data = await response.json();
         console.log(data);
-        return data;
+        return data.value;
     }
     catch(error){
         throw error;
@@ -33,7 +33,7 @@ export async function readChat(chatId:number,MessageId:number){
             throw response;
         }
         const data = await response.json();
-        return data;
+        return data.value;
     }
     catch(error){
         throw error;
@@ -42,6 +42,7 @@ export async function readChat(chatId:number,MessageId:number){
 
 export async function getMessages(chatId:number,start?:number,count?:number): Promise<ChatMessage[]>{
     try{
+        console.log("getMessages",chatId,start,count);
         const response = await fetch(url+'/Messages',{
             method: 'GET',
             body: JSON.stringify({chatId,start,count})
@@ -50,7 +51,7 @@ export async function getMessages(chatId:number,start?:number,count?:number): Pr
             throw response;
         }
         const data = await response.json();
-        return data;
+        return data.value;
     }
     catch(error){
         throw error;
@@ -66,7 +67,7 @@ export async function getChatById(id: number): Promise<Chat>{
             throw response;
         }
         const data = await response.json();
-        return data;
+        return data.value;
     }
     catch(error){
         throw error;
@@ -82,7 +83,7 @@ export async function SubscribeToNewMessages(){
             throw response;
         }
         const data = await response.json();
-        return data;
+        return data.value;
     }
     catch(error){
         throw error;
@@ -102,7 +103,7 @@ export async function sendMessage(ChatId:number,message:string,ReplyId?:number){
             throw response;
         }
         const data = await response.json();
-        return data;
+        return data.value;
     }
     catch(error){
         throw error;
@@ -122,7 +123,7 @@ export async function updateMessage(message:ChatMessage){
             throw response;
         }
         const data = await response.json();
-        return data;
+        return data.value;
     }
     catch(error){
         throw error;
@@ -142,7 +143,7 @@ export async function updateChat(chat:Chat){
             throw response;
         }
         const data = await response.json();
-        return data;
+        return data.value;
     }
     catch(error){
         throw error;
