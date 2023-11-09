@@ -150,9 +150,9 @@ export async function updateChat(chat:Chat){
     }
 }
 
-export async function getChatMessageById(chat:Chat){
+export async function getChatMessageById(messageId:number){
     try{
-        const response = await fetch(url+'/Message/'+chat.id,{
+        const response = await fetch(url+'/Message/'+messageId,{
             method: 'GET'
         });
         if(response.status != 200){

@@ -113,7 +113,7 @@ export default function Assignments() {
                     }
                 </div>
                
-                <button onClick={() => router.push(subjectId+"/create")}>Create</button>
+                <button onClick={() => router.push(subject.id+"/create")}>Create</button>
             </div>
             <div className={styles.assignmentCardsContainer}>
             {
