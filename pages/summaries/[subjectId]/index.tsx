@@ -47,7 +47,7 @@ export default function SummaryCollection() {
             </button>
             
             {
-                posts&&posts.map((post, i) => {
+                posts&&posts.map&&posts.map((post, i) => {
                     return <SummaryPostCard key={i}></SummaryPostCard>
                 })
             }

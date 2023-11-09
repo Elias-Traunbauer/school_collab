@@ -139,7 +139,7 @@ export default function SummaryDetail(){
                     </div>
             </div>
             <div className={styles.MarkdownEditor}>
-                <MarkdownEditor containerWidth={editMode?50:80} defaultText={summary&&summary.descritpion} isEditable={editMode}></MarkdownEditor>
+                <MarkdownEditor containerWidth={editMode?50:80} defaultText={summary&&summary.descritpion&&summary.descritpion} isEditable={editMode}></MarkdownEditor>
             </div>
 
             {
