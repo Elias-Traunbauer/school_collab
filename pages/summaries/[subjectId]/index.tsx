@@ -40,7 +40,7 @@ export default function SummaryCollection() {
         <div className={styles.container}>
             <div>
                 <Image onClick={goBack} width={50} height={50} alt='return' src={"/arrow_right_alt.svg"}></Image>
-                <h1>{subject.name}</h1>
+                <h1>{subject&&subject.name}</h1>
             </div>
             <button onClick={handleNewSumary}>
                 New Summary +

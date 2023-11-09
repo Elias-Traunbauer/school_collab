@@ -128,9 +128,9 @@ export default function SummaryDetail(){
                     <div>
                         {
                             editMode ?
-                            <input id='SumTitle' className={styles.title} defaultValue={summary.title}></input>
+                            <input id='SumTitle' className={styles.title} defaultValue={summary&&summary.title}></input>
                             :
-                            <h1>{summary.title}</h1>
+                            <h1>{summary&&summary.title}</h1>
                         }
                         
                         <div>
