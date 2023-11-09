@@ -149,3 +149,19 @@ export async function updateChat(chat:Chat){
         throw error;
     }
 }
+
+export async function getChatMessageById(chat:Chat){
+    try{
+        const response = await fetch(url+'/Message/'+chat.id,{
+            method: 'GET'
+        });
+        if(response.status != 200){
+            throw response;
+        }
+        const data = await response.json();
+        return data.value;
+    }
+    catch(error){
+        throw error;
+    }
+}
