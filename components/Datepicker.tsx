@@ -59,11 +59,12 @@ export default function Datepicker({ id, inputChanged, title = 'date', dateParam
 
     function PrintDateTime(tmpDate) {
         //date in format: dd.mm.yyyy hh:mm where day,month,minutes and hours are 2 digits
-        let day = ('0'+tmpDate.getDate()).slice(-2);
-        let month = ('0'+(tmpDate.getMonth()+1)).slice(-2);
-        let year = tmpDate.getFullYear();
-        let hours = ('0'+tmpDate.getHours()).slice(-2);
-        let minutes = ('0'+tmpDate.getMinutes()).slice(-2);
+        const dateToCalc = new Date(tmpDate);
+        let day = ('0'+dateToCalc.getDate()).slice(-2);
+        let month = ('0'+(dateToCalc.getMonth()+1)).slice(-2);
+        let year = dateToCalc.getFullYear();
+        let hours = ('0'+dateToCalc.getHours()).slice(-2);
+        let minutes = ('0'+dateToCalc.getMinutes()).slice(-2);
         return `${day}.${month}.${year} ${hours}:${minutes}`;
     }
 
@@ -111,7 +112,8 @@ export default function Datepicker({ id, inputChanged, title = 'date', dateParam
         datetimeInput.value = PrintDateTime(tmpDate);
     }
 
-    function GetPreviusMonth(tmpDate) {
+    function GetPreviusMonth(date) {
+        const tmpDate = new Date(date);
         var tempDateObj = new Date(tmpDate.getFullYear(), tmpDate.getMonth(), 1, tmpDate.getHours(), tmpDate.getMinutes());
 
         if (tempDateObj.getMonth() == 0) {
@@ -122,7 +124,7 @@ export default function Datepicker({ id, inputChanged, title = 'date', dateParam
         }
 
         var maxDaysOfNextMonth = new Date(tempDateObj.getFullYear(), tempDateObj.getMonth() + 1, 0).getDate();
-        if (date.getDate() > maxDaysOfNextMonth)
+        if (tmpDate.getDate() > maxDaysOfNextMonth)
             tempDateObj.setDate(maxDaysOfNextMonth);
         else
             tempDateObj.setDate(tmpDate.getDate());

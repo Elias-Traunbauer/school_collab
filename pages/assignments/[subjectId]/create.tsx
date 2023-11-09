@@ -37,14 +37,19 @@ export default function AssignmentCreation() {
     }, []);
 
     function finish(data: WizardResult[], setLoadingText, finishLoading) {
+        // parse subjectId from router
+        const tmpSubjectId = parseInt(router.query.subjectId as string);
+        if(isNaN(tmpSubjectId)){
+            return;
+        }
         const result:AssignmentDTO = {
             title: data[0].value,
             description: data[3].value,
-            content: data[4].value,
+            content: data[3].value,
             due: data[1].value,
-            //TODO: groub from Wizard
-            groupId: data[2].value,
-            subjectId: subject.id,
+            //TODO: group from Wizard
+            groupId: 4,
+            subjectId: tmpSubjectId,
         }
         setLoadingText("Creating assignment...");
 
@@ -63,7 +68,7 @@ export default function AssignmentCreation() {
 
     const data = [
         [new WizardField('title', 'text', '', true), new WizardField('deadline', 'date', new Date(), true)],
-        [new WizardField('group', 'select', '', true)],
+        //[new WizardField('group', 'select', '', true)],
         [new WizardField('description', 'text', '', true),new WizardField('content', 'md', '', false)]
     ]
 

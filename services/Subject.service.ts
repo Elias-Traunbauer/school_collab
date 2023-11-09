@@ -2,6 +2,8 @@ import Subject from "../models/Subject";
 import { getAllAssignments } from "../services/Assignment.service";
 import {getAllSummaries} from "../services/Summary.service";
 
+const url = "/api/Subject"
+
 export async function getSubjects(): Promise<Subject[]>{
     const assignmentresult = await getAllAssignments();
     const assignmentSubjects = assignmentresult.map((assignment) => {
@@ -20,7 +22,17 @@ export async function getSubjects(): Promise<Subject[]>{
   }
 
 export async function getSubjectById(id: number): Promise<Subject>{
-    const subjects = await getSubjects();
-    const subject:Subject = subjects.find((subject) => subject.id === id);
-    return subject;
+   try{
+         const response = await fetch(url+'/'+id,{
+              method: 'GET'
+         });
+         if(response.status != 200){
+              throw response;
+         }
+         const data = await response.json();
+         return data.value;
+   }
+   catch(error){
+        throw error;
+   }
 }

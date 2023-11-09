@@ -14,13 +14,6 @@ import { getSubjectById } from '../../../services/Subject.service';
 export default function Assignments() {
     const context = useContext(UserContext);
 
-      const mockSubject:Subject = {
-        name: "DBI",
-        id: 0,
-        version: "0"
-      };
-
-
     const [assignmentData, setAssignmentData] = useState<Assignment[]>([]);
     const [displayAssignments, setDisplayAssignments] = useState<Assignment[]>([]);
     const router = useRouter();
@@ -32,15 +25,25 @@ export default function Assignments() {
     useEffect(() => {
         async function fetchDataAsync() {
             // check if subjectId is a number
-            if(isNaN(parseInt(subjectId as string))){
+
+            console.log("subjectId", subjectId);
+
+            if(!subjectId && isNaN(parseInt(subjectId as string))){
                 return;
             }
 
             const subjectIdToNumber = parseInt(subjectId as string);
             const tmpSubject = await getSubjectById(subjectIdToNumber);
+            console.log("SUBJECT", tmpSubject);
             setSubject(tmpSubject);
             getAllAssignments().then((res) => {
-                //subject not implemented yet
+                
+                /* filter assignments by subjectId
+                res = res.filter((assignment) => {
+                    return assignment.subject.id === subjectIdToNumber;
+                })
+                */
+
                 res.forEach(element => {
                     element.subject = tmpSubject;
                     element.due = new Date(element.due);
@@ -53,7 +56,7 @@ export default function Assignments() {
             });
         }
         fetchDataAsync();
-    }, []);
+    }, [router]);
 
     function resetSearch(){
         const searchInput = document.getElementById('searchInput') as HTMLInputElement;
@@ -70,7 +73,7 @@ export default function Assignments() {
         }
         else{
             const filteredAssignments = assignmentData.filter((assignment) => {
-                return assignment.title.toLowerCase().includes(searchValue.toLowerCase()) || assignment.subject.name.toLowerCase().includes(searchValue.toLowerCase());
+                return assignment.title.toLowerCase().includes(searchValue.toLowerCase());
             })
             setDisplayAssignments(filteredAssignments);
             setSearched(true);
@@ -110,12 +113,12 @@ export default function Assignments() {
                     }
                 </div>
                
-                <button onClick={() => router.push(subject+"/create")}>Create</button>
+                <button onClick={() => router.push(subjectId+"/create")}>Create</button>
             </div>
             <div className={styles.assignmentCardsContainer}>
             {
                 displayAssignments.map((element, i) => {
-                    return <AssignmentCard key={i} assignment={element}></AssignmentCard>
+                    return <AssignmentCard key={element.id} assignment={element}></AssignmentCard>
                 })
             }
             </div>

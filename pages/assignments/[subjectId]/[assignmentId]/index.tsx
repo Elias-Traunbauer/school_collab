@@ -129,9 +129,12 @@ export default function AssignmentEdit() {
   }
 
   function handleSaveAssignment() {
+    console.log("UPDATE");
     updateAssignment(assignment).then((res) => {
       router.push("/assignments/"+assignment.subjectId);
-    }).catch((err) => {});
+    }).catch((err) => {
+      console.error(err);
+    });
   }
 
   function handleCancelAssignment() {
@@ -172,11 +175,11 @@ export default function AssignmentEdit() {
             <input
               className={`${edditMode ? styles.edditOn : styles.edditOff}`}
               readOnly={!edditMode}
-              defaultValue={assignment.title}
+              defaultValue={assignment&&assignment.title}
               id="titleInput"
             ></input>
             {
-              !edditMode && assignment.userId == context.userContext.id &&
+              !edditMode && assignment &&  assignment.userId == context.userContext.id &&
               <button onClick={handleEddit}>
                 <Image src="/edit.svg" width={20} height={20} alt={"edit"}></Image>
               </button>
@@ -187,9 +190,9 @@ export default function AssignmentEdit() {
           <div>
             {
               edditMode ?
-                <Datepicker dateParam={assignment.due} inputChanged={handleDateChange}></Datepicker>
+                <Datepicker dateParam={new Date(assignment.due)} inputChanged={handleDateChange}></Datepicker>
                 :
-                assignment.due > new Date() ?
+                assignment && assignment.due > new Date() ?
                   <Countdown date={assignment.due}></Countdown>
                   :
                   <p>Abgelaufen</p>
@@ -219,7 +222,7 @@ export default function AssignmentEdit() {
         </div>
 
         {
-          assignment.instructions.length > 0 &&
+          assignment&&assignment.instructions&&assignment.instructions.length > 0 &&
           <>
             <div className={styles.instructionHeader}>
               <div>
@@ -261,7 +264,7 @@ export default function AssignmentEdit() {
         ></FileUpload>
 
         {
-          assignment.due > new Date() ?
+          assignment&&assignment.due > new Date() ?
           <div className={styles.uploadfileWrapper}>
           {
             assignment.files.length == 0 ?

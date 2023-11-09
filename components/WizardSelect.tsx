@@ -47,7 +47,8 @@ export default function WizardSelect({field,onChange,defaultValue,formIndex,sele
             });
         }
         else if (search != "") {
-            const filteredItems = field.value.filter((item) => {
+            const array = field.value as [];
+            const filteredItems = array.filter((item:any) => {
                 return item.displayText.toLowerCase().includes(search.toLowerCase());
             });
             setItems(filteredItems);

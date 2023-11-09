@@ -51,9 +51,8 @@ export default function SummaryList({title,link}: {title: string, link: string,}
       <div>
           {
           displayedSubjects.map((subject, i) => {
-            console.log(subject);
             return (
-              <SubjectItem link={link} subject={subject} key={i}></SubjectItem>
+              <SubjectItem link={link} subject={subject} key={i/** TODO: subjectId as key */}></SubjectItem>
             )
           })
         }

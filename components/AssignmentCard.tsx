@@ -18,7 +18,7 @@ export default function AssignmentCard({ assignment }: { assignment: Assignment 
         <div className={styles.assignmentcontainer} >
             <div className={styles.assignmentcard} onClick={() => router.push(`/assignments/${subject}/${assignment.id}`)}>
                 <div className={styles.assignmenthead}>
-                    <p>{assignmentState.subject.name}</p>
+                    <p>{assignmentState&&assignmentState.subject&&assignmentState.subject.name}</p>
                 </div>
                 <div className={styles.assignmentbody}>
                     <h1>{assignmentState.title}</h1>
