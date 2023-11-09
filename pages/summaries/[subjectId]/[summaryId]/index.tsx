@@ -134,7 +134,7 @@ export default function SummaryDetail(){
                         }
                         
                         <div>
-                            <VotingComponent votingId={summary.id} withScore={true} itemkey={0}></VotingComponent>
+                            <VotingComponent votingId={summary&&summary.id} withScore={true} itemkey={0}></VotingComponent>
                         </div> 
                     </div>
             </div>
@@ -160,7 +160,7 @@ export default function SummaryDetail(){
                 <div>
                 {
                     files.length > 0 ?
-                    summary.files.map((file, index) => {
+                    summary&&summary.files&&summary.files.map((file, index) => {
                         return(
                             <FileListObject key={"FileItem"+index} file={file} asCard={false}  downloadabel={!editMode} downloadFunction={()=>downloadFile(file)} deleteFunction={(e)=>deleteFileItem(e,index)} itemKey={index}></FileListObject>
                         );

@@ -94,7 +94,7 @@ export default function SummaryPostCard({ post = {
                 </div>
             </div>
             <div className={styles.postFooter}>
-                <VotingComponent itemkey={post.id} withScore={true}></VotingComponent>
+                <VotingComponent itemkey={post&&post.id} withScore={true}></VotingComponent>
             </div>
         </div>
     )
