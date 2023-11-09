@@ -159,7 +159,7 @@ export default function SummaryDetail(){
                 
                 <div>
                 {
-                    files.length > 0 ?
+                    files&&files.length > 0 ?
                     summary&&summary.files&&summary.files.map((file, index) => {
                         return(
                             <FileListObject key={"FileItem"+index} file={file} asCard={false}  downloadabel={!editMode} downloadFunction={()=>downloadFile(file)} deleteFunction={(e)=>deleteFileItem(e,index)} itemKey={index}></FileListObject>
