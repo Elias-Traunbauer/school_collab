@@ -132,6 +132,7 @@ namespace Ribbon.API.Middlewares
         private static void SetUserData(HttpContext httpContext, ClaimsPrincipal claims)
         {
             HttpContextUserInfo httpContextUserInfo = new();
+            httpContextUserInfo.SessionId = int.Parse(claims.Claims.Single(x => x.Type == "sessionId").Value);
             int userId = int.Parse(claims.Claims.Single(x => x.Type == "userId").Value);
             string username = claims.Claims.Single(x => x.Type == "username").Value;
             UserPermission userPermission = (UserPermission)int.Parse(claims.Claims.Single(x => x.Type == "userPermission").Value);

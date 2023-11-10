@@ -11,6 +11,8 @@ namespace Core.Entities.Database
 
         public int UserId { get; set; }
 
+        public bool TwoFactorAuthenticated { get; set; } = false;
+
         [Required]
         public string SessionKey { get; set; } = string.Empty;
 

@@ -5,9 +5,11 @@ using Core.Contracts.Models;
 using Core.Contracts.Services;
 using Core.Entities.Database;
 using Core.Entities.Models;
+using Google.Authenticator;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace Api.Controllers
 {
@@ -193,5 +195,190 @@ namespace Api.Controllers
 
             return Ok();
         }
+
+        public record ForgotPasswordPayload (
+                       [EmailAddress] string Email
+                   );
+
+        [HttpPost("forgot-password")]
+        [NoAuthenticationRequired]
+        [RateLimit(maxRequestsPerMinute: 20, rateLimitMode: RateLimitMode.FixedDelay)]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordPayload forgotPasswordPayload, [FromServices] IUserService userService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await userService.ForgotPasswordAsync(forgotPasswordPayload.Email);
+
+            if (result.Status != 200)
+            {
+                return Ok(result);
+            }
+
+            return Ok();
+        }
+
+        public record EnableTwoFactorAuthentication(string Password);
+
+        [HttpPost(nameof(TwoFactorAuthentication))]
+        public async Task<IActionResult> TwoFactorAuthentication([FromBody] EnableTwoFactorAuthentication payload, [FromServices] IUserService userService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userInfo = HttpContext.GetUserInfo().User;
+
+            if (userInfo == null)
+            {
+                return Unauthorized();
+            }
+            // enable two factor auth
+            var user = (await userService.GetUser(userInfo.Id)).Value;
+
+            if (user!.TwoFactorEnabled)
+            {
+                return BadRequest(new
+                {
+                    Status = 400,
+                    Message = "Two factor authentication is already enabled."
+                });
+            }
+
+            await userService.EnableTwoFactorAuthentication(user.Id);
+
+            TwoFactorAuthenticator twoFactorAuthenticator = new TwoFactorAuthenticator();
+            var setup = twoFactorAuthenticator.GenerateSetupCode("Graduater", userInfo.Username, ConvertSecretToBytes(_config.GoogleAuthenticatorKey, false), _config.GoogleAuthenticatorQrCodeSize, generateQrCode: true);
+
+            return Ok(new
+            {
+                Status = 200,
+                QrCode = setup.QrCodeSetupImageUrl,
+                Secret = setup.ManualEntryKey
+            });
+        }   
+
+        public record DisableTwoFactorAuthentication(string Password);
+
+        [HttpDelete(nameof(TwoFactorAuthentication))]
+        public async Task<IActionResult> TwoFactorAuthentication([FromBody] DisableTwoFactorAuthentication payload, [FromServices] IUserService userService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // disable two factor auth
+
+            var userInfo = HttpContext.GetUserInfo().User;
+
+            if (userInfo == null)
+            {
+                return Unauthorized();
+            }
+            // enable two factor auth
+            var user = (await userService.GetUser(userInfo.Id)).Value;
+
+            if (!user!.TwoFactorEnabled)
+            {
+                return BadRequest(new
+                {
+                    Status = 400,
+                    Message = "Two factor authentication is not enabled."
+                });
+            }
+
+            await userService.DisableTwoFactorAuthentication(user.Id);
+
+            return Ok();
+        }
+
+        public record ChangePasswordPayload(
+                       string OldPassword,
+                                  string NewPassword
+                   );
+
+        [HttpPut(nameof(Password))]
+        public async Task<IActionResult> Password([FromBody] ChangePasswordPayload payload, [FromServices] IUserService userService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // change password
+
+            
+            var userInfo = HttpContext.GetUserInfo().User;
+
+            if (userInfo == null)
+            {
+                return Unauthorized();
+            }
+
+            var user = (await userService.GetUser(userInfo.Id)).Value;
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var result = await userService.ChangePasswordAsync(user.Id, payload.OldPassword, payload.NewPassword);
+
+            return Ok();
+        }
+
+        public record TwoFactorAuthenticationPayload(
+                                  string Code
+                              );
+
+        [HttpPost(nameof(TwoFactorAuthenticationCode))]
+        [NoAuthenticationRequired]
+        public async Task<IActionResult> TwoFactorAuthenticationCode([FromBody] TwoFactorAuthenticationPayload payload, [FromServices] IUserService userService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userInfo = HttpContext.GetUserInfo().User;
+
+            if (userInfo == null)
+            {
+                return Unauthorized();
+            }
+
+            var user = (await userService.GetUserWithSessions(userInfo.Id)).Value;
+            var userSessions = user!.Sessions!.ToList();
+            
+            var currentSession = userSessions.SingleOrDefault(x => x.Id == HttpContext.GetUserInfo().SessionId);
+
+            if (currentSession == null)
+            {
+                return Unauthorized();
+            }
+
+            TwoFactorAuthenticator twoFactorAuthenticator = new TwoFactorAuthenticator();
+
+            var result = twoFactorAuthenticator.ValidateTwoFactorPIN(ConvertSecretToBytes(_config.GoogleAuthenticatorKey, false), payload.Code);
+
+            if (!result)
+            {
+                return BadRequest(new
+                {
+                    Status = 400,
+                    Message = "Invalid two factor authentication code."
+                });
+            }
+
+            await userService.TwoFactorAuthenticateSession(currentSession.Id);
+            return Ok();
+        }
+
+        private static byte[] ConvertSecretToBytes(string secret, bool secretIsBase32) =>
+           secretIsBase32 ? Base32Encoding.ToBytes(secret) : Encoding.UTF8.GetBytes(secret);
     }
 }
