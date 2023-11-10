@@ -245,5 +245,47 @@ namespace Service.Services
         {
             return new ServiceResult<ICollection<IUser>>((await _unitOfWork.UserRepository.SearchUserAsync(username)).Cast<IUser>().ToList());
         }
+
+        public async Task<IServiceResult> EnableTwoFactorAuthentication(int userId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new ServiceResult("Error", "User not found");
+            }
+
+            user.TwoFactorEnabled = true;
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return ServiceResult.Completed;
+        }
+
+        public async Task<IServiceResult> DisableTwoFactorAuthentication(int userId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new ServiceResult("Error", "User not found");
+            }
+
+            user.TwoFactorEnabled = false;
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return ServiceResult.Completed;
+        }
+
+        public async Task<IServiceResult> ChangePasswordAsync(int id, string oldPassword, string newPassword)
+        {
+           throw new NotImplementedException();
+        }
+
+        public async Task TwoFactorAuthenticateSession(int id)
+        {
+            var userSession = await _unitOfWork.UserRepository.GetUser(id);
+        }
     }
 }

@@ -23,6 +23,8 @@ public class User : DatabaseEntity, IUser
 
     public string Email { get; set; } = string.Empty;
 
+    public bool TwoFactorEnabled { get; set; }
+
     [JsonIgnore]
     public string PasswordHash { get; set; } = string.Empty;
 

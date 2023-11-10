@@ -8,6 +8,7 @@ namespace Core.Contracts.Entities
         string? EmailVerificationToken { get; set; }
         DateTime? EmailVerificationTokenExpiration { get; set; }
         string FirstName { get; set; }
+        bool TwoFactorEnabled { get; set; }
         bool IsEmailVerified { get; set; }
         string LastName { get; set; }
         string PasswordHash { get; set; }
