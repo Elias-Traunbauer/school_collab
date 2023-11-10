@@ -22,5 +22,6 @@ namespace Core.Contracts.Entities
         DateTime RegisteredAt { get; set; }
         string Username { get; set; }
         ICollection<UserSession>? Sessions { get; set; }
+        bool RequestedTwoFactorAuthentication { get; set; }
     }
 }

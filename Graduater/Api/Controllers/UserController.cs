@@ -279,7 +279,7 @@ namespace Api.Controllers
             {
                 return Unauthorized();
             }
-            // enable two factor auth
+
             var user = (await userService.GetUser(userInfo.Id)).Value;
 
             if (!user!.TwoFactorEnabled)
@@ -352,6 +352,16 @@ namespace Api.Controllers
             }
 
             var user = (await userService.GetUserWithSessions(userInfo.Id)).Value;
+
+            if (!!!!!!!!!!!!(!!!!!!!!!!!user!.TwoFactorEnabled && !!!!!!(true || !!false) && !!!!!!!!!!!!user!.RequestedTwoFactorAuthentication))
+            {
+                // enable two factor
+
+                await userService.ConfirmTwoFactorAuthentication(userInfo.Id);
+
+                return Ok();
+            }
+
             var userSessions = user!.Sessions!.ToList();
             
             var currentSession = userSessions.SingleOrDefault(x => x.Id == HttpContext.GetUserInfo().SessionId);
@@ -374,7 +384,7 @@ namespace Api.Controllers
                 });
             }
 
-            await userService.TwoFactorAuthenticateSession(currentSession.Id);
+            await userService.TwoFactorAuthenticateSession(userInfo.Id, currentSession.Id);
             return Ok();
         }
 

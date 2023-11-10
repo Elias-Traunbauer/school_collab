@@ -31,7 +31,8 @@ namespace Core.Contracts.Services
 
         Task<IServiceResult> DisableTwoFactorAuthentication(int userId);
         Task<IServiceResult> ChangePasswordAsync(int id, string oldPassword, string newPassword);
-        Task<IServiceResult> TwoFactorAuthenticateSession(int id);
+        Task<IServiceResult> TwoFactorAuthenticateSession(int userId, int id);
         Task<IServiceResult<User>> GetUserWithSessions(int id);
+        Task<IServiceResult> ConfirmTwoFactorAuthentication(int id);
     }
 }

@@ -52,6 +52,8 @@ public class User : DatabaseEntity, IUser
 
     public UserPrivacy PrivacySettings { get; set; }
 
+    public bool RequestedTwoFactorAuthentication { get; set; }
+
     public virtual ICollection<UserSession>? Sessions { get; set; }
 }
 
