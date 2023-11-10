@@ -8,6 +8,7 @@ using Core.Entities.Models;
 using Google.Authenticator;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
+using Service.Services;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -223,7 +224,7 @@ namespace Api.Controllers
         public record EnableTwoFactorAuthentication(string Password);
 
         [HttpPost(nameof(TwoFactorAuthentication))]
-        public async Task<IActionResult> TwoFactorAuthentication([FromBody] EnableTwoFactorAuthentication payload, [FromServices] IUserService userService)
+        public async Task<IActionResult> TwoFactorAuthentication([FromBody] EnableTwoFactorAuthentication payload, [FromServices] IUserService userService, [FromServices] IPasswordService passwordService) 
         {
             if (!ModelState.IsValid)
             {
@@ -251,7 +252,7 @@ namespace Api.Controllers
             await userService.EnableTwoFactorAuthentication(user.Id);
 
             TwoFactorAuthenticator twoFactorAuthenticator = new TwoFactorAuthenticator();
-            var setup = twoFactorAuthenticator.GenerateSetupCode("Graduater", userInfo.Username, ConvertSecretToBytes(_config.GoogleAuthenticatorKey, false), _config.GoogleAuthenticatorQrCodeSize, generateQrCode: true);
+            var setup = twoFactorAuthenticator.GenerateSetupCode("Graduater", userInfo.Username, ConvertSecretToBytes(_config.GoogleAuthenticatorKey + user.Id + passwordService.HashPassword(user.PasswordSalt, _config.GoogleAuthenticatorKey), false), _config.GoogleAuthenticatorQrCodeSize, generateQrCode: true);
 
             return Ok(new
             {
@@ -336,8 +337,8 @@ namespace Api.Controllers
                               );
 
         [HttpPost(nameof(TwoFactorAuthenticationCode))]
-        [NoAuthenticationRequired]
-        public async Task<IActionResult> TwoFactorAuthenticationCode([FromBody] TwoFactorAuthenticationPayload payload, [FromServices] IUserService userService)
+        [AuthenticationOptional]
+        public async Task<IActionResult> TwoFactorAuthenticationCode([FromBody] TwoFactorAuthenticationPayload payload, [FromServices] IUserService userService, [FromServices] IPasswordService passwordService)
         {
             if (!ModelState.IsValid)
             {
@@ -353,6 +354,19 @@ namespace Api.Controllers
 
             var user = (await userService.GetUserWithSessions(userInfo.Id)).Value;
 
+            TwoFactorAuthenticator twoFactorAuthenticator = new TwoFactorAuthenticator();
+
+            var result = twoFactorAuthenticator.ValidateTwoFactorPIN(ConvertSecretToBytes(_config.GoogleAuthenticatorKey + user.Id + passwordService.HashPassword(user.PasswordSalt, _config.GoogleAuthenticatorKey), false), payload.Code);
+
+            if (!result)
+            {
+                return BadRequest(new
+                {
+                    Status = 400,
+                    Message = "Invalid two factor authentication code."
+                });
+            }
+
             if (!!!!!!!!!!!!(!!!!!!!!!!!user!.TwoFactorEnabled && !!!!!!(true || !!false) && !!!!!!!!!!!!user!.RequestedTwoFactorAuthentication))
             {
                 // enable two factor
@@ -364,24 +378,11 @@ namespace Api.Controllers
 
             var userSessions = user!.Sessions!.ToList();
             
-            var currentSession = userSessions.SingleOrDefault(x => x.Id == HttpContext.GetUserInfo().SessionId);
+            var currentSession = userSessions.SingleOrDefault(x => x.SessionKey == HttpContext.GetUserInfo().SessionId);
 
             if (currentSession == null)
             {
                 return Unauthorized();
-            }
-
-            TwoFactorAuthenticator twoFactorAuthenticator = new TwoFactorAuthenticator();
-
-            var result = twoFactorAuthenticator.ValidateTwoFactorPIN(ConvertSecretToBytes(_config.GoogleAuthenticatorKey, false), payload.Code);
-
-            if (!result)
-            {
-                return BadRequest(new
-                {
-                    Status = 400,
-                    Message = "Invalid two factor authentication code."
-                });
             }
 
             await userService.TwoFactorAuthenticateSession(userInfo.Id, currentSession.Id);
