@@ -33,7 +33,7 @@ namespace Api.Controllers
 
         public record SendMessageRequest(int ChatId, string Message, int? ReplyToMessageId);
 
-        [HttpPost("message")]
+        [HttpPost("Message")]
         public async Task<IActionResult> SendMessage([FromBody]SendMessageRequest message, [FromServices] IChatService chatService)
         {
             var userInfo = HttpContext.GetUserInfo();
