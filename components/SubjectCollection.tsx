@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import SubjectItem from "../components/SubjectItem";
 import { Router, useRouter } from "next/router";
-import {getSubjects} from '../services/Subject.service'
+import {getSubjects, getSubjectsOfAssignments, getSubjectsOfSummaries} from '../services/Subject.service'
 import Subject from "../models/Subject";
 
 export default function SummaryList({title,link}: {title: string, link: string,}) {
@@ -12,12 +12,19 @@ export default function SummaryList({title,link}: {title: string, link: string,}
   const router = useRouter();
 
   useEffect(() => {
-    getSubjects().then((subjects) => {
-      console.log("SUB",subjects);
-      setSubjects(subjects);
-      setDisplayedSubjects(subjects);
-      console.log("SUB",subjects);
-    });
+    if(link == '/summaries') {
+      getSubjectsOfSummaries().then((subjects) => {
+        setSubjects(subjects);
+        setDisplayedSubjects(subjects);
+      });
+    }
+    else if(link == '/assignments') {
+      getSubjectsOfAssignments().then((subjects) => {
+        setSubjects(subjects);
+        setDisplayedSubjects(subjects);
+      });
+    }
+    
   }, []);
 
   

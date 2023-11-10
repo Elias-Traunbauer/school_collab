@@ -3,6 +3,7 @@ import WizardField from "../models/WizardField";
 import styles from '../styles/WizardSelect.module.scss'
 import {getAllGroups} from "../services/Group.service";
 import { useRouter } from "next/router";
+import selectStyles from "../styles/Select.module.scss";
 
 export default function WizardSelect({field,onChange,defaultValue,formIndex,selectType,required=false}:{required?:boolean,selectType?:string,field?: WizardField,onChange:Function,defaultValue?:string|number,formIndex:number}) {
     
@@ -95,21 +96,18 @@ export default function WizardSelect({field,onChange,defaultValue,formIndex,sele
     return (
         <div className={styles.contaner}>
             <div className={styles.searchSelect}>
-                <input autoComplete={"false"} value={search} onFocus={handleFocus} onBlur={handleBlur} type="text" id="input" onInput={handleInput} />
-                <select onBlur={handleBlur} onFocus={handleFocus} onChange={handleChange} defaultValue={defaultValue?defaultValue:-1} required={field?field.required:required} className={visible&&styles.visible} id="select">
-                   {
-                    !defaultValue&&
-                    <option key='select_-1' value={-1}>Select</option>
-                   }
-                {
-                    items&&
-                    items.map((option, index) => {
-                        return (
-                            <option key={'select_' + index} value={option.value}>{option.displayText}</option>
-                        )
-                    })
-                }
-                </select>
+                <input autoComplete="false" value={search} onFocus={handleFocus} onBlur={handleBlur} type="text" id="input" onInput={handleInput} />
+                <div className={selectStyles.container}>
+                    {
+                        items.map((item, i) => {
+                            return (
+                                <div key={i} className={selectStyles.item}>
+                                    <p>{item}</p>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
             </div>
         </div>
     )

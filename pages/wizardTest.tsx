@@ -32,10 +32,14 @@ export default function WzTest() {
         [new WizardField('List','list',{min:1,max:4,value:["a","b"]},false),new WizardField('nnnn','list',{min:1,max:4,value:["a","b"]},false)],      
     ];
 
+    const selectOptions = [
+        [new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],true),new WizardField('select','select',[{value:1,displayText:'1'},{value:1,displayText:'2'},{value:1,displayText:'3'}],false)],
+    ];
+
 
 
     return (
-        <Wizard contentData={ListOptions} title='Test' callback={callback}></Wizard>
+        <Wizard contentData={selectOptions} title='Test' callback={callback}></Wizard>
     );
 
 }

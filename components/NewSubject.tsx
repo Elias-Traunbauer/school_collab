@@ -7,7 +7,7 @@ export default function NewSubject({returnPath}: {returnPath: string}) {
     const router = useRouter();
 
     function finisheWizard(text,callbackLoadingText,finishLoading) {
-        //TODO: change Wizard and add subject properly
+        //TODO: change Wizard and add subject properly, then redirect to returnPath/subjectId
         setTimeout(() => {
             finishLoading();
             alert(text);

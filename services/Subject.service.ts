@@ -21,6 +21,23 @@ export async function getSubjects(): Promise<Subject[]>{
     return subjects;
   }
 
+  export async function getSubjectsOfAssignments(): Promise<Subject[]>{
+     const assignmentresult = await getAllAssignments();
+     const assignmentSubjects = assignmentresult.map((assignment) => {
+          return assignment.subject;
+     });
+     return assignmentSubjects;
+  }
+
+  export async function getSubjectsOfSummaries(): Promise<Subject[]>{
+     const summaryresult = await getAllSummaries();
+     const summarySubjects = summaryresult.map((assignment) => {
+         return assignment.subject;
+     });
+
+     return summarySubjects;
+  }
+
 export async function getSubjectById(id: number): Promise<Subject>{
    try{
          const response = await fetch(url+'/'+id,{

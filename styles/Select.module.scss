@@ -1,0 +1,18 @@
+.container{
+    background-color: var(--background_1);
+    border-radius: .3em;
+    padding: .2em;
+    transition: all .3s;
+}
+
+.item{
+    padding: .2em;
+    border-radius: .3em;
+    cursor: pointer;
+    transition: .3s;
+    background-color: var(--background_1);
+
+    &:hover{
+        background-color: var(--background_2);
+    }
+}
