@@ -255,7 +255,7 @@ namespace Service.Services
                 return new ServiceResult("Error", "User not found");
             }
 
-            user.TwoFactorEnabled = true;
+            user.RequestedTwoFactorAuthentication = true;
 
             await _unitOfWork.SaveChangesAsync();
 
@@ -283,9 +283,49 @@ namespace Service.Services
            throw new NotImplementedException();
         }
 
-        public async Task TwoFactorAuthenticateSession(int id)
+        public async Task<IServiceResult> TwoFactorAuthenticateSession(int userId, int id)
         {
-            var userSession = await _unitOfWork.UserRepository.GetUser(id);
+            var user = await _unitOfWork.UserRepository.GetUserByIdWithSessionsAsync(userId);
+
+            if (user == null)
+            {
+                return new ServiceResult("Error", "User not found");
+            }
+
+            var session = user.Sessions!.SingleOrDefault(x => x?.Id == id, null);
+
+            if (session == null)
+            {
+                return new ServiceResult("Error", "Session not found");
+            }
+
+            session.TwoFactorAuthenticated = true;
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return ServiceResult.Completed;
+        }
+
+        public async Task<IServiceResult<User?>> GetUserWithSessions(int id)
+        {
+            return new ServiceResult<User?>((User?)await _unitOfWork.UserRepository.GetUserByIdWithSessionsAsync(id));
+        }
+
+        public async Task<IServiceResult> ConfirmTwoFactorAuthentication(int id)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
+
+            if (user == null)
+            {
+                return new ServiceResult("Error", "User not found");
+            }
+
+            user.TwoFactorEnabled = true;
+            user.RequestedTwoFactorAuthentication = false;
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return ServiceResult.Completed;
         }
     }
 }
