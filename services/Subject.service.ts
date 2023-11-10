@@ -5,37 +5,55 @@ import {getAllSummaries} from "../services/Summary.service";
 const url = "/api/Subject"
 
 export async function getSubjects(): Promise<Subject[]>{
-    const assignmentresult = await getAllAssignments();
-    const assignmentSubjects = assignmentresult.map((assignment) => {
-        return assignment.subject;
-    });
+     const result: Subject[] = [];
+     const resultIds: number[] = [];
+     
+     const assignmentresult = await getAllAssignments();
+     const summaryresult = await getAllSummaries();
 
-    const summaryresult = await getAllSummaries();
-    const summarySubjects = summaryresult.map((assignment) => {
-        return assignment.subject;
-    });
+          
+     for (const iterator of assignmentresult) {
+          if(!resultIds.includes(iterator.subject.id)){
+               result.push(iterator.subject);
+               resultIds.push(iterator.subject.id);
+          }
+     }
 
-    const subjects = assignmentSubjects.concat(summarySubjects);
-
-    
-    return subjects;
+     for (const iterator of summaryresult) {
+          if(!resultIds.includes(iterator.subject.id)){
+               result.push(iterator.subject);
+               resultIds.push(iterator.subject.id);
+          }
+     }
+     return result;
   }
 
   export async function getSubjectsOfAssignments(): Promise<Subject[]>{
      const assignmentresult = await getAllAssignments();
-     const assignmentSubjects = assignmentresult.map((assignment) => {
-          return assignment.subject;
-     });
-     return assignmentSubjects;
+     const result: Subject[] = [];
+     const resultIds: number[] = [];
+
+     for (const iterator of assignmentresult) {
+          if(!resultIds.includes(iterator.subject.id)){
+               result.push(iterator.subject);
+               resultIds.push(iterator.subject.id);
+          }
+     }
+     return result;
   }
 
   export async function getSubjectsOfSummaries(): Promise<Subject[]>{
      const summaryresult = await getAllSummaries();
-     const summarySubjects = summaryresult.map((assignment) => {
-         return assignment.subject;
-     });
+     const result: Subject[] = [];
+     const resultIds: number[] = [];
 
-     return summarySubjects;
+     for (const iterator of summaryresult) {
+          if(!resultIds.includes(iterator.subject.id)){
+               result.push(iterator.subject);
+               resultIds.push(iterator.subject.id);
+          }
+     }
+     return result;
   }
 
 export async function getSubjectById(id: number): Promise<Subject>{

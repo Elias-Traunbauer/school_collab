@@ -15,7 +15,7 @@ export default function SubjectItem({key,subject,picture,link}: {key:any,subject
                 :
                 <>
                     <div className={styles.picturePlaceholder}>
-                        <h1>{subject&&subject[0]}</h1>
+                        <h1>{subject.shortName}</h1>
                     </div>
                 </>
             }

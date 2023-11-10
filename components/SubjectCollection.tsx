@@ -20,6 +20,7 @@ export default function SummaryList({title,link}: {title: string, link: string,}
     }
     else if(link == '/assignments') {
       getSubjectsOfAssignments().then((subjects) => {
+        console.log(subjects);
         setSubjects(subjects);
         setDisplayedSubjects(subjects);
       });
