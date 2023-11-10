@@ -1,6 +1,7 @@
 ﻿using Core.Contracts.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Core.Entities.Database;
 
@@ -15,26 +16,34 @@ public class User : DatabaseEntity, IUser
     public string LastName { get; set; } = string.Empty;
 
     [ForeignKey(nameof(ProfilePictureId))]
+    [JsonIgnore]
     public virtual File? ProfilePicture { get; set; }
 
     public int? ProfilePictureId { get; set; }
 
     public string Email { get; set; } = string.Empty;
 
+    [JsonIgnore]
     public string PasswordHash { get; set; } = string.Empty;
 
+    [JsonIgnore]
     public string PasswordSalt { get; set; } = string.Empty;
 
+    [JsonIgnore]
     public string? EmailVerificationToken { get; set; }
 
+    [JsonIgnore]
     public DateTime? EmailVerificationTokenExpiration { get; set; }
 
+    [JsonIgnore]
     public string? PasswordResetToken { get; set; }
 
+    [JsonIgnore]
     public DateTime? PasswordResetTokenExpiration { get; set; }
 
     public DateTime RegisteredAt { get; set; }
 
+    [JsonIgnore]
     public bool IsEmailVerified { get; set; }
 
     public UserPermission Permissions { get; set; }
