@@ -48,6 +48,7 @@
             margin-block-start: 1.5rem;
             margin-block-end: .5rem;
             text-align: center;
+            cursor: default;
         }
 
         & > div:not(:last-child){
@@ -56,7 +57,7 @@
             border-radius: 1rem;
 
             & > label{
-                font-size: 1rem;
+                font-size: 1.1rem;
                 padding: 0 0 .4rem .5rem;
             }
 
@@ -64,7 +65,7 @@
                 margin: 0;
                 padding: 0 0 .4rem 1rem;
                 font-size: smaller;
-                color: var(--color_main);
+                cursor: default;
             }
 
             & > input{
@@ -80,14 +81,20 @@
         & > div:last-child{
             display: flex;
             justify-content: center;
+            gap: 5%;
 
-            & > input{
+            & > input, button{
+                background-color: var(--color_main);
                 border: none;
                 border-radius: .5rem;
                 padding: .5rem;
                 font-size: 1.5rem;
                 width: 100%;
                 cursor: pointer;
+
+                &:hover{
+                    filter: brightness(120%);
+                }
             }
         }
     }
@@ -216,10 +223,10 @@
                 border: none;
                 border-radius: 0 .5rem .5rem 0;
                 justify-self: flex-end;
-            }
 
-            & > button:hover{
-                background-color: rgb(244, 66, 66);
+                &:hover{
+                    background-color: rgb(244, 66, 66);
+                }
             }
         }
     }

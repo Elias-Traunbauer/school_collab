@@ -37,19 +37,18 @@ export async function registerUser(user: UserRegisterDTO): Promise<any> {
 }
 
 export async function getUser(): Promise<any> {
-    try {
+    try{
         const response = await fetch(url, {
             method: 'GET'
         });
-        if (response.status === 401) {
-            throw response;
-        }
-        else if (response.status === 500) {
+
+        if (response.status != 200) {
             throw response;
         }
         const data = await response.json();
+          
         return data;
-    } catch (error) {
+    }catch(error){
         throw error;
     }
 }

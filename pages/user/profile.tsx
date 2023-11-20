@@ -5,13 +5,11 @@ import Link from "next/link";
 import Wizard from "../../components/Wizard";
 import WizardField from "../../models/WizardField";
 import { json } from "stream/consumers";
-import User from "../../models/User";
 import { getUser } from "../../services/User.service";
+import UserDisplayDTO from "../../models/UserDisplayDTO";
 
 export default function Profile() {
-    const [user,setUser] = useState<User>({
-        id: 0,
-        version: "",
+    const [user,setUser] = useState<UserDisplayDTO>({
         username: "",
         firstName: "",
         lastName: "",
@@ -24,22 +22,22 @@ export default function Profile() {
     const [addLink, setAddLink] = useState(false);
 
     useEffect(() => {
+        async function fetchDataAsync() {
+            getUser().then((res) => {
+                var newUser = user;
+                newUser.username = res.username;
+                newUser.firstName = res.firstName;
+                newUser.lastName = res.lastName;
+                newUser.email = res.email;
+                //subject not implemented yet
+                setUser(newUser);
+                
+            }).catch((err) => {
+                
+            });
+        }
         fetchDataAsync();
-
     },[]);
-
-    function fetchDataAsync() {
-        var res = getUser();
-        var newUser = user;
-
-        res.then((res) => {
-            if(res.status == 200){
-                newUser = res.data as User;
-            }   
-        });
-
-        setUser(newUser);
-    }
 
     function removeLink(link: string[]){
         const newLinks = links.filter((l) => l !== link);
@@ -101,7 +99,8 @@ export default function Profile() {
                             </div>
 
                             <div className={styles.buttonContainer}>
-                                <input type="submit" value={"Speichern"} className="btn-primary"></input>
+                                <button onClick={() => setAddLink(false)}>Abbrechen</button>
+                                <input type="submit" value={"Speichern"} ></input>
                             </div>
                         </form>
                     </div>
@@ -110,13 +109,14 @@ export default function Profile() {
                 <div className={styles.infoContainer}> 
                 <div>
                         {Object.values(user).map((value, index) => {
+                            
                             return (
                                 <div key={index}>
                                     <label>{Object.keys(user)[index]}</label>
                                     <p>{value}</p>
                                 </div>
                             )
-                            
+
                         })}
                     </div>
                     <div>
