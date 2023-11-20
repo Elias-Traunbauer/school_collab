@@ -13,7 +13,7 @@ namespace Ribbon.API.Middlewares
         private readonly RequestDelegate _next;
         private readonly ApiConfig _config;
 
-        public UserAuthenticationMiddleware(RequestDelegate next, ApiConfig configuration, IUserService service)
+        public UserAuthenticationMiddleware(RequestDelegate next, ApiConfig configuration)
         {
             _next = next;
             _config = configuration;
