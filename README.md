@@ -2,12 +2,11 @@
 
 ## Introduction
 School Collab is a web-application students can use to collaborate on.
-Features like sharing info about upcoming assignments, providing data about certain topics as well as a account system for users to register are included.
+Features, like sharing info about upcoming assignments, providing data about certain topics as well as a account system for users to register, are included.
 <br>
 <br>
 [![Deploy](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/deploy.yml)
 [![CodeQL](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/codeql.yml)
-[![Compiler Check](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/compile_check.yml/badge.svg?branch=master&event=pull_request)](https://github.com/Elias-Traunbauer/school_collab/actions/workflows/compile_check.yml)
 
 <br>
 
@@ -25,7 +24,7 @@ Features like sharing info about upcoming assignments, providing data about cert
 * Visual Studio Code
 * ApacheHaus x64
 * PHP x64 >= 8
-* Configure ApacheHaus to use php (make sure to change php7 to php) [tutorial](https://www.tutorialspoint.com/php7/php7_installation_windows_apache.htm)
+* Configure ApacheHaus to use php (make sure to change php7.x to php) [tutorial](https://www.tutorialspoint.com/php7/php7_installation_windows_apache.htm)
 * Use the `php.ini` from the repo (replace existing php-ini file with this one)
 
 ## Dev-environment setup

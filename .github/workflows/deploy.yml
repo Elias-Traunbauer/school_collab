@@ -25,7 +25,7 @@ jobs:
         env:
           SSH_USER: github
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_HOST: 20.203.131.180
+          SSH_HOST: 194.13.82.207
 
       - name: Check SSH Connection
         run: ssh staging 'echo "It works!"'
@@ -33,8 +33,11 @@ jobs:
       - name: Pull project code
         run: ssh staging 'sudo git -C ./school_collab reset --hard | sudo git -C ./school_collab pull'
 
+      - name: Set build time for web display
+        run: ssh staging 'npm --prefix ./school_collab run update_build_date'
+
       - name: Deploy next-project
-        run: ssh staging 'npm --prefix ./school_collab run deploy'
+        run: ssh staging 'npm --prefix ./school_collab i & npm --prefix ./school_collab run deploy'
         
       - name: Create PHP API folder 
         run: ssh staging 'mkdir ./school_collab/out/api'

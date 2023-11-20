@@ -7,16 +7,25 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "update_build_date": "sudo node set_dev_description",
     "deploy": "next build && next export",
     "test-deploy": "next build && next export && mkdir .\\out\\api && xcopy /s api out\\api",
     "api-only-deploy": "xcopy /s api out\\api /Y"
   },
   "dependencies": {
-    "@next/font": "^13.0.6",
+    "chart.js": "^4.3.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
+    "js-cookie": "^3.0.5",
+    "md-block": "^0.0.1",
     "next": "13.0.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-markdown": "^8.0.7",
+    "sass": "^1.58.2"
+  },
+  "devDependencies": {
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.35"
   }
 }
