@@ -9,6 +9,7 @@ namespace Core.Contracts
         public IAssignmentRepository AssignmentRepository { get; }
         public IGroupRepository GroupRepository { get; }
         public ISubjectRepository SubjectRepository { get; }
+        public IChatRepository ChatRepository { get; }
 
         public Task<bool> SaveChangesAsync();
     }

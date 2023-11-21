@@ -38,6 +38,7 @@ namespace Api
             builder.Services.AddScoped<IGroupService, GroupService>();
             builder.Services.AddScoped<ISubjectService, SubjectService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IChatService, ChatService>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
