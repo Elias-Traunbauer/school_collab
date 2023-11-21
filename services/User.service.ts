@@ -1,7 +1,6 @@
 import User from "../models/User";
 import UserLoginDTO from "../models/UserLoginDTO";
 import UserRegisterDTO from "../models/UserRegisterDTO";
-import UserRegisterError from "../models/UserRegisterError";
 
 const url = '/api/User';
 export async function registerUser(user: UserRegisterDTO): Promise<any> {
