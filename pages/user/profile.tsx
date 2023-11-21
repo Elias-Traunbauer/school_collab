@@ -2,9 +2,7 @@ import styles from "../../styles/Profile.module.scss";
 import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Wizard from "../../components/Wizard";
 import WizardField from "../../models/WizardField";
-import { json } from "stream/consumers";
 import { getUser } from "../../services/User.service";
 import UserDisplayDTO from "../../models/UserDisplayDTO";
 
@@ -15,9 +13,7 @@ export default function Profile() {
         lastName: "",
         email: "",
     });
-
-    const data = [[new WizardField('Plattform', 'text', '', true),new WizardField('Link zu Ihrem Profil', 'text', '', true)]];
-
+    
     const [links, setLinks] = useState([["github", "www.github.com"], ["google", "www.google.com"], ["yahoo", "www.yahoo.com"], ["bing", "www.bing.com"]]);
     const [addLink, setAddLink] = useState(false);
 
