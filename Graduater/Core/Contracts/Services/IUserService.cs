@@ -7,7 +7,7 @@ namespace Core.Contracts.Services
 {
     public interface IUserService
     {
-        Task<IServiceResult<User?>> GetUser(int id);
+        Task<IServiceResult<User?>> GetUserByIdAsync(int id);
 
         Task<ILoginResult> LoginAsync(UserLoginPayload loginInformation);
 
