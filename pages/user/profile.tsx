@@ -1,4 +1,4 @@
-import styles from "../../styles/Profile.module.scss";
+import styles from "../../styles/ProfilePage.module.scss";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
