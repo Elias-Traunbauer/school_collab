@@ -37,7 +37,7 @@ export default function Profile() {
             });
         }
         fetchDataAsync();
-    },[]);
+    },[user]);
 
     function removeLink(link: string[]){
         const newLinks = links.filter((l) => l !== link);
