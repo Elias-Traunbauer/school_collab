@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Script from 'next/script';
 import { useState } from 'react'
-import styles from '../styles/otp.module.css'
+import styles from '../../styles/otp.module.css'
 import { useEffect } from 'react';
 
 
@@ -14,7 +14,7 @@ export default function Otp(){
         const inputs = document.querySelectorAll(`.${styles.otpcontainer} input`);
         //console.log(inputs[0].value ? inputs[0].value : "none");
         document.getElementById('i1').focus();
-        for(const e of inputs){
+        for(const e of inputs as NodeListOf<HTMLInputElement>){
             e.value = "";
             e.setAttribute("readonly", "readonly");
             //e.addEventListener("keyup",handleOtp);
@@ -53,7 +53,7 @@ export default function Otp(){
             const input = text.match(/(\d\d?\d?\d?\d?\d?)/);
             const inputValue = input[0].split("");
             let index = 0;
-            for(const e of inputs){
+            for(const e of inputs as NodeListOf<HTMLInputElement>){
                 if(e.value == "" && index < inputValue.length){
                     e.value = inputValue[index];
                     index++
@@ -65,14 +65,14 @@ export default function Otp(){
             console.error('Failed to read clipboard contents: ', err);
         });
 
-        focusCorrectInput();
+        focusCorrectInput(e);
     }
 
     function focusCorrectInput(e){
         //e.preventDefault();
         const inputs = document.querySelectorAll(`.${styles.otpcontainer} input`);
         let curr;
-        for(const e of inputs){
+        for(const e of inputs as NodeListOf<HTMLInputElement>){
             curr = e;
             if(e.value.length <= 0){
                 e.focus();
@@ -131,12 +131,12 @@ export default function Otp(){
         <>
 
             <div  className={styles.otpcontainer}>
-                <input autoComplete='off' id='i1' maxLength="1" type="text"></input>
-                <input autoComplete='off' id='i2' maxLength="1" type="text"></input>
-                <input autoComplete='off' id='i3' maxLength="1" type="text"></input>
-                <input autoComplete='off' id='i4' maxLength="1" type="text"></input>
-                <input autoComplete='off' id='i5' maxLength="1" type="text"></input>
-                <input autoComplete='off' id='i6' maxLength="1" type="text"></input>
+                <input autoComplete='off' id='i1' maxLength={1} type="text"></input>
+                <input autoComplete='off' id='i2' maxLength={1} type="text"></input>
+                <input autoComplete='off' id='i3' maxLength={1} type="text"></input>
+                <input autoComplete='off' id='i4' maxLength={1} type="text"></input>
+                <input autoComplete='off' id='i5' maxLength={1} type="text"></input>
+                <input autoComplete='off' id='i6' maxLength={1} type="text"></input>
             </div>
         </>
     
