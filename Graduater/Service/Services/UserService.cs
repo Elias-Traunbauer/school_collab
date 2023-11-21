@@ -86,6 +86,7 @@ namespace Service.Services
                 IssuedAt = DateTime.UtcNow,
                 Expires = DateTime.UtcNow.AddDays(30),
                 LastAction = DateTime.UtcNow,
+                TwoFactorAuthenticated = !user.TwoFactorEnabled,
                 Ip = "Not yet implemented"
             });
 
