@@ -1,8 +1,7 @@
-import styles from "../../styles/Profile.module.scss";
-import { use, useEffect, useState } from "react";
+import styles from "../../styles/Profiile.module.scss";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import WizardField from "../../models/WizardField";
 import { getUser } from "../../services/User.service";
 import UserDisplayDTO from "../../models/UserDisplayDTO";
 
