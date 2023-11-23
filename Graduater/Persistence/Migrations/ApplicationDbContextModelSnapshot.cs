@@ -650,6 +650,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("RegisteredAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<bool>("RequestedTwoFactorAuthentication")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
 

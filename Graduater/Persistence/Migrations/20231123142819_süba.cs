@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Fortnite : Migration
+    public partial class süba : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -179,6 +179,7 @@ namespace Persistence.Migrations
                     LastName = table.Column<string>(type: "longtext", nullable: false),
                     ProfilePictureId = table.Column<int>(type: "int", nullable: true),
                     Email = table.Column<string>(type: "varchar(255)", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     PasswordHash = table.Column<string>(type: "longtext", nullable: false),
                     PasswordSalt = table.Column<string>(type: "longtext", nullable: false),
                     EmailVerificationToken = table.Column<string>(type: "longtext", nullable: true),
@@ -189,6 +190,7 @@ namespace Persistence.Migrations
                     IsEmailVerified = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Permissions = table.Column<int>(type: "int", nullable: false),
                     PrivacySettings = table.Column<int>(type: "int", nullable: false),
+                    RequestedTwoFactorAuthentication = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
@@ -307,6 +309,7 @@ namespace Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    TwoFactorAuthenticated = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     SessionKey = table.Column<string>(type: "longtext", nullable: false),
                     IssuedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Ip = table.Column<string>(type: "longtext", nullable: false),
