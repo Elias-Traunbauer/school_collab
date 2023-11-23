@@ -201,17 +201,15 @@ export default function AssignmentEdit() {
         </div>
 
         <div className={styles.descriptionContainer}>
-          {
-            edditMode &&
-            <>
               <div className={styles.descriptionTextContainer}>
                 <label>Description</label>
-                <input id='descriptionInput' type="text" placeholder="Description" defaultValue={assignment.description}></input>
+                {
+                   edditMode ?
+                   <input id='descriptionInput' type="text" placeholder="Description" defaultValue={assignment.description}></input>
+                   :
+                  <p>{assignment.description}</p>
+                }
               </div>
-
-            </>
-
-          }
           <MarkdownEditor
             handleFromOutside={true}
             setText={(text) => setContent(text)}

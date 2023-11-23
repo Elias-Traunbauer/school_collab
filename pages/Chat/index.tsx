@@ -6,11 +6,13 @@ import ChatroomListitem from '../../components/ChatroomListitem';
 import Chatroom from '../../components/Chatroom';
 import { useRouter } from 'next/router';
 import Chat from '../../models/Chat';
-import { getChatById, getChats, readChat } from '../../services/Chat.service';
+import { createNewChat, getChatById, getChats, readChat } from '../../services/Chat.service';
 import ChatMessage from '../../models/ChatMessage';
 import UserContext from '../../components/UserContext';
 import User from '../../models/User';
 import ChatmemberListItem from '../../components/ChatmemberListItem';
+import ChatPostDTO from '../../models/ChatPostDTO';
+import { getAllUsers } from '../../services/User.service';
 export default function DisplayChat() {
 
     const context = useContext(UserContext);
@@ -49,28 +51,39 @@ export default function DisplayChat() {
     const [chats, setChats] = useState<Chat[]>([]);
     const [displayChats, setDisplayChats] = useState<Chat[]>([]);
     const [members, setMembers] = useState<User[]>([mockUser,mockUser,mockUser,mockUser]);
-    const [displayMembers, setDisplayMembers] = useState<User[]>([mockUser,mockUser,mockUser,mockUser]);
-    const [newChatMembers, setNewChatMembers] = useState<User[]>([mockUser,mockUser,mockUser,mockUser]);
+    const [displayMembers, setDisplayMembers] = useState<User[]>([]);
+    const [newChatMembers, setNewChatMembers] = useState<User[]>([]);
 
     useEffect(() => {
         async function fetchData() {
-            getChats().then((res) => {
-                console.log("CHAT", res);
-                setChats(res);
-                setDisplayChats(res);
-                if (res.length > 0) {
-                    getChatById(res[0].id).then((chat) => {
-
-                        setSelectedChat(chat);
-                        //TODO: implement SSE
-                    });
-
-                }
-            });
-
+            await getChatsAsync();
+            //await getUsers();
         }
         fetchData();
     }, []);
+
+    async function getUsers(){
+        getAllUsers().then((res) => {
+            if(res){
+                setMembers(res);
+                setDisplayMembers(res);
+            }
+        });
+    }
+
+    async function getChatsAsync() {
+        getChats().then((res) => {
+            console.log("CHAT", res);
+            setChats(res);
+            setDisplayChats(res);
+            if (res.length > 0) {
+                getChatById(res[0].id).then((chat) => {
+                    setSelectedChat(chat);
+                });
+
+            }
+        });
+    }
 
     useEffect(() => {
         if (!selectedChat) {
@@ -124,6 +137,25 @@ export default function DisplayChat() {
     }
 
     function handleCreateNewChat() {
+        const tmpChatMembers:number[] = [context.userContext.id];
+
+        for (const iterator of newChatMembers) {
+            tmpChatMembers.push(iterator.id);
+        }
+
+        const tmpDescription = (document.getElementById('newChatDescription') as HTMLTextAreaElement).value;
+        const tmpName = (document.getElementById('newChatName') as HTMLInputElement).value;
+
+        const newChat:ChatPostDTO = {
+            chatMembers: tmpChatMembers,
+            description: tmpDescription,
+            name: tmpName
+        };
+        createNewChat(newChat).then((res) => {
+            getChatsAsync();
+        });
+
+
         const newChatDialog = document.getElementById('newChatDialog') as HTMLDialogElement;
         newChatDialog.close();
     }
@@ -147,6 +179,18 @@ export default function DisplayChat() {
         );
 
         setDisplayMembers(filteredData);
+    }
+
+    function insertMessage(message: ChatMessage) {
+        //TODO: Check
+        const tmpChats = chats.map((chat) => {
+            if (chat.id === message.chatId) {
+                chat.chatMessages.push(message);
+            }
+            return chat;
+        });
+        setChats(tmpChats);
+        setDisplayChats(tmpChats);
     }
 
 
@@ -186,13 +230,13 @@ export default function DisplayChat() {
                 </div>
             </div>
             <div className={styles.ChatroomContainer}>
-                <Chatroom chat={selectedChat}></Chatroom>
+                <Chatroom insertMessage={insertMessage} chatParam={selectedChat}></Chatroom>
             </div>
             <dialog id='newChatDialog' className={styles.newChatDialog}>
                 <div>
                     <h2>Neuer Chat</h2>
-                    <input type="text" placeholder="Chatname" />
-                    <textarea placeholder="Beschreibung"></textarea>
+                    <input id='newChatName' type="text" placeholder="Chatname" />
+                    <textarea id='newChatDescription' placeholder="Beschreibung"></textarea>
                     <input onChange={handleSearchMembers} className={styles.memberSearchbar} type="text" placeholder="Mitglieder Suchen" />
 
                         <div className={styles.memberlist}>

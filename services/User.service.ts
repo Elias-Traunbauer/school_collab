@@ -82,3 +82,19 @@ export async function loginUser(user: UserLoginDTO): Promise<any> {
         throw error;
     }
 }
+
+export async function getAllUsers():Promise<User[]>{
+    try{
+        const response = await fetch(url+'/all',{
+            method: 'GET'
+        });
+        if(response.status != 200){
+            throw response;
+        }
+        const data = await response.json();
+        return data.value;
+    }
+    catch(error){
+        throw error;
+    }
+}

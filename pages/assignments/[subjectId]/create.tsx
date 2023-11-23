@@ -39,6 +39,8 @@ export default function AssignmentCreation() {
     function finish(data: WizardResult[], setLoadingText, finishLoading) {
         // parse subjectId from router
         const tmpSubjectId = parseInt(router.query.subjectId as string);
+
+        console.log(tmpSubjectId);
         if(isNaN(tmpSubjectId)){
             return;
         }
@@ -48,12 +50,12 @@ export default function AssignmentCreation() {
             content: data[3].value,
             due: data[1].value,
             //TODO: group from Wizard
-            groupId: 4,
+            groupId: 1,
             subjectId: tmpSubjectId,
         }
         setLoadingText("Creating assignment...");
 
-        console.log(result);
+        console.log("RESULT",result);
 
         createAssignment(result).then((res) => {
             setLoadingText("done!");

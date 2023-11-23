@@ -7,6 +7,7 @@ import Subject from "../../../models/Subject";
 import { useEffect, useState } from "react";
 import Summary from "../../../models/Summary";
 import {getSummariesBySubjectId} from "../../../services/Summary.service";
+import { getSubjectById } from "../../../services/Subject.service";
 
 //slug is the subject
 export default function SummaryCollection() {
@@ -22,6 +23,9 @@ export default function SummaryCollection() {
             if(isNaN(subjectIdAsNumber)) {
                 return;
             }
+            const tmpSubject = await getSubjectById(subjectIdAsNumber);
+            console.log("SUBJECT", tmpSubject);
+            setSubject(tmpSubject);
             const tmpSummaries = await getSummariesBySubjectId(subjectIdAsNumber);
             setPosts(tmpSummaries);
         }
@@ -33,7 +37,7 @@ export default function SummaryCollection() {
     }
 
     function handleNewSumary() {
-        router.push(`/summaries/${subject}/newSummary`);
+        router.push(`/summaries/${subjectId}/newSummary`);
     }
 
     return (

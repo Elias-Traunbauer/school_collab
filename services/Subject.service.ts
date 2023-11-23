@@ -65,6 +65,7 @@ export async function getSubjectById(id: number): Promise<Subject>{
               throw response;
          }
          const data = await response.json();
+         console.log(data);
          return data.value;
    }
    catch(error){

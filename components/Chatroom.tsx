@@ -5,38 +5,96 @@ import Image from "next/image";
 import FileListObject from "./FileListObject";
 import Chat from "../models/Chat";
 import ChatMessage from "../models/ChatMessage";
-import { getMessages, readChat, sendMessage, updateChat, updateMessage } from "../services/Chat.service";
+import { getMessages, readChat, sendMessage, subscribeToNewMessages, updateChat, updateMessage } from "../services/Chat.service";
 import { get } from "http";
-export default function Chatroom({ chat }: { chat: Chat | undefined }) {
+export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat | undefined , insertMessage: Function}) {
   const defaultProfile = "person.svg";
   const [infoIsHidden, setInfoIsHidden] = useState(true);
   const [nameEdit, setNameEdit] = useState(false);
   const [answer, setAnswer] = useState<ChatMessage>(null);
   const [scrollBody, setScrollBody] = useState(false);
-  const [backUpName, setBackUpName] = useState(chat&&chat.name);
-  const [name, setName] = useState(chat&&chat.name);
+  const [backUpName, setBackUpName] = useState(chatParam&&chatParam.name);
+  const [name, setName] = useState(chatParam&&chatParam.name);
   const [loadNewMessages, setLoadNewMessages] = useState(false);
-
+  const [chat, setChat] = useState<Chat>(chatParam);
 
   useEffect(() => {
     async function fetchData() {
-      console.log("CHATROOM",chat);
-      setName(chat&&chat.name);
+      console.log("CHATROOM",chatParam);
 
-      if (!chat || !chat.chatMessages) {
+      if (!chatParam) {
         return;
       }
-      getMessages(chat.id).then((firstMessages) => {
-        chat.chatMessages = firstMessages;
-        if(chat.chatMessages.length > 0)
-        readChat(chat.id, chat.chatMessages[chat.chatMessages.length - 1].id);
+
+
+      setName(chatParam.name&&chatParam.name);
+
+
+      getMessages(chatParam.id).then((firstMessages) => {
+        chatParam.chatMessages = firstMessages;
+        setChat(chatParam);
+        console.log("FIRSTMESSAGES",chatParam.chatMessages );
+        if(chatParam.chatMessages.length > 0)
+        readChat(chatParam.id, chatParam.chatMessages[chatParam.chatMessages.length - 1].id);
       });
     }
     fetchData();
     scrollDown();
+  }, [chatParam]);
+
+  useEffect(() => {
+    const sse = subscribeToNewMessages();
+
+    console.log("SSE", sse);
+
+    sse.onmessage = (event) => {
+      const res = JSON.parse(event.data);
+      const tmpMessage:ChatMessage = {
+        chatId: res.ChatId,
+        content: res.Content,
+        created: new Date(res.Created),
+        userId: res.User.Id,
+        read: false,
+        id: null,
+        version: "",
+        user: res.User,
+      };
+
+      console.log("tmpMessage.chatId == chat.id",chat.id == tmpMessage.chatId);
+
+      if(tmpMessage.chatId == chat.id){
+        const tmpChat = chat;
+        tmpChat.chatMessages.push(tmpMessage);
+        setChat((chat)=>({...chat,chatMessages:tmpChat.chatMessages}));
+        scrollInstantDown();
+      }
+      else{
+        console.log("OTHER CHAT", tmpMessage);
+        insertMessage(tmpMessage);
+      }
+    };
+
+    return () => {
+      sse.close();
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("CHAT", chat);
+    scrollInstantDown();
   }, [chat]);
 
+  function scrollInstantDown() {
+    const chatroom = document.getElementById("chatBody") as HTMLDivElement;
+    chatroom.scrollTo({
+      top: chatroom.scrollHeight,
+      behavior: "auto"
+    });
+  }
+
   function compareDate(currentDate: Date, date: Date) {
+    currentDate = new Date(currentDate);
+    date = new Date(date);
     if (
       currentDate.getDate() == date.getDate() &&
       currentDate.getMonth() == date.getMonth() &&
@@ -49,6 +107,7 @@ export default function Chatroom({ chat }: { chat: Chat | undefined }) {
   }
 
   function getDate(date: Date) {
+    date = new Date(date);
     const month = date.getMonth().toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
     const year = date.getFullYear();
@@ -214,7 +273,8 @@ export default function Chatroom({ chat }: { chat: Chat | undefined }) {
     // if position is at the bottom
     const chatBody = document.getElementById("chatBody") as HTMLDivElement;
     const scrollBodyBtn = document.getElementById("scrollBodyBtn") as HTMLButtonElement;
-    if (chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight) {
+    //include a tolerance of 1px
+    if (chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight - 1) {
       setScrollBody(false);
     }
     else {
