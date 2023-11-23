@@ -32,7 +32,7 @@ namespace Api.Helpers
     public class HttpContextUserInfo
     {
         public bool Authenticated => User != null;
-        public int SessionId { get; set; }
+        public string SessionId { get; set; }
         public User? User { get; set; }
     }
 }

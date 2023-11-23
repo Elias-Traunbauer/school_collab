@@ -86,6 +86,7 @@ namespace Service.Services
                 IssuedAt = DateTime.UtcNow,
                 Expires = DateTime.UtcNow.AddDays(30),
                 LastAction = DateTime.UtcNow,
+                TwoFactorAuthenticated = !user.TwoFactorEnabled,
                 Ip = "Not yet implemented"
             });
 
@@ -236,7 +237,7 @@ namespace Service.Services
             return new ServiceResult<bool>(user != null);
         }
 
-        public async Task<IServiceResult<User?>> GetUser(int id)
+        public async Task<IServiceResult<User?>> GetUserByIdAsync(int id)
         {
             return new ServiceResult<User?>((User?)await _unitOfWork.UserRepository.GetUserByIdAsync(id));
         }

@@ -22,7 +22,7 @@ namespace Ribbon.API.Middlewares
         public async Task Invoke(HttpContext httpContext, IJsonWebTokenService jsonWebTokenService, IUserService userService)
         {
             var endpoint = httpContext.GetEndpoint();
-
+            bool noAuthNeeded = false;
             if (endpoint != null)
             {
                 if (endpoint.Metadata.Any(x => x is NoAuthenticationRequired))
@@ -30,18 +30,29 @@ namespace Ribbon.API.Middlewares
                     await _next(httpContext);
                     return;
                 }
+                if (endpoint.Metadata.Any(x => x is AuthenticationOptionalAttribute))
+                {
+                    noAuthNeeded = true;
+                }
             }
 
             httpContext.Items[nameof(HttpContextUserInfo)] = new HttpContextUserInfo();
 
             string? accessToken = httpContext.Request.Cookies[_config.AccessTokenCookieIdentifier];
+            string? refreshTokenTemp = httpContext.Request.Cookies[_config.RefreshTokenCookieIdentifier];
+            ClaimsPrincipal? refreshClaims = null;
+            if (refreshTokenTemp != null)
+            {
+                refreshClaims = jsonWebTokenService.ValidateToken(refreshTokenTemp);
+            }
+
             if (accessToken != null)
             {
                 var claims = jsonWebTokenService.ValidateToken(accessToken);
 
                 if (claims != null)
                 {
-                    SetUserData(httpContext, claims);
+                    SetUserData(httpContext, claims, refreshClaims!.Claims.Single(x => x.Type == "sessionId").Value);
                 }
             }
 
@@ -72,37 +83,10 @@ namespace Ribbon.API.Middlewares
 
                         var newClaims = jsonWebTokenService.ValidateToken(useRefreshTokenResult.Value!);
 
-                        SetUserData(httpContext, newClaims!);
+                        SetUserData(httpContext, newClaims!, refreshClaims!.Claims.Single(x => x.Type == "sessionId").Value);
                         await _next(httpContext);
                         return;
                     }
-
-                    //if (res != null)
-                    //{
-                    //    var refreshTokenTimeLeft = refreshJwt.ValidTo - DateTime.UtcNow;
-                    //    if (refreshTokenTimeLeft.Add(TimeSpan.FromMinutes(-1)) < _config.AccessTokenLifetime)
-                    //    {
-                    //        var newRefreshToken = await uow.UserRepository.RegenerateRefreshToken(userId, sessionId);
-
-                    //        if (newRefreshToken != null)
-                    //        {
-                    //            httpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, newRefreshToken, DateTime.Now.Add(_config.RefreshTokenLifetime));
-                    //        }
-                    //    }
-                    //    SetUserData(httpContext, accessJwt);
-                    //    await uow.SaveChangesAsync();
-                    //    await _next(httpContext);
-                    //    return;
-                    //}
-                    //else
-                    //{
-                    //    httpContext.Response.StatusCode = 401;
-                    //    await httpContext.Response.WriteAsJsonAsync(new
-                    //    {
-                    //        Status = 401
-                    //    });
-                    //    return;
-                    //}
                 }
                 catch
                 {
@@ -115,7 +99,7 @@ namespace Ribbon.API.Middlewares
                 }
                 finally { }
             }
-            else if (!httpContext.GetUserInfo().Authenticated)
+            else if (!httpContext.GetUserInfo().Authenticated && !noAuthNeeded)
             {
                 httpContext.Response.StatusCode = 401;
                 await httpContext.Response.WriteAsJsonAsync(new
@@ -129,10 +113,10 @@ namespace Ribbon.API.Middlewares
             return;
         }
 
-        private static void SetUserData(HttpContext httpContext, ClaimsPrincipal claims)
+        private static void SetUserData(HttpContext httpContext, ClaimsPrincipal claims, string sessionId)
         {
             HttpContextUserInfo httpContextUserInfo = new();
-            httpContextUserInfo.SessionId = int.Parse(claims.Claims.Single(x => x.Type == "sessionId").Value);
+            httpContextUserInfo.SessionId = sessionId;
             int userId = int.Parse(claims.Claims.Single(x => x.Type == "userId").Value);
             string username = claims.Claims.Single(x => x.Type == "username").Value;
             UserPermission userPermission = (UserPermission)int.Parse(claims.Claims.Single(x => x.Type == "userPermission").Value);
