@@ -193,7 +193,8 @@ const blurData = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAA";
   function handleCopySecret() {
     const btn = document.getElementById("copySecretbtn") as HTMLButtonElement;
     btn.textContent = "Kopiert!";
-    //
+    
+    navigator.clipboard.writeText(twoFaObject.secret);
     setTimeout(() => {
       btn.textContent = "Kopieren";
     }, 2000);
