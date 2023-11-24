@@ -171,8 +171,8 @@ export default function Otp(){
         <>
             <div className={styles.container}>
             <div className={styles.header}>
-                    <Image onClick={router.back} width={10} height={10} alt='return' src={"/arrow_right_alt.svg"}></Image>
-                    <h1>2 Factor Authentification</h1>
+                <Image onClick={router.back} width={10} height={10} alt='return' src={"/arrow_right_alt.svg"}></Image>
+                <h1>2 Factor Authentification</h1>
             </div>
             <div className={styles.wrapper}>
             <div  className={styles.otpcontainer}>

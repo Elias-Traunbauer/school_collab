@@ -1,3 +1,4 @@
+import EnableTwoFactorAuth from "../models/EnableTwoFactorAuth";
 import TwoFactorAuthenticationObject from "../models/TwoFactorAuthenticationObject";
 import User from "../models/User";
 import UserLoginDTO from "../models/UserLoginDTO";
@@ -85,21 +86,31 @@ export async function loginUser(user: UserLoginDTO): Promise<any> {
 }
 
 export async function twoFactorAuthentication(password:string): Promise<TwoFactorAuthenticationObject>{
+    const param:EnableTwoFactorAuth = {
+        password:password
+    }
+
     try {
         const response = await fetch(`${url}/TwoFactorAuthentication`, {
             method: 'POST',
-            body: JSON.stringify(password),
+            body: JSON.stringify(param),
             headers: {
                 'Content-Type': 'application/json',
             },
         });
+
+        if (response.status != 200) {
+            throw response;
+        }
             const data = await response.json();
+
+            console.log(data);
             const result:TwoFactorAuthenticationObject = {
                 qrCode:data.qrCode,
                 secret:data.secret
             }
 
-        return result;
+        return data;
     } catch (error) {
         throw error;
     }  
@@ -114,6 +125,11 @@ export async function twoFactorAuthenticationCode(code:string){
                 'Content-Type': 'application/json',
             },
         });
+
+        if (response.status != 200) {
+            throw response;
+        }
+
         const data = await response.json();
         return data;
     }

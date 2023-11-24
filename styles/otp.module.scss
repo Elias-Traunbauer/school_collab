@@ -8,6 +8,73 @@
 
 }
 
+.passwordContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 3em;
+    padding: 0 20%;
+    &>label{
+        width: 100%;
+        margin-bottom: .1em;
+    }
+
+    &>div{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        gap: .3em;
+        &>input{
+            width: 100%;
+            font-size: large;
+            padding: .5em;
+            border-radius: .3em;
+            border: 2px solid transparent;
+            background-color: rgb(36, 34, 34);
+            color: white;
+            outline: none;
+            transition: all .2s linear;
+            &:focus{
+                border: 2px solid white;
+                border-radius: .3em;
+            }
+        }
+        &>button{
+            height: 2.5em;
+            width: fit-content;
+            padding: 0 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &>span{
+                pointer-events: none;
+            }
+            &::after{
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 20px;
+                height: 20px;
+                border: 2px solid transparent;
+                border-top-color: white;
+                border-radius: 50%;
+                border-width: 2px;
+                border-top-color: white;
+                border-top-style: double;
+                animation: spin 1s linear infinite;
+                display: none;
+            }
+        }
+    }
+
+}
+
 .wrapper{
     width: fit-content;
 }
@@ -67,6 +134,11 @@
 
 .loading::after {
     display: block !important;
+}
+
+.errorLabel{
+    color:var(--color_red);
+    margin-top: .1em;
 }
 
 
