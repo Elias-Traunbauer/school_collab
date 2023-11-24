@@ -16,4 +16,6 @@ public class ChatMember : DatabaseEntity, IChatMember
 
     [ForeignKey(nameof(UserId))]
     public virtual User? User { get; set; }
+
+    public int LastSeenMessageId { get; set; }
 }

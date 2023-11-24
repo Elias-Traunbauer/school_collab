@@ -17,5 +17,8 @@
         public string RefreshTokenCookieIdentifier { get; set; } = string.Empty;
 
         public string? DatabaseConnectionString { get; set; }
+
+        public string GoogleAuthenticatorKey { get; set; } = string.Empty;
+        public int GoogleAuthenticatorQrCodeSize { get; set; }
     }
 }

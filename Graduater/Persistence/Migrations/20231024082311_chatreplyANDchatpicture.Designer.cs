@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231024082311_chatreplyANDchatpicture")]
+    partial class chatreplyANDchatpicture
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,6 +126,8 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorUserId");
+
+                    b.HasIndex("PictureId");
 
                     b.ToTable("Chats");
                 });
@@ -650,12 +655,6 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("RegisteredAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("RequestedTwoFactorAuthentication")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
@@ -699,9 +698,6 @@ namespace Persistence.Migrations
                     b.Property<string>("SessionKey")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<bool>("TwoFactorAuthenticated")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -775,7 +771,13 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Entities.Database.File", "Picture")
+                        .WithMany()
+                        .HasForeignKey("PictureId");
+
                     b.Navigation("CreatorUser");
+
+                    b.Navigation("Picture");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.ChatMember", b =>

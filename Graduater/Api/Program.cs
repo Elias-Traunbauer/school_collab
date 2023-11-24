@@ -1,9 +1,12 @@
 using Api.Middlewares;
 using Core.Contracts;
 using Core.Contracts.Services;
+using Microsoft.AspNetCore.Http.Json;
 using Persistence;
 using Ribbon.API.Middlewares;
 using Service.Services;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Api
 {
@@ -31,23 +34,29 @@ namespace Api
             builder.Services.AddSingleton<IRandomKeyService, RandomKeyService>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
             builder.Services.AddSingleton<ICaptchaRegistryService, CaptchaRegistryService>();
+            builder.Services.AddSingleton<IRealTimeChatMessageService, RealTimeChatMessageService>();
 
             builder.Services.AddScoped<IFileService, FileService>();
-            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAssignmentService, AssignmentService>();
             builder.Services.AddScoped<IGroupService, GroupService>();
             builder.Services.AddScoped<ISubjectService, SubjectService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IChatService, ChatService>();
 
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddEndpointsApiExplorer();
 
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
             {
+                //app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
