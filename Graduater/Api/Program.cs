@@ -56,13 +56,15 @@ namespace Api
 
             if (app.Environment.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
             app.UseHsts();
             //app.UseHttpsRedirection();
+
+            app.UseCustomExceptionHandling();
 
             app.UseUserAuthentication();
             app.UseUserAuthorization();

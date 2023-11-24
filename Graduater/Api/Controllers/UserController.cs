@@ -53,7 +53,7 @@ namespace Api.Controllers
         [RateLimit(maxRequestsPerMinute: 20, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
         public async Task<IActionResult> GetUser([FromRoute] int id, [FromServices] IUserService userService)
         {
-            var user = (await userService.GetUser(id)).Value;
+            var user = (await userService.GetUserByIdAsync(id)).Value;
             if (user == null)
             {
                 return Ok(
@@ -111,7 +111,7 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUser([FromServices] IUserService userService)
         {
-            var user = (await userService.GetUser(HttpContext.GetUserInfo().User!.Id)).Value;
+            var user = (await userService.GetUserByIdAsync(HttpContext.GetUserInfo().User!.Id)).Value;
             if (user == null)
             {
                 return NotFound();
@@ -237,8 +237,18 @@ namespace Api.Controllers
             {
                 return Unauthorized();
             }
-            // enable two factor auth
-            var user = (await userService.GetUser(userInfo.Id)).Value;
+            // enable two factor auth, user cant be null
+            var user = (await userService.GetUserByIdAsync(userInfo.Id)).Value!;
+
+            // check password
+            if (user.PasswordHash != passwordService.HashPassword(payload.Password, user.PasswordSalt))
+            {
+                return BadRequest(new
+                {
+                    Status = 400,
+                    Message = "Incorrect password"
+                });
+            }
 
             if (user!.TwoFactorEnabled)
             {
@@ -281,7 +291,7 @@ namespace Api.Controllers
                 return Unauthorized();
             }
 
-            var user = (await userService.GetUser(userInfo.Id)).Value;
+            var user = (await userService.GetUserByIdAsync(userInfo.Id)).Value;
 
             if (!user!.TwoFactorEnabled)
             {
@@ -320,7 +330,7 @@ namespace Api.Controllers
                 return Unauthorized();
             }
 
-            var user = (await userService.GetUser(userInfo.Id)).Value;
+            var user = (await userService.GetUserByIdAsync(userInfo.Id)).Value;
 
             if (user == null)
             {
@@ -367,7 +377,10 @@ namespace Api.Controllers
                 });
             }
 
-            if (!!!!!!!!!!!!(!!!!!!!!!!!user!.TwoFactorEnabled && !!!!!!(true || !!false) && !!!!!!!!!!!!user!.RequestedTwoFactorAuthentication))
+            // dont change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if (!!!!!!!!!!!!(!!!!!!!!!
+                !!user!.TwoFactorEnabled && !!!!!!(true || !!false) && !!!!!!
+                !!!!!!user!.RequestedTwoFactorAuthentication))
             {
                 // enable two factor
 
