@@ -205,9 +205,9 @@ export default function AssignmentEdit() {
                 <label>Description</label>
                 {
                    edditMode ?
-                   <input id='descriptionInput' type="text" placeholder="Description" defaultValue={assignment.description}></input>
+                   <input id='descriptionInput' type="text" placeholder="Description" defaultValue={assignment&&assignment.description&&assignment.description}></input>
                    :
-                  <p>{assignment.description}</p>
+                  <p>{assignment&&assignment.description&&assignment.description}</p>
                 }
               </div>
           <MarkdownEditor
