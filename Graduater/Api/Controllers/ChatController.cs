@@ -1,6 +1,9 @@
 ﻿using Api.Helpers;
 using Core.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Service.Services;
+using System.Threading;
 
 namespace Api.Controllers
 {
@@ -22,19 +25,20 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateChat([FromBody] CreateChatRequest body, [FromServices] IChatService chatService)
         {
-            var createResult = await chatService.CreateChat(body.Name, body.Description, body.Members);
+            var user = HttpContext.GetUserInfo().User!;
+            var createResult = await chatService.CreateChat(body.Name, body.Description, body.Members, user.Id);
 
             return Ok(createResult);
         }
 
-        public record SendMessageRequest(int chatId, string Message);
+        public record SendMessageRequest(int ChatId, string Message, int? ReplyToMessageId);
 
-        [HttpPost("message")]
+        [HttpPost("Message")]
         public async Task<IActionResult> SendMessage([FromBody]SendMessageRequest message, [FromServices] IChatService chatService)
         {
             var userInfo = HttpContext.GetUserInfo();
 
-            var sendResult = await chatService.SendMessage(message.chatId, message.Message, userInfo.User.Id);
+            var sendResult = await chatService.SendMessage(message.ChatId, message.Message, userInfo.User!.Id, message.ReplyToMessageId);
 
             return Ok(sendResult);
         }
@@ -46,7 +50,7 @@ namespace Api.Controllers
 
             var messages = await chatService.GetMessages(chatId, userInfo.User!.Id, count, start);
 
-            return Ok(messages);
+            return Ok(await chatService.AddMessageMetadata(messages.Value!, userInfo.User!.Id));
         }
 
         [HttpGet(nameof(Messages) + "/since")]
@@ -56,7 +60,70 @@ namespace Api.Controllers
 
             var messages = await chatService.GetMessages(chatId, userInfo.User!.Id, start, startCount, count);
 
-            return Ok(messages);
+            return Ok(await chatService.AddMessageMetadata(messages.Value!, userInfo.User!.Id));
+        }
+
+        [HttpGet(nameof(MyChats))]
+        public async Task<IActionResult> MyChats([FromServices] IChatService chatService)
+        {
+            var userInfo = HttpContext.GetUserInfo();
+
+            var chats = await chatService.GetChats(userInfo.User!.Id);
+
+            return Ok(chats);
+        }
+
+        [HttpPost(nameof(Read))]
+        public async Task<IActionResult> Read(int chatId, int messageId, [FromServices] IChatService chatService)
+        {
+            var userInfo = HttpContext.GetUserInfo();
+
+            var result = await chatService.ReadMessage(chatId, messageId, userInfo.User!.Id);
+
+            return Ok(result);
+        }
+
+        [HttpGet(nameof(SubscribeToNewMessages))]
+        public async Task SubscribeToNewMessages([FromServices] IRealTimeChatMessageService realTimeChatMessageService, CancellationToken cancellationToken)
+        {
+            var user = HttpContext.GetUserInfo().User!;
+
+            HttpResponse resp = Response;
+
+            if (user == null)
+            {
+                resp.StatusCode = 500;
+                return;
+            }
+
+            resp.StatusCode = 200;
+            resp.Headers.Add("Content-Type", "text/event-stream");
+            resp.Headers.Add("Cache-Control", "no-cache");
+            resp.Headers.Add("Connection", "keep-alive");
+            resp.Headers.Add("Content-Encoding", "none");
+            await resp.BodyWriter.FlushAsync(cancellationToken);
+
+            await realTimeChatMessageService.SubscribeToMessages(user.Id, async (message) =>
+            {
+                await resp.WriteAsync($"data: " + JsonConvert.SerializeObject(new
+                {
+                    message.User,
+                    message.Content,
+                    message.ChatId,
+                    message.Created
+                }) + "\r\r", cancellationToken);
+
+                await resp.Body.FlushAsync(cancellationToken);
+            });
+
+            for (var i = 0; !cancellationToken.IsCancellationRequested && !HttpContext.RequestAborted.IsCancellationRequested; ++i)
+            {
+                await Task.Delay(1000, cancellationToken);
+            }
+
+            await realTimeChatMessageService.UnsubscribeFromMessages(user.Id);
+
+            return;
         }
     }
 }

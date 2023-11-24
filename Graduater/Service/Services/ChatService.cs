@@ -15,13 +15,48 @@ namespace Service.Services
     public class ChatService : IChatService
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IRealTimeChatMessageService realTimeChatMessageService;
 
-        public ChatService(IUnitOfWork unitOfWork)
+        public ChatService(IUnitOfWork unitOfWork, IRealTimeChatMessageService realTimeChatMessageService)
         {
             this.unitOfWork = unitOfWork;
+            this.realTimeChatMessageService = realTimeChatMessageService;
         }
 
-        public async Task<IServiceResult<int>> CreateChat(string name, string description, List<int> members)
+        public async Task<IServiceResult<List<object>>> AddMessageMetadata(List<ChatMessage> messages, int userId)
+        {
+            int lastMessageId = await unitOfWork.ChatRepository.GetLastReadMessageId(messages.First().ChatId, userId);
+
+            var result = messages.Select(x => new
+            {
+                x.Id,
+                x.ChatId,
+                x.Content,
+                x.Created,
+                x.UserId,
+                Read = x.Id <= lastMessageId,
+                User = unitOfWork.UserRepository.GetUserByIdAsync(x.UserId).GetAwaiter().GetResult()
+            });
+            var res = result.Select(x => new
+            {
+                x.Id,
+                x.ChatId,
+                x.Content,
+                x.Created,
+                x.UserId,
+                x.Read,
+                User = new
+                {
+                    x.UserId,
+                    x.User!.Username,
+                    x.User.ProfilePictureId
+                }
+            });
+
+            return new ServiceResult<List<object>>(res.Cast<object>().ToList());
+        }
+
+        public async Task<IServiceResult<int>> CreateChat(string name, string description, List<int> members, int creator)
         {
             // check if members exist
             var users = members.Select(x => unitOfWork.UserRepository.GetUserByIdAsync(x).GetAwaiter().GetResult());
@@ -39,10 +74,15 @@ namespace Service.Services
                 {
                     UserId = m,
                     Joined = DateTime.UtcNow
-                }).ToList()
+                }).ToList(),
+                CreatorUserId = creator
             };
 
             await unitOfWork.ChatRepository.Create(chat);
+
+            await unitOfWork.SaveChangesAsync();
+
+            await unitOfWork.ChatRepository.JoinChat(creator, chat.Id);
 
             await unitOfWork.SaveChangesAsync();
 
@@ -59,6 +99,13 @@ namespace Service.Services
             }
 
             return new ServiceResult<Chat>(chat);
+        }
+
+        public async Task<IServiceResult<List<Chat>>> GetChats(int id)
+        { 
+            var chats = await unitOfWork.ChatRepository.GetChats(id);
+
+            return new ServiceResult<List<Chat>>(chats.ToList());
         }
 
         public async Task<IServiceResult<List<ChatMessage>>> GetMessages(int chatId, int requester, int count = 10, int start = 0)
@@ -102,7 +149,16 @@ namespace Service.Services
             return new ServiceResult<List<ChatMessage>>(messages.ToList());
         }
 
-        public async Task<IServiceResult> SendMessage(int chatId, string content, int sender)
+        public async Task<IServiceResult> ReadMessage(int chatId, int messageId, int userId)
+        {
+            await unitOfWork.ChatRepository.ReadMessage(chatId, messageId, userId);
+
+            await unitOfWork.SaveChangesAsync();
+
+            return new ServiceResult();
+        }
+
+        public async Task<IServiceResult> SendMessage(int chatId, string content, int sender, int? replyToMessageId)
         {
             var chat = await unitOfWork.ChatRepository.GetChatById(chatId);
 
@@ -122,6 +178,7 @@ namespace Service.Services
                 ChatId = chatId,
                 Content = content,
                 Created = DateTime.UtcNow,
+                ReplyToMessageId = replyToMessageId,
                 UserId = sender
             };
 
@@ -129,7 +186,20 @@ namespace Service.Services
 
             await unitOfWork.SaveChangesAsync();
 
+            var user = await unitOfWork.UserRepository.GetUserByIdAsync(sender);
+
+            message.User = new User()
+            {
+                Username = user!.Username,
+                ProfilePictureId = user.ProfilePictureId,
+                Id = sender
+            };
+
+            await realTimeChatMessageService.NotifyChat(chatId, message, unitOfWork);
+
             return new ServiceResult();
         }
+
+        
     }
 }

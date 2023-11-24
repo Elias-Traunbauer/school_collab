@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from '../styles/ChatroomListitem.module.scss';
 import Image from 'next/image';
+import ChatMessage from '../models/ChatMessage';
 export default function ChatroomListitem({
+    key,
     id,
     name,
     profile,
@@ -9,11 +11,12 @@ export default function ChatroomListitem({
     unreadMessages,
     onClick,
   }: {
+    key:number,
     id: number;
     name: string;
-    profile: string;
-    lastMessage: { text: string; createdAt: Date };
-    unreadMessages: number;
+    profile?: string;
+    lastMessage: ChatMessage;
+    unreadMessages: ChatMessage[];
     onClick?: () => void;
   }) {
     const defaultProfile = 'person.svg';
@@ -26,6 +29,10 @@ export default function ChatroomListitem({
         }
 
         function getDate(date:Date){
+            if(!date){
+                return '';
+            }
+
             const today = new Date();
             const yesterday = new Date(today);
             yesterday.setDate(yesterday.getDate() - 1);
@@ -53,14 +60,14 @@ export default function ChatroomListitem({
                     <Image className={profile === defaultProfile&& styles.defaultProfile } width={30} height={30} src={'/'+profile} alt="profile"></Image>
                     <div className={styles.body}>
                         <p>{name}</p>
-                        <p>{lastMessage.text}</p>
+                        <p>{lastMessage&&lastMessage.content}</p>
                     </div>
                     <div className={styles.info}>
                         {
-                            unreadMessages > 0 ?
-                            <p className={styles.unreadMessages}>{unreadMessages > 9999?'viele':unreadMessages}</p>
+                            unreadMessages&&unreadMessages.length > 0 ?
+                            <p className={styles.unreadMessages}>{unreadMessages.length > 300?'>300':unreadMessages.length}</p>
                             :
-                            <p className={styles.date}>{getDate(lastMessage.createdAt)}</p>
+                            <p className={styles.date}>{getDate(lastMessage&&lastMessage.created)}</p>
                         }
                         
                     </div>

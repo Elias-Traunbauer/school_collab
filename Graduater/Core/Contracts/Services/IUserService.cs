@@ -26,5 +26,13 @@ namespace Core.Contracts.Services
         Task<IServiceResult<bool>> IsEmailTaken(string email);
 
         Task<IServiceResult<ICollection<IUser>>> SearchUser(string username);
+
+        Task<IServiceResult> EnableTwoFactorAuthentication(int userId);
+
+        Task<IServiceResult> DisableTwoFactorAuthentication(int userId);
+        Task<IServiceResult> ChangePasswordAsync(int id, string oldPassword, string newPassword);
+        Task<IServiceResult> TwoFactorAuthenticateSession(int userId, int id);
+        Task<IServiceResult<User>> GetUserWithSessions(int id);
+        Task<IServiceResult> ConfirmTwoFactorAuthentication(int id);
     }
 }

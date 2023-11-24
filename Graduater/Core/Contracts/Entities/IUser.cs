@@ -8,6 +8,7 @@ namespace Core.Contracts.Entities
         string? EmailVerificationToken { get; set; }
         DateTime? EmailVerificationTokenExpiration { get; set; }
         string FirstName { get; set; }
+        bool TwoFactorEnabled { get; set; }
         bool IsEmailVerified { get; set; }
         string LastName { get; set; }
         string PasswordHash { get; set; }
@@ -21,5 +22,6 @@ namespace Core.Contracts.Entities
         DateTime RegisteredAt { get; set; }
         string Username { get; set; }
         ICollection<UserSession>? Sessions { get; set; }
+        bool RequestedTwoFactorAuthentication { get; set; }
     }
 }

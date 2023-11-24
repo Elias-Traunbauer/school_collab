@@ -1,14 +1,8 @@
-import { CSSProperties, use, useState } from 'react';
+import { CSSProperties, use, useEffect, useState } from 'react';
 import styles from '../styles/PollCard.module.scss'
 import { useRouter } from 'next/router';
-export default function PollCard({poll = {
-    id: 1,
-    title: 'Poll Title',
-    description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-    user:'Thomas',
-    end: new Date('2021-06-01T00:00:00.000Z'),
-    start: new Date(),
-}}: {poll?: {id: number, title: string, description: string, user: string, end: Date, start: Date}}){
+import Poll from '../models/Poll';
+export default function PollCard({key,poll}: {key:any,poll: Poll}){
     const backgroundcolor = 'var(--background_1)';
 
     const router = useRouter();
@@ -16,15 +10,15 @@ export default function PollCard({poll = {
     function displayDate(){
         const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember']
 
-        if(!poll.end){
+        if(!poll.due){
             return 'Kein Enddatum'
         }
 
-        if(new Date(poll.end) < new Date()){
+        if(new Date(poll.due) < new Date()){
             return 'abgelaufen';
         }
 
-        const date = new Date(poll.end);
+        const date = new Date(poll.due);
         const day = date.getDate();
         const month = date.getMonth() + 1;
         const year = date.getFullYear();
@@ -48,9 +42,9 @@ export default function PollCard({poll = {
     }
 
     return(
-        <div onClick={openDetail} style={{ '--cardColor': backgroundcolor } as CSSProperties} className={`${styles.container} ${new Date(poll.end) < new Date()&&styles.disabled}`}>
+        <div onClick={openDetail} style={{ '--cardColor': backgroundcolor } as CSSProperties} className={`${styles.container} ${new Date(poll.due) < new Date()&&styles.disabled}`}>
             <div>
-                <p>erstellt von <span>{poll.user}</span></p>
+                <p>erstellt von <span>{poll.CreatorUser.username}</span></p>
             </div>
             <div>
                 <h2>{poll.title}</h2>

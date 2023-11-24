@@ -55,7 +55,7 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<IAssignment>> GetAllAssignmentsOfGroupAsync(int groupId)
         {
 
-            var res = _context.Assignments.Where(x => x.GroupId == groupId);
+            var res = _context.Assignments.Include(x => x.Subject).Where(x => x.GroupId == groupId);
             return await res.ToListAsync();
         }
     }
