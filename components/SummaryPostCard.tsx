@@ -13,7 +13,8 @@ export default function SummaryPostCard({ post = {
     subject: {
         name: 'DBI',
         id: 1,
-        version: ''
+        version: '',
+        shortName: 'DBI'
     },
     author: {
         username: 'Test',
@@ -89,12 +90,12 @@ export default function SummaryPostCard({ post = {
                         <span>{lastModified.modified? "last modified: " : "published: " } {getTimestamp()}</span>
                     </div>
                         
-                        <h3>{post.title}</h3>
+                        <h3>{post&&post.title}</h3>
                         <p>If you&apos;re tired of using outline styles for secondary buttons, a soft solid background based on the text color can be a great alternative.</p>
                 </div>
             </div>
             <div className={styles.postFooter}>
-                <VotingComponent itemkey={post.id} withScore={true}></VotingComponent>
+                <VotingComponent itemkey={post&&post.id} withScore={true}></VotingComponent>
             </div>
         </div>
     )

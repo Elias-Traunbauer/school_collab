@@ -46,6 +46,7 @@ function MyApp({ Component, pageProps }) {
     //const tmpCookies:string|undefined = cookies().get('access-token')[0];
       getUser().then((res) => {
         setUserContext(res);
+        console.log("USER",res);
       })
       .catch(async (err) => {
         if(err.status == 401 && (router.pathname != '/' && router.pathname != '/user/login' && router.pathname != '/user/register')){

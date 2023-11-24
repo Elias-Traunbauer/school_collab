@@ -318,9 +318,6 @@
 }
 
 .info{
-
-
-
     background-color: var(--background_1);
     height: 100%;
     border-left: 1px solid var(--background);
@@ -344,8 +341,8 @@
     }
 
     // left border-radius 
-    border-top-left-radius: .5  em;
-    border-bottom-left-radius: .5em;
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
     
     //Profile
     &>div:first-child{

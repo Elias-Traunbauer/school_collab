@@ -10,4 +10,5 @@ export default interface Chat extends DataBaseEntity{
     creatorUserId: number;
     description: string;
     name: string;
+    picture?: string;
 }
