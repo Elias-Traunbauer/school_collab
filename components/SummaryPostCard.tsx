@@ -13,7 +13,8 @@ export default function SummaryPostCard({ post = {
     subject: {
         name: 'DBI',
         id: 1,
-        version: ''
+        version: '',
+        shortName: 'DBI'
     },
     author: {
         username: 'Test',
