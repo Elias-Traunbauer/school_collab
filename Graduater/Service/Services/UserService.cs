@@ -98,6 +98,7 @@ namespace Service.Services
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
+                TwoFactorAuthenticationEnabled = user.TwoFactorEnabled,
                 ServiceResult = ServiceResult.Completed
             };
         }
@@ -256,6 +257,8 @@ namespace Service.Services
                 return new ServiceResult("Error", "User not found");
             }
 
+            var twofakey = _randomKeyService.GetRandomKey(128);
+            user.Unique2FAKey = twofakey;
             user.RequestedTwoFactorAuthentication = true;
 
             await _unitOfWork.SaveChangesAsync();
