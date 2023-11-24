@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getUser } from "../../services/User.service";
 import UserDisplayDTO from "../../models/UserDisplayDTO";
+import { useRouter } from "next/router";
 
 export default function Profile() {
     const [user,setUser] = useState<UserDisplayDTO>({
@@ -13,8 +14,10 @@ export default function Profile() {
         email: "",
     });
     
+    const router = useRouter();
     const [links, setLinks] = useState([["github", "www.github.com"], ["google", "www.google.com"], ["yahoo", "www.yahoo.com"], ["bing", "www.bing.com"]]);
     const [addLink, setAddLink] = useState(false);
+    const [twoFactorAuth, setTwoFactorAuth] = useState(false);	
 
     useEffect(() => {
         async function fetchDataAsync() {
@@ -32,7 +35,9 @@ export default function Profile() {
             });
         }
         fetchDataAsync();
-    },[user]);
+
+        router.prefetch("./newAuthentication");
+    },[router]);
 
     function removeLink(link: string[]){
         const newLinks = links.filter((l) => l !== link);
@@ -103,6 +108,7 @@ export default function Profile() {
 
                 <div className={styles.infoContainer}> 
                 <div>
+                    <div>
                         {Object.values(user).map((value, index) => {
                             
                             return (
@@ -114,23 +120,32 @@ export default function Profile() {
 
                         })}
                     </div>
-                    <div>
-                        {links.map((link, index) => {
-                            return (
-                                <div className={styles.linkContainer} key={index}>
-                                    <Image src={"/jpg.svg"} width={20} height={20} alt="cancel"></Image>
-                                    <Link href={"https://" + link[1]} target="blank">{link[0]}</Link>
-                                    <button className="btn-primary" onClick={() => removeLink(link)} disabled={addLink}>X</button>
-                                </div>
-                            )
-                            
-                        }
-                        )}
 
+                    <div>
                         <div>
-                            <button onClick={() => setAddLink(true)}>+</button>
+                            <label>2 Faktor Authentifizierung</label>
+                            {twoFactorAuth ? <button className="btn-secondary">deaktivieren</button> : <button className="btn-primary" onClick={() => router.push("./newAuthentication")}>aktivieren</button>}
                         </div>
                     </div>
+                </div>
+
+                <div>
+                    {links.map((link, index) => {
+                        return (
+                            <div className={styles.linkContainer} key={index}>
+                                <Image src={"/jpg.svg"} width={20} height={20} alt="cancel"></Image>
+                                <Link href={"https://" + link[1]} target="blank">{link[0]}</Link>
+                                <button className="btn-primary" onClick={() => removeLink(link)} disabled={addLink}>X</button>
+                            </div>
+                        )
+                        
+                    }
+                    )}
+
+                    <div>
+                        <button onClick={() => setAddLink(true)}>+</button>
+                    </div>
+                </div>
                 </div>
             </div>
         </>
