@@ -190,6 +190,15 @@ const blurData = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAA";
     });
   }
 
+  function handleCopySecret() {
+    const btn = document.getElementById("copySecretbtn") as HTMLButtonElement;
+    btn.textContent = "Kopiert!";
+    //
+    setTimeout(() => {
+      btn.textContent = "Kopieren";
+    }, 2000);
+  }
+
   return (
     <>
       <div className={styles.container}>
@@ -218,8 +227,8 @@ const blurData = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAA";
           ) : (
             <>
             <div className={styles.qrCodeContainer}>
-                <Image blurDataURL={blurData} placeholder="blur" alt="qrCode" src={twoFaObject.qrCode} width={100} height={100}></Image>
-                <label>{twoFaObject&&twoFaObject.secret&&twoFaObject.secret}</label>
+                <Image blurDataURL={blurData} placeholder="blur" alt="crazy" src={twoFaObject.qrCode} width={100} height={100}></Image>
+                <button id="copySecretbtn" onClick={handleCopySecret} className="btn btn-secondary">Kopieren</button>
             </div>
             <div className={styles.wrapper}>
               <div className={styles.otpcontainer}>

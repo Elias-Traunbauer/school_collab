@@ -132,6 +132,23 @@
 
 }
 
+.qrCodeContainer{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    &>button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 6em;
+        margin-top: .6em;
+    }
+}
+
 .loading::after {
     display: block !important;
 }
