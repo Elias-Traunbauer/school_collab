@@ -16,6 +16,7 @@ namespace Persistence
         private AssignmentRepository? _assignmentRepository;
         private SubjectRepository? _subjectRepository;
         private ChatRepository? _chatRepository;
+        private SummaryRepository? _summaryRepository;
 
         public UnitOfWork()
         {
@@ -72,6 +73,15 @@ namespace Persistence
             {
                 _chatRepository ??= new ChatRepository(_context);
                 return _chatRepository;
+            }
+        }
+
+        public ISummaryRepository SummaryRepository
+        {
+            get
+            {
+                _summaryRepository ??= new SummaryRepository(_context);
+                return _summaryRepository;
             }
         }
 

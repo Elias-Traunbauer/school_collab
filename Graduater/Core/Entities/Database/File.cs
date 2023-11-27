@@ -15,6 +15,12 @@ public class File : DatabaseEntity, IFile {
 
     public string MIME_Type { get; set; } = string.Empty;
 
+    public int Downloads { get; set; }
+
+    public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
+
+    public int OwnerId { get; set; }
+
     [Required]
     [ForeignKey(nameof(UploadedById))]
     public virtual User? UploadedBy { get; set; }

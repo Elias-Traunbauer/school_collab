@@ -1,6 +1,6 @@
-﻿namespace Api.Controllers.EZCRUD
+﻿namespace Service.Services.EZCRUDServices
 {
-    public interface IEZCRUDService<C, R, D, Object, Id> where Id : IComparable 
+    public interface IEZCRUDService<C, Object, Id> where Id : IComparable 
     {
         public Task<Object> ReadAsync(Id id);
         public Task<Id> CreateAsync(C model);
