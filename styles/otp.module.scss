@@ -8,6 +8,25 @@
 
 }
 
+.enableAuthOtp{
+    padding-top: 0em !important;
+    &>input{
+        font-size: 2.5em !important;
+    }
+}
+
+.generalWrapper{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 10%;
+    padding-bottom: 2em;
+    padding-top: 2em;
+}
+
 .passwordContainer{
     display: flex;
     align-items: center;
@@ -77,6 +96,8 @@
 
 .wrapper{
     width: fit-content;
+    padding-bottom: 2em;
+    padding-top: 3em;
 }
 
 .failed{
@@ -134,7 +155,6 @@
 
 .qrCodeContainer{
     display: flex;
-    width: 100%;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
@@ -214,7 +234,6 @@
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    padding-top: 5em;
 }
 
 .otpcontainer > input{

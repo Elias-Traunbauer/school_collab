@@ -200,6 +200,13 @@ const blurData = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAA";
     }, 2000);
   }
 
+  function handlePwKeydown(e) {
+    if (e.key === "Enter") {
+    const button = document.getElementById("initAuthBtn") as HTMLButtonElement;
+    button.click();
+    }
+  }
+
   return (
     <>
       <div className={styles.container}>
@@ -218,7 +225,7 @@ const blurData = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAA";
             <div className={styles.passwordContainer}>
               <label>Geben Sie Ihr Passwort ein</label>
               <div>
-                <input id="pwdField" type="password"></input>
+                <input onKeyDown={handlePwKeydown} id="pwdField" type="password"></input>
                 <button id="initAuthBtn" onClick={handleInitAuth} className="btn btn-primary">
                   <span>Senden</span>
                 </button>
@@ -227,12 +234,15 @@ const blurData = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAA";
             </div>
           ) : (
             <>
+            <div className={styles.generalWrapper}>
             <div className={styles.qrCodeContainer}>
-                <Image blurDataURL={blurData} placeholder="blur" alt="crazy" src={twoFaObject.qrCode} width={100} height={100}></Image>
+                <Image blurDataURL={blurData} placeholder="blur" alt="crazy" src={twoFaObject.qrCode} width={200} height={200}></Image>
                 <button id="copySecretbtn" onClick={handleCopySecret} className="btn btn-secondary">Kopieren</button>
             </div>
+            <Image src={"/arrow_thick_right.svg"} width={100} height={100} alt={"arrow"}></Image>
             <div className={styles.wrapper}>
-              <div className={styles.otpcontainer}>
+              <label>Bitte geben Sie den Code ein</label>
+              <div className={`${styles.otpcontainer} ${styles.enableAuthOtp}`}>
                 <input
                   autoComplete="off"
                   id="i1"
@@ -280,6 +290,8 @@ const blurData = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAA";
                 </button>
               </div>
               </div>
+            </div>
+            
             </>
           )}
         </div>

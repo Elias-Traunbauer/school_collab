@@ -175,6 +175,7 @@ export default function Otp(){
                 <h1>2 Factor Authentification</h1>
             </div>
             <div className={styles.wrapper}>
+            <label>Bitte geben Sie den Code ein</label>
             <div  className={styles.otpcontainer}>
                 <input autoComplete='off' id='i1' maxLength={1} type="text"></input>
                 <input autoComplete='off' id='i2' maxLength={1} type="text"></input>
