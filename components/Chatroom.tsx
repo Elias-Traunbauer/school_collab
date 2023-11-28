@@ -44,6 +44,10 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
   }, [chatParam]);
 
   useEffect(() => {
+    if (!chat) {
+      return;
+    }
+
     const sse = subscribeToNewMessages();
 
     console.log("SSE", sse);
