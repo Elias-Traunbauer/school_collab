@@ -140,7 +140,8 @@ namespace Service.Services
                 PasswordHash = _passwordService.HashPassword(userRegisterPayload.Password, passwordSalt),
                 EmailVerificationToken = emailVerificationToken,
                 EmailVerificationTokenExpiration = DateTime.UtcNow.Add(TimeSpan.FromMinutes(5)),
-                RegisteredAt = DateTime.UtcNow
+                RegisteredAt = DateTime.UtcNow,
+                Unique2FAKey = ""
             };
             await _unitOfWork.UserRepository.CreateUserAsync(user);
             await _unitOfWork.SaveChangesAsync();
