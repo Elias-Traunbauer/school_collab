@@ -77,7 +77,7 @@ namespace Api.Controllers
             var users = (await userService.SearchUser(query)).Value;
 
             return Ok(
-                      users!.Select(x => (UserDTO)x)
+                      users!.Select(x => (UserDTO)(User)x)
                    );
         }
 
