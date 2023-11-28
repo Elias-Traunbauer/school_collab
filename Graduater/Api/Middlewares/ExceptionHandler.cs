@@ -4,6 +4,8 @@ using Core.Contracts.Services;
 using Core.Entities.Database;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
+using System.Diagnostics;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace Ribbon.API.Middlewares
@@ -35,12 +37,18 @@ namespace Ribbon.API.Middlewares
                 httpContext.Response.Clear();
                 httpContext.Response.StatusCode = 500;
                 httpContext.Response.ContentType = "application/json";
+                var st = new StackTrace(ex, true);
                 await httpContext.Response.WriteAsJsonAsync(new 
                 {
                     StatusCode = 500,
                     message = ex.Message,
                     exceptionType = ex.GetType().Name,
                     innerExceptionType = ex.InnerException?.GetType().Name,
+                    DeveloperInfo = new
+                    {
+                        File = st.GetFrame(0)?.GetFileName(),
+                        Method = st.GetFrame(0)?.GetMethod().Name,
+                        Line = st.GetFrame(0)?.GetFileLineNumber()
                 });
 
                 return;
