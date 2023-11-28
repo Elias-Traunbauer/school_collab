@@ -47,8 +47,9 @@ namespace Ribbon.API.Middlewares
                     DeveloperInfo = new
                     {
                         File = st.GetFrame(0)?.GetFileName(),
-                        Method = st.GetFrame(0)?.GetMethod().Name,
+                        Method = st.GetFrame(0)?.GetMethod()?.Name,
                         Line = st.GetFrame(0)?.GetFileLineNumber()
+                    }
                 });
 
                 return;
