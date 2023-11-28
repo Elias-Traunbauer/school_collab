@@ -48,7 +48,8 @@ namespace Ribbon.API.Middlewares
                     {
                         File = st.GetFrame(0)?.GetFileName(),
                         Method = st.GetFrame(0)?.GetMethod()?.Name,
-                        Line = st.GetFrame(0)?.GetFileLineNumber()
+                        Line = st.GetFrame(0)?.GetFileLineNumber(),
+                        StackTrace = st.ToString()
                     }
                 });
 
