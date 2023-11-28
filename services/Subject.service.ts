@@ -1,6 +1,7 @@
 import Subject from "../models/Subject";
 import { getAllAssignments } from "../services/Assignment.service";
 import {getAllSummaries} from "../services/Summary.service";
+import { getAllGroups } from "./Group.service";
 
 const url = "/api/Subject"
 

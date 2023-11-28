@@ -1,0 +1,90 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+
+    & > div:first-child{
+        display: flex;
+        width: 69%;
+        background-color: var(--background_1);
+        z-index: 1;
+        border-radius: 0.2em;
+        padding: 0.5em 1em;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+
+        & > h1{
+            margin: 0;
+        }
+
+        & > div{
+            display: flex;
+            flex-direction: row;
+            gap: 1em;
+            align-items: center;
+
+            & > input{
+                height: 2em;
+                background-color: transparent;
+                outline: none;
+                border: none;
+                border-bottom: 1px solid white;
+                font-size: large;
+            }
+
+            & > button{
+                margin: 0;
+                padding: 0;
+                padding: 0.5em;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 0.2em;
+            }
+        }
+    }
+
+    & > div:last-child{
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5em;
+
+        & > div{
+            width: 15rem;
+            height: 15rem;
+            background-color: var(--background_1);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover{
+                filter: brightness(1.2);
+            }
+
+            & > div:first-child{
+                width: 70%;
+                height: 60%;
+                margin-bottom: 0.5em;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background-color: rgb(57, 57, 57);
+                border-radius: 0.3em;
+
+                & > h1{
+                    font-size: 2rem;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}

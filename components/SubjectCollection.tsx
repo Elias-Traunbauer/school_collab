@@ -25,7 +25,6 @@ export default function SummaryList({title,link}: {title: string, link: string,}
         setDisplayedSubjects(subjects);
       });
     }
-    
   }, []);
 
   
