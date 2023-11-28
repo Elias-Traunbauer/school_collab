@@ -136,3 +136,20 @@ export async function twoFactorAuthenticationCode(code:string){
         throw error;
     }
 }
+
+export async function searchUser(query:string){
+    try{
+        const response = await fetch(url+'/search/'+query,{
+            method: 'GET'
+        });
+
+        const data = await response.json();
+        if(data.status != 200){
+            throw data;
+        }
+        return data.value;
+    }
+    catch(error){
+        throw error;
+    }
+}

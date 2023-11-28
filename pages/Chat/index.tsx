@@ -12,7 +12,7 @@ import UserContext from '../../components/UserContext';
 import User from '../../models/User';
 import ChatmemberListItem from '../../components/ChatmemberListItem';
 import ChatPostDTO from '../../models/ChatPostDTO';
-import { getAllUsers } from '../../services/User.service';
+import { getAllUsers, searchUser } from '../../services/User.service';
 export default function DisplayChat() {
 
     const context = useContext(UserContext);
@@ -174,11 +174,9 @@ export default function DisplayChat() {
         const inputElement = e.target as HTMLInputElement;
         const targetName = inputElement.value;
 
-        const filteredData:User[] = members.filter((item) =>
-             item.firstName.includes(targetName) || item.lastName.includes(targetName)
-        );
-
-        setDisplayMembers(filteredData);
+       searchUser(targetName).then((res) => {
+        setDisplayMembers(res);
+       });
     }
 
     function insertMessage(message: ChatMessage) {
