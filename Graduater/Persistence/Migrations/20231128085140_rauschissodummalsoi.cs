@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Fortnite : Migration
+    public partial class rauschissodummalsoi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,6 +28,23 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subjects", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Summaries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "longtext", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false),
+                    Content = table.Column<string>(type: "longtext", nullable: false),
+                    Version = table.Column<Guid>(type: "char(36)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Summaries", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -158,6 +175,9 @@ namespace Persistence.Migrations
                     Content = table.Column<byte[]>(type: "longblob", nullable: false),
                     ContentType = table.Column<string>(type: "longtext", nullable: false),
                     MIME_Type = table.Column<string>(type: "longtext", nullable: false),
+                    Downloads = table.Column<int>(type: "int", nullable: false),
+                    UploadedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    OwnerId = table.Column<int>(type: "int", nullable: false),
                     UploadedById = table.Column<int>(type: "int", nullable: false),
                     Size = table.Column<long>(type: "bigint", nullable: false),
                     Version = table.Column<Guid>(type: "char(36)", nullable: false)
@@ -165,6 +185,12 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Files", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Files_Summaries_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Summaries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -191,6 +217,7 @@ namespace Persistence.Migrations
                     Permissions = table.Column<int>(type: "int", nullable: false),
                     PrivacySettings = table.Column<int>(type: "int", nullable: false),
                     RequestedTwoFactorAuthentication = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Unique2FAKey = table.Column<string>(type: "longtext", nullable: false),
                     Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
@@ -434,6 +461,7 @@ namespace Persistence.Migrations
                     PostCommentId = table.Column<int>(type: "int", nullable: true),
                     PostId = table.Column<int>(type: "int", nullable: true),
                     SubjectId = table.Column<int>(type: "int", nullable: true),
+                    SummaryId = table.Column<int>(type: "int", nullable: true),
                     UserSessionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -510,6 +538,11 @@ namespace Persistence.Migrations
                         principalTable: "Subjects",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_Reports_Summaries_SummaryId",
+                        column: x => x.SummaryId,
+                        principalTable: "Summaries",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Reports_UserSession_UserSessionId",
                         column: x => x.UserSessionId,
                         principalTable: "UserSession",
@@ -582,6 +615,11 @@ namespace Persistence.Migrations
                 name: "IX_Comments_UserId",
                 table: "Comments",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Files_OwnerId",
+                table: "Files",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Files_UploadedById",
@@ -707,6 +745,11 @@ namespace Persistence.Migrations
                 name: "IX_Reports_SubjectId",
                 table: "Reports",
                 column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reports_SummaryId",
+                table: "Reports",
+                column: "SummaryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reports_UserSessionId",
@@ -889,6 +932,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Files");
+
+            migrationBuilder.DropTable(
+                name: "Summaries");
 
             migrationBuilder.DropTable(
                 name: "Users");

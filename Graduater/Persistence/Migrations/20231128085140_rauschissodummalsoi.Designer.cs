@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231127092006_summaries")]
-    partial class summaries
+    [Migration("20231128085140_rauschissodummalsoi")]
+    partial class rauschissodummalsoi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
