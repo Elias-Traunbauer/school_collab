@@ -96,6 +96,9 @@ export async function getAllUsers():Promise<User[]>{
         return data.value;
     }
     catch(error){
+        throw error;
+    }
+}
 export async function twoFactorAuthentication(password:string): Promise<TwoFactorAuthenticationObject>{
     try {
         const response = await fetch(`${url}/TwoFactorAuthentication`, {
