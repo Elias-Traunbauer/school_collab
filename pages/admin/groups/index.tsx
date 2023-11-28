@@ -55,17 +55,6 @@ export default function Groups() {
                         </div>
                     </div>
                 ))}
-
-                {displayedGroups.map(group => (
-                    <div key={group.id} onClick={() => router.push(`/groups/${group.id}`)}>
-                        <div>
-                            <h1>{group.name}</h1>
-                        </div>
-                        <div>
-                            <p>{group.description}</p>
-                        </div>
-                    </div>
-                ))}
             </div>
         </div>
 
