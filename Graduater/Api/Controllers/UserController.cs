@@ -45,7 +45,11 @@ namespace Api.Controllers
 
             HttpContext.Response.SetCookie(_config.AccessTokenCookieIdentifier, result.AccessToken!, DateTime.UtcNow.Add(_config.AccessTokenLifetime));
             HttpContext.Response.SetCookie(_config.RefreshTokenCookieIdentifier, result.RefreshToken!, DateTime.UtcNow.Add(_config.RefreshTokenLifetime));
-            return Ok();
+            return Ok(new
+            {
+                Status = 200,
+                result.TwoFactorAuthenticationEnabled
+            });
         }
 
         [HttpGet("{id}")]
@@ -262,7 +266,7 @@ namespace Api.Controllers
             await userService.EnableTwoFactorAuthentication(user.Id);
 
             TwoFactorAuthenticator twoFactorAuthenticator = new TwoFactorAuthenticator();
-            var setup = twoFactorAuthenticator.GenerateSetupCode("Graduater", userInfo.Username, ConvertSecretToBytes(_config.GoogleAuthenticatorKey + user.Id + passwordService.HashPassword(user.PasswordSalt, _config.GoogleAuthenticatorKey), false), _config.GoogleAuthenticatorQrCodeSize, generateQrCode: true);
+            var setup = twoFactorAuthenticator.GenerateSetupCode("Graduater", userInfo.Username, ConvertSecretToBytes(_config.GoogleAuthenticatorKey + user.Id + passwordService.HashPassword(user.PasswordSalt, _config.GoogleAuthenticatorKey) + user.Unique2FAKey, false), _config.GoogleAuthenticatorQrCodeSize, generateQrCode: true);
 
             return Ok(new
             {
@@ -366,7 +370,7 @@ namespace Api.Controllers
 
             TwoFactorAuthenticator twoFactorAuthenticator = new TwoFactorAuthenticator();
 
-            var result = twoFactorAuthenticator.ValidateTwoFactorPIN(ConvertSecretToBytes(_config.GoogleAuthenticatorKey + user.Id + passwordService.HashPassword(user.PasswordSalt, _config.GoogleAuthenticatorKey), false), payload.Code);
+            var result = twoFactorAuthenticator.ValidateTwoFactorPIN(ConvertSecretToBytes(_config.GoogleAuthenticatorKey + user.Id + passwordService.HashPassword(user.PasswordSalt, _config.GoogleAuthenticatorKey) + user.Unique2FAKey, false), payload.Code);
 
             if (!result)
             {

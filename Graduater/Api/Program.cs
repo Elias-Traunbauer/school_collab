@@ -64,6 +64,8 @@ namespace Api
             app.UseHsts();
             //app.UseHttpsRedirection();
 
+            app.UseCustomExceptionHandling();
+
             app.UseUserAuthentication();
             app.UseUserAuthorization();
 

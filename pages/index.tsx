@@ -27,7 +27,7 @@ const Home = () => {
         fetch('/api/User/TwoFactorAuthentication', {
           method: "POST",
           body: JSON.stringify({
-            password: "Geheimnis123!"
+            password: "Geheimnis123"
           }),
           headers: {
             "Content-Type": "application/json"

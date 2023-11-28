@@ -67,6 +67,8 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<AssignmentFile> AssignmentFiles { get; set; }
 
+    public virtual DbSet<Summary> Summaries { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (_config?.DatabaseConnectionString == null)
