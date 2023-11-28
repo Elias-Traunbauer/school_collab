@@ -413,7 +413,6 @@ FodyWeavers.xsd
 
 appsettings.json
 
-
 # Chache files
 Api.csproj.AssemblyReference.cache
 ConsoleFillDatabase.csproj.AssemblyReference.cache

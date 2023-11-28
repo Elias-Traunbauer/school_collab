@@ -3,6 +3,7 @@ import styles from '../styles/ChatroomListitem.module.scss';
 import Image from 'next/image';
 import ChatMessage from '../models/ChatMessage';
 export default function ChatroomListitem({
+    key,
     id,
     name,
     profile,
@@ -10,6 +11,7 @@ export default function ChatroomListitem({
     unreadMessages,
     onClick,
   }: {
+    key:number,
     id: number;
     name: string;
     profile?: string;

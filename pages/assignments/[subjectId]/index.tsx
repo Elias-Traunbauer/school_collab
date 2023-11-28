@@ -26,8 +26,6 @@ export default function Assignments() {
         async function fetchDataAsync() {
             // check if subjectId is a number
 
-           
-
             if(!subjectId && isNaN(parseInt(subjectId as string))){
                 return;
             }

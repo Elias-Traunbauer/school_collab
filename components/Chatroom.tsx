@@ -36,6 +36,7 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
         console.log("FIRSTMESSAGES",chatParam.chatMessages );
         if(chatParam.chatMessages.length > 0)
         readChat(chatParam.id, chatParam.chatMessages[chatParam.chatMessages.length - 1].id);
+
       });
     }
     fetchData();

@@ -104,58 +104,78 @@
     display: flex;
     flex-direction: row;
     align-items:flex-start;
-
     justify-content: left;
-
-    border-radius: 0 0 1rem 1rem;
     gap: 5%;
 
-    & > div{
+    & > div:first-child{
         width: 55%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 0.8rem;
+
+        & > div:first-child{
+            display: flex;
+            padding: .8rem;
+            flex-direction: column;
+            align-items: left;
+            border-radius: 1rem;
+            gap: .8rem;
+            background-color: var(--background_3);
+
+            & > div{
+                background-color: var(--background_1);
+                padding: .5rem;
+                display: flex;
+                flex-direction: column;
+                border-radius: .5rem;
+                //border-bottom: grey 1px solid;
+
+                & > label{
+                    padding: 0 0 0 .5rem;
+                    font-size: .7rem;
+                }
+
+                & > p{
+                    border-radius: .5rem;
+                    margin: 0;
+                    padding: 0 0 0 .5rem;
+                    font-size: 1.5rem;
+                    font-weight: 500;
+                }
+
+                & > p:hover, a:hover{
+                    filter:contrast(1.2);
+                    transition: .3s;
+                }
+            }
+        }
+
+        & > div:nth-child(2){
+            padding: .8rem;
+            border-radius: 1rem;
+            background-color: var(--background_3);
+
+            & > div{
+                width: 100%;
+                background-color: var(--background_1);
+                padding: .5rem;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                border-radius: .5rem;
+            }
+        }
+    }
+
+    & > div:nth-child(2){
         display: flex;
         padding: .8rem;
         flex-direction: column;
         align-items: left;
         border-radius: 1rem;
         background-color: var(--background_3);
-
-        & > div{
-            background-color: var(--background_1);
-            padding: .5rem;
-            display: flex;
-            flex-direction: column;
-            border-bottom: grey 1px solid;
-
-            & > label{
-                padding: 0 0 0 .5rem;
-                font-size: .7rem;
-            }
-
-            & > p{
-                border-radius: .5rem;
-                margin: 0;
-                padding: 0 0 0 .5rem;
-                font-size: 1.5rem;
-                font-weight: 500;
-            }
-
-            & > p:hover, a:hover{
-                filter:contrast(1.2);
-                transition: .3s;
-            }
-        }
-
-        & > div:nth-child(1){
-            border-radius: 1rem 1rem 0 0;
-        }
-
-        & > div:last-child{
-            border-radius: 0 0 1rem 1rem;  
-            border: none; 
-        }
-    }
-
-    & > div:nth-child(2){
         width: 40%;
         gap: .8rem;
 
@@ -169,6 +189,7 @@
                 padding: .5rem;
                 font-size: 1.5rem;
                 background-color: var(--background_3);
+                width: 100%;
             }
 
             & > button:hover{
@@ -182,7 +203,7 @@
             padding: 0 0 0 .5rem;
             grid-template-columns: 25% 50% 25%;
             row-gap: 0;
-            border-radius: 1rem;
+            border-radius: .5rem;
             background-color: var(--background_1);
             border: none;
             align-self: center;          
