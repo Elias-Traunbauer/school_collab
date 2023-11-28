@@ -103,8 +103,6 @@ namespace Core.Contracts.EZCRUD
     /// It is important to set the Properties DeleteIdSelector and ReadIdSelector to a function that selects the Id from the Delete and Read Payloads.
     /// </summary>
     /// <typeparam name="C">Object Creation Payload</typeparam>
-    /// <typeparam name="R">Object Read Payload</typeparam>
-    /// <typeparam name="D">Object Delete Payload</typeparam>
     /// <typeparam name="Object">The Object to CRUD</typeparam>
     /// <typeparam name="Id">The Type of Primary Key of the Object</typeparam>
     /// <typeparam name="Service">Your EZCRUDService</typeparam>
