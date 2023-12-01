@@ -84,6 +84,21 @@ export async function loginUser(user: UserLoginDTO): Promise<any> {
     }
 }
 
+export async function getAllUsers():Promise<User[]>{
+    try{
+        const response = await fetch(url+'/all',{
+            method: 'GET'
+        });
+        if(response.status != 200){
+            throw response;
+        }
+        const data = await response.json();
+        return data.value;
+    }
+    catch(error){
+        throw error;
+    }
+}
 export async function twoFactorAuthentication(password:string): Promise<TwoFactorAuthenticationObject>{
     try {
         const response = await fetch(`${url}/TwoFactorAuthentication`, {
@@ -118,6 +133,23 @@ export async function twoFactorAuthenticationCode(code:string){
         return data;
     }
     catch (error){
+        throw error;
+    }
+}
+
+export async function searchUser(query:string){
+    try{
+        const response = await fetch(url+'/search/'+query,{
+            method: 'GET'
+        });
+
+        const data = await response.json();
+        if(data.status != 200){
+            throw data;
+        }
+        return data.value;
+    }
+    catch(error){
         throw error;
     }
 }

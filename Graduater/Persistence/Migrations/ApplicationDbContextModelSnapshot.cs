@@ -234,6 +234,9 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Downloads")
+                        .HasColumnType("int");
+
                     b.Property<string>("MIME_Type")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -242,8 +245,14 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
                     b.Property<long>("Size")
                         .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UploadedById")
                         .HasColumnType("int");
@@ -253,6 +262,8 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
 
                     b.HasIndex("UploadedById");
 
@@ -528,6 +539,9 @@ namespace Persistence.Migrations
                     b.Property<int?>("SubjectId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SummaryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -569,6 +583,8 @@ namespace Persistence.Migrations
 
                     b.HasIndex("SubjectId");
 
+                    b.HasIndex("SummaryId");
+
                     b.HasIndex("UserSessionId");
 
                     b.ToTable("Reports");
@@ -595,6 +611,33 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.Summary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Summaries");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.User", b =>
@@ -655,6 +698,10 @@ namespace Persistence.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Unique2FAKey")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -829,6 +876,12 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Core.Entities.Database.File", b =>
                 {
+                    b.HasOne("Core.Entities.Database.Summary", null)
+                        .WithMany("Files")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.Database.User", "UploadedBy")
                         .WithMany()
                         .HasForeignKey("UploadedById")
@@ -995,6 +1048,10 @@ namespace Persistence.Migrations
                         .WithMany("Reports")
                         .HasForeignKey("SubjectId");
 
+                    b.HasOne("Core.Entities.Database.Summary", null)
+                        .WithMany("Reports")
+                        .HasForeignKey("SummaryId");
+
                     b.HasOne("Core.Entities.Database.UserSession", null)
                         .WithMany("Reports")
                         .HasForeignKey("UserSessionId");
@@ -1104,6 +1161,13 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.Subject", b =>
                 {
                     b.Navigation("Assignments");
+
+                    b.Navigation("Reports");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.Summary", b =>
+                {
+                    b.Navigation("Files");
 
                     b.Navigation("Reports");
                 });

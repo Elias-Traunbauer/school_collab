@@ -26,8 +26,6 @@ export default function Assignments() {
         async function fetchDataAsync() {
             // check if subjectId is a number
 
-            console.log("subjectId", subjectId);
-
             if(!subjectId && isNaN(parseInt(subjectId as string))){
                 return;
             }
@@ -91,6 +89,10 @@ export default function Assignments() {
         router.push("/assignments/");
     }
 
+    useEffect(() => {
+        console.log("SUB",subject);
+    }, [subject]);
+
     return (
         <div className={styles.assignmentcontainer}>
             <div className={styles.assignmentheader}>
@@ -113,7 +115,7 @@ export default function Assignments() {
                     }
                 </div>
                
-                <button onClick={() => router.push(subject.id+"/create")}>Create</button>
+                <button onClick={() => router.push(subjectId+"/create")}>Create</button>
             </div>
             <div className={styles.assignmentCardsContainer}>
             {

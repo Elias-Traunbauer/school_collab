@@ -34,7 +34,7 @@ export async function getSubjects(): Promise<Subject[]>{
      const resultIds: number[] = [];
 
      for (const iterator of assignmentresult) {
-          if(!resultIds.includes(iterator.subject.id)){
+          if(iterator.subject && !resultIds.includes(iterator.subject.id)){
                result.push(iterator.subject);
                resultIds.push(iterator.subject.id);
           }
@@ -65,6 +65,7 @@ export async function getSubjectById(id: number): Promise<Subject>{
               throw response;
          }
          const data = await response.json();
+         console.log(data);
          return data.value;
    }
    catch(error){

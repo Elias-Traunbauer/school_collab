@@ -1,5 +1,6 @@
 import Chat from "../models/Chat";
 import ChatMessage from "../models/ChatMessage";
+import ChatPostDTO from "../models/ChatPostDTO";
 
 const url = "/api/Chat"
 export async function getChats(): Promise<Chat[]>{
@@ -42,15 +43,16 @@ export async function readChat(chatId:number,MessageId:number){
 
 export async function getMessages(chatId:number,start?:number,count?:number): Promise<ChatMessage[]>{
     try{
-        console.log("getMessages",chatId,start,count);
-        const response = await fetch(url+'/Messages',{
+        const startValue = start?start:0;
+        const countValue = count?count:10;
+        const response = await fetch(url+`/Messages?chatId=${chatId}&start=${startValue}&count=${countValue}`,{
             method: 'GET',
-            body: JSON.stringify({chatId,start,count})
         });
         if(response.status != 200){
             throw response;
         }
         const data = await response.json();
+        console.log("GETMESSAGES",data.value);
         return data.value;
     }
     catch(error){
@@ -91,6 +93,7 @@ export async function SubscribeToNewMessages(){
 }
 
 export async function sendMessage(ChatId:number,message:string,ReplyId?:number){
+    console.log("SENDMESSAGE");
     try{
         const response = await fetch(url+'/Message',{
             method: 'POST',
@@ -164,4 +167,29 @@ export async function getChatMessageById(messageId:number){
     catch(error){
         throw error;
     }
+}
+
+export async function createNewChat(newChat:ChatPostDTO){
+    try{
+        const response = await fetch(url,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newChat)
+        });
+        if(response.status != 200){
+            throw response;
+        }
+        const data = await response.json();
+        return data.value;
+    }
+    catch(error){
+        throw error;
+    }
+}
+
+export function subscribeToNewMessages():EventSource{
+    const sse:EventSource = new EventSource(url+'/SubscribeToNewMessages');
+    return sse;
 }
