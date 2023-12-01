@@ -20,7 +20,7 @@ public class File : DatabaseEntity, IFile {
 
     public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
 
-    public int OwnerId { get; set; }
+    public int? OwnerId { get; set; } = null;
 
     [Required]
     [ForeignKey(nameof(UploadedById))]

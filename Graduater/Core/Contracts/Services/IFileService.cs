@@ -7,7 +7,7 @@ namespace Core.Contracts.Services
     {
         Task<IServiceResult<IFile>> GetFileAsync(int id);
 
-        Task<IServiceResult<int>> StoreFileAsync(int userId, string filename, string contentType, string fileExtension, Stream content, int uploader, CancellationToken cancellationToken);
+        Task<IServiceResult<int>> StoreFileAsync(int userId, string filename, string contentType, string fileExtension, Stream content, CancellationToken cancellationToken);
 
         Task<IServiceResult> DeleteFileAsync(int id);
     }

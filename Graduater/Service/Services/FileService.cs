@@ -41,7 +41,7 @@ namespace Service.Services
             return new ServiceResult<IFile>(file);
         }
 
-        public async Task<IServiceResult<int>> StoreFileAsync(int userId, string filename, string contentType, string fileExtension, Stream content, int uploader, CancellationToken cancellationToken)
+        public async Task<IServiceResult<int>> StoreFileAsync(int userId, string filename, string contentType, string fileExtension, Stream content, CancellationToken cancellationToken)
         {
             if (content.Length > _config.UploadMaxFileSize)
             {
@@ -65,8 +65,7 @@ namespace Service.Services
                 Content = fileContent,
                 UploadedById = userId,
                 MIME_Type = contentType,
-                Size = content.Length,
-                OwnerId = uploader
+                Size = content.Length
             };
 
             await _unitOfWork.FileRepository.CreateFileAsync(file);
