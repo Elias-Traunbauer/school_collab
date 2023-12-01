@@ -9,6 +9,7 @@ public class File : DatabaseEntity, IFile {
     public string Name { get; set; } = string.Empty;
 
     [Required]
+    [MaxLength(2097152)]
     public byte[] Content { get; set; } = null!;
 
     public string ContentType { get; set; } = string.Empty;
