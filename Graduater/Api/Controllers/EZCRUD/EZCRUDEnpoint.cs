@@ -4,7 +4,6 @@ using Core.Entities.Database;
 using Core.Entities.Models;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
-using Service.Services.EZCRUDServices;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -116,17 +115,10 @@ namespace Core.Contracts.EZCRUD
 
         }
 
-        public record ReadPayload(Id Id);
-
-        [HttpGet]
-        public virtual async Task<IActionResult> Get([FromBody] ReadPayload readPayload, [FromServices] Service service)
+        [HttpGet("{Id}")]
+        public virtual async Task<IActionResult> Get([FromRoute] Id Id, [FromServices] Service service)
         {
-            if (readPayload == null)
-            {
-                return BadRequest();
-            }
-
-            var result = await service.ReadAsync(readPayload.Id);
+            var result = await service.ReadAsync(Id);
             if (result == null)
             {
                 return NotFound();
@@ -149,7 +141,10 @@ namespace Core.Contracts.EZCRUD
                 return BadRequest();
             }
 
-            return Ok(result);
+            return Ok(new
+            {
+                Id = result
+            });
         }
 
         [HttpPut]
@@ -166,15 +161,10 @@ namespace Core.Contracts.EZCRUD
 
         public record DeletePayload(Id Id);
 
-        [HttpDelete]
-        public virtual async Task<IActionResult> Delete([FromBody] DeletePayload model, [FromServices] Service service)
+        [HttpDelete("{id}")]
+        public virtual async Task<IActionResult> Delete([FromRoute] Id Id, [FromServices] Service service)
         {
-            if (model == null)
-            {
-                return BadRequest();
-            }
-
-            await service.DeleteAsync(model.Id);
+            await service.DeleteAsync(Id);
             return Ok();
         }
     }

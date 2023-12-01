@@ -43,6 +43,7 @@ namespace Api
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IChatService, ChatService>();
+            builder.Services.AddScoped<ISummaryService, SummaryService>();
 
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
