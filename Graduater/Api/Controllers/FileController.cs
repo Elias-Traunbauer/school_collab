@@ -39,7 +39,7 @@ namespace Api.Controllers
             }
             var user = HttpContext.GetUserInfo().User!;
             string fileExtension = Path.GetExtension(file.FileName);
-            var result = await fileService.StoreFileAsync(user.Id, file.FileName, file.ContentType, fileExtension, file.OpenReadStream(), token);
+            var result = await fileService.StoreFileAsync(user.Id, file.FileName, file.ContentType, fileExtension, file.OpenReadStream(), user.Id, token);
             if (result.Status != 200)
             {
                 return Ok(result);

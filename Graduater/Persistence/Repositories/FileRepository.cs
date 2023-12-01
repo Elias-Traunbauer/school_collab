@@ -25,7 +25,12 @@ namespace Persistence.Repositories
 
         public async Task<IFile?> GetFileWithContentByIdAsync(int id)
         {
-            return await _context.Files.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var file = await _context.Files.Where(x => x.Id == id).SingleOrDefaultAsync();
+            file!.Downloads++;
+
+            await _context.Entry(file).Property(f => f.Content).EntityEntry.ReloadAsync();
+
+            return file;
         }
 
         public async Task<bool> DeleteFileAsync(int id)
