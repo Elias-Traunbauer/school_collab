@@ -16,7 +16,7 @@ public class File : DatabaseEntity, IFile {
 
     public string MIME_Type { get; set; } = string.Empty;
 
-    public int Downloads { get; set; }
+    public int Downloads { get; set; } = 0;
 
     public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
 
