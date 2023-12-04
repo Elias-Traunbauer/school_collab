@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231127092006_summaries")]
-    partial class summaries
+    [Migration("20231204081303_raaahhhhhhhhhhhhh")]
+    partial class raaahhhhhhhhhhhhh
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,6 +231,7 @@ namespace Persistence.Migrations
 
                     b.Property<byte[]>("Content")
                         .IsRequired()
+                        .HasMaxLength(2097152)
                         .HasColumnType("longblob");
 
                     b.Property<string>("ContentType")
@@ -248,7 +249,7 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("OwnerId")
+                    b.Property<int?>("OwnerId")
                         .HasColumnType("int");
 
                     b.Property<long>("Size")
@@ -881,9 +882,7 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Core.Entities.Database.Summary", null)
                         .WithMany("Files")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.HasOne("Core.Entities.Database.User", "UploadedBy")
                         .WithMany()

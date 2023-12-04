@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230424090416_mimi")]
-    partial class mimi
+    [Migration("20231204082850_raaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")]
+    partial class raaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,9 +20,6 @@ namespace Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.5")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
@@ -51,11 +48,6 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
-
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
@@ -66,6 +58,10 @@ namespace Persistence.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
@@ -75,6 +71,32 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Assignments");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.AssignmentFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AssignmentIdInstruction")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FileId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.HasIndex("AssignmentIdInstruction");
+
+                    b.HasIndex("FileId");
+
+                    b.ToTable("AssignmentFiles");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.Chat", b =>
@@ -94,10 +116,12 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<int?>("PictureId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -115,13 +139,18 @@ namespace Persistence.Migrations
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
+                    b.Property<DateTime>("Joined")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("LastSeenMessageId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -148,13 +177,15 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
+                    b.Property<int?>("ReplyToMessageId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -178,13 +209,12 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -199,28 +229,45 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("AssignmentId")
-                        .HasColumnType("int");
-
                     b.Property<byte[]>("Content")
                         .IsRequired()
+                        .HasMaxLength(2097152)
                         .HasColumnType("longblob");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Downloads")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MIME_Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
+                    b.Property<int?>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UploadedById")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AssignmentId");
+                    b.HasIndex("OwnerId");
 
                     b.HasIndex("UploadedById");
 
@@ -244,10 +291,9 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<Guid>("Version")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -265,13 +311,12 @@ namespace Persistence.Migrations
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -302,13 +347,12 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -339,14 +383,13 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsAnonymous")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -368,10 +411,9 @@ namespace Persistence.Migrations
                     b.Property<int>("PollId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<Guid>("Version")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("Votes")
                         .HasColumnType("int");
@@ -396,17 +438,16 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -427,10 +468,9 @@ namespace Persistence.Migrations
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<Guid>("Version")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -503,6 +543,9 @@ namespace Persistence.Migrations
                     b.Property<int?>("SubjectId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SummaryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -544,6 +587,8 @@ namespace Persistence.Migrations
 
                     b.HasIndex("SubjectId");
 
+                    b.HasIndex("SummaryId");
+
                     b.HasIndex("UserSessionId");
 
                     b.ToTable("Reports");
@@ -559,14 +604,44 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("Version")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.Summary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Summaries");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.User", b =>
@@ -622,14 +697,23 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("RegisteredAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
+                    b.Property<bool>("RequestedTwoFactorAuthentication")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Unique2FAKey")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -663,17 +747,19 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("LastAction")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("longblob");
-
                     b.Property<string>("SessionKey")
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("TwoFactorAuthenticated")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -685,7 +771,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
                 {
                     b.HasOne("Core.Entities.Database.Group", "Group")
-                        .WithMany("Assignments")
+                        .WithMany()
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -697,7 +783,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Database.User", "User")
-                        .WithMany("Assignments")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -709,10 +795,33 @@ namespace Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Core.Entities.Database.AssignmentFile", b =>
+                {
+                    b.HasOne("Core.Entities.Database.Assignment", null)
+                        .WithMany("Files")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Database.Assignment", null)
+                        .WithMany("Instructions")
+                        .HasForeignKey("AssignmentIdInstruction")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Database.File", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("File");
+                });
+
             modelBuilder.Entity("Core.Entities.Database.Chat", b =>
                 {
                     b.HasOne("Core.Entities.Database.User", "CreatorUser")
-                        .WithMany("Chats")
+                        .WithMany()
                         .HasForeignKey("CreatorUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -761,7 +870,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.Comment", b =>
                 {
                     b.HasOne("Core.Entities.Database.User", "User")
-                        .WithMany("Comments")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -771,9 +880,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Core.Entities.Database.File", b =>
                 {
-                    b.HasOne("Core.Entities.Database.Assignment", null)
+                    b.HasOne("Core.Entities.Database.Summary", null)
                         .WithMany("Files")
-                        .HasForeignKey("AssignmentId");
+                        .HasForeignKey("OwnerId");
 
                     b.HasOne("Core.Entities.Database.User", "UploadedBy")
                         .WithMany()
@@ -787,7 +896,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.Group", b =>
                 {
                     b.HasOne("Core.Entities.Database.User", "CreatorUser")
-                        .WithMany("Groups")
+                        .WithMany()
                         .HasForeignKey("CreatorUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -817,7 +926,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.Notification", b =>
                 {
                     b.HasOne("Core.Entities.Database.User", "User")
-                        .WithMany("Notifications")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -828,7 +937,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.Poll", b =>
                 {
                     b.HasOne("Core.Entities.Database.User", "CreatorUser")
-                        .WithMany("Polls")
+                        .WithMany()
                         .HasForeignKey("CreatorUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -850,7 +959,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.Post", b =>
                 {
                     b.HasOne("Core.Entities.Database.User", "User")
-                        .WithMany("Posts")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -941,6 +1050,10 @@ namespace Persistence.Migrations
                         .WithMany("Reports")
                         .HasForeignKey("SubjectId");
 
+                    b.HasOne("Core.Entities.Database.Summary", null)
+                        .WithMany("Reports")
+                        .HasForeignKey("SummaryId");
+
                     b.HasOne("Core.Entities.Database.UserSession", null)
                         .WithMany("Reports")
                         .HasForeignKey("UserSessionId");
@@ -960,7 +1073,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.UserSession", b =>
                 {
                     b.HasOne("Core.Entities.Database.User", "User")
-                        .WithMany("UserSessions")
+                        .WithMany("Sessions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -971,6 +1084,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
                 {
                     b.Navigation("Files");
+
+                    b.Navigation("Instructions");
 
                     b.Navigation("Reports");
                 });
@@ -1006,8 +1121,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Core.Entities.Database.Group", b =>
                 {
-                    b.Navigation("Assignments");
-
                     b.Navigation("GroupUsers");
 
                     b.Navigation("Reports");
@@ -1054,25 +1167,18 @@ namespace Persistence.Migrations
                     b.Navigation("Reports");
                 });
 
-            modelBuilder.Entity("Core.Entities.Database.User", b =>
+            modelBuilder.Entity("Core.Entities.Database.Summary", b =>
                 {
-                    b.Navigation("Assignments");
-
-                    b.Navigation("Chats");
-
-                    b.Navigation("Comments");
-
-                    b.Navigation("Groups");
-
-                    b.Navigation("Notifications");
-
-                    b.Navigation("Polls");
-
-                    b.Navigation("Posts");
+                    b.Navigation("Files");
 
                     b.Navigation("Reports");
+                });
 
-                    b.Navigation("UserSessions");
+            modelBuilder.Entity("Core.Entities.Database.User", b =>
+                {
+                    b.Navigation("Reports");
+
+                    b.Navigation("Sessions");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.UserSession", b =>
