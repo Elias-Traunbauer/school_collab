@@ -82,7 +82,7 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
     return () => {
       sse.close();
     };
-  }, []);
+  }, [chat]);
 
   useEffect(() => {
     console.log("CHAT", chat);
