@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231204083217_raaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")]
-    partial class raaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+    [Migration("20231205102345_blob8kTest")]
+    partial class blob8kTest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,10 +229,8 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Content")
-                        .IsRequired()
-                        .HasMaxLength(2097152)
-                        .HasColumnType("longblob");
+                    b.Property<Guid>("BlobId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ContentType")
                         .IsRequired()
@@ -766,6 +764,44 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserSession");
+                });
+
+            modelBuilder.Entity("EntityFramework.LargeBlobs.Models.EFLargeBlob", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EFLargeBlobs");
+                });
+
+            modelBuilder.Entity("EntityFramework.LargeBlobs.Models.EFLargeBlobChunk", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(8000)");
+
+                    b.Property<Guid>("EFLargeBlobId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EFLargeBlobChunks");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>

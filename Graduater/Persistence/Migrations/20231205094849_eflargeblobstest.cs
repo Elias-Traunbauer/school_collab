@@ -7,12 +7,41 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class raaahhhhhhhhhhhhh : Migration
+    public partial class eflargeblobstest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "EFLargeBlobChunks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Index = table.Column<int>(type: "int", nullable: false),
+                    Size = table.Column<int>(type: "int", nullable: false),
+                    EFLargeBlobId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Data = table.Column<byte[]>(type: "varbinary(60000)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EFLargeBlobChunks", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "EFLargeBlobs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Size = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EFLargeBlobs", x => x.Id);
+                })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -172,7 +201,7 @@ namespace Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
-                    Content = table.Column<byte[]>(type: "longblob", maxLength: 2097152, nullable: false),
+                    BlobId = table.Column<Guid>(type: "char(36)", nullable: false),
                     ContentType = table.Column<string>(type: "longtext", nullable: false),
                     MIME_Type = table.Column<string>(type: "longtext", nullable: false),
                     Downloads = table.Column<int>(type: "int", nullable: false),
@@ -883,6 +912,12 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AssignmentFiles");
+
+            migrationBuilder.DropTable(
+                name: "EFLargeBlobChunks");
+
+            migrationBuilder.DropTable(
+                name: "EFLargeBlobs");
 
             migrationBuilder.DropTable(
                 name: "Reports");

@@ -5,32 +5,30 @@
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class raaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh : Migration
+    public partial class bissiKleinaWiedaWieda : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<byte[]>(
-                name: "Content",
-                table: "Files",
-                type: "longblob",
-                maxLength: 2097152,
+                name: "Data",
+                table: "EFLargeBlobChunks",
+                type: "varbinary(10000)",
                 nullable: false,
                 oldClrType: typeof(byte[]),
-                oldType: "BLOB");
+                oldType: "varbinary(15000)");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<byte[]>(
-                name: "Content",
-                table: "Files",
-                type: "BLOB",
+                name: "Data",
+                table: "EFLargeBlobChunks",
+                type: "varbinary(15000)",
                 nullable: false,
                 oldClrType: typeof(byte[]),
-                oldType: "longblob",
-                oldMaxLength: 2097152);
+                oldType: "varbinary(10000)");
         }
     }
 }

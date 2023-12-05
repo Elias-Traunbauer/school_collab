@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231204082036_raaahhhhhhhhhhhhhhh")]
-    partial class raaahhhhhhhhhhhhhhh
+    [Migration("20231205113316_crazymazy")]
+    partial class crazymazy
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,9 +229,8 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Content")
-                        .IsRequired()
-                        .HasColumnType("BLOB");
+                    b.Property<Guid>("BlobId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ContentType")
                         .IsRequired()
@@ -767,6 +766,46 @@ namespace Persistence.Migrations
                     b.ToTable("UserSession");
                 });
 
+            modelBuilder.Entity("EntityFramework.LargeBlobs.Models.EFLargeBlob", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EFLargeBlobs");
+                });
+
+            modelBuilder.Entity("EntityFramework.LargeBlobs.Models.EFLargeBlobChunk", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(8000)");
+
+                    b.Property<Guid>("EFLargeBlobId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EFLargeBlobId");
+
+                    b.ToTable("EFLargeBlobChunks");
+                });
+
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
                 {
                     b.HasOne("Core.Entities.Database.Group", "Group")
@@ -1078,6 +1117,17 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EntityFramework.LargeBlobs.Models.EFLargeBlobChunk", b =>
+                {
+                    b.HasOne("EntityFramework.LargeBlobs.Models.EFLargeBlob", "EFLargeBlob")
+                        .WithMany()
+                        .HasForeignKey("EFLargeBlobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EFLargeBlob");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
