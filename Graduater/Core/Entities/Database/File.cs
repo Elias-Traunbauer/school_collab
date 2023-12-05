@@ -10,7 +10,7 @@ public class File : DatabaseEntity, IFile {
 
     [Required]
     [MaxLength(2097152)]
-    public byte[] Content { get; set; } = null!;
+    public byte[] Content { get; set; } = new byte[0];
 
     public string ContentType { get; set; } = string.Empty;
 
