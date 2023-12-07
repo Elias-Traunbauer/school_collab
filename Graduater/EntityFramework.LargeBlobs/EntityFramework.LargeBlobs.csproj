@@ -23,11 +23,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\Desktop\largeblobs.md">
+    <None Include="..\..\..\..\..\..\Desktop\largeblobs.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\..\..\..\..\Documents\Lightshot\Screenshot_7.png">
+    <None Include="..\..\..\..\..\..\Documents\Lightshot\Screenshot_7.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
