@@ -25,12 +25,30 @@ namespace Trauni.EntityFramework.LargeBlobs
 
         public void DeleteBlob(Guid Id)
         {
-            var blob = applicationDbContext.EFLargeBlobs.SingleOrDefaultAsync(x => x.Id == Id);
+            var blob = applicationDbContext.EFLargeBlobs.SingleOrDefault(x => x.Id == Id);
+            if (blob == null)
+            {
+                throw new InvalidOperationException("Blob not found");
+            }
+
+            var chunks = applicationDbContext.EFLargeBlobChunks.Where(x => x.EFLargeBlobId == Id);
+            applicationDbContext.EFLargeBlobChunks.RemoveRange(chunks);
+            applicationDbContext.EFLargeBlobs.Remove(blob);
+            applicationDbContext.SaveChanges();
         }
 
-        public Task DeleteBlobAsync(Guid Id)
+        public async Task DeleteBlobAsync(Guid Id)
         {
-            throw new NotImplementedException();
+            var blob = await applicationDbContext.EFLargeBlobs.SingleOrDefaultAsync(x => x.Id == Id);
+            if (blob == null)
+            {
+                throw new InvalidOperationException("Blob not found");
+            }
+
+            var chunks = applicationDbContext.EFLargeBlobChunks.Where(x => x.EFLargeBlobId == Id);
+            applicationDbContext.EFLargeBlobChunks.RemoveRange(chunks);
+            applicationDbContext.EFLargeBlobs.Remove(blob);
+            await applicationDbContext.SaveChangesAsync();
         }
 
         public byte[] ReadBlob(Guid Id)
