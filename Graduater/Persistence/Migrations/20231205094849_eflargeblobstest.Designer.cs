@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231205094849_eflargeblobstest")]
+    partial class eflargeblobstest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -785,7 +788,7 @@ namespace Persistence.Migrations
 
                     b.Property<byte[]>("Data")
                         .IsRequired()
-                        .HasColumnType("varbinary(8000)");
+                        .HasColumnType("varbinary(60000)");
 
                     b.Property<Guid>("EFLargeBlobId")
                         .HasColumnType("char(36)");
@@ -797,8 +800,6 @@ namespace Persistence.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EFLargeBlobId");
 
                     b.ToTable("EFLargeBlobChunks");
                 });
@@ -1114,17 +1115,6 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EntityFramework.LargeBlobs.Models.EFLargeBlobChunk", b =>
-                {
-                    b.HasOne("EntityFramework.LargeBlobs.Models.EFLargeBlob", "EFLargeBlob")
-                        .WithMany()
-                        .HasForeignKey("EFLargeBlobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EFLargeBlob");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
