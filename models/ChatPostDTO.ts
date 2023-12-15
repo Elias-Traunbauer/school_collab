@@ -1,5 +1,5 @@
 export default interface ChatPostDTO {
-    chatMembers: number[];
+    members: number[];
     description: string;
     name: string;
 }

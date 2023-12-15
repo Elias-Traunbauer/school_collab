@@ -183,9 +183,6 @@
 }
 
 .newChatDialog{
-    // put in the center of the screen
-
-// if scrren height is less than 800px make it smaller
     @media screen and (max-height: 800px) {
         font-size: small;
         &>div{
@@ -201,10 +198,9 @@
         }
     }
 
-    position: fixed;
-    top: 50%;
+    position: absolute;
     left: 50%;
-    transform: translate(-45%, -40%);
+    transform: translate(-46%, 0);
     z-index: 100;
     width: 50%;
     border: none;
@@ -281,8 +277,7 @@
         min-height: 5em;
         max-height: 15em;
     }
-    min-height: 15em;
-    max-height: 15em;
+    height: 15em;
     overflow-y: scroll;
     overflow-x: hidden;
     padding: .5em;

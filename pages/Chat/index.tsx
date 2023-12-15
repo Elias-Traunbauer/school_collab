@@ -129,10 +129,6 @@ export default function DisplayChat() {
 
     function handleCancelCreateNewChat() {
         const newChatDialog = document.getElementById('newChatDialog') as HTMLDialogElement;
-
-
-
-
         newChatDialog.close();
     }
 
@@ -147,7 +143,7 @@ export default function DisplayChat() {
         const tmpName = (document.getElementById('newChatName') as HTMLInputElement).value;
 
         const newChat:ChatPostDTO = {
-            chatMembers: tmpChatMembers,
+            members: tmpChatMembers,
             description: tmpDescription,
             name: tmpName
         };
@@ -161,6 +157,7 @@ export default function DisplayChat() {
     }
 
     function handleChangeNewMembers(add: boolean, user: User) {
+        console.log(add, user);
         if (add) {
             setNewChatMembers([...newChatMembers, user]);
         }
@@ -170,12 +167,17 @@ export default function DisplayChat() {
         }
     }
 
+    useEffect(() => {
+        console.log(newChatMembers);
+    }, [newChatMembers]);
+
     function handleSearchMembers(e:ChangeEvent){
         const inputElement = e.target as HTMLInputElement;
         const targetName = inputElement.value;
 
        searchUser(targetName).then((res) => {
-        setDisplayMembers(res);
+            console.log(res);
+            setDisplayMembers(res);
        });
     }
 

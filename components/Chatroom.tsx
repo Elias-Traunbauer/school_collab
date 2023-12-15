@@ -19,8 +19,8 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
   const [chat, setChat] = useState<Chat>(chatParam);
 
   useEffect(() => {
+    console.log("CHATROOM", chatParam);
     async function fetchData() {
-      console.log("CHATROOM",chatParam);
 
       if (!chatParam) {
         return;
@@ -144,6 +144,7 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
     const message = input.value;
     if (message.length > 0) {
       input.value = "";
+      console.log("SENT");
       await sendMessage(chat.id, message, answer && answer.id);
       setAnswer(null);
     }

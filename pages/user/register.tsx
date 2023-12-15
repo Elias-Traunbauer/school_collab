@@ -35,6 +35,14 @@ export default function Register() {
       setAgbAgreed(true);
     }
 
+    const btn = document.getElementById("submitInput") as HTMLInputElement;
+    const loader = document.getElementById("btnLoader") as HTMLDivElement;
+
+
+    btn.disabled = true;
+    btn.value = "";
+    loader.classList.remove("hidden");
+
     registerUser(user)
       .then((res) => {
         if(res == 200){
@@ -49,6 +57,10 @@ export default function Register() {
         else{
           console.error(err);
         }
+
+        btn.disabled = false;
+        loader.classList.add("hidden");
+        btn.value = "registrieren";
       });
   }
 
@@ -159,7 +171,10 @@ export default function Register() {
         </div>
 
         <div className={styles.buttonContainer}>
-          <input type="submit" value={"submit"}></input>
+        <input id="submitInput" type="submit" value={"registrieren"}></input>
+          <div id="btnLoader" className="loadingObject hidden">
+            <div className="btnLoader"></div>
+          </div>
         </div>
 
         <div className={styles.linkContainer}>
