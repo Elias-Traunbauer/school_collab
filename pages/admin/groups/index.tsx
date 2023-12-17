@@ -11,7 +11,9 @@ export default function Groups() {
 
     useEffect(() => {
         getAllGroups().then(groups => {
-            setGroups(groups);
+
+
+            setGroups(groups.sort((a,b) => a.name.localeCompare(b.name)));
             setDisplayedGroups(groups);
         });
     }, []);
@@ -35,18 +37,7 @@ export default function Groups() {
             </div>
             <div>
                 {displayedGroups.map(group => (
-                    <div key={group.id} onClick={() => router.push(`/groups/${group.id}`)}>
-                        <div>
-                            <h1>{group.name}</h1>
-                        </div>
-                        <div>
-                            <p>{group.description}</p>
-                        </div>
-                    </div>
-                ))}
-
-                {displayedGroups.map(group => (
-                    <div key={group.id} onClick={() => router.push(`/groups/${group.id}`)}>
+                    <div key={group.id} onClick={() => router.push(`./groups/${group.id}`)}>
                         <div>
                             <h1>{group.name}</h1>
                         </div>

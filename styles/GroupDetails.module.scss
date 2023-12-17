@@ -1,0 +1,41 @@
+.container{
+    display: flex; 
+    flex-direction: column;
+    width: 90%;
+    margin: 2rem;
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    
+
+    & > div{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+
+        & > h1{
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        & > div:not(:first-child){
+            display:flex;
+            width: 100%;
+            flex-direction: row;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: var(--background_2);
+            border-radius: .5rem;
+
+            & > p{
+                width: 25%;
+                background-color: var(--background_1);
+                padding: .5rem 1rem;
+                border-radius: .5rem;
+            }
+        }
+    }
+}
