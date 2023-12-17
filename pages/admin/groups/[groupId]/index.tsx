@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Group from "../../../../models/Group";
 import { useRouter } from "next/router";
 import { getGroupById } from "../../../../services/Group.service";
@@ -18,29 +19,44 @@ export default function GroupDetails() {
     }, [router.query]);
 
     return (
-        <div className={styles.container}>
-                {group && (
-                    <div>
-                        <h1>{group.name}</h1>
-                        <p>{group.description}</p>
-
+        <>
+            <div className={styles.container}>
+                    {group && (
                         <div>
-                            <p>Username</p>
-                            <p>Vorname</p>
-                            <p>Nachname</p>
-                            <p>E-Mail</p>
-                        </div>
+                            <h1>{group.name}</h1>
+                            <p>{group.description}</p>
+                            <h2>Users ({group.groupUsers.length})</h2>
 
-                        {group.groupUsers.map(user => (
-                            <div key={user.id}>
-                                <p>{user.user.username}</p>
-                                <p>{user.user.firstName}</p>
-                                <p>{user.user.lastName}</p>
-                                <p>{user.user.email}</p>
-                            </div>
-                        ))}
-                    </div>
-                )}
-        </div>
+                            <div>
+                                {group.groupUsers.map(user => (
+                                    <div key={user.id}>
+                                        <Image width={30} height={30} src={'/person.svg'} alt={''}></Image>
+                                        <p>{user.user.firstName} {user.user.lastName}</p>
+                                    </div>
+                                ))}
+
+                                {group.groupUsers.map(user => (
+                                    <div key={user.id}>
+                                        <Image width={30} height={30} src={'/person.svg'} alt={''}></Image>
+                                        <p>{user.user.firstName} {user.user.lastName}</p>
+                                    </div>
+                                ))}
+                            </div>   
+                        </div>
+                    )}
+
+                    {group && (
+                        <div>
+                            <h2>Assignments ({group.assignments.length})</h2>   
+                            {group.assignments.map(assignment => (
+                                <div key={assignment.id}>
+                                    <h2>{assignment.title}</h2>
+                                    <p>{assignment.description}</p>
+                                    </div>
+                            ))}
+                        </div>
+                    )}
+            </div>
+        </>
     )
 }

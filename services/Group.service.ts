@@ -1,5 +1,7 @@
+import Assignment from "../models/Assignment";
 import Group from "../models/Group";
 import GroupPostDTO from "../models/GroupPostDTO";
+import { getAllAssignments } from "./Assignment.service";
 const url = '/api/Group';
 
 export async function getAllGroups(): Promise<Group[]> {
@@ -35,6 +37,11 @@ export function getGroupById(id: number){
         throw error;
     }*/
 
+    var assignments: Assignment[] = [];
+    getAllAssignments().then((data) => {
+        assignments = data as Assignment[];
+    });
+
     const grp: Group = {
         id: 1,
         name: "Gruppenname",
@@ -49,6 +56,7 @@ export function getGroupById(id: number){
         },
         creatorUserId: 1,
         version: "1",
+        assignments: assignments,
         groupUsers: [
             {
                 id: 1,

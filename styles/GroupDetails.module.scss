@@ -1,41 +1,59 @@
 .container{
     display: flex; 
-    flex-direction: column;
+    flex-direction: row;
+    gap: 2rem;
     width: 90%;
-    margin: 2rem;
-    padding: 1rem;
-    align-items: center;
-    justify-content: center;
+    margin: 1rem;
+    padding: 1rem 2rem;
+    align-items: left;
+    justify-content: left;
     border-radius: 1rem;
-    
 
-    & > div{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 80%;
+    & > div:first-child{
+        padding: .5rem;
+        width: 30%;
+        background-color: var(--background_1);
+        border-radius: .3rem;
 
         & > h1{
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            text-align: center;
         }
 
-        & > div:not(:first-child){
-            display:flex;
-            width: 100%;
-            flex-direction: row;
-            gap: 1rem;
-            padding: 1rem;
-            background-color: var(--background_2);
-            border-radius: .5rem;
+        & > h2{
+            padding-left: 1rem;
+        }
 
-            & > p{
-                width: 25%;
-                background-color: var(--background_1);
-                padding: .5rem 1rem;
-                border-radius: .5rem;
+        & > p{
+            padding-left: 1rem;
+        }
+
+        & > div{
+            height: 15rem;
+            overflow-y: scroll;
+
+            & > div{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                padding: .5rem;
+                margin: .5rem;
+                border-radius: .3rem;
+                gap: .5rem;
+                background-color: var(--background_2);
+
+                & > img{
+                    width: 10%;
+                }
+
+                & > p{
+                    width: 80%;
+                }
             }
         }
+    }
+
+    & > div:last-child(){
+        background-color: green;
     }
 }
