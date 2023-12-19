@@ -35,13 +35,6 @@ export default function GroupDetails() {
                                         <button className="btn-primary">x</button>
                                     </div>
                                 ))}
-
-                                {group.groupUsers.map(user => (
-                                    <div key={user.id}>
-                                        <Image width={30} height={30} src={'/person.svg'} alt={''}></Image>
-                                        <p>{user.user.firstName} {user.user.lastName}</p>
-                                    </div>
-                                ))}
                             </div>   
                         </div>
                     )}
