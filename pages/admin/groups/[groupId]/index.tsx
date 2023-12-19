@@ -32,6 +32,7 @@ export default function GroupDetails() {
                                     <div key={user.id}>
                                         <Image width={30} height={30} src={'/person.svg'} alt={''}></Image>
                                         <p>{user.user.firstName} {user.user.lastName}</p>
+                                        <button className="btn-primary">x</button>
                                     </div>
                                 ))}
 
@@ -42,18 +43,6 @@ export default function GroupDetails() {
                                     </div>
                                 ))}
                             </div>   
-                        </div>
-                    )}
-
-                    {group && (
-                        <div>
-                            <h2>Assignments ({group.assignments.length})</h2>   
-                            {group.assignments.map(assignment => (
-                                <div key={assignment.id}>
-                                    <h2>{assignment.title}</h2>
-                                    <p>{assignment.description}</p>
-                                    </div>
-                            ))}
                         </div>
                     )}
             </div>

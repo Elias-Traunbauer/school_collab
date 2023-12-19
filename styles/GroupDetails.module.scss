@@ -11,7 +11,7 @@
 
     & > div:first-child{
         padding: .5rem;
-        width: 30%;
+        width: 100%;
         background-color: var(--background_1);
         border-radius: .3rem;
 
@@ -28,26 +28,32 @@
         }
 
         & > div{
-            height: 15rem;
+            height: 14rem;
             overflow-y: scroll;
 
             & > div{
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                justify-content: space-between;
-                padding: .5rem;
+                //justify-content: space-between;
+                padding: .5rem 1rem;
                 margin: .5rem;
+                gap: 5%;
                 border-radius: .3rem;
-                gap: .5rem;
                 background-color: var(--background_2);
 
                 & > img{
-                    width: 10%;
+                    width: 5%;
                 }
 
                 & > p{
-                    width: 80%;
+                    width: 85%;
+                }
+
+                & > button{
+                    justify-self: flex-end;
+                    width: 5%;
+                    padding: .5rem 1rem;
                 }
             }
         }
