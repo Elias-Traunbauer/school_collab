@@ -3,6 +3,7 @@ using Core.Contracts.Entities;
 using Core.Contracts.Models;
 using Core.Contracts.Services;
 using Core.Entities.Models;
+using Trauni.EntityFramework.LargeBlobs;
 using Persistence;
 
 namespace Service.Services
@@ -11,11 +12,13 @@ namespace Service.Services
     {
         private readonly ApiConfig _config;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEFLargeBlobService<ApplicationDbContext> _eFLargeBlobService;
 
-        public FileService(IUnitOfWork uow, ApiConfig apiConfig)
+        public FileService(IUnitOfWork uow, IEFLargeBlobService<ApplicationDbContext> eFLargeBlobService, ApiConfig apiConfig)
         {
             _config = apiConfig;
             _unitOfWork = uow;
+            _eFLargeBlobService = eFLargeBlobService;
         }
 
         public async Task<IServiceResult> DeleteFileAsync(int id)
@@ -37,6 +40,8 @@ namespace Service.Services
             {
                 return new ServiceResult<IFile>("Id", "File not found");
             }
+            file.Content = await _eFLargeBlobService.ReadBlobAsync(file.BlobId);
+            await _unitOfWork.SaveChangesAsync();
             return new ServiceResult<IFile>(file);
         }
 
@@ -56,12 +61,12 @@ namespace Service.Services
             }
             byte[] fileContent = new byte[content.Length];
             await content.ReadAsync(fileContent.AsMemory(0, (int)content.Length), cancellationToken);
-
+            var blobId = await _eFLargeBlobService.StoreBlobAsync(fileContent);
             Core.Entities.Database.File file = new()
             {
                 Name = filename,
                 ContentType = fileExtension,
-                Content = fileContent,
+                BlobId = blobId,
                 UploadedById = userId,
                 MIME_Type = contentType,
                 Size = content.Length

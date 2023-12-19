@@ -11,6 +11,7 @@ namespace Core.Contracts
         public ISubjectRepository SubjectRepository { get; }
         public IChatRepository ChatRepository { get; }
         public ISummaryRepository SummaryRepository { get; }
+        public IGenericRepository<int> GenericRepository { get; }
 
         public Task<bool> SaveChangesAsync();
     }

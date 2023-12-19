@@ -25,6 +25,8 @@ namespace Service.Test.Mocks
 
         public ISummaryRepository SummaryRepository => throw new NotImplementedException();
 
+        public IGenericRepository<int> GenericRepository => throw new NotImplementedException();
+
         public UnitOfWorkForTests()
         {
             _appDbContext = new ApplicationDbContextForTesting();
