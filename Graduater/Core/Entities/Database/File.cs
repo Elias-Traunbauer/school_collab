@@ -8,9 +8,20 @@ public class File : DatabaseEntity, IFile {
     [Required]
     public string Name { get; set; } = string.Empty;
 
-    [Required]
+    [NotMapped]
+    public byte[] Content {
+        get
+        {
+            return Convert.FromBase64String(ContentBase64);
+        }
+        set
+        {
+            ContentBase64 = Convert.ToBase64String(value);
+        }
+    }
+
     [MaxLength(2097152)]
-    public byte[] Content { get; set; } = null!;
+    public string ContentBase64 {get; set;} = string.Empty;
 
     public string ContentType { get; set; } = string.Empty;
 

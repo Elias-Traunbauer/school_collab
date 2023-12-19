@@ -28,8 +28,6 @@ namespace Persistence.Repositories
             var file = await _context.Files.Where(x => x.Id == id).SingleOrDefaultAsync();
             file!.Downloads++;
 
-            await _context.Entry(file).Property(f => f.Content).EntityEntry.ReloadAsync();
-
             return file;
         }
 
