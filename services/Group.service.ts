@@ -48,10 +48,10 @@ export function getGroupById(id: number){
         description: "Das ist die Beschreibung der Gruppe",
         creatorUser: {
             id: 1,
-            username: "jdoe",
-            firstName: "John",
-            lastName: "Doe",
-            email: "",
+            username: "trauni",
+            firstName: "Elias",
+            lastName: "Traunbauer",
+            email: "email@gmail.com",
             version: "1"
         },
         creatorUserId: 1,
@@ -68,7 +68,7 @@ export function getGroupById(id: number){
                     username: "jdoe",
                     firstName: "John",
                     lastName: "Doe",
-                    email: "",
+                    email: "email@gmail.com",
                     version: "1"
                 }
             },
@@ -82,7 +82,7 @@ export function getGroupById(id: number){
                     username: "jdoe",
                     firstName: "John",
                     lastName: "Doe",
-                    email: "",
+                    email: "email@gmail.com",
                     version: "1"
                 }
             },
@@ -96,7 +96,7 @@ export function getGroupById(id: number){
                     username: "jdoe",
                     firstName: "John",
                     lastName: "Doe",
-                    email: "",
+                    email: "email@gmail.com",
                     version: "1"
                 }
             }

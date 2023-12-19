@@ -38,24 +38,28 @@
                 //justify-content: space-between;
                 padding: .5rem 1rem;
                 margin: .5rem;
-                gap: 5%;
+                gap: 6%;
                 border-radius: .3rem;
                 background-color: var(--background_2);
 
                 & > img{
-                    width: 5%;
+                    width: 6%;
                     padding: 0;
                 }
 
                 & > p{
-                    width: 85%;
+                    width: 35%;
                 }
 
                 & > button{
                     justify-self: flex-end;
-                    width: 5%;
+                    width: 6%;
                     padding: .5rem 1rem;
                 }
+            }
+
+            & > div:first-child{
+                background-color: var(--color_main);
             }
         }
     }
