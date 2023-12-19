@@ -4,24 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities.Database;
 
-public class File : DatabaseEntity, IFile {
+public class File : DatabaseEntity, IFile
+{
     [Required]
     public string Name { get; set; } = string.Empty;
 
-    [NotMapped]
-    public byte[] Content {
-        get
-        {
-            return Convert.FromBase64String(ContentBase64);
-        }
-        set
-        {
-            ContentBase64 = Convert.ToBase64String(value);
-        }
-    }
-
-    [MaxLength(2097152)]
-    public string ContentBase64 {get; set;} = string.Empty;
+    public Guid BlobId { get; set; }
 
     public string ContentType { get; set; } = string.Empty;
 
@@ -40,4 +28,6 @@ public class File : DatabaseEntity, IFile {
     public int UploadedById { get; set; }
 
     public long Size { get; set; }
+    [NotMapped]
+    public byte[] Content { get; set; } = Array.Empty<byte>();
 }

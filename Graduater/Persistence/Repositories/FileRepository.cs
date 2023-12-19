@@ -26,6 +26,10 @@ namespace Persistence.Repositories
         public async Task<IFile?> GetFileWithContentByIdAsync(int id)
         {
             var file = await _context.Files.Where(x => x.Id == id).SingleOrDefaultAsync();
+            if (file == null)
+            {
+                throw new FileNotFoundException();
+            }
             file!.Downloads++;
 
             return file;

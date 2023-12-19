@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231205102345_blob8kTest")]
+    partial class blob8kTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -798,8 +801,6 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EFLargeBlobId");
-
                     b.ToTable("EFLargeBlobChunks");
                 });
 
@@ -1114,17 +1115,6 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EntityFramework.LargeBlobs.Models.EFLargeBlobChunk", b =>
-                {
-                    b.HasOne("EntityFramework.LargeBlobs.Models.EFLargeBlob", "EFLargeBlob")
-                        .WithMany()
-                        .HasForeignKey("EFLargeBlobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EFLargeBlob");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
