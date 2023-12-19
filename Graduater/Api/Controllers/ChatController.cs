@@ -59,7 +59,7 @@ namespace Api.Controllers
             var userInfo = HttpContext.GetUserInfo();
 
             var messages = await chatService.GetMessages(chatId, userInfo.User!.Id, start, startCount, count);
-            
+
             return Ok(await chatService.AddMessageMetadata(messages.Value!, userInfo.User!.Id));
         }
 
