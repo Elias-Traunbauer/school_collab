@@ -10,5 +10,6 @@ namespace Core.Contracts.Services
 {
     public interface ISummaryService : IEZCRUDService<CreateSummaryRequest, Summary, int>
     {
+        List<Summary>? GetBySubject(int id);
     }
 }

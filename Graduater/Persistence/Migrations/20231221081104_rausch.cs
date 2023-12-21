@@ -7,28 +7,12 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class eflargeblobstest : Migration
+    public partial class rausch : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "EFLargeBlobChunks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Index = table.Column<int>(type: "int", nullable: false),
-                    Size = table.Column<int>(type: "int", nullable: false),
-                    EFLargeBlobId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Data = table.Column<byte[]>(type: "varbinary(60000)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EFLargeBlobChunks", x => x.Id);
-                })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -61,6 +45,28 @@ namespace Persistence.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "EFLargeBlobChunks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Index = table.Column<int>(type: "int", nullable: false),
+                    Size = table.Column<int>(type: "int", nullable: false),
+                    EFLargeBlobId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Data = table.Column<byte[]>(type: "varbinary(8000)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EFLargeBlobChunks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EFLargeBlobChunks_EFLargeBlobs_EFLargeBlobId",
+                        column: x => x.EFLargeBlobId,
+                        principalTable: "EFLargeBlobs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Summaries",
                 columns: table => new
                 {
@@ -69,11 +75,18 @@ namespace Persistence.Migrations
                     Title = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
                     Content = table.Column<string>(type: "longtext", nullable: false),
+                    SubjectId = table.Column<int>(type: "int", nullable: false),
                     Version = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Summaries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Summaries_Subjects_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subjects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -645,6 +658,11 @@ namespace Persistence.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EFLargeBlobChunks_EFLargeBlobId",
+                table: "EFLargeBlobChunks",
+                column: "EFLargeBlobId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Files_OwnerId",
                 table: "Files",
                 column: "OwnerId");
@@ -785,6 +803,11 @@ namespace Persistence.Migrations
                 column: "UserSessionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Summaries_SubjectId",
+                table: "Summaries",
+                column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
                 table: "Users",
                 column: "Email",
@@ -917,10 +940,10 @@ namespace Persistence.Migrations
                 name: "EFLargeBlobChunks");
 
             migrationBuilder.DropTable(
-                name: "EFLargeBlobs");
+                name: "Reports");
 
             migrationBuilder.DropTable(
-                name: "Reports");
+                name: "EFLargeBlobs");
 
             migrationBuilder.DropTable(
                 name: "Assignments");
@@ -947,9 +970,6 @@ namespace Persistence.Migrations
                 name: "UserSession");
 
             migrationBuilder.DropTable(
-                name: "Subjects");
-
-            migrationBuilder.DropTable(
                 name: "Chats");
 
             migrationBuilder.DropTable(
@@ -972,6 +992,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Subjects");
         }
     }
 }

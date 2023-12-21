@@ -25,6 +25,7 @@ namespace Service.Services
             summary.Content = model.Content;
             summary.Title = model.Title;
             summary.Description = model.Description;
+            summary.SubjectId = model.SubjectId;
 
             await _unitOfWork.GenericRepository.AddAsync(summary);
             await _unitOfWork.SaveChangesAsync();
@@ -35,6 +36,11 @@ namespace Service.Services
         {
             await _unitOfWork.GenericRepository.DeleteAsync<Summary>(id);
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public List<Summary>? GetBySubject(int id)
+        {
+            return _unitOfWork.GenericRepository.Query<Summary>().Where(x => x.SubjectId == id).ToList();
         }
 
         public async Task<Summary> ReadAsync(int id)

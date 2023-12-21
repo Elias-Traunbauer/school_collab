@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj": {}
+    "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj": {
+    "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj",
+        "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\trauni\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\obj\\",
+        "outputPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",

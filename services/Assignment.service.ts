@@ -107,18 +107,12 @@ export async function updateAssignment(assignment: AssignmentDTO){
   }
 }
 
-async function getAssignmentBySubjectId(subjectId:number){
+export async function getAssignmentBySubjectId(subjectId:number): Promise<Assignment[]>{
   try {
-    const response = await fetch(url+'/subject/'+subjectId, {
-      method: 'GET'
-    });
-    if (response.status != 200) {
-      throw response;
-    }
+    const response = await getAllAssignments();
+
     
-    const data = await response.json();
-    
-    return data;
+    return response.filter((assignment:Assignment) => assignment.subjectId === subjectId);
   } catch (error) {
     
     throw error;

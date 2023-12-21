@@ -4,7 +4,7 @@ import AssignmentCard from '../../../components/AssignmentCard';
 import Image from 'next/image';
 import { useRouter } from 'next/router'
 import Assignment from '../../../models/Assignment';
-import {getAllAssignments} from '../../../services/Assignment.service';
+import {getAssignmentBySubjectId} from '../../../services/Assignment.service';
 import UserContext from '../../../components/UserContext'
 import { get } from 'http';
 import Group from '../../../models/Group';
@@ -34,7 +34,7 @@ export default function Assignments() {
             const tmpSubject = await getSubjectById(subjectIdToNumber);
             console.log("SUBJECT", tmpSubject);
             setSubject(tmpSubject);
-            getAllAssignments().then((res) => {
+            getAssignmentBySubjectId(subjectIdToNumber).then((res) => {
                 
                 /* filter assignments by subjectId
                 res = res.filter((assignment) => {

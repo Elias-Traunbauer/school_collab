@@ -11,5 +11,7 @@ namespace Core.Contracts
         Task UpdateAsync<T>(T entity) where T : DatabaseEntity;
 
         Task<bool> DeleteAsync<T>(Id Id) where T : DatabaseEntity;
+
+        IQueryable<T> Query<T>() where T : DatabaseEntity;
     }
 }

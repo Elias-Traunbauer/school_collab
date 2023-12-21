@@ -41,6 +41,11 @@ namespace Persistence.Repositories
             return obj;
         }
 
+        public IQueryable<T> Query<T>() where T : DatabaseEntity
+        {
+            return appDbContext.Set<T>();
+        }
+
         public async Task UpdateAsync<T>(T entity) where T : DatabaseEntity
         {
             appDbContext.Update(entity);
