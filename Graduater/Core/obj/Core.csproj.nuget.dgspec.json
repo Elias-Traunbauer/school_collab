@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj": {}
+    "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj": {}
   },
   "projects": {
-    "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj": {
+    "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\43660\\.nuget\\packages\\",
-        "outputPath": "C:\\School\\school_collab\\Graduater\\Core\\obj\\",
+        "projectPath": "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\trauni\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\43660\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
