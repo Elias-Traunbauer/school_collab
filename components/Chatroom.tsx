@@ -82,7 +82,7 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
     return () => {
       sse.close();
     };
-  }, [chat]);
+  }, [chat?.id]);
 
   useEffect(() => {
     console.log("CHAT", chat);
@@ -172,7 +172,7 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
     if (!chat || !chat.chatMessages) {
       return <></>;
     }
-    let currentDate = chat.chatMessages[0].created;
+    let currentDate = chat.chatMessages.length > 0 ? chat.chatMessages[0].created : new Date();
     return (
       <>
         {chat.chatMessages.map((message, index) => {
