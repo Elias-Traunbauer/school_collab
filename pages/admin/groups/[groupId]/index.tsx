@@ -11,12 +11,27 @@ export default function GroupDetails() {
     const [group, setGroup] = useState<Group>(null);
 
     useEffect(() => {
-        const groupId = router.query;
-        if (groupId) {
-            const group = getGroupById(groupId as unknown as number);
-            setGroup(group);
+        async function fetchDataAsync() {
+            const groupId = router.query;
+            if (groupId) {
+                const group = getGroupById(groupId as unknown as number);
+                setGroup(group);
+            }
         }
+        fetchDataAsync();
+        
     }, [router.query]);
+
+    function addUser(){
+        console.log("addUser");
+    }
+
+    function removeUser(id: number){
+        const newGroup = {...group};
+        newGroup.groupUsers = group.groupUsers.filter(user => user.userId !== id);
+        
+        setGroup(newGroup);
+    }
 
     return (
         <>
@@ -25,7 +40,12 @@ export default function GroupDetails() {
                         <div>
                             <h1>{group.name}</h1>
                             <p>{group.description}</p>
-                            <h2>Users ({group.groupUsers.length})</h2>
+
+                            <div>
+                                <h2>Users ({group.groupUsers.length})</h2>
+                                <button className="btn-secondary" onClick={addUser}>+ Hinzufügen</button>
+                            </div>
+                            
 
                             <div>
                                 <div>
@@ -35,11 +55,11 @@ export default function GroupDetails() {
                                 </div>
 
                                 {group.groupUsers.map(user => (
-                                    <div key={user.id}>
+                                    <div key={user.userId}>
                                         <Image width={30} height={30} src={'/person.svg'} alt={''}></Image>
                                         <p>{user.user.firstName} {user.user.lastName}</p>
                                         <p>{user.user.email}</p>
-                                        <button className="btn-primary">x</button>
+                                        <button className="btn-primary" onClick={() => removeUser(user.userId)}>x</button>
                                     </div>
                                 ))}
                             </div>   

@@ -10,7 +10,7 @@
     border-radius: 1rem;
 
     & > div:first-child{
-        padding: .5rem;
+        padding: 1rem;
         width: 100%;
         background-color: var(--background_1);
         border-radius: .5rem;
@@ -19,25 +19,31 @@
             text-align: center;
         }
 
-        & > h2{
-            padding-left: 1rem;
+        & > div:not(:last-child){
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            & > h2{
+                margin: .7rem 0;
+            }
+
+            & > button{
+            }
         }
 
-        & > p{
-            padding-left: 1rem;
-        }
-
-        & > div{
+        & > div:last-child{
             height: 14rem;
             overflow-y: scroll;
+            padding-right: .5rem;
 
             & > div{
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                //justify-content: space-between;
-                padding: .5rem 1rem;
-                margin: .5rem;
+                padding: .5rem .5rem .5rem 0;
+                margin: .5rem 0;
                 gap: 6%;
                 border-radius: .3rem;
                 background-color: var(--background_2);
@@ -62,9 +68,5 @@
                 background-color: var(--color_main);
             }
         }
-    }
-
-    & > div:last-child(){
-        background-color: green;
     }
 }

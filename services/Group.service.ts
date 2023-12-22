@@ -37,12 +37,7 @@ export function getGroupById(id: number){
         throw error;
     }*/
 
-    var assignments: Assignment[] = [];
-    getAllAssignments().then((data) => {
-        assignments = data as Assignment[];
-    });
-
-    const grp: Group = {
+    let grp: Group = {
         id: 1,
         name: "Gruppenname",
         description: "Das ist die Beschreibung der Gruppe",
@@ -56,15 +51,14 @@ export function getGroupById(id: number){
         },
         creatorUserId: 1,
         version: "1",
-        assignments: assignments,
         groupUsers: [
             {
                 id: 1,
-                userId: 1,
+                userId: 2,
                 groupId: 1,
                 version: "1",
                 user: {
-                    id: 1,
+                    id: 2,
                     username: "jdoe",
                     firstName: "John",
                     lastName: "Doe",
@@ -74,11 +68,11 @@ export function getGroupById(id: number){
             },
             {
                 id: 1,
-                userId: 1,
+                userId: 3,
                 groupId: 1,
                 version: "1",
                 user: {
-                    id: 1,
+                    id: 3,
                     username: "jdoe",
                     firstName: "John",
                     lastName: "Doe",
@@ -88,11 +82,11 @@ export function getGroupById(id: number){
             },
             {
                 id: 1,
-                userId: 1,
+                userId: 4,
                 groupId: 1,
                 version: "1",
                 user: {
-                    id: 1,
+                    id: 4,
                     username: "jdoe",
                     firstName: "John",
                     lastName: "Doe",
@@ -102,6 +96,10 @@ export function getGroupById(id: number){
             }
         ]
     };
+
+    getAllGroups().then((groups) => {
+        grp = groups.at(0);
+    });
 
     return grp;
 
