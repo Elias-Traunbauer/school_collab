@@ -134,3 +134,14 @@
     background-color: var(--color_main);
   padding: 0.3em;
 }
+
+.profilePic{
+    width: 2.8em;
+    height: 2.8em;
+    margin: .5em;
+    border-radius: 50%;
+    background-color: var(--color_main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
