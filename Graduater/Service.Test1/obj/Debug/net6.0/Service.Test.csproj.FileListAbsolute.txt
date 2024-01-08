@@ -1,0 +1,6 @@
+C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service.Test1\bin\Debug\net6.0\CoverletSourceRootsMapping
+C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service.Test1\obj\Debug\net6.0\Service.Test.csproj.AssemblyReference.cache
+C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service.Test1\obj\Debug\net6.0\Service.Test.GeneratedMSBuildEditorConfig.editorconfig
+C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service.Test1\obj\Debug\net6.0\Service.Test.AssemblyInfoInputs.cache
+C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service.Test1\obj\Debug\net6.0\Service.Test.AssemblyInfo.cs
+C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service.Test1\obj\Debug\net6.0\Service.Test.csproj.CoreCompileInputs.cache
