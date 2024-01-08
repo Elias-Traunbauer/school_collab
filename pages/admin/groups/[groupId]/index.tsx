@@ -22,15 +22,15 @@ export default function GroupDetails() {
         
     }, [router.query]);
 
-    function addUser(){
-        console.log("addUser");
-    }
-
     function removeUser(id: number){
         const newGroup = {...group};
         newGroup.groupUsers = group.groupUsers.filter(user => user.userId !== id);
         
         setGroup(newGroup);
+    }
+
+    function addUser(){
+        console.log('addUser');
     }
 
     return (

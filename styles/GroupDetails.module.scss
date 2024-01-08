@@ -29,21 +29,21 @@
                 margin: .7rem 0;
             }
 
-            & > button{
+            & > button:hover{
+                border-radius: .2rem;
             }
         }
 
         & > div:last-child{
-            height: 14rem;
-            overflow-y: scroll;
-            padding-right: .5rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
 
             & > div{
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 padding: .5rem .5rem .5rem 0;
-                margin: .5rem 0;
                 gap: 6%;
                 border-radius: .3rem;
                 background-color: var(--background_2);
@@ -60,7 +60,7 @@
                 & > button{
                     justify-self: flex-end;
                     width: 6%;
-                    padding: .5rem 1rem;
+                    padding: 1rem;
                 }
             }
 
@@ -69,4 +69,8 @@
             }
         }
     }
+}
+
+.addContainer{
+
 }
