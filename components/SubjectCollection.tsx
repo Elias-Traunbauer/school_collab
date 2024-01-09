@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import SubjectItem from "../components/SubjectItem";
 import { Router, useRouter } from "next/router";
-import {getSubjects, getSubjectsOfAssignments, getSubjectsOfSummaries} from '../services/Subject.service'
+import {getSubjects } from '../services/Subject.service'
 import Subject from "../models/Subject";
 
 export default function SummaryList({title,link}: {title: string, link: string,}) {
@@ -12,18 +12,18 @@ export default function SummaryList({title,link}: {title: string, link: string,}
   const router = useRouter();
 
   useEffect(() => {
-    if(link == '/summaries') {
-      getSubjectsOfSummaries().then((subjects) => {
-        setSubjects(subjects);
+    if(link == '/summaries' || true) {
+      getSubjects().then((subjects) => {
         setDisplayedSubjects(subjects);
+        setSubjects(subjects);
+
+        console.log("SUCCESS", subjects);
+      }).catch((err) => {
+        console.log("ERROR", err);
       });
     }
     else if(link == '/assignments') {
-      getSubjectsOfAssignments().then((subjects) => {
-        console.log(subjects);
-        setSubjects(subjects);
-        setDisplayedSubjects(subjects);
-      });
+
     }
     
   }, []);
@@ -60,7 +60,7 @@ export default function SummaryList({title,link}: {title: string, link: string,}
           {
           displayedSubjects.map((subject, i) => {
             return (
-              <SubjectItem link={link} subject={subject} key={i/** TODO: subjectId as key */}></SubjectItem>
+              <SubjectItem link={link} subject={subject} key={subject.id}></SubjectItem>
             )
           })
         }
