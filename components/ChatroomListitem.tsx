@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from '../styles/ChatroomListitem.module.scss';
 import Image from 'next/image';
+import ChatMessage from '../models/ChatMessage';
 export default function ChatroomListitem({
+    key,
     id,
     name,
     profile,
@@ -9,13 +11,15 @@ export default function ChatroomListitem({
     unreadMessages,
     onClick,
   }: {
+    key:number,
     id: number;
     name: string;
-    profile: string;
-    lastMessage: { text: string; createdAt: Date };
-    unreadMessages: number;
-    onClick: () => void;
+    profile?: string;
+    lastMessage: ChatMessage;
+    unreadMessages: ChatMessage[];
+    onClick?: () => void;
   }) {
+    const defaultProfile = 'person.svg';
 
         function unsetActive(){
             const active = document.getElementsByClassName(styles.active);
@@ -25,6 +29,10 @@ export default function ChatroomListitem({
         }
 
         function getDate(date:Date){
+            if(!date){
+                return '';
+            }
+
             const today = new Date();
             const yesterday = new Date(today);
             yesterday.setDate(yesterday.getDate() - 1);
@@ -36,6 +44,17 @@ export default function ChatroomListitem({
                 return date.toLocaleDateString([], { day: '2-digit', month: '2-digit' , year: '2-digit'});
             }
         }
+
+        function PrintChatName() {
+            if (!name) {
+              return <></>;
+            }
+            //first two letters of the name
+            if (name.length > 1)
+              return name.substring(0, 2).toUpperCase();
+            else
+              return name.toUpperCase();
+          }
 
         function handleClick(e){
             unsetActive();
@@ -49,17 +68,19 @@ export default function ChatroomListitem({
         return (
             <div  className={styles.wrapper} onClick={(e)=>handleClick(e)}>
                 <div id={'container_'+id}>
-                    <Image width={30} height={30} src={'/'+profile} alt="profile"></Image>
+                    <div className={styles.profilePic}>
+                        <p>{PrintChatName()}</p>
+                    </div>
                     <div className={styles.body}>
                         <p>{name}</p>
-                        <p>{lastMessage.text}</p>
+                        <p>{lastMessage&&lastMessage.content}</p>
                     </div>
                     <div className={styles.info}>
                         {
-                            unreadMessages > 0 ?
-                            <p className={styles.unreadMessages}>{unreadMessages > 9999?'viele':unreadMessages}</p>
+                            unreadMessages&&unreadMessages.length > 0 ?
+                            <p className={styles.unreadMessages}>{unreadMessages.length > 300?'>300':unreadMessages.length}</p>
                             :
-                            <p className={styles.date}>{getDate(lastMessage.createdAt)}</p>
+                            <p className={styles.date}>{getDate(lastMessage&&lastMessage.created)}</p>
                         }
                         
                     </div>

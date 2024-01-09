@@ -1,17 +1,29 @@
-import styles from '../styles/Navbar.module.css'
+import { useEffect, useState } from 'react';
+import styles from '../styles/Navbar.module.scss'
 import Link from "next/link"
+import { useRouter } from 'next/router';
 
-export default function Navbar() {
+export default function Navbar(){ 
+    const [active, setActive] = useState("");
+    const links = ["", "Chat", "assignments", "polls", "summaries"];
+    const router = useRouter();
+
+    useEffect(() => {
+        setActive(router.pathname.split("/")[1]);
+    }, [router.pathname]);
+
     return (
         <>
             <div className={styles.container}>
-                <Link href="/" className={styles.navactive}>
-                    Home
-                </Link>
-                <Link href="/about">
-                    About
-                </Link>
-                <div className={styles.underline} id="underline"></div>
+                {
+                    links.map((link, index) => {
+                        return (
+                            <Link href={`/${link}`} key={index} className={active === link ? styles.active : ""}>
+                                {link === "" ? "Home": link}
+                            </Link>
+                        )
+                    })
+                }
             </div>
         </>
     );

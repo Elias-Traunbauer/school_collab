@@ -1,133 +1,105 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import styles from "../styles/Chatroom.module.scss";
-import Message from "./Message";
+import MessageComponent from "./MessageComponent";
 import Image from "next/image";
-export default function Chatroom() {
-  const mockName = "alo";
-  const createdAt = new Date(1, 1, 1, 1, 1);
-  const mockuser = { id: 1, name: "alo", color: "red" };
-  const mockMemberList = [
-    {
-      name: "rsheed",
-      color: "blue",
-    },
-    {
-      name: "sebastian",
-      color: "green",
-    },
-  ];
-  const mockDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-const mockProfile = "TestProfile.jpeg";
-  const [profile, setProfile] = useState(mockProfile);
-  const mockmessages = [
-    {
-      id: 1,
-      author: mockuser,
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 2,
-      author: { id: 2, name: "rsheed", color: "blue" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 3,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-    {
-      id: 4,
-      author: { id: 3, name: "sebastian", color: "green" },
-      text: "Hello World",
-      createdAt: new Date(1, 1, 1, 1, 1),
-    },
-  ];
-  const [messages, setMessages] = useState(mockmessages);
-  const [files, setFiles] = useState([]);
+import FileListObject from "./FileListObject";
+import Chat from "../models/Chat";
+import ChatMessage from "../models/ChatMessage";
+import { getMessages, readChat, sendMessage, subscribeToNewMessages, updateChat, updateMessage } from "../services/Chat.service";
+import { get } from "http";
+export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat | undefined , insertMessage: Function}) {
+  const defaultProfile = "person.svg";
   const [infoIsHidden, setInfoIsHidden] = useState(true);
   const [nameEdit, setNameEdit] = useState(false);
-  const [name, setName] = useState(mockName);
-  const [backUpName, setBackUpName] = useState(mockName);
-  const [description, setDescription] = useState(mockDescription);
+  const [answer, setAnswer] = useState<ChatMessage>(null);
+  const [scrollBody, setScrollBody] = useState(false);
+  const [backUpName, setBackUpName] = useState(chatParam&&chatParam.name);
+  const [name, setName] = useState(chatParam&&chatParam.name);
+  const [loadNewMessages, setLoadNewMessages] = useState(false);
+  const [chat, setChat] = useState<Chat>(chatParam);
 
   useEffect(() => {
+    console.log("CHATROOM", chatParam);
+    async function fetchData() {
+
+      if (!chatParam) {
+        return;
+      }
+
+
+      setName(chatParam.name&&chatParam.name);
+
+
+      getMessages(chatParam.id).then((firstMessages) => {
+        chatParam.chatMessages = firstMessages;
+        setChat(chatParam);
+        console.log("FIRSTMESSAGES",chatParam.chatMessages );
+        if(chatParam.chatMessages.length > 0)
+        readChat(chatParam.id, chatParam.chatMessages[chatParam.chatMessages.length - 1].id);
+
+      });
+    }
+    fetchData();
     scrollDown();
-  }, []);
+  }, [chatParam]);
 
   useEffect(() => {
-    scrollDown();
-  }, [messages]);
+    if (!chat) {
+      return;
+    }
+
+    const sse = subscribeToNewMessages();
+
+    console.log("SSE", sse);
+
+    sse.onmessage = (event) => {
+      const res = JSON.parse(event.data);
+      const tmpMessage:ChatMessage = {
+        chatId: res.ChatId,
+        content: res.Content,
+        created: new Date(res.Created),
+        userId: res.User.Id,
+        read: false,
+        id: null,
+        version: "",
+        user: res.User,
+      };
+
+      console.log("tmpMessage.chatId == chat.id",chat.id == tmpMessage.chatId);
+
+      if(tmpMessage.chatId == chat.id){
+        const tmpChat = chat;
+        tmpChat.chatMessages.push(tmpMessage);
+        setChat((chat)=>({...chat,chatMessages:tmpChat.chatMessages}));
+        scrollInstantDown();
+      }
+      else{
+        console.log("OTHER CHAT", tmpMessage);
+        insertMessage(tmpMessage);
+      }
+    };
+
+    return () => {
+      sse.close();
+    };
+  }, [chat?.id]);
+
+  useEffect(() => {
+    console.log("CHAT", chat);
+    scrollInstantDown();
+  }, [chat]);
+
+  function scrollInstantDown() {
+    const chatroom = document.getElementById("chatBody") as HTMLDivElement;
+    chatroom.scrollTo({
+      top: chatroom.scrollHeight,
+      behavior: "auto"
+    });
+  }
 
   function compareDate(currentDate: Date, date: Date) {
+    currentDate = new Date(currentDate);
+    date = new Date(date);
     if (
       currentDate.getDate() == date.getDate() &&
       currentDate.getMonth() == date.getMonth() &&
@@ -140,6 +112,7 @@ const mockProfile = "TestProfile.jpeg";
   }
 
   function getDate(date: Date) {
+    date = new Date(date);
     const month = date.getMonth().toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
     const year = date.getFullYear();
@@ -162,84 +135,86 @@ const mockProfile = "TestProfile.jpeg";
   function handleInputChange(event) {
     if (event.key === "Enter") {
       event.preventDefault();
-      sendMessage();
+      handleSendMessage();
     }
   }
 
-  function sendMessage() {
+  async function handleSendMessage() {
     const input = document.getElementById("messageField") as HTMLInputElement;
     const message = input.value;
     if (message.length > 0) {
-      const newMessage = {
-        id: messages.length + 1,
-        author: mockuser,
-        text: message,
-        createdAt: new Date(),
-        files: files,
-      };
-      setMessages([...messages, newMessage]);
       input.value = "";
+      console.log("SENT");
+      await sendMessage(chat.id, message, answer && answer.id);
+      setAnswer(null);
     }
   }
 
   function scrollDown() {
     const chatroom = document.getElementById("chatBody") as HTMLDivElement;
-    chatroom.scrollTop = chatroom.scrollHeight;
+    chatroom.scrollTo({
+      top: chatroom.scrollHeight,
+      behavior: "smooth"
+    });
+  }
+
+  function displayAnswer(answer: ChatMessage) {
+    setAnswer(answer);
+    const input = document.getElementById("messageField") as HTMLInputElement;
+    input.focus();
+  }
+
+  function scrollToMessage(id: number) {
+    //TODO:Scroll to message
   }
 
   function printMessages() {
-    let currentDate = messages[0].createdAt;
+    if (!chat || !chat.chatMessages) {
+      return <></>;
+    }
+    let currentDate = chat.chatMessages.length > 0 ? chat.chatMessages[0].created : new Date();
     return (
       <>
-        {messages.map((message, index) => {
-          if (!compareDate(currentDate, message.createdAt) || index == 0) {
-            currentDate = message.createdAt;
+        {chat.chatMessages.map((message, index) => {
+          if (!compareDate(currentDate, message.created) || index == 0) {
+            currentDate = message.created;
             return (
               <>
                 <div key={"date_" + index} className={styles.dateSection}>
-                  <p>{getDate(message.createdAt)}</p>
+                  <div>
+                    <div></div>
+                    <p>{getDate(message.created)}</p>
+                    <div></div>
+                  </div>
+
                 </div>
-                <Message
+                <MessageComponent
+                  callBackAnswerClicked={scrollToMessage}
                   key={"message_" + index}
-                  author={message.author}
-                  text={message.text}
-                  createdAt={message.createdAt}
-                  displayName={
-                    index != 0
-                      ? messages[index - 1].author.id != message.author.id
-                      : true
-                  }
-                ></Message>
+                  handleAnswer={displayAnswer}
+                  displayName={index != 0
+                    ? chat.chatMessages[index - 1].userId != message.userId
+                    : true}
+                  message={message}
+                ></MessageComponent>
               </>
             );
           } else {
             return (
-              <Message
+              <MessageComponent
+                callBackAnswerClicked={scrollToMessage}
                 key={"message_" + index}
-                author={message.author}
-                text={message.text}
-                createdAt={message.createdAt}
-                displayName={
-                  index != 0
-                    ? messages[index - 1].author.id != message.author.id
-                    : true
-                }
-              ></Message>
+                handleAnswer={displayAnswer}
+                displayName={index != 0
+                  ? chat.chatMessages[index - 1].userId != message.userId
+                  : true}
+                message={message}
+              ></MessageComponent>
             );
           }
         })}
       </>
     );
-  }
-
-  function addFiles() {
-    const input = document.getElementById("fileInput") as HTMLInputElement;
-    input.click();
-  }
-
-  function uploadFile(e) {
-    setFiles([...files, ...e.target.files]);
-    sendMessage();
   }
 
   function uploadProfile(e) {
@@ -260,55 +235,126 @@ const mockProfile = "TestProfile.jpeg";
     setInfoIsHidden(!infoIsHidden);
   }
 
-function changeNameEditMode(){
-
-    if(!nameEdit){
-        setBackUpName(name);
+  function changeNameEditMode() {
+    if (!nameEdit) {
+      setBackUpName(chat.name);
     }
     setNameEdit(!nameEdit);
-}
+  }
 
-function changeName(change:boolean){
-    if(change){
-        const input = document.getElementById("nameInput") as HTMLInputElement;
-        setName(input.value);
+  async function changeName(change: boolean) {
+    if (change) {
+      const input = document.getElementById("nameInput") as HTMLInputElement;
+      setName(input.value);
+      chat.name = input.value;
+      await updateChat(chat);
     }
     else
-        setName(backUpName);
+      setName(backUpName);
 
     changeNameEditMode();
-}
+  }
 
-  function handleInfoProfileClick() {
-    const input = document.getElementById(
-      "infoProfileInput"
-    ) as HTMLInputElement;
-    input.click();
+  function handleDragged() {
+    console.log("dragged");
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    chatBody.classList.add(styles.dragged);
+  }
+
+  function handleLeave() {
+    console.log("leave");
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    chatBody.classList.remove(styles.dragged);
+  }
+
+  function handleDropped(e) {
+    e.preventDefault();
+    console.log("droped " + e.dataTransfer.files);
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    chatBody.classList.remove(styles.dragged);
+    const files = e.dataTransfer.files;
+  }
+
+  function handleScroll() {
+    // if position is at the bottom
+    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
+    const scrollBodyBtn = document.getElementById("scrollBodyBtn") as HTMLButtonElement;
+    //include a tolerance of 1px
+    if (chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight - 1) {
+      setScrollBody(false);
+    }
+    else {
+      setScrollBody(true);
+    }
+
+    // if position is at the top
+    if (chatBody.scrollTop == 0 || !loadNewMessages) {
+      getMessages(chat.id, chat.chatMessages.length).then((messages) => {
+        if(messages.length == 0){
+          setLoadNewMessages(false);
+          return;
+        }
+        const tmpMessages = messages;
+        tmpMessages.push(...chat.chatMessages);
+        chat.chatMessages = tmpMessages;
+        setLoadNewMessages(true);
+      });
+    }
+  }
+
+  function PrintChatName() {
+    if (!chat) {
+      return <></>;
+    }
+    //first two letters of the name
+    if (chat.name.length > 1)
+      return chat.name.substring(0, 2).toUpperCase();
+    else
+      return chat.name.toUpperCase();
   }
 
   return (
-    <div className={styles.container}>
+    <div onDragOver={handleDragged} onDragLeave={handleLeave} className={styles.container}>
 
       <div className={styles.contentWrapper}>
         <div className={styles.contentContainer}>
-          <div id="chatBody" className={styles.body}>
+          <div onScroll={handleScroll} onDrop={(e) => handleDropped(e)} id="chatBody" className={styles.body}>
             <div>
               {printMessages()}
               <p></p>
             </div>
           </div>
           <div className={styles.foot}>
-            <div>
-              <div onClick={addFiles}>
-                <div className={styles.dataBtn}></div>
+            {
+              scrollBody &&
+              <button onClick={scrollDown} id='scrollBodyBtn' className={styles.scrollBodyButton}>
+                <Image width={25} height={25} alt="dasd" src={"/arrow_left.svg"}></Image>
+              </button>
+            }
+            {
+              answer &&
+              <div className={styles.answer}>
+                <div>
+                  <div>
+                    <p>{answer.user.username}</p>
+                    <p>{answer.content}</p>
+                  </div>
+                  <button onClick={() => setAnswer(null)}>
+                    <div></div>
+                  </button>
+                </div>
               </div>
+            }
+
+            <div className={answer != null ? styles.extention : ""}>
               <input
                 onKeyDown={(e) => handleInputChange(e)}
                 id="messageField"
                 type="text"
                 placeholder="Type a message..."
+                autoComplete="off"
               ></input>
-              <div onClick={sendMessage}>
+              <div onClick={handleSendMessage}>
                 <div className={styles.sendBtn}></div>
               </div>
             </div>
@@ -316,62 +362,68 @@ function changeName(change:boolean){
         </div>
 
         <div id="info" className={styles.info}>
-            <div>
-                <Image src={'/'+profile} width={20} height={20} alt='Profile'></Image>
-                <button>Change</button>
-            </div>
-            
-          <div>
-            {!nameEdit ? (
-              <>
-                <h1>{name}</h1>
-                <div>
-                    <button onClick={changeNameEditMode} className={styles.editName}></button>
+          {
+            chat &&
+            <>
+              <div>
+                <div className={styles.defaultProfile}>
+                  <p>{PrintChatName()}</p>
                 </div>
-              </>
-            ) : (
-              <>
-                <input id="nameInput" type="text" defaultValue={name}></input>
-                <div>
-                    <button onClick={()=>changeName(true)} className={styles.check}></button>
-                </div>
-                <div>
-                    <button onClick={()=>changeName(false)} className={styles.cancel}></button>
-                </div>
-              </>
-            )}
-          </div>
+              </div>
 
-            <div>
+              <div>
                 <div>
-                    <h1>Description</h1>
-                    <p>{description.length>0?description:<span>No Description</span>}</p>
+                  {!nameEdit ? (
+                    <>
+                      <h1>{name}</h1>
+                      <div>
+                        <button onClick={changeNameEditMode} className={styles.editName}></button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <input id="nameInput" type="text" defaultValue={name}></input>
+                      <div>
+                        <button onClick={() => changeName(true)} className={styles.check}></button>
+                      </div>
+                      <div>
+                        <button onClick={() => changeName(false)} className={styles.cancel}></button>
+                      </div>
+                    </>
+                  )}
                 </div>
-            </div> 
+              </div>
 
-
-
-            <div>
+              <div>
                 <div>
-                    <button>Verlassen</button>
-                    <button>Melden</button>
+                  <h1>Description</h1>
+                  <p>{chat&&chat.description&&chat.description.length > 0 ? chat.description : <span>No Description</span>}</p>
                 </div>
-            </div>   
+              </div>
+
+              <div>
+                <div>
+                  <button><span>Verlassen</span></button>
+                  <button><span>Melden</span></button>
+                </div>
+              </div>
+            </>
+          }
+
         </div>
       </div>
 
-      <input
+      {
+        /**
+         * 
+         <input
         onChange={(e) => uploadProfile(e)}
         id="infoProfileInput"
         type="file"
         hidden={true}
       ></input>
-      <input
-        onChange={(e) => uploadFile(e)}
-        id="fileInput"
-        type="file"
-        hidden={true}
-      ></input>
+         */
+      }
     </div>
   );
 }

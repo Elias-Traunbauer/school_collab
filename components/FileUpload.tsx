@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import styles from '../styles/Assignment.module.css';
+import styles from '../styles/Assignment.module.scss';
 import Image from 'next/image';
 
 export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, title, edittmode = false, fileExtentions = [] })
@@ -88,7 +88,7 @@ export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, t
             <div className={styles.uploadfieldcontainer}>
                 <div className={styles.wrapper}>
                     <div className={styles.headerContainer}>
-                        <header>{title ? title : "File Upload"}</header>
+                        <h1>{title ? title : "File Upload"}</h1>
                         <div className={styles.extentionWrapper}>
                             {
                                 edittmode ?

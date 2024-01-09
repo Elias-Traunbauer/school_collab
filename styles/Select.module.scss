@@ -1,0 +1,22 @@
+.container{
+    background-color: var(--background_1);
+    border-radius: .3em;
+    padding: .2em;
+    transition: all .3s;
+}
+
+.select{
+    width: 100%;
+    font-size: large;
+    outline: none;
+    background-color: var(--background_1);
+    border-radius: .3em;
+    padding: .3em;
+    cursor: pointer;
+    &>*{
+        cursor: pointer;
+    }
+    &>option{
+        background-color: var(--background_1);
+    }
+}

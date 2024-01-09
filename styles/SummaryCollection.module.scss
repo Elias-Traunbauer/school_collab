@@ -1,0 +1,51 @@
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 2em;
+
+    &>div:first-child{
+        width: 80%;
+        display: inline;
+        margin: 1em 0;
+        vertical-align: middle;
+        position: relative;
+
+        &>*{
+            display: inline;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        &>img{
+            float: left;
+            width: 3em;
+            height:3em;
+            transform: rotate(180deg);
+            transition: all .2s linear;
+            user-select: none;
+
+            &:hover{
+                filter: brightness(.7);
+                cursor: pointer;
+            }
+        }
+
+        &>h1{
+            text-align: center;
+            margin: auto 0;
+            // center the text
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &>button:nth-child(2){
+        width: 60%;
+        padding: .5em 0;
+    }
+}

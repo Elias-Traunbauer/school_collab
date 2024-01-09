@@ -1,0 +1,20 @@
+﻿using Core.Contracts.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Core.Entities.Database;
+
+public class Post : DatabaseEntity, IPost
+{
+    public int UserId { get; set; }
+
+    public string Title { get; set; } = null!;
+
+    public string Content { get; set; } = null!;
+
+    public DateTime DateCreated { get; set; }
+
+    public virtual ICollection<PostComment>? PostComments { get; set; }
+
+    [ForeignKey(nameof(UserId))]
+    public virtual User? User { get; set; }
+}
