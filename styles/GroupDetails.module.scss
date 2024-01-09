@@ -15,8 +15,13 @@
         background-color: var(--background_1);
         border-radius: .5rem;
 
-        & > h1{
-            text-align: center;
+        & > input{
+            background-color: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: white;
+            font-size: 1rem;
         }
 
         & > div:not(:last-child){
@@ -29,8 +34,32 @@
                 margin: .7rem 0;
             }
 
-            & > button:hover{
-                border-radius: .2rem;
+
+
+            & > button{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+
+                & > img{
+                    width: 100%;
+                }
+
+                &:hover{
+                    border-radius: .2rem;
+                }
+            }
+
+            & > input{
+                background-color: transparent;
+                border: none;
+                outline: none;
+                width: 100%;
+                color: white;
+                font-size: 2rem;
+                font-weight: bold;
+                text-align: center;
             }
         }
 

@@ -9,6 +9,7 @@ import styles from "../../../../styles/GroupDetails.module.scss";
 export default function GroupDetails() {
     const router = useRouter();
     const [group, setGroup] = useState<Group>(null);
+    const [editMode, setEditMode] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchDataAsync() {
@@ -38,8 +39,14 @@ export default function GroupDetails() {
             <div className={styles.container}>
                     {group && (
                         <div>
-                            <h1>{group.name}</h1>
-                            <p>{group.description}</p>
+                            <div>
+                                <input value={group.name} disabled={!editMode}></input>
+                                <button className="btn-secondary"onClick={() => setEditMode(!editMode)}>
+                                <Image width={20} height={20} src={'/edit.svg'} alt={''}></Image>
+                                </button>
+                            </div>
+                            
+                            <input value={group.description} disabled={!editMode}></input>
 
                             <div>
                                 <h2>Users ({group.groupUsers.length})</h2>
