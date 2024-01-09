@@ -40,13 +40,13 @@ export default function GroupDetails() {
                     {group && (
                         <div>
                             <div>
-                                <input value={group.name} disabled={!editMode}></input>
-                                <button className="btn-secondary"onClick={() => setEditMode(!editMode)}>
-                                <Image width={20} height={20} src={'/edit.svg'} alt={''}></Image>
+                                <input id="name" defaultValue={group.name} className={!editMode ? styles.editInput : ""}></input>
+                                <button className={styles.editButton} onClick={() => setEditMode(!editMode)}>
+                                    <Image width={25} height={25} src={'/edit.svg'} alt={''}></Image>
                                 </button>
                             </div>
                             
-                            <input value={group.description} disabled={!editMode}></input>
+                            <input defaultValue={group.description} className={!editMode ? styles.editInput : ""}></input>
 
                             <div>
                                 <h2>Users ({group.groupUsers.length})</h2>

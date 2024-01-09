@@ -42,12 +42,10 @@
                 align-items: center;
                 justify-content: center;
 
-                & > img{
-                    width: 100%;
-                }
-
                 &:hover{
                     border-radius: .2rem;
+                    filter: brightness(1.2);
+                    
                 }
             }
 
@@ -100,6 +98,20 @@
     }
 }
 
-.addContainer{
+.editInput{
+    pointer-events: none;
+}
 
+.editButton{
+    border-radius: .5rem;
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--background_4);
+
+    &:hover{
+        border-radius: .5rem !important;
+        background-color: var(--background_4) !important;
+        filter: brightness(1.2) !important;
+    }   
 }
