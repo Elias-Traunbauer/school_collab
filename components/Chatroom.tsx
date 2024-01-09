@@ -302,6 +302,17 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
     }
   }
 
+  function PrintChatName() {
+    if (!chat) {
+      return <></>;
+    }
+    //first two letters of the name
+    if (chat.name.length > 1)
+      return chat.name.substring(0, 2).toUpperCase();
+    else
+      return chat.name.toUpperCase();
+  }
+
   return (
     <div onDragOver={handleDragged} onDragLeave={handleLeave} className={styles.container}>
 
@@ -355,8 +366,9 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
             chat &&
             <>
               <div>
-                <Image className={chat.picture == defaultProfile && styles.defaultProfile} src={'/' + chat.picture} width={20} height={20} alt='Profile'></Image>
-                <button>Change</button>
+                <div className={styles.defaultProfile}>
+                  <p>{PrintChatName()}</p>
+                </div>
               </div>
 
               <div>
@@ -401,12 +413,17 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
         </div>
       </div>
 
-      <input
+      {
+        /**
+         * 
+         <input
         onChange={(e) => uploadProfile(e)}
         id="infoProfileInput"
         type="file"
         hidden={true}
       ></input>
+         */
+      }
     </div>
   );
 }
