@@ -10,5 +10,6 @@ namespace Core.Contracts.Services
         Task<IServiceResult<ISubject>> GetSubjectAsync(int id);
         Task<IServiceResult<int>> CreateSubjectAsync(Subject subject);
         Task<IServiceResult> DeleteSubjectAsync(int id);
+        Task<IServiceResult<List<Subject>>> GetAllSubjectsAsync();
     }
 }
