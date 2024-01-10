@@ -209,7 +209,6 @@ export default function DisplayChat() {
                     </div>
                     <div className={styles.searchContainer}>
                         <input id='chatSearchInput' onInput={hanldeSearch} type="text" placeholder="Search" />
-                        <Image src='/search.svg' width='20' height='20' alt='search'></Image>
                     </div>
                 </div>
                 <div className={styles.navbarBody}>

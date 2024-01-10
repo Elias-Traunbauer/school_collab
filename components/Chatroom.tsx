@@ -5,38 +5,52 @@ import Image from "next/image";
 import FileListObject from "./FileListObject";
 import Chat from "../models/Chat";
 import ChatMessage from "../models/ChatMessage";
-import { getMessages, readChat, sendMessage, subscribeToNewMessages, updateChat, updateMessage } from "../services/Chat.service";
+import {
+  getMessages,
+  readChat,
+  sendMessage,
+  subscribeToNewMessages,
+  updateChat,
+  updateMessage,
+} from "../services/Chat.service";
 import { get } from "http";
-export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat | undefined , insertMessage: Function}) {
+export default function Chatroom({
+  chatParam,
+  insertMessage,
+}: {
+  chatParam: Chat | undefined;
+  insertMessage: Function;
+}) {
   const defaultProfile = "person.svg";
   const [infoIsHidden, setInfoIsHidden] = useState(true);
   const [nameEdit, setNameEdit] = useState(false);
   const [answer, setAnswer] = useState<ChatMessage>(null);
   const [scrollBody, setScrollBody] = useState(false);
-  const [backUpName, setBackUpName] = useState(chatParam&&chatParam.name);
-  const [name, setName] = useState(chatParam&&chatParam.name);
+  const [backUpName, setBackUpName] = useState(chatParam && chatParam.name);
+  const [name, setName] = useState(chatParam && chatParam.name);
+  const [description, setDescription] = useState(chatParam && chatParam.description);
   const [loadNewMessages, setLoadNewMessages] = useState(false);
   const [chat, setChat] = useState<Chat>(chatParam);
+  const [descriptionbackup, setDescriptionbackup] = useState(chatParam && chatParam.description);
 
   useEffect(() => {
     console.log("CHATROOM", chatParam);
     async function fetchData() {
-
       if (!chatParam) {
         return;
       }
 
-
-      setName(chatParam.name&&chatParam.name);
-
+      setName(chatParam.name && chatParam.name);
 
       getMessages(chatParam.id).then((firstMessages) => {
         chatParam.chatMessages = firstMessages;
         setChat(chatParam);
-        console.log("FIRSTMESSAGES",chatParam.chatMessages );
-        if(chatParam.chatMessages.length > 0)
-        readChat(chatParam.id, chatParam.chatMessages[chatParam.chatMessages.length - 1].id);
-
+        console.log("FIRSTMESSAGES", chatParam.chatMessages);
+        if (chatParam.chatMessages.length > 0)
+          readChat(
+            chatParam.id,
+            chatParam.chatMessages[chatParam.chatMessages.length - 1].id
+          );
       });
     }
     fetchData();
@@ -54,7 +68,7 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
 
     sse.onmessage = (event) => {
       const res = JSON.parse(event.data);
-      const tmpMessage:ChatMessage = {
+      const tmpMessage: ChatMessage = {
         chatId: res.ChatId,
         content: res.Content,
         created: new Date(res.Created),
@@ -65,15 +79,14 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
         user: res.User,
       };
 
-      console.log("tmpMessage.chatId == chat.id",chat.id == tmpMessage.chatId);
+      console.log("tmpMessage.chatId == chat.id", chat.id == tmpMessage.chatId);
 
-      if(tmpMessage.chatId == chat.id){
+      if (tmpMessage.chatId == chat.id) {
         const tmpChat = chat;
         tmpChat.chatMessages.push(tmpMessage);
-        setChat((chat)=>({...chat,chatMessages:tmpChat.chatMessages}));
+        setChat((chat) => ({ ...chat, chatMessages: tmpChat.chatMessages }));
         scrollInstantDown();
-      }
-      else{
+      } else {
         console.log("OTHER CHAT", tmpMessage);
         insertMessage(tmpMessage);
       }
@@ -93,7 +106,7 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
     const chatroom = document.getElementById("chatBody") as HTMLDivElement;
     chatroom.scrollTo({
       top: chatroom.scrollHeight,
-      behavior: "auto"
+      behavior: "auto",
     });
   }
 
@@ -154,7 +167,7 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
     const chatroom = document.getElementById("chatBody") as HTMLDivElement;
     chatroom.scrollTo({
       top: chatroom.scrollHeight,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   }
 
@@ -172,7 +185,8 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
     if (!chat || !chat.chatMessages) {
       return <></>;
     }
-    let currentDate = chat.chatMessages.length > 0 ? chat.chatMessages[0].created : new Date();
+    let currentDate =
+      chat.chatMessages.length > 0 ? chat.chatMessages[0].created : new Date();
     return (
       <>
         {chat.chatMessages.map((message, index) => {
@@ -186,15 +200,16 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
                     <p>{getDate(message.created)}</p>
                     <div></div>
                   </div>
-
                 </div>
                 <MessageComponent
                   callBackAnswerClicked={scrollToMessage}
                   key={"message_" + index}
                   handleAnswer={displayAnswer}
-                  displayName={index != 0
-                    ? chat.chatMessages[index - 1].userId != message.userId
-                    : true}
+                  displayName={
+                    index != 0
+                      ? chat.chatMessages[index - 1].userId != message.userId
+                      : true
+                  }
                   message={message}
                 ></MessageComponent>
               </>
@@ -205,9 +220,11 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
                 callBackAnswerClicked={scrollToMessage}
                 key={"message_" + index}
                 handleAnswer={displayAnswer}
-                displayName={index != 0
-                  ? chat.chatMessages[index - 1].userId != message.userId
-                  : true}
+                displayName={
+                  index != 0
+                    ? chat.chatMessages[index - 1].userId != message.userId
+                    : true
+                }
                 message={message}
               ></MessageComponent>
             );
@@ -236,21 +253,29 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
   }
 
   function changeNameEditMode() {
+    console.log("changeNameEditMode", nameEdit);
     if (!nameEdit) {
       setBackUpName(chat.name);
+      setDescriptionbackup(chat.description);
     }
     setNameEdit(!nameEdit);
   }
 
-  async function changeName(change: boolean) {
+  async function changeInfo(change: boolean) {
     if (change) {
       const input = document.getElementById("nameInput") as HTMLInputElement;
       setName(input.value);
+      const txtArea = document.getElementById("txtAreaDescription") as HTMLTextAreaElement;
+      setDescription(txtArea.value);
+      chat.description = txtArea.value;
       chat.name = input.value;
-      await updateChat(chat);
-    }
-    else
+      console.log(input.value);
+      //TODO: Update Chat
+      //await updateChat(chat);
+    } else{
       setName(backUpName);
+      setDescription(descriptionbackup);
+    };
 
     changeNameEditMode();
   }
@@ -278,19 +303,23 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
   function handleScroll() {
     // if position is at the bottom
     const chatBody = document.getElementById("chatBody") as HTMLDivElement;
-    const scrollBodyBtn = document.getElementById("scrollBodyBtn") as HTMLButtonElement;
+    const scrollBodyBtn = document.getElementById(
+      "scrollBodyBtn"
+    ) as HTMLButtonElement;
     //include a tolerance of 1px
-    if (chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight - 1) {
+    if (
+      chatBody.scrollTop + chatBody.clientHeight >=
+      chatBody.scrollHeight - 1
+    ) {
       setScrollBody(false);
-    }
-    else {
+    } else {
       setScrollBody(true);
     }
 
     // if position is at the top
     if (chatBody.scrollTop == 0 || !loadNewMessages) {
       getMessages(chat.id, chat.chatMessages.length).then((messages) => {
-        if(messages.length == 0){
+        if (messages.length == 0) {
           setLoadNewMessages(false);
           return;
         }
@@ -307,32 +336,45 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
       return <></>;
     }
     //first two letters of the name
-    if (chat.name.length > 1)
-      return chat.name.substring(0, 2).toUpperCase();
-    else
-      return chat.name.toUpperCase();
+    if (chat.name.length > 1) return chat.name.substring(0, 2).toUpperCase();
+    else return chat.name.toUpperCase();
   }
 
   return (
-    <div onDragOver={handleDragged} onDragLeave={handleLeave} className={styles.container}>
-
+    <div
+      onDragOver={handleDragged}
+      onDragLeave={handleLeave}
+      className={styles.container}
+    >
       <div className={styles.contentWrapper}>
         <div className={styles.contentContainer}>
-          <div onScroll={handleScroll} onDrop={(e) => handleDropped(e)} id="chatBody" className={styles.body}>
+          <div
+            onScroll={handleScroll}
+            onDrop={(e) => handleDropped(e)}
+            id="chatBody"
+            className={styles.body}
+          >
             <div>
               {printMessages()}
               <p></p>
             </div>
           </div>
           <div className={styles.foot}>
-            {
-              scrollBody &&
-              <button onClick={scrollDown} id='scrollBodyBtn' className={styles.scrollBodyButton}>
-                <Image width={25} height={25} alt="dasd" src={"/arrow_left.svg"}></Image>
+            {scrollBody && (
+              <button
+                onClick={scrollDown}
+                id="scrollBodyBtn"
+                className={styles.scrollBodyButton}
+              >
+                <Image
+                  width={25}
+                  height={25}
+                  alt="dasd"
+                  src={"/arrow_left.svg"}
+                ></Image>
               </button>
-            }
-            {
-              answer &&
+            )}
+            {answer && (
               <div className={styles.answer}>
                 <div>
                   <div>
@@ -344,7 +386,7 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
                   </button>
                 </div>
               </div>
-            }
+            )}
 
             <div className={answer != null ? styles.extention : ""}>
               <input
@@ -362,9 +404,34 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
         </div>
 
         <div id="info" className={styles.info}>
-          {
-            chat &&
+          {chat && (
             <>
+              <div className={styles.editContainer}>
+                {!nameEdit ? (
+                  <div>
+                    <button
+                      onClick={changeNameEditMode}
+                      className={styles.editName}
+                    ></button>
+                  </div>
+                ) : (
+                  <>
+                    
+                    <div>
+                      <button
+                        onClick={() => changeInfo(false)}
+                        className={styles.cancel}
+                      ></button>
+                    </div>
+                    <div>
+                      <button
+                        onClick={() => changeInfo(true)}
+                        className={styles.check}
+                      ></button>
+                    </div>
+                  </>
+                )}
+              </div>
               <div>
                 <div className={styles.defaultProfile}>
                   <p>{PrintChatName()}</p>
@@ -376,19 +443,14 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
                   {!nameEdit ? (
                     <>
                       <h1>{name}</h1>
-                      <div>
-                        <button onClick={changeNameEditMode} className={styles.editName}></button>
-                      </div>
                     </>
                   ) : (
                     <>
-                      <input id="nameInput" type="text" defaultValue={name}></input>
-                      <div>
-                        <button onClick={() => changeName(true)} className={styles.check}></button>
-                      </div>
-                      <div>
-                        <button onClick={() => changeName(false)} className={styles.cancel}></button>
-                      </div>
+                      <input
+                        id="nameInput"
+                        type="text"
+                        defaultValue={name}
+                      ></input>
                     </>
                   )}
                 </div>
@@ -397,24 +459,38 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
               <div>
                 <div>
                   <h1>Description</h1>
-                  <p>{chat&&chat.description&&chat.description.length > 0 ? chat.description : <span>No Description</span>}</p>
+                  {
+                    !nameEdit?
+                    <p>
+                    {chat && chat.description && chat.description.length > 0 ? (
+                      description
+                    ) : (
+                      <span>No Description</span>
+                    )}
+                  </p>
+                  :
+                  <textarea id="txtAreaDescription" defaultValue={description}></textarea>
+                  }
+
                 </div>
               </div>
 
               <div>
                 <div>
-                  <button><span>Verlassen</span></button>
-                  <button><span>Melden</span></button>
+                  <button>
+                    <span>Verlassen</span>
+                  </button>
+                  <button>
+                    <span>Melden</span>
+                  </button>
                 </div>
               </div>
             </>
-          }
-
+          )}
         </div>
       </div>
 
-      {
-        /**
+      {/**
          * 
          <input
         onChange={(e) => uploadProfile(e)}
@@ -422,8 +498,7 @@ export default function Chatroom({ chatParam, insertMessage }: { chatParam: Chat
         type="file"
         hidden={true}
       ></input>
-         */
-      }
+         */}
     </div>
   );
 }
