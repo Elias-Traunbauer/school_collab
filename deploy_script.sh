@@ -1,17 +1,25 @@
 #!/bin/bash
 
-# Define the repository directory and navigate to it
+# Define the repository and project directories
 REPO_DIR=~/school_collab
-cd $REPO_DIR
+API_DIR=$REPO_DIR/Graduater/Api
+PERSISTENCE_DIR=$REPO_DIR/Graduater/Persistence
 
-# Pull the latest changes
+# Pull the latest changes from the repository
+cd $REPO_DIR
 git pull origin master
 
 # Backend Deployment
 # -------------------
 
-# Navigate to the .NET Core project directory and build
-cd Graduater/Api
+# Navigate to the Persistence project directory for migrations
+cd $PERSISTENCE_DIR
+
+# Run EF Core migrations (ensure the correct appsettings.json is used)
+dotnet ef database update --startup-project $API_DIR
+
+# Navigate to the .NET Core API project directory and build
+cd $API_DIR
 dotnet publish -c Release -o out
 
 # Restart the .NET Core backend service
