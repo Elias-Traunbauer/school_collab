@@ -7,6 +7,7 @@ PERSISTENCE_DIR=$REPO_DIR/Graduater/Persistence
 
 # Pull the latest changes from the repository
 cd $REPO_DIR
+git reset --hard HEAD
 git pull origin master
 
 # Backend Deployment
