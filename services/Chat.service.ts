@@ -93,19 +93,25 @@ export async function SubscribeToNewMessages(){
 }
 
 export async function sendMessage(ChatId:number,message:string,ReplyId?:number){
-    console.log("SENDMESSAGE");
+    
+    const dto = {
+        chatId: ChatId,
+        message: message,
+        replyId: ReplyId
+    }
     try{
         const response = await fetch(url+'/Message',{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ChatId,message,ReplyId})
+            body: JSON.stringify(dto)
         });
         if(response.status != 200){
             throw response;
         }
         const data = await response.json();
+        console.log("SENDMESSAGE",data);
         return data.value;
     }
     catch(error){

@@ -14,31 +14,45 @@ export default function Login() {
     const context = useContext(UserContext);
 
     function handleSubmit(e) {
-        e.preventDefault();
-        const inputs = document.querySelectorAll(
-            "input[type=text], input[type=password]"
-        ) as unknown as HTMLInputElement[];
-        const user:UserLoginDTO = {
-            identifier: inputs[0].value,
-            password: inputs[1].value,
-        };
-        loginUser(user)
-            .then((res) => {
-                console.log("loginResult",res);
-                if(res.status == 200){
-                  router.push("/");
-                }
-            })
-            .catch(async (err) => {
-              if(err.status == 401 || err.status == 400){
-                const tmperror = err.errors as UserLoginError;
-                setError(tmperror);
+      e.preventDefault();
+      console.log("submit");
+      const inputs = document.querySelectorAll(
+          "input[type=text], input[type=password]"
+      ) as unknown as HTMLInputElement[];
+      const user:UserLoginDTO = {
+          identifier: inputs[0].value,
+          password: inputs[1].value,
+      };
+
+      const btn = document.getElementById("submitInput") as HTMLInputElement;
+      const loader = document.getElementById("btnLoader") as HTMLDivElement;
+
+      btn.disabled = true;
+      btn.value = "";
+      loader.classList.remove("hidden");
+
+      loginUser(user)
+          .then((res) => {
+              console.log("loginResult",res);
+              if(res.status == 200){
+                router.push("/");
               }
-              else{
-                console.error(err);
-              }
- 
-            });
+          })
+          .catch(async (err) => {
+            if(err.status == 401 || err.status == 400){
+              const tmperror = err.errors as UserLoginError;
+              setError(tmperror);
+            }
+            else{
+              console.error(err);
+            }
+
+            btn.disabled = false;
+            loader.classList.add("hidden");
+            btn.value = "anmelden";
+            
+
+          });
     }
   return (
     <div className={`${styles.container} ${styles.login}`}>
@@ -58,7 +72,7 @@ export default function Login() {
 
         <div className={styles.inputfield}>
           <label>Password</label>
-          <input required type="text" defaultValue={"Geheimnis123"} placeholder="Geheimnis123" />
+          <input required type="password" defaultValue={"Geheimnis123"} placeholder="Geheimnis123" />
           {error.Password && error.Password.length > 0 && error.Password.map((err, index) => {
                 return (
                     <p key={index} className={styles.errorMessage}>
@@ -73,7 +87,10 @@ export default function Login() {
         </div>
 
         <div className={styles.buttonContainer}>
-          <input type="submit" value={"submit"}></input>
+          <input id="submitInput" type="submit" value={"anmelden"}></input>
+          <div id="btnLoader" className="loadingObject hidden">
+            <div className="btnLoader"></div>
+          </div>
         </div>
 
         <div className={styles.linkContainer}>

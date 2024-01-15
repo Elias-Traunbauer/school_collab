@@ -4,8 +4,9 @@ import User from "./User";
 
 export default interface Summary {
     id: number;
+    subjectId: number;
     title: string;
-    descritpion: string;
+    description: string;
     files?: FileObject[];
     publishdate: Date;
     subject: Subject;

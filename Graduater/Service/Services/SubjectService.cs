@@ -5,6 +5,7 @@ using Core.Contracts.Services;
 using Core.Entities.Database;
 using Core.Entities.Models;
 using Persistence;
+using System.Data.Entity;
 using System.Net.WebSockets;
 
 namespace Service.Services
@@ -32,6 +33,11 @@ namespace Service.Services
             await _unitOfWork.SubjectRepository.DeleteSubjectByIdAsync(id);
             await _unitOfWork.SaveChangesAsync();
             return new ServiceResult<bool>(true);
+        }
+
+        public async Task<IServiceResult<List<Subject>>> GetAllSubjectsAsync()
+        {
+            return new ServiceResult<List<Subject>>(_unitOfWork.GenericRepository.Query<Subject>().ToList());
         }
 
         public async Task<IServiceResult<ISubject>> GetSubjectAsync(int id)

@@ -45,6 +45,17 @@ export default function ChatroomListitem({
             }
         }
 
+        function PrintChatName() {
+            if (!name) {
+              return <></>;
+            }
+            //first two letters of the name
+            if (name.length > 1)
+              return name.substring(0, 2).toUpperCase();
+            else
+              return name.toUpperCase();
+          }
+
         function handleClick(e){
             unsetActive();
             onClick();
@@ -57,7 +68,9 @@ export default function ChatroomListitem({
         return (
             <div  className={styles.wrapper} onClick={(e)=>handleClick(e)}>
                 <div id={'container_'+id}>
-                    <Image className={profile === defaultProfile&& styles.defaultProfile } width={30} height={30} src={'/'+profile} alt="profile"></Image>
+                    <div className={styles.profilePic}>
+                        <p>{PrintChatName()}</p>
+                    </div>
                     <div className={styles.body}>
                         <p>{name}</p>
                         <p>{lastMessage&&lastMessage.content}</p>

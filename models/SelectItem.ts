@@ -1,4 +1,4 @@
 export default interface SelectItem {
-    value: number;
+    value: any;
     displayText: string;
 }

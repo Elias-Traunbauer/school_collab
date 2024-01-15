@@ -25,7 +25,7 @@ namespace Api.Controllers
             {
                 return Ok(file);
             }
-            return File(file.Value!.Content!, "application/octet-stream", file.Value!.Name);
+            return File(file.Value!.Content!, "application/octet-stream", file.Value!.Name, true);
         }
 
         [HttpPost]
