@@ -109,11 +109,12 @@ export default function AssignmentCreation() {
         });
     };
 
+
     return (
         <div className={styles.CreationContainer}>
             {
                 data&&data.length > 0 ?
-                <Wizard returnPath={"/assignments/"+subject} contentData={data} callback={finish} title={"Assignment"}></Wizard>
+                <Wizard returnPath={"/assignments/"+subjectId} contentData={data} callback={finish} title={"Assignment"}></Wizard>
                 :
                 <Loading center={true}></Loading>
             }

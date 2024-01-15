@@ -63,6 +63,7 @@ export default function PollCreate() {
         </div>
       </div>
       <Wizard
+      returnPath="/polls"
         callback={handleCallback}
         title={"Umfrage Erstellen"}
         contentData={mockData}
