@@ -24,7 +24,9 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
         var builder = new ConfigurationBuilder()
                         .SetBasePath(Environment.CurrentDirectory).AddJsonFile
                         ("appsettings.json", optional: false, reloadOnChange: false);
+        System.Console.WriteLine("building config");
         var cfg = builder.Build();
+        System.Console.WriteLine(cfg.GetDebugView());
         ApiConfig config = new();
         cfg.Bind("ApiConfig", config);
         Console.WriteLine($"Database Connection String: {config.DatabaseConnectionString}");
