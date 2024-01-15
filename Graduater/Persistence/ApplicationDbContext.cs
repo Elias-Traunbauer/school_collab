@@ -25,13 +25,21 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
                         .SetBasePath(Environment.CurrentDirectory).AddJsonFile
                         ("appsettings.json", optional: false, reloadOnChange: false);
         System.Console.WriteLine("building config");
-        var cfg = builder.Build();
+        try {
+            var cfg = builder.Build();
         System.Console.WriteLine(cfg.GetDebugView());
         ApiConfig config = new();
         cfg.Bind("ApiConfig", config);
         Console.WriteLine($"Database Connection String: {config.DatabaseConnectionString}");
+                _config = config;
 
-        _config = config;
+        }
+        catch (Exception ex) {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
+            throw;
+        }
+
     }
 
     public ApplicationDbContext(ApiConfig config) : base()
