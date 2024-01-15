@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 export default function Navbar(){ 
     const [active, setActive] = useState("");
-    const links = ["", "chat", "assignments", "polls", "summaries"];
+    const links = ["", "Chat", "assignments", "polls", "summaries"];
     const router = useRouter();
 
     useEffect(() => {

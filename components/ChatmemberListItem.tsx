@@ -7,7 +7,7 @@ export default function ChatmemberListItem({member,onChange}: {member:User,onCha
 
     return (
         <div className={styles.memberlistItem} onClick={()=>{setChecked(!checked); onChange(!checked,member)}}>
-            <p>{member.firstName} {member.lastName}</p>
+            <p>{member.username}</p>
             {
                 checked?
                 <button className="btn btn-cancel" onClick={()=>{setChecked(false); onChange(false,member)}}>-</button>

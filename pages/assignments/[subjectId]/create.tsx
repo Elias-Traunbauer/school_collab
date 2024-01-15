@@ -14,12 +14,16 @@ import User from "../../../models/User";
 import Subject from "../../../models/Subject";
 import { getSubjectById } from "../../../services/Subject.service";
 import { getUser } from "../../../services/User.service";
+import GroupUser from "../../../models/GroupUser";
+import Loading from "../../../components/DefaultLoading";
 
 export default function AssignmentCreation() {
     const router = useRouter();
     const subjectId = router.query.subjectId;
     const [subject, setSubject] = useState<Subject>();
     const [user, setUser] = useState<User>();
+    const [groups, setGroups] = useState<SelectItem[]>([]);
+    const [data, setData] = useState<WizardField[][]>([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -32,6 +36,25 @@ export default function AssignmentCreation() {
             setSubject(tmpSubject);
             const tmpUser = await getUser();
             setUser(tmpUser);
+            console.log("select groups");
+            getAllGroups().then((res:Group[]) => {
+                console.log("groups",res);
+                const tmpGroups:SelectItem[] = [];
+                res.forEach((group:Group) => {
+                    const newItem:SelectItem = {
+                        value: group.id,
+                        displayText: group.name
+                    }
+                    tmpGroups.push(newItem);
+                });
+                const tmpData = [[new WizardField('title', 'text', '', true), new WizardField('deadline', 'date', new Date(), true)]]
+                if(tmpGroups.length > 1){
+                    tmpData.push([new WizardField('group', 'select', tmpGroups, true)]);
+                }
+                tmpData.push([new WizardField('description', 'text', '', true),new WizardField('content', 'md', '', false)]);
+                setData(tmpData);
+                setGroups(tmpGroups);
+            });
         }
         fetchData();
     }, []);
@@ -44,15 +67,33 @@ export default function AssignmentCreation() {
         if(isNaN(tmpSubjectId)){
             return;
         }
-        const result:AssignmentDTO = {
-            title: data[0].value,
-            description: data[3].value,
-            content: data[3].value,
-            due: data[1].value,
-            //TODO: group from Wizard
-            groupId: 1,
-            subjectId: tmpSubjectId,
+        var result:AssignmentDTO;
+        if(data.length == 4){
+            if(groups.length < 1){
+                return;
+            }
+
+            result = {
+                title: data[0].value,
+                description: data[2].value,
+                content: data[3].value,
+                due: data[1].value,
+                groupId: groups[0].value,
+                subjectId: tmpSubjectId,
+            }
         }
+        else{
+            result = {
+                title: data[0].value,
+                description: data[3].value,
+                content: data[4].value,
+                due: data[1].value,
+                //TODO: group from Wizard
+                groupId: data[2].value,
+                subjectId: tmpSubjectId,
+            }
+        }
+        
         setLoadingText("Creating assignment...");
 
         console.log("RESULT",result);
@@ -68,15 +109,15 @@ export default function AssignmentCreation() {
         });
     };
 
-    const data = [
-        [new WizardField('title', 'text', '', true), new WizardField('deadline', 'date', new Date(), true)],
-        //[new WizardField('group', 'select', '', true)],
-        [new WizardField('description', 'text', '', true),new WizardField('content', 'md', '', false)]
-    ]
 
     return (
         <div className={styles.CreationContainer}>
-            <Wizard returnPath={"/assignments/"+subject} contentData={data} callback={finish} title={"Assignment"}></Wizard>
+            {
+                data&&data.length > 0 ?
+                <Wizard returnPath={"/assignments/"+subjectId} contentData={data} callback={finish} title={"Assignment"}></Wizard>
+                :
+                <Loading center={true}></Loading>
+            }
         </div>
     )
 }

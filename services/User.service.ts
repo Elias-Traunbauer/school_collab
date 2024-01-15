@@ -144,6 +144,11 @@ export async function searchUser(query:string){
         });
 
         const data = await response.json();
+        console.log("data",data.status);
+        // if data has a status property, it means that it returns the value
+        if(!data.status){
+            return data;
+        }
         if(data.status != 200){
             throw data;
         }

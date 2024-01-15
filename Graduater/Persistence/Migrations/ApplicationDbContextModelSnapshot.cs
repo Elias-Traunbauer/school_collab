@@ -226,9 +226,8 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Content")
-                        .IsRequired()
-                        .HasColumnType("longblob");
+                    b.Property<Guid>("BlobId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ContentType")
                         .IsRequired()
@@ -245,7 +244,7 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("OwnerId")
+                    b.Property<int?>("OwnerId")
                         .HasColumnType("int");
 
                     b.Property<long>("Size")
@@ -627,6 +626,9 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -636,6 +638,8 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Summaries");
                 });
@@ -764,6 +768,46 @@ namespace Persistence.Migrations
                     b.ToTable("UserSession");
                 });
 
+            modelBuilder.Entity("Trauni.EntityFramework.LargeBlobs.Models.EFLargeBlob", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EFLargeBlobs");
+                });
+
+            modelBuilder.Entity("Trauni.EntityFramework.LargeBlobs.Models.EFLargeBlobChunk", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(8000)");
+
+                    b.Property<Guid>("EFLargeBlobId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EFLargeBlobId");
+
+                    b.ToTable("EFLargeBlobChunks");
+                });
+
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
                 {
                     b.HasOne("Core.Entities.Database.Group", "Group")
@@ -878,9 +922,7 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Core.Entities.Database.Summary", null)
                         .WithMany("Files")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.HasOne("Core.Entities.Database.User", "UploadedBy")
                         .WithMany()
@@ -1059,6 +1101,17 @@ namespace Persistence.Migrations
                     b.Navigation("CreatedBy");
                 });
 
+            modelBuilder.Entity("Core.Entities.Database.Summary", b =>
+                {
+                    b.HasOne("Core.Entities.Database.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("Core.Entities.Database.User", b =>
                 {
                     b.HasOne("Core.Entities.Database.File", "ProfilePicture")
@@ -1077,6 +1130,17 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Trauni.EntityFramework.LargeBlobs.Models.EFLargeBlobChunk", b =>
+                {
+                    b.HasOne("Trauni.EntityFramework.LargeBlobs.Models.EFLargeBlob", "EFLargeBlob")
+                        .WithMany()
+                        .HasForeignKey("EFLargeBlobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EFLargeBlob");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>

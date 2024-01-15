@@ -1,4 +1,4 @@
-﻿namespace Service.Services.EZCRUDServices
+﻿namespace Core.Contracts.Services
 {
     public interface IEZCRUDService<C, Object, Id> where Id : IComparable 
     {

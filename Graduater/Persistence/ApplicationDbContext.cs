@@ -1,10 +1,11 @@
 ﻿using Core.Entities.Database;
+using Trauni.EntityFramework.LargeBlobs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Persistence;
 
-public partial class ApplicationDbContext : DbContext
+public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
 {
     private readonly ApiConfig? _config;
 

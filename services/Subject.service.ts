@@ -1,31 +1,22 @@
 import Subject from "../models/Subject";
 import { getAllAssignments } from "../services/Assignment.service";
-import {getAllSummaries} from "../services/Summary.service";
 
 const url = "/api/Subject"
 
 export async function getSubjects(): Promise<Subject[]>{
-     const result: Subject[] = [];
-     const resultIds: number[] = [];
-     
-     const assignmentresult = await getAllAssignments();
-     const summaryresult = await getAllSummaries();
-
-          
-     for (const iterator of assignmentresult) {
-          if(!resultIds.includes(iterator.subject.id)){
-               result.push(iterator.subject);
-               resultIds.push(iterator.subject.id);
+     try{
+          const response = await fetch(url + "/all",{
+               method: 'GET'
+          });
+          if(response.status != 200){
+               throw response;
           }
+          const data = await response.json();
+          return data;
      }
-
-     for (const iterator of summaryresult) {
-          if(!resultIds.includes(iterator.subject.id)){
-               result.push(iterator.subject);
-               resultIds.push(iterator.subject.id);
-          }
+     catch(error){
+          throw error;
      }
-     return result;
   }
 
   export async function getSubjectsOfAssignments(): Promise<Subject[]>{
@@ -35,20 +26,6 @@ export async function getSubjects(): Promise<Subject[]>{
 
      for (const iterator of assignmentresult) {
           if(iterator.subject && !resultIds.includes(iterator.subject.id)){
-               result.push(iterator.subject);
-               resultIds.push(iterator.subject.id);
-          }
-     }
-     return result;
-  }
-
-  export async function getSubjectsOfSummaries(): Promise<Subject[]>{
-     const summaryresult = await getAllSummaries();
-     const result: Subject[] = [];
-     const resultIds: number[] = [];
-
-     for (const iterator of summaryresult) {
-          if(!resultIds.includes(iterator.subject.id)){
                result.push(iterator.subject);
                resultIds.push(iterator.subject.id);
           }
