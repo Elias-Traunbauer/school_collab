@@ -5,7 +5,7 @@ REPO_DIR=~/school_collab
 cd $REPO_DIR
 
 # Pull the latest changes
-git pull origin main
+git pull origin master
 
 # Backend Deployment
 # -------------------
