@@ -26,12 +26,12 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
                         ("appsettings.json", optional: false, reloadOnChange: false);
         System.Console.WriteLine("building config");
         try {
-            var cfg = builder.Build();
+        var cfg = builder.Build();
         System.Console.WriteLine(cfg.GetDebugView());
         ApiConfig config = new();
         cfg.Bind("ApiConfig", config);
         Console.WriteLine($"Database Connection String: {config.DatabaseConnectionString}");
-                _config = config;
+        _config = config;
 
         }
         catch (Exception ex) {

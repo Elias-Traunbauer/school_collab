@@ -96,7 +96,7 @@ export default function SummaryDetail(){
         const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
         editCheckbox.checked = false;
         summary.title = (document.getElementById('SumTitle') as HTMLInputElement).value;
-        summary.descritpion = (document.getElementsByClassName(styles.MarkdownEditor)[0] as HTMLInputElement).value;
+        summary.description = (document.getElementsByClassName(styles.MarkdownEditor)[0] as HTMLInputElement).value;
         summary.files = files;
 
         setEditMode(false);
