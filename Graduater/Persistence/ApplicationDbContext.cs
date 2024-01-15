@@ -18,6 +18,9 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
         {
             return;
         }
+        Console.WriteLine("Using default configuration");
+        // display path
+        Console.WriteLine(Environment.CurrentDirectory);
         var builder = new ConfigurationBuilder()
                         .SetBasePath(Environment.CurrentDirectory).AddJsonFile
                         ("appsettings.json", optional: false, reloadOnChange: false);
