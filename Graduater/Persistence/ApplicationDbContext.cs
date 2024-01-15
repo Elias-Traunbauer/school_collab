@@ -27,6 +27,8 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
         var cfg = builder.Build();
         ApiConfig config = new();
         cfg.Bind("ApiConfig", config);
+        Console.WriteLine($"Database Connection String: {config.DatabaseConnectionString}");
+
         _config = config;
     }
 
