@@ -11,7 +11,7 @@
 .navBar{
     display: flex;
     flex-direction: column;
-    width: 35%;
+    width: 25%;
     height: 100%;
     background-color: var(--background_1);
     border-top-right-radius: .5rem;
@@ -148,7 +148,7 @@
 .ChatroomContainer{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 75%;
     height: 100%;
     border-left: 1px solid var(--background);
 }
