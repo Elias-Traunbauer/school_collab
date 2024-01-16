@@ -24,7 +24,7 @@ cd $API_DIR
 dotnet publish -c Release -o out
 
 # Restart the .NET Core backend service
-sudo systemctl restart syp-b.service
+systemctl restart syp-b.service
 
 # Frontend Deployment
 # -------------------
@@ -37,4 +37,4 @@ npm install
 npm run build
 
 # Restart the Next.js application service
-sudo systemctl restart syp-f.service
+systemctl restart syp-f.service
