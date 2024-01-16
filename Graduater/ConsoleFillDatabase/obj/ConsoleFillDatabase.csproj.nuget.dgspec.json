@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj": {}
+    "C:\\Users\\trauni\\source\\repos\\Elias-Traunbauer\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj": {}
   },
   "projects": {
-    "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj": {
+    "C:\\School\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj",
+        "projectUniqueName": "C:\\School\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj",
         "projectName": "ConsoleFillDatabase",
-        "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj",
-        "packagesPath": "C:\\Users\\lucaf\\.nuget\\packages\\",
-        "outputPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\ConsoleFillDatabase\\obj\\",
+        "projectPath": "C:\\School\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj",
+        "packagesPath": "C:\\Users\\43660\\.nuget\\packages\\",
+        "outputPath": "C:\\School\\school_collab\\Graduater\\ConsoleFillDatabase\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\lucaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,11 +28,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
-                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
+              "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
+                "projectPath": "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
               },
-              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj": {
-                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj"
+              "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj": {
+                "projectPath": "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj"
               }
             }
           }
@@ -62,21 +62,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj": {
+    "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\lucaf\\.nuget\\packages\\",
-        "outputPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\obj\\",
+        "projectPath": "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\43660\\.nuget\\packages\\",
+        "outputPath": "C:\\School\\school_collab\\Graduater\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\lucaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -143,21 +143,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
+    "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
-        "packagesPath": "C:\\Users\\lucaf\\.nuget\\packages\\",
-        "outputPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\obj\\",
+        "projectPath": "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
+        "packagesPath": "C:\\Users\\43660\\.nuget\\packages\\",
+        "outputPath": "C:\\School\\school_collab\\Graduater\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\lucaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -171,11 +171,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj": {
-                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj"
-              },
-              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
-                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj"
+              "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj": {
+                "projectPath": "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj"
               }
             }
           }
@@ -251,21 +248,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj": {
+    "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj",
+        "projectUniqueName": "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj",
         "projectName": "Service",
-        "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\Service.csproj",
-        "packagesPath": "C:\\Users\\lucaf\\.nuget\\packages\\",
-        "outputPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service\\obj\\",
+        "projectPath": "C:\\School\\school_collab\\Graduater\\Service\\Service.csproj",
+        "packagesPath": "C:\\Users\\43660\\.nuget\\packages\\",
+        "outputPath": "C:\\School\\school_collab\\Graduater\\Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\lucaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -279,14 +276,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj": {
-                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj"
+              "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj": {
+                "projectPath": "C:\\School\\school_collab\\Graduater\\Core\\Core.csproj"
               },
-              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
-                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj"
-              },
-              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
-                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
+              "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
+                "projectPath": "C:\\School\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
               }
             }
           }
@@ -326,7 +320,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
