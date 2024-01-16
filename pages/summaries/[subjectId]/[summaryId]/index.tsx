@@ -13,6 +13,8 @@ import { getSubjectById } from '../../../../services/Subject.service';
 import { postFiles } from '../../../../services/File.service';
 import FileObject from '../../../../models/File';
 import UserContext from '../../../../components/UserContext';
+import Image from 'next/image';
+
 export default function SummaryDetail(){
     const [editMode, setEditMode] = useState(false);
     const [files, setFiles] = useState<FileObject[]>();
@@ -43,7 +45,8 @@ export default function SummaryDetail(){
             setSummary(tmpSummary);
             setBackupSummary(tmpSummary);
         }
-    }, []);
+        fetchData();
+    }, [router]);
 
     function handleAcceptedFiles(files: string[]) {
         console.log(files);
@@ -96,7 +99,7 @@ export default function SummaryDetail(){
         const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
         editCheckbox.checked = false;
         summary.title = (document.getElementById('SumTitle') as HTMLInputElement).value;
-        summary.descritpion = (document.getElementsByClassName(styles.MarkdownEditor)[0] as HTMLInputElement).value;
+        summary.description = (document.getElementsByClassName(styles.MarkdownEditor)[0] as HTMLInputElement).value;
         summary.files = files;
 
         setEditMode(false);
@@ -139,7 +142,7 @@ export default function SummaryDetail(){
                     </div>
             </div>
             <div className={styles.MarkdownEditor}>
-                <MarkdownEditor containerWidth={editMode?50:80} defaultText={summary&&summary.descritpion&&summary.descritpion} isEditable={editMode}></MarkdownEditor>
+                <MarkdownEditor containerWidth={editMode?50:80} defaultText={summary&&summary.description&&summary.description} isEditable={editMode}></MarkdownEditor>
             </div>
 
             {
@@ -153,7 +156,13 @@ export default function SummaryDetail(){
                 <div>
                     <div>
                         <p>Files</p>
-                        <span>download all Files</span>
+                        {
+                            files&&files.length > 0 &&
+                            <button>
+                                <Image width={20} height={20} src={'/download.svg'} alt={'download'} ></Image>
+                            </button>
+                        }
+                        
                     </div>
                 </div>
                 

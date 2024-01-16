@@ -19,7 +19,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: row;
-        width: 60%;
+        width: 80%;
 
         & > div{
             width: 20%;
@@ -98,6 +98,7 @@
             justify-content: space-between;
             align-items: center;
             flex-direction: row;
+            padding: .3em .1em;
             
     
             &>p{
@@ -116,6 +117,30 @@
 
                 &:hover{
                     opacity: 1;
+                }
+            }
+
+            &>button{
+                width: 2em;
+                height: 2em;
+                border-radius: .3em;
+                background-color: var(--background_2);
+                border: none;
+                outline: none;
+                cursor: pointer;
+                transition: transform 0.2s;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: .3em;
+
+                &>img{
+                    width: 100%;
+                    height: 100%;
+                }
+
+                &:hover{
+                    filter: brightness(120%);
                 }
             }
         }
@@ -139,6 +164,7 @@
         border-bottom-right-radius: .3em !important;
         padding: 0 1em;
         &>p{
+            font-size: small;
             float: right;
             margin: .5em 0;
             opacity: 0.7;
