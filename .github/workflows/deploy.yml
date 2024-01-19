@@ -27,4 +27,4 @@ jobs:
         run: ssh deployment_server 'echo "SSH connection successful"'
 
       - name: Deploy script
-        run: ssh deployment_server './deploy_script.sh'
+        run: ssh deployment_server 'bash ~/school_collab/deploy_script.sh'

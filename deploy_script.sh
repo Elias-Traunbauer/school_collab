@@ -7,6 +7,7 @@ PERSISTENCE_DIR=$REPO_DIR/Graduater/Persistence
 
 # Pull the latest changes from the repository
 cd $REPO_DIR
+git reset --hard HEAD
 git pull origin master
 
 # Backend Deployment
@@ -16,7 +17,7 @@ git pull origin master
 cd $PERSISTENCE_DIR
 
 # Run EF Core migrations (ensure the correct appsettings.json is used)
-dotnet ef database update --startup-project $PERSISTENCE_DIR
+~/.dotnet/tools/dotnet-ef database update --startup-project $PERSISTENCE_DIR
 
 # Navigate to the .NET Core API project directory and build
 cd $API_DIR
