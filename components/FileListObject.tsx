@@ -3,6 +3,7 @@ import styles from "../styles/FileListObject.module.scss";
 import Image from "next/image";
 import { getFileById } from "../services/File.service";
 import FileObject from "../models/File";
+import FileDisplayObject from "../models/FileDisplayObject";
 export default function FileListObject({
   itemKey,
   deleteFunction,
@@ -16,7 +17,7 @@ export default function FileListObject({
   downloadFunction?: (key: number) => void | null;
   deleteFunction?: (key: number) => void | null;
   asCard?: boolean;
-  file: FileObject;
+  file: FileDisplayObject;
 }) {
   const [displayFile, setDisplayFile] = useState<File>();
 

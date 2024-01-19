@@ -10,14 +10,15 @@ import Summary from '../../../../models/Summary';
 import { getSummaryById , updateSummary} from '../../../../services/Summary.service';
 import Subject from '../../../../models/Subject';
 import { getSubjectById } from '../../../../services/Subject.service';
-import { postFiles } from '../../../../services/File.service';
+import { getFileById, getFileNameById, getFileNamesByIds, getFilesByIds, postFiles } from '../../../../services/File.service';
 import FileObject from '../../../../models/File';
 import UserContext from '../../../../components/UserContext';
 import Image from 'next/image';
+import FileDisplayObject from '../../../../models/FileDisplayObject';
 
 export default function SummaryDetail(){
     const [editMode, setEditMode] = useState(false);
-    const [files, setFiles] = useState<FileObject[]>();
+    const [files, setFiles] = useState<FileDisplayObject[]>([]);
     const [summary, setSummary] = useState<Summary>();
     const [backupSummary, setBackupSummary] = useState<Summary>();
     const router = useRouter(); 
@@ -25,6 +26,7 @@ export default function SummaryDetail(){
     const [fileUpdateDate, setFileUpdateDate] = useState(new Date());
     const summaryId = router.query.summaryId;
     const [subject, setSubject] = useState<Subject>();
+    const [description, setDescription] = useState('');
 
     const context = useContext(UserContext);
 
@@ -52,25 +54,28 @@ export default function SummaryDetail(){
         console.log(files);
     }
 
-    async function handleFilesUpdated(updatedfiles: File[]) {
-        const res:number[] = await postFiles(updatedfiles);
-        const tmpFiles: FileObject[] = [];
-        for (const iterator of res) {
-            const obj:FileObject = {
-                content: '',
-                name: '',
-                contentType: '',
-                mimeType: '',
-                size: 0,
-                uploadedById: context.userContext.id,
-                id: iterator,
-                version: ''
-            }
-            tmpFiles.push(obj);
-        }
+    useEffect(() => {
+        console.log("summary",summary);
+        setDescription(summary&&summary.description);
+    }, [summary]);
 
-        setFiles([...files,...tmpFiles]);
+    async function handleFilesUpdated(updatedfiles: any[]) {
+        console.log("FILES",updatedfiles);
+        postFiles(updatedfiles).then((res) => {
+            const tmpFiles:FileDisplayObject[] = [];
+            for (const fileId of res) {
+                getFileNameById(fileId).then((fileName) => {
+                    tmpFiles.push({id: fileId, name: fileName});
+                });
+            }
+            setFiles(tmpFiles);
+        });
+        setFileUpdateDate(new Date());
     }
+
+    useEffect(() => {
+        console.log("files",files);
+    }, [files]);
 
     function downloadFile(file){
         console.log(file);
@@ -99,11 +104,25 @@ export default function SummaryDetail(){
         const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
         editCheckbox.checked = false;
         summary.title = (document.getElementById('SumTitle') as HTMLInputElement).value;
-        summary.description = (document.getElementsByClassName(styles.MarkdownEditor)[0] as HTMLInputElement).value;
-        summary.files = files;
+        summary.description = (document.getElementById('textArea') as HTMLTextAreaElement).value;
+        const fileIds: number[] = [];
+        files.map((file) => {
+            fileIds.push(file.id);
+        });
+        summary.files = fileIds;
 
-        setEditMode(false);
-        setSummary(summary);
+        console.log("SAVESUMMARY",summary);
+
+        updateSummary(summary).then((res) => {
+            /**
+             * setEditMode(false);
+            setBackupSummary({...summary});
+            setSummary({...summary});
+             */
+            router.push(`/summaries/${subjectId}/${summaryId}`);
+            setEditMode(false);
+        });
+        
     }
 
     function handleCancel() {
@@ -142,7 +161,7 @@ export default function SummaryDetail(){
                     </div>
             </div>
             <div className={styles.MarkdownEditor}>
-                <MarkdownEditor containerWidth={editMode?50:80} defaultText={summary&&summary.description&&summary.description} isEditable={editMode}></MarkdownEditor>
+                <MarkdownEditor containerWidth={editMode?50:80} defaultText={description} isEditable={editMode}></MarkdownEditor>
             </div>
 
             {
@@ -169,7 +188,7 @@ export default function SummaryDetail(){
                 <div>
                 {
                     files&&files.length > 0 ?
-                    summary&&summary.files&&summary.files.map((file, index) => {
+                    files&&files.map((file, index) => {
                         return(
                             <FileListObject key={"FileItem"+index} file={file} asCard={false}  downloadabel={!editMode} downloadFunction={()=>downloadFile(file)} deleteFunction={(e)=>deleteFileItem(e,index)} itemKey={index}></FileListObject>
                         );

@@ -8,7 +8,7 @@ export default interface Summary {
     content: string;
     subjectId: number;
     subject: Subject;
-    files: FileObject[];
+    files: number[];
     id: number;
     version: string;
     reports: User[];
