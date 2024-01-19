@@ -26,9 +26,12 @@ export default function SummaryCollection() {
             }
             const tmpSubject = await getSubjectById(subjectIdAsNumber);
             console.log("SUBJECT", tmpSubject);
-            const tmpSummaries = await getSummariesBySubjectId(subjectIdAsNumber);
-            setPosts(tmpSummaries);
-            setSubject(tmpSubject);
+            await setSubject(tmpSubject);
+            getSummariesBySubjectId(subjectIdAsNumber).then((summaries) => {
+                setPosts(summaries);
+                console.log("SUMMARIES", summaries);
+            });
+            
         }
         fetchData();
     }, [router.query.subjectId]);

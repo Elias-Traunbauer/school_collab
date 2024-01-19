@@ -323,8 +323,8 @@ export default function Chatroom({
           setLoadNewMessages(false);
           return;
         }
-        const tmpMessages = messages;
-        tmpMessages.push(...chat.chatMessages);
+        let tmpMessages = messages;
+        tmpMessages =  [...chat.chatMessages,...tmpMessages]
         chat.chatMessages = tmpMessages;
         setLoadNewMessages(true);
       });
