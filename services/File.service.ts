@@ -7,43 +7,25 @@ export async function postFiles(files : File[]):Promise<number[]> {
         const tmpres = await postSingleFile(item);
         res.push(tmpres);
     }
+    console.log("POSTRES",res);
     return res;
 }
 
 export async function postSingleFile(file:File): Promise<number>{
-  console.log({
-    method: 'POST',
-    headers: {
-      'Content-Type': 'multipart/form-data; boundary=----'
-    },
-    body: file
-  });
+  console.log("FILE",file);
+
+  const formData = new FormData();
+  formData.append('file', file);
     try {
         const response = await fetch(url, {
           method: 'POST',
           headers: {
-            'Content-Type': 'multipart/form-data; boundary=----'
+            'Accept': 'application/json',
           },
-          body: file
+          body: formData
         });
-    
-        if (response.status === 200) {
-          
-          const contentType = response.headers.get('content-type');
-          if (contentType) {
-            const data = await response.json();
-    
-            if (data.status != 200) {
-              throw data;
-            }
-    
-          }
-          
-        } else {
-          throw response;
-        }
         const data = await response.json();
-        return data;
+        return data.id;
       } catch (error) {
         
         throw error;
@@ -111,6 +93,7 @@ export async function getSingleFileById(id:number):Promise<FileObject>{
 }
 
 export async function getFileNameById(id:number){
+/*
   try{
     const response = await fetch(url+'/'+id+'/name', {
         method: 'GET'
@@ -126,6 +109,9 @@ export async function getFileNameById(id:number){
 catch(error){
     throw error;
 }
+*/
+
+  return "MockedFileName"+id+".png"
 }
 
 export async function getFileNamesByIds(ids:number[]){

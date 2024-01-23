@@ -60,15 +60,19 @@ export default function SummaryDetail(){
     }, [summary]);
 
     async function handleFilesUpdated(updatedfiles: any[]) {
-        console.log("FILES",updatedfiles);
         postFiles(updatedfiles).then((res) => {
             const tmpFiles:FileDisplayObject[] = [];
             for (const fileId of res) {
                 getFileNameById(fileId).then((fileName) => {
                     tmpFiles.push({id: fileId, name: fileName});
+                }).catch((err) => {
+                    console.log("GETFILENAMEERROR",err);
                 });
             }
+            console.log("result",tmpFiles);
             setFiles(tmpFiles);
+        }).catch((err) => {
+            console.log("POSTERROR",err);
         });
         setFileUpdateDate(new Date());
     }
@@ -77,18 +81,16 @@ export default function SummaryDetail(){
         console.log("files",files);
     }, [files]);
 
-    function downloadFile(file){
-        console.log(file);
+    function downloadFile(fileId: number){
+        //downloadFileByID(fileId);
+        console.log(fileId);
     }
 
-    function deleteFileItem(e, key) {
-        e.preventDefault();
-        console.log(key);
-
+    function deleteFileItem(fileId: number) {
         const tmpList = [];
-        for (let i = 0; i < files.length; i++) {
-            if (i != key)
-                tmpList.push(files[i]);
+        for (const file of files) {
+            if (file.id != fileId)
+                tmpList.push(file);
         }
         setFiles(tmpList);
     }
@@ -190,7 +192,7 @@ export default function SummaryDetail(){
                     files&&files.length > 0 ?
                     files&&files.map((file, index) => {
                         return(
-                            <FileListObject key={"FileItem"+index} file={file} asCard={false}  downloadabel={!editMode} downloadFunction={()=>downloadFile(file)} deleteFunction={(e)=>deleteFileItem(e,index)} itemKey={index}></FileListObject>
+                            <FileListObject key={"FileItem_"+file.id} file={file} asCard={false}  downloadabel={!editMode} downloadFunction={(fileId)=>downloadFile(fileId)} deleteFunction={(fileId)=>deleteFileItem(fileId)}></FileListObject>
                         );
                     })
                     :

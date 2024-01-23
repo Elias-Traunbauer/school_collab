@@ -17,24 +17,8 @@ export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, t
     }
 
     function handleInputChange(e) {
-        const res :any[] = [];
-        let files = e.target.files;
-        if(files.length == 0 || !files){
-            return;
-        } 
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            const text = e.target.result;
-        };
-
-        for (const iterator of files) {
-            reader.readAsText(iterator);
-            res.push(iterator);
-        }
-
-        
-        showFile(res);
+        const files = e.target.files;
+        showFile(files);
     }
 
     function handleFileExtentionsChange(acceptedFiles) {
