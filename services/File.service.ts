@@ -127,3 +127,14 @@ export async function getFileNamesByIds(ids:number[]){
   }
   return res;
 }
+
+export async function deleteFilesByIds(ids:number[]){
+  const res:FileObject[] = [];
+  for (const iterator of ids) {
+    await deleteSingleFileById(iterator);
+  }
+}
+
+export async function deleteSingleFileById(id:number){
+
+}

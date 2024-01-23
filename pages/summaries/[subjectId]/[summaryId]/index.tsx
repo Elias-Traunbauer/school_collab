@@ -10,7 +10,7 @@ import Summary from '../../../../models/Summary';
 import { getSummaryById , updateSummary} from '../../../../services/Summary.service';
 import Subject from '../../../../models/Subject';
 import { getSubjectById } from '../../../../services/Subject.service';
-import { getFileById, getFileNameById, getFileNamesByIds, getFilesByIds, postFiles } from '../../../../services/File.service';
+import { deleteFilesByIds, getFileById, getFileNameById, getFileNamesByIds, getFilesByIds, postFiles } from '../../../../services/File.service';
 import FileObject from '../../../../models/File';
 import UserContext from '../../../../components/UserContext';
 import Image from 'next/image';
@@ -27,28 +27,38 @@ export default function SummaryDetail(){
     const summaryId = router.query.summaryId;
     const [subject, setSubject] = useState<Subject>();
     const [description, setDescription] = useState('');
+    const [filesToDelete, setFilesToDelete] = useState<number[]>([]);
+    const [filesAdded, setFilesAdded] = useState<number[]>([]);
 
     const context = useContext(UserContext);
 
     useEffect(() => {
-        async function fetchData() {
-            const subjectIdAsNumber = parseInt(subjectId as string);
-            if(isNaN(subjectIdAsNumber)) {
-                return;
-            }
-            const tmpSubject = await getSubjectById(subjectIdAsNumber);
-            setSubject(tmpSubject);
-
-            const summaryIdAsNumber = parseInt(summaryId as string);
-            if(isNaN(summaryIdAsNumber)) {
-                return;
-            }
-            const tmpSummary = await getSummaryById(summaryIdAsNumber);
-            setSummary(tmpSummary);
-            setBackupSummary(tmpSummary);
-        }
-        fetchData();
+        loadSummary();
     }, [router]);
+
+    async function loadSummary(){
+        const subjectIdAsNumber = parseInt(subjectId as string);
+        if(isNaN(subjectIdAsNumber)) {
+            return;
+        }
+        const tmpSubject = await getSubjectById(subjectIdAsNumber);
+        setSubject(tmpSubject);
+
+        const summaryIdAsNumber = parseInt(summaryId as string);
+        if(isNaN(summaryIdAsNumber)) {
+            return;
+        }
+        const tmpSummary = await getSummaryById(summaryIdAsNumber);
+        setSummary(tmpSummary);
+        setBackupSummary(tmpSummary);
+
+        const tmpFileDisplayObjects: FileDisplayObject[] = [];
+        for (const iterator of tmpSummary.files) {
+            const tmpFileName = await getFileNameById(iterator);
+            tmpFileDisplayObjects.push({id: iterator, name: tmpFileName});
+        }
+        setFiles(tmpFileDisplayObjects);
+    }
 
     function handleAcceptedFiles(files: string[]) {
         console.log(files);
@@ -61,6 +71,7 @@ export default function SummaryDetail(){
 
     async function handleFilesUpdated(updatedfiles: any[]) {
         postFiles(updatedfiles).then((res) => {
+            const tmpFilesAdded = [...filesAdded, ...res];
             const tmpFiles:FileDisplayObject[] = [];
             for (const fileId of res) {
                 getFileNameById(fileId).then((fileName) => {
@@ -92,6 +103,7 @@ export default function SummaryDetail(){
             if (file.id != fileId)
                 tmpList.push(file);
         }
+        setFilesToDelete([...filesToDelete, fileId]);
         setFiles(tmpList);
     }
 
@@ -99,7 +111,6 @@ export default function SummaryDetail(){
         updateSummary(summary).then((res) => {
             router.push(`/summaries/${subject}`);
         });
-        
     }
 
     function handleSave() {
@@ -121,9 +132,13 @@ export default function SummaryDetail(){
             setBackupSummary({...summary});
             setSummary({...summary});
              */
-            router.push(`/summaries/${subjectId}/${summaryId}`);
+            loadSummary();
             setEditMode(false);
         });
+
+        setFilesAdded([]);
+        deleteFilesByIds(filesToDelete);
+        setFilesToDelete([]);
         
     }
 
@@ -132,6 +147,10 @@ export default function SummaryDetail(){
         const editCheckbox = document.getElementById('detail_edit') as HTMLInputElement;
         editCheckbox.checked = false;
         setSummary(backupSummary);
+        deleteFilesByIds(filesAdded);
+        setFilesAdded([]);
+        setFilesToDelete([]);
+        loadSummary();
     }
 
     function printDate(date: Date) {
