@@ -10,7 +10,7 @@ import Summary from '../../../../models/Summary';
 import { getSummaryById , updateSummary} from '../../../../services/Summary.service';
 import Subject from '../../../../models/Subject';
 import { getSubjectById } from '../../../../services/Subject.service';
-import { deleteFilesByIds, getFileById, getFileNameById, getFileNamesByIds, getFilesByIds, postFiles } from '../../../../services/File.service';
+import { deleteFilesByIds, downloadFileById, getFileById, getFileNameById, getFileNamesByIds, getFilesByIds, postFiles } from '../../../../services/File.service';
 import FileObject from '../../../../models/File';
 import UserContext from '../../../../components/UserContext';
 import Image from 'next/image';
@@ -93,7 +93,7 @@ export default function SummaryDetail(){
     }, [files]);
 
     function downloadFile(fileId: number){
-        //downloadFileByID(fileId);
+        downloadFileById(fileId);
         console.log(fileId);
     }
 

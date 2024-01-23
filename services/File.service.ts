@@ -138,3 +138,7 @@ export async function deleteFilesByIds(ids:number[]){
 export async function deleteSingleFileById(id:number){
 
 }
+
+export async function downloadFileById(id:number){
+  
+}
