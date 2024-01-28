@@ -70,27 +70,28 @@ export default function SummaryDetail(){
     }, [summary]);
 
     async function handleFilesUpdated(updatedfiles: any[]) {
-        postFiles(updatedfiles).then((res) => {
-            const tmpFilesAdded = [...filesAdded, ...res];
+
+        try{
+            const res = await postFiles(updatedfiles);
+            setFilesAdded([...filesAdded, ...res]);
             const tmpFiles:FileDisplayObject[] = [];
+
             for (const fileId of res) {
-                getFileNameById(fileId).then((fileName) => {
-                    tmpFiles.push({id: fileId, name: fileName});
-                }).catch((err) => {
+                try{
+                    const tmpFileName = await getFileNameById(fileId);
+                    tmpFiles.push({id: fileId, name: tmpFileName});
+                }
+                catch(err){
                     console.log("GETFILENAMEERROR",err);
-                });
+                }
             }
-            console.log("result",tmpFiles);
-            setFiles(tmpFiles);
-        }).catch((err) => {
+            
+            setFiles([...files, ...tmpFiles]);
+        }catch(err){
             console.log("POSTERROR",err);
-        });
+        }
         setFileUpdateDate(new Date());
     }
-
-    useEffect(() => {
-        console.log("files",files);
-    }, [files]);
 
     function downloadFile(fileId: number){
         downloadFileById(fileId);

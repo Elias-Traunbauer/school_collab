@@ -49,6 +49,12 @@ export async function getFileById(id:number){
     }
 }
 
+export async function deleteFilesById(ids:number[]){
+  for (const iterator of ids) {
+    await deleteFile(iterator)
+  }
+}
+
 export async function deleteFile(id:number){
     try{
         const response = await fetch(url+'/'+id, {
