@@ -1,6 +1,7 @@
 ﻿using Api.Attributes;
 using Api.Helpers;
 using Core.Contracts.Services;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -67,6 +68,34 @@ namespace Api.Controllers
                 return Ok(file);
             }
             return Ok();
+        }
+
+        [HttpGet("{id}/info")]
+        [EndpointPermission(Core.Entities.Database.UserPermission.View)]
+        [RateLimitAttribute(30, RateLimitMode.SlidingTimeWindow)]
+        public async Task<IActionResult> GetFileInfo(int id, [FromServices] IFileService fileService)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var file = await fileService.GetFileAsync(id);
+            if (file.Status != 200)
+            {
+                return Ok(file);
+            }
+            return Ok(new
+            {
+                Status = 200,
+                Value = new
+                {
+                    file.Value!.Name,
+                    file.Value!.ContentType,
+                    file.Value!.UploadedById,
+                    file.Value!.Size
+                }
+            });
         }
     }
 }
