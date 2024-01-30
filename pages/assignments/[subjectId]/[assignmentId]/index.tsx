@@ -11,9 +11,10 @@ import Group from "../../../../models/Group";
 import Subject from "../../../../models/Subject";
 import UserContext from '../../../../components/UserContext'
 import Datepicker from "../../../../components/Datepicker";
-import { getAssignmentById,updateAssignment } from '../../../../services/Assignment.service';
-import { getFilesByIds, postFiles } from "../../../../services/File.service";
+import { getAssignmentById, updateAssignment } from '../../../../services/Assignment.service';
+import { deleteFilesByIds, getFileNameById, getFilesByIds, postFiles } from "../../../../services/File.service";
 import FileObject from "../../../../models/File";
+import FileDisplayObject from "../../../../models/FileDisplayObject";
 
 export default function AssignmentEdit() {
   // TODO: fetch assignment
@@ -27,13 +28,19 @@ export default function AssignmentEdit() {
   const [acceptedFilextentions, setAcceptedFilextentions] = useState([]);
   const router = useRouter();
   const assignmentId = router.query.assignmentId;
+  const subjectId = router.query.subjectId;
+
+  const [files, setFiles] = useState<FileDisplayObject[]>([]);
+  const [instructionFiles, setInstructionFiles] = useState<FileDisplayObject[]>([]);
+  const [filesToDelete, setFilesToDelete] = useState<number[]>([]);
+  const [filesAdded, setFilesAdded] = useState<number[]>([]);
 
 
   useEffect(() => {
     async function fetchDataAsync() {
       const assignmentIdAsNumber = parseInt(assignmentId as string);
 
-      if(isNaN(assignmentIdAsNumber)){
+      if (isNaN(assignmentIdAsNumber)) {
         return;
       }
 
@@ -51,57 +58,65 @@ export default function AssignmentEdit() {
   }, []);
 
 
-  async function handleUploadFilesUpdate(list:File[]) {
-    const tmpFiles:number[] = await postFiles(list);
-    const tmpFileObjects:FileObject[] = [];
-    for (const iterator of tmpFiles) {
-      const obj:FileObject = {
-        content: "",
-        name: "",
-        contentType: "",
-        mimeType: "",
-        size: 0,
-        uploadedById: context.userContext.id,
-        id: iterator,
-        version: ""
+  async function handleUploadFilesUpdate(list: any[]) {
+    try {
+      const tmpFiles: number[] = await postFiles(list);
+      const tmpFileObjects: FileDisplayObject[] = [];
+      setFilesAdded([...filesAdded, ...tmpFiles]);
+      for (const iterator of tmpFiles) {
+        try {
+          const tmpFileName = await getFileNameById(iterator);
+          tmpFileObjects.push({ id: iterator, name: tmpFileName });
+        }
+        catch (err) {
+          console.log("GETFILENAMEERROR", err);
+        }
       }
-      tmpFileObjects.push(obj);
+
+      setFiles([...files, ...tmpFileObjects]);
     }
-    setAssignment({
-      ...assignment,
-      files: [...assignment.files, ...tmpFileObjects],
-    });
+    catch (err) {
+      console.error(err);
+    }
   }
-  async function handleInstructionFilesUpdate(list:File[]) {
-    const tmpFiles:number[] = await postFiles(list);
-    const tmpFileObjects:FileObject[] = [];
-    for (const iterator of tmpFiles) {
-      const obj:FileObject = {
-        content: "",
-        name: "",
-        contentType: "",
-        mimeType: "",
-        size: 0,
-        uploadedById: context.userContext.id,
-        id: iterator,
-        version: ""
+
+  async function handleInstructionFilesUpdate(list: File[]) {
+    try {
+      const tmpFiles: number[] = await postFiles(list);
+      const tmpFileObjects: FileDisplayObject[] = [];
+      setFilesAdded([...filesAdded, ...tmpFiles]);
+      for (const iterator of tmpFiles) {
+        try {
+          const tmpFileName = await getFileNameById(iterator);
+          tmpFileObjects.push({ id: iterator, name: tmpFileName });
+        }
+        catch (err) {
+          console.log("GETFILENAMEERROR", err);
+        }
       }
-      tmpFileObjects.push(obj);
+
+      setInstructionFiles([...instructionFiles, ...tmpFileObjects]);
     }
-    setAssignment({
-      ...assignment,
-      instructions: [...assignment.instructions, ...tmpFileObjects],
-    });
+    catch (err) {
+      console.error(err);
+    }
   }
+
   function handleAcceptedFiles(list) {
     setAcceptedFilextentions(list);
   }
 
-  function handleCancelEdit() {
+  async function handleCancelEdit() {
     setEdditMode(false);
     (document.getElementById("titleInput") as HTMLInputElement).value =
       assignmentBackup.title;
     const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
+
+    await restoreFiles(filesToDelete);
+    await executeDeleteFiles(filesAdded);
+    setFilesAdded([]);
+    setFilesToDelete([]);
+
     setDueDate(assignmentBackup.due);
     setContent(assignmentBackup.content);
     setAssignment({ ...assignmentBackup, content: assignmentBackup.content });
@@ -117,28 +132,84 @@ export default function AssignmentEdit() {
     setEdditMode(true);
   }
 
-  function handleSaveEdit() {
+  async function handleSaveEdit() {
     const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
+    const fileIds = files.map((file) => file.id);
+    const instructionFileIds = instructionFiles.map((file) => file.id);
+
+    await executeDeleteFiles(filesToDelete);
+    setFilesToDelete([]);
+    setFilesAdded([]);
+
     setAssignment({
       ...assignment,
       content: textarea.value,
       due: dueDate,
       title: (document.getElementById("titleInput") as HTMLInputElement).value,
+      files: fileIds,
+      instructions: instructionFileIds,
     });
     setEdditMode(false);
   }
 
-  function handleSaveAssignment() {
+  async function handleSaveAssignment() {
     console.log("UPDATE");
+    assignment.files = files.map((file) => file.id);
+    assignment.instructions = instructionFiles.map((file) => file.id);
+    await executeDeleteFiles(filesToDelete);
+    setFilesToDelete([]);
+    setFilesAdded([]);
+
     updateAssignment(assignment).then((res) => {
-      router.push("/assignments/"+assignment.subjectId);
+      router.push("/assignments/" + assignment.subjectId);
     }).catch((err) => {
       console.error(err);
     });
   }
 
-  function handleCancelAssignment() {
-    router.push("/assignments/"+assignment.subjectId);
+  async function executeDeleteFiles(fileIds:number[],isInstruction:boolean = true){
+    //TODO: delete files
+    await deleteFilesByIds(fileIds);
+    if(isInstruction){
+      const tmpList = [];
+      for (const file of instructionFiles) {
+        if (!fileIds.includes(file.id))
+          tmpList.push(file);
+      }
+      setInstructionFiles(tmpList);
+    }
+    else{
+      const tmpList = [];
+      for (const file of files) {
+        if (!fileIds.includes(file.id))
+          tmpList.push(file);
+      }
+      setFiles(tmpList);
+    }
+  }
+
+  async function restoreFiles(fileIds:number[],isInstruction:boolean = true){
+    //TODO: restore files
+    const restoredFiles: FileDisplayObject[] = [];
+    for (const iterator of fileIds) {
+      const tmpFileName = await getFileNameById(iterator);
+      restoredFiles.push({ id: iterator, name: tmpFileName });
+    }
+
+    if(isInstruction){
+      setInstructionFiles([...instructionFiles, ...restoredFiles]);
+    }
+    else{
+      setFiles([...files, ...restoredFiles]);
+    }
+  }
+
+  async function handleCancelAssignment() {
+    await restoreFiles(filesToDelete,false);
+    await executeDeleteFiles(filesAdded);
+    setFilesAdded([]);
+    setFilesToDelete([]);
+    router.push("/assignments/" + subjectId);
   }
 
   function handleDateChange(date) {
@@ -146,25 +217,11 @@ export default function AssignmentEdit() {
   }
 
   function handleDeleteUploadFile(key) {
-    const newList = assignment.files
-      .slice(0, key)
-      .concat(assignment.files.slice(key + 1));
-    setAssignment({
-      ...assignment,
-      files: newList,
-    });
+    //TODO: change this
   }
 
   function handleDeleInstructionFile(key) {
-    const newList = assignment.instructions
-      .slice(0, key)
-      .concat(assignment.instructions.slice(key + 1));
-    setTimeout(() => {
-      setAssignment({
-        ...assignment,
-        instructions: newList,
-      });
-    }, 500);
+    //TODO: change this
   }
 
   return (
@@ -175,11 +232,11 @@ export default function AssignmentEdit() {
             <input
               className={`${edditMode ? styles.edditOn : styles.edditOff}`}
               readOnly={!edditMode}
-              defaultValue={assignment&&assignment.title}
+              defaultValue={assignment && assignment.title}
               id="titleInput"
             ></input>
             {
-              !edditMode && assignment &&  assignment.userId == context.userContext.id &&
+              !edditMode && assignment && assignment.userId == context.userContext.id &&
               <button onClick={handleEddit}>
                 <Image src="/edit.svg" width={20} height={20} alt={"edit"}></Image>
               </button>
@@ -201,15 +258,15 @@ export default function AssignmentEdit() {
         </div>
 
         <div className={styles.descriptionContainer}>
-              <div className={styles.descriptionTextContainer}>
-                <label>Description</label>
-                {
-                   edditMode ?
-                   <input id='descriptionInput' type="text" placeholder="Description" defaultValue={assignment&&assignment.description&&assignment.description}></input>
-                   :
-                  <p>{assignment&&assignment.description&&assignment.description}</p>
-                }
-              </div>
+          <div className={styles.descriptionTextContainer}>
+            <label>Description</label>
+            {
+              edditMode ?
+                <input id='descriptionInput' type="text" placeholder="Description" defaultValue={assignment && assignment.description && assignment.description}></input>
+                :
+                <p>{assignment && assignment.description && assignment.description}</p>
+            }
+          </div>
           <MarkdownEditor
             handleFromOutside={true}
             setText={(text) => setContent(text)}
@@ -220,7 +277,7 @@ export default function AssignmentEdit() {
         </div>
 
         {
-          assignment&&assignment.instructions&&assignment.instructions.length > 0 &&
+          instructionFiles.length > 0 &&
           <>
             <div className={styles.instructionHeader}>
               <div>
@@ -229,14 +286,13 @@ export default function AssignmentEdit() {
             </div>
             <div className={styles.instructionWrapper}>
               <div className={styles.instructionContainer}>
-                {assignment.instructions.map((file, i) => {
+                {instructionFiles.map((file, i) => {
                   return (
                     <FileListObject
                       key={"FileObj_" + i}
-                      itemKey={i}
                       file={file}
                       asCard={true}
-                      deleteFunction={() => handleDeleInstructionFile(i)}
+                      deleteFunction={handleDeleInstructionFile}
                     ></FileListObject>
                   );
                 })}
@@ -261,43 +317,33 @@ export default function AssignmentEdit() {
           }
         ></FileUpload>
 
-        {
-          assignment&&assignment.due > new Date() ?
-          <div className={styles.uploadfileWrapper}>
-          {
-            assignment.files.length == 0 ?
-              <>
-                <h3>no Files Uploaded!</h3>
-                <p>Drag and drop Files to upload them</p>
-              </>
-              :
-              <>
-                <div className={styles.uploadfileheader}>
-                  {assignment.files.length != 0 && <h1>Upload Files</h1>}
-                </div>
-                <div className={styles.uploadfileContainer}>
-                  {assignment.files.map((file, index) => {
-                    return (
-                      <FileListObject
-                        key={index}
-                        itemKey={index}
-                        file={file}
-                        asCard={false}
-                        deleteFunction={handleDeleteUploadFile}
-                      ></FileListObject>
-                    );
-                  })}
-                </div></>
-          }
-        </div>
-        :
-        <>
-          <div className={styles.solutionWrapper}>
-            <h1>Not Implementet yet</h1>
-          </div>
-        </>
-        }
-        
+            <div className={styles.uploadfileWrapper}>
+              {
+                files.length == 0 ?
+                  <>
+                    <h3>no Files Uploaded!</h3>
+                    <p>Drag and drop Files to upload them</p>
+                  </>
+                  :
+                  <>
+                    <div className={styles.uploadfileheader}>
+                      {files.length != 0 && <h1>Upload Files</h1>}
+                    </div>
+                    <div className={styles.uploadfileContainer}>
+                      {files.map((file, index) => {
+                        return (
+                          <FileListObject
+                            key={index}
+                            file={file}
+                            asCard={false}
+                            deleteFunction={handleDeleteUploadFile}
+                          ></FileListObject>
+                        );
+                      })}
+                    </div></>
+              }
+            </div>
+
 
         <div className={styles.editButton}>
           <div>

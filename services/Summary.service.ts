@@ -1,4 +1,5 @@
 import Summary from "../models/Summary";
+import SummaryPostDTO from "../models/SummaryPostDTO";
 
 const url = '/api/Summary';
 
@@ -22,7 +23,7 @@ export async function getSummaryById(id: number): Promise<Summary>{
   }
 }
 
-export async function createSummary(summary: Summary){
+export async function createSummary(summary: SummaryPostDTO){
   try {
     const response = await fetch(url, {
       method: 'POST',

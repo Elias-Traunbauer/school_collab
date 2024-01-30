@@ -191,6 +191,7 @@ export default function DisplayChat() {
         });
         setChats(tmpChats);
         setDisplayChats(tmpChats);
+
     }
 
 
@@ -219,8 +220,6 @@ export default function DisplayChat() {
                                     key={index}
                                     id={chat.id}
                                     name={chat.name}
-                                    lastMessage={GetLastMessage(chat.chatMessages)}
-                                    unreadMessages={GetUnreadMessages(chat.chatMessages)}
                                     onClick={() => setSelectedChat(chat)}
                                 ></ChatroomListitem>
                             )
