@@ -29,7 +29,7 @@ namespace Core.Entities.Database
 
         [SwaggerSchema(ReadOnly = true)]
         [ForeignKey(nameof(File.OwnerId))]
-        public List<File> Files { get; set; } = new List<File>();
+        public List<SummaryFile> Files { get; set; } = new List<SummaryFile>();
     }
 
     public class SummaryUpdatePayload : IConvertible<Summary>
@@ -39,6 +39,8 @@ namespace Core.Entities.Database
         public string Description { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public int SubjectId { get; set; }
+        public List<SummaryFileUpdatePayload> Files { get; set; } = new List<SummaryFileUpdatePayload>();
+        public Guid Version { get; set; }
 
         public Summary Convert()
         {
@@ -48,7 +50,9 @@ namespace Core.Entities.Database
                 Title = Title,
                 Description = Description,
                 Content = Content,
-                SubjectId = SubjectId
+                SubjectId = SubjectId,
+                Version = Version,
+                Files = Files.Select(x => x.Convert()).ToList()
             };
         }
     }

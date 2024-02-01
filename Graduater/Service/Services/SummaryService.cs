@@ -54,6 +54,8 @@ namespace Service.Services
             }
 
             summary.Votes = await CalculateVotesOnSummaryAsync(id);
+            // load files
+            summary.Files = await _unitOfWork.GenericRepository.Query<SummaryFile>().Where(x => x.SummaryId == id).ToListAsync();
 
             return summary;
         }

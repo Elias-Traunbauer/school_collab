@@ -89,6 +89,8 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
 
     public virtual DbSet<Summary> Summaries { get; set; }
 
+    public virtual DbSet<SummaryFile> SummaryFiles { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (_config?.DatabaseConnectionString == null)
