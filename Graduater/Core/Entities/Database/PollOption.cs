@@ -18,7 +18,7 @@ public class PollOption : DatabaseEntity, IPollOption
 
 public class PollOptionUpdatePayload : IConvertible<PollOption>
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
     public int PollId { get; set; }
     public string Name { get; set; } = null!;
     public Guid Version { get; set; }
@@ -27,7 +27,7 @@ public class PollOptionUpdatePayload : IConvertible<PollOption>
     {
         return new PollOption
         {
-            Id = Id,
+            Id = Id ?? 0,
             PollId = PollId,
             Version = Version,
             Name = Name
