@@ -132,8 +132,10 @@ export default function AssignmentEdit() {
     setEdditMode(true);
   }
 
+
   async function handleSaveEdit() {
     const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
+    const descriptionInput = document.getElementById("descriptionInput") as HTMLInputElement;
     const fileIds = files.map((file) => file.id);
     const instructionFileIds = instructionFiles.map((file) => file.id);
 
@@ -141,14 +143,20 @@ export default function AssignmentEdit() {
     setFilesToDelete([]);
     setFilesAdded([]);
 
-    setAssignment({
-      ...assignment,
-      content: textarea.value,
-      due: dueDate,
-      title: (document.getElementById("titleInput") as HTMLInputElement).value,
-      files: fileIds,
-      instructions: instructionFileIds,
-    });
+    console.log("SAVE",dueDate);
+
+    const tmpAssignment:Assignment = {
+        ...assignment,
+        content: textarea.value,
+        due: dueDate,
+        title: (document.getElementById("titleInput") as HTMLInputElement).value,
+        files: fileIds,
+        instructions: instructionFileIds,
+        description: descriptionInput.value
+      }
+
+    setAssignment(tmpAssignment);
+    await updateAssignment(tmpAssignment);
     setEdditMode(false);
   }
 
@@ -250,7 +258,7 @@ export default function AssignmentEdit() {
                 <Datepicker dateParam={new Date(assignment.due)} inputChanged={handleDateChange}></Datepicker>
                 :
                 assignment && assignment.due > new Date() ?
-                  <Countdown date={assignment.due}></Countdown>
+                  <Countdown date={dueDate}></Countdown>
                   :
                   <p>Abgelaufen</p>
             }

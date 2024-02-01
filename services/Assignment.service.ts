@@ -75,7 +75,7 @@ export async function createAssignment(assignment: AssignmentDTO){
   }
 }
 
-export async function updateAssignment(assignment: AssignmentDTO){
+export async function updateAssignment(assignment: Assignment){
   try {
     const response = await fetch(url, {
       method: 'PUT',

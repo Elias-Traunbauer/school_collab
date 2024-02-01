@@ -62,7 +62,7 @@ export async function createSubject(subject: SubjectPostDTO):Promise<string>{
                throw response;
           }
           const data = await response.json();
-          return data;
+          return data.id;
      }
      catch(error){
           throw error;

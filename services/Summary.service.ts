@@ -1,3 +1,4 @@
+import SummaryVoteDTO from "../models/SumaryVoteDTO";
 import Summary from "../models/Summary";
 import SummaryPostDTO from "../models/SummaryPostDTO";
 
@@ -84,6 +85,32 @@ export async function updateSummary(summary:Summary){
         }
         
       }
+    } else {
+      throw response;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function vote(param:SummaryVoteDTO){
+  const dto = {
+    value: param.vote
+  }
+
+  try {
+    const response = await fetch(url+'/'+param.summaryId+'/vote', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dto)
+    });
+
+    if (response.status === 200) {
+      
+      const data = await response.json();
+      return data.value;
     } else {
       throw response;
     }

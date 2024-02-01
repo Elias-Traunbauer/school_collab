@@ -50,4 +50,14 @@
     justify-content: center;
     background-color: rgb(57, 57, 57);
     border-radius: .3em;
+
+    &>h1{
+        display: block;
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        padding: 0 .8em;
+        white-space: nowrap;
+        text-align: center;
+    }
 }

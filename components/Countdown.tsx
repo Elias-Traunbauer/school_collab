@@ -25,7 +25,7 @@ export default function Countdown({ date }: { date: Date }) {
     const [datetime, setDateTime] = useState("0 Tage 0 Stunden 0 Minuten 0 Sekunden");
 
     useEffect(() => {
-
+        console.log("date changed",date);
         if (Math.floor(time.current) > 0) {
             time.current -= 1;
             setDateTime(formatDate(time.current));
@@ -39,7 +39,7 @@ export default function Countdown({ date }: { date: Date }) {
             }
         }, 1000);
         return () => clearInterval(i);
-    }, []);
+    });
 
     return <p>{datetime}</p>;
 }

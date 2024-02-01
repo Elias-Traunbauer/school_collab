@@ -55,6 +55,12 @@ export default function Datepicker({ id, inputChanged, title = 'date', dateParam
         inputChanged(tmpDate);
         setDate(tmpDate);
         calc(tmpDate);
+        
+    }
+
+    function closeDatepicker(){
+        const popupBtn = document.getElementById('pickerPopup') as HTMLButtonElement;
+        popupBtn.click();
     }
 
     function PrintDateTime(tmpDate) {
