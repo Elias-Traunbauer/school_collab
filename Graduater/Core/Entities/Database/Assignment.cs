@@ -1,4 +1,5 @@
 ﻿using Core.Contracts.Entities;
+using Core.Contracts.Services;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities.Database;
@@ -37,4 +38,34 @@ public class Assignment : DatabaseEntity, IAssignment
     public int GroupId { get; set; }
 
     public int SubjectId { get; set; }
+}
+
+public class AssignmentUpdatePayload : IConvertible<Assignment>
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = null!;
+
+    public string Description { get; set; } = null!;
+
+    public string Content { get; set; } = null!;
+
+    public DateTime Due { get; set; }
+
+    public int GroupId { get; set; }
+
+    public int SubjectId { get; set; }
+
+    public Assignment Convert()
+    {
+        return new Assignment
+        {
+            Id = Id,
+            Title = Title,
+            Description = Description,
+            Content = Content,
+            Due = Due,
+            GroupId = GroupId,
+            SubjectId = SubjectId
+        };
+    }
 }

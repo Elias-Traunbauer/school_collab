@@ -47,6 +47,8 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
         _config = config;
     }
 
+    public virtual DbSet<SummaryVote> Votes { get; set; }
+
     public virtual DbSet<Assignment> Assignments { get; set; }
 
     public virtual DbSet<Chat> Chats { get; set; }

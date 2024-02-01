@@ -83,14 +83,14 @@ namespace Api.Controllers
         [HttpPut]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
         [RateLimit(20)]
-        public async Task<IActionResult> UpdateAssignment([FromBody] Assignment assignment, [FromServices] IAssignmentService assignmentService)
+        public async Task<IActionResult> UpdateAssignment([FromBody] AssignmentUpdatePayload assignment, [FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await assignmentService.UpdateAssignmentAsync(assignment);
+            var result = await assignmentService.UpdateAssignmentAsync(assignment.Convert());
 
             if (result.Status != 200)
             {
@@ -102,16 +102,16 @@ namespace Api.Controllers
 
         [HttpDelete("{assignmentId}")]
         [RateLimitAttribute(10)]
-        public async Task<IActionResult> DeleteAssignment(int assignmentId, [FromServices] IAssignmentService assignmentService)
+        public Task<IActionResult> DeleteAssignment(int assignmentId, [FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Task.FromResult<IActionResult>(BadRequest(ModelState));
             }
 
             var user = HttpContext.GetUserInfo().User!;
 
-            return Ok();
+            return Task.FromResult<IActionResult>(Ok());
         }
     }
 }
