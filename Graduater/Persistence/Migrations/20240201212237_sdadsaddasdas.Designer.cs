@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240201212237_sdadsaddasdas")]
+    partial class sdadsaddasdas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,14 +79,14 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("AssignmentId")
+                    b.Property<int?>("AssignmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AssignmentIdInstruction")
                         .HasColumnType("int");
 
                     b.Property<int>("FileId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Instruction")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid>("Version")
                         .IsConcurrencyToken()
@@ -92,6 +95,8 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AssignmentId");
+
+                    b.HasIndex("AssignmentIdInstruction");
 
                     b.HasIndex("FileId");
 
@@ -912,9 +917,11 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Core.Entities.Database.Assignment", null)
                         .WithMany("Files")
-                        .HasForeignKey("AssignmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AssignmentId");
+
+                    b.HasOne("Core.Entities.Database.Assignment", null)
+                        .WithMany("Instructions")
+                        .HasForeignKey("AssignmentIdInstruction");
 
                     b.HasOne("Core.Entities.Database.File", "File")
                         .WithMany()
@@ -1263,6 +1270,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
                 {
                     b.Navigation("Files");
+
+                    b.Navigation("Instructions");
 
                     b.Navigation("Reports");
                 });

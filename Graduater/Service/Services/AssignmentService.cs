@@ -92,6 +92,7 @@ namespace Service.Services
 
         public async Task<IServiceResult> UpdateAssignmentAsync(Assignment assignment)
         {
+            assignment.Modified = DateTime.UtcNow;
             // update assignment
             await _unitOfWork.AssignmentRepository.UpdateAssignmentAsync(assignment);
 

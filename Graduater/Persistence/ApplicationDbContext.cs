@@ -101,10 +101,6 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Assignment>()
-            .HasMany(e => e.Files);
-        modelBuilder.Entity<Assignment>()
-            .HasMany(e => e.Instructions);
         base.OnModelCreating(modelBuilder);
     }
 }
