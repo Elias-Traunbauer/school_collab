@@ -39,6 +39,8 @@ namespace Core.Entities.Database
         public string Description { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public int SubjectId { get; set; }
+        public List<int> Files { get; set; } = new List<int>();
+        public Guid Version { get; set; }
 
         public Summary Convert()
         {
@@ -48,7 +50,9 @@ namespace Core.Entities.Database
                 Title = Title,
                 Description = Description,
                 Content = Content,
-                SubjectId = SubjectId
+                SubjectId = SubjectId,
+                Version = Version,
+                Files = Files.Select(x => new File { Id = x }).ToList()
             };
         }
     }
