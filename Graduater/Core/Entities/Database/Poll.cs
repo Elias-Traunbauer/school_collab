@@ -35,7 +35,10 @@ public class PollUpdatePayload : IConvertible<Poll>
 
     public DateTime Due { get; set; }
 
+    public List<PollOptionUpdatePayload> PollOptions { get; set; } = null!;
+
     public bool IsAnonymous { get; set; }
+    public Guid Version { get; set; }
 
     public Poll Convert()
     {
@@ -46,7 +49,9 @@ public class PollUpdatePayload : IConvertible<Poll>
             Description = Description,
             CreatorUserId = CreatorUserId,
             Due = Due,
-            IsAnonymous = IsAnonymous
+            IsAnonymous = IsAnonymous,
+            Version = Version,
+            PollOptions = PollOptions.Select(x => x.Convert()).ToList()
         };
     }
 }
@@ -63,6 +68,8 @@ public class PollCreatePayload : IConvertible<Poll>
 
     public bool IsAnonymous { get; set; }
 
+    public List<PollOptionCreatePayload> PollOptions { get; set; } = null!;
+
     public Poll Convert()
     {
         return new Poll
@@ -71,7 +78,8 @@ public class PollCreatePayload : IConvertible<Poll>
             Description = Description,
             CreatorUserId = CreatorUserId,
             Due = Due,
-            IsAnonymous = IsAnonymous
+            IsAnonymous = IsAnonymous,
+            PollOptions = PollOptions.Select(x => x.Convert()).ToList()
         };
     }
 }

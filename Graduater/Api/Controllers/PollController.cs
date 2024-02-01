@@ -24,5 +24,22 @@ namespace Api.Controllers
                 Id = res
             });
         }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll([FromServices] IPollService service)
+        {
+            List<Poll> res = await service.GetAllAsync();
+
+            return Ok(res);
+        }
+
+        [HttpGet("vote/{id}")]
+        public async Task<IActionResult> Vote([FromRoute] int id, [FromServices] IPollService service)
+        {
+            var user = HttpContext.GetUserInfo().User!;
+            int newId = await service.VoteAsync(id, user.Id);
+
+            return Ok();
+        }
     }
 }
