@@ -81,7 +81,7 @@ export default function PollList(){
                         Umfrage Erstellen
                 </button>
             </div>
-            {displayPolls.map((poll) => {
+            {displayPolls&&displayPolls.map((poll) => {
                 return <PollCard key={poll.id} poll={poll}></PollCard>
             })
             }

@@ -98,6 +98,7 @@ namespace Service.Services
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
+                TwoFactorAuthenticationEnabled = user.TwoFactorEnabled,
                 ServiceResult = ServiceResult.Completed
             };
         }
@@ -139,7 +140,8 @@ namespace Service.Services
                 PasswordHash = _passwordService.HashPassword(userRegisterPayload.Password, passwordSalt),
                 EmailVerificationToken = emailVerificationToken,
                 EmailVerificationTokenExpiration = DateTime.UtcNow.Add(TimeSpan.FromMinutes(5)),
-                RegisteredAt = DateTime.UtcNow
+                RegisteredAt = DateTime.UtcNow,
+                Unique2FAKey = ""
             };
             await _unitOfWork.UserRepository.CreateUserAsync(user);
             await _unitOfWork.SaveChangesAsync();
@@ -256,6 +258,8 @@ namespace Service.Services
                 return new ServiceResult("Error", "User not found");
             }
 
+            var twofakey = _randomKeyService.GetRandomKey(128);
+            user.Unique2FAKey = twofakey;
             user.RequestedTwoFactorAuthentication = true;
 
             await _unitOfWork.SaveChangesAsync();

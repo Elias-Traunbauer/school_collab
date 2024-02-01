@@ -7,5 +7,6 @@ namespace Core.Entities.Models
         public IServiceResult ServiceResult { get; set; } = new ServiceResult();
         public string? AccessToken { get; set; }
         public string? RefreshToken { get; set; }
+        public bool TwoFactorAuthenticationEnabled { get; set; }
     }
 }

@@ -11,7 +11,7 @@
 .navBar{
     display: flex;
     flex-direction: column;
-    width: 35%;
+    width: 25%;
     height: 100%;
     background-color: var(--background_1);
     border-top-right-radius: .5rem;
@@ -64,11 +64,12 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
+    padding-left: .3em;
+    padding-right: .8em;
 
     &>button{
-        width: 90%;
+        width: 100%;
         height: 90%;
         display: flex;
         flex-direction: row;
@@ -123,6 +124,7 @@
     align-items: center;
     width: 95%;
     margin-top: .5em;
+    padding-right: .5em;
 
     &> input{
         width: 100%;
@@ -146,7 +148,7 @@
 .ChatroomContainer{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 75%;
     height: 100%;
     border-left: 1px solid var(--background);
 }
@@ -183,11 +185,24 @@
 }
 
 .newChatDialog{
-    // put in the center of the screen
-    position: fixed;
-    top: 50%;
+    @media screen and (max-height: 800px) {
+        font-size: small;
+        &>div{
+            &>h2{
+                font-size: small !important;
+            }
+            &>input{
+                font-size: small !important;
+            }
+            &>textarea{
+                font-size: small!important;
+            }
+        }
+    }
+
+    position: absolute;
     left: 50%;
-    transform: translate(-45%, -40%);
+    transform: translate(-46%, 0);
     z-index: 100;
     width: 50%;
     border: none;
@@ -259,8 +274,12 @@
 }
 
 .memberlist{
-    min-height: 15em;
-    max-height: 15em;
+    @media screen and (max-height: 800px) {
+        font-size: small;
+        min-height: 5em;
+        max-height: 15em;
+    }
+    height: 15em;
     overflow-y: scroll;
     overflow-x: hidden;
     padding: .5em;

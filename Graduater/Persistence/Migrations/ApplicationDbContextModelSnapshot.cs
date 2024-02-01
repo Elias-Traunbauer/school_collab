@@ -226,13 +226,15 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Content")
-                        .IsRequired()
-                        .HasColumnType("longblob");
+                    b.Property<Guid>("BlobId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ContentType")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("Downloads")
+                        .HasColumnType("int");
 
                     b.Property<string>("MIME_Type")
                         .IsRequired()
@@ -242,8 +244,14 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("OwnerId")
+                        .HasColumnType("int");
+
                     b.Property<long>("Size")
                         .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UploadedById")
                         .HasColumnType("int");
@@ -253,6 +261,8 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
 
                     b.HasIndex("UploadedById");
 
@@ -528,6 +538,9 @@ namespace Persistence.Migrations
                     b.Property<int?>("SubjectId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SummaryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -569,6 +582,8 @@ namespace Persistence.Migrations
 
                     b.HasIndex("SubjectId");
 
+                    b.HasIndex("SummaryId");
+
                     b.HasIndex("UserSessionId");
 
                     b.ToTable("Reports");
@@ -595,6 +610,38 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.Summary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Summaries");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.User", b =>
@@ -656,6 +703,10 @@ namespace Persistence.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("Unique2FAKey")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
@@ -715,6 +766,46 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserSession");
+                });
+
+            modelBuilder.Entity("Trauni.EntityFramework.LargeBlobs.Models.EFLargeBlob", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EFLargeBlobs");
+                });
+
+            modelBuilder.Entity("Trauni.EntityFramework.LargeBlobs.Models.EFLargeBlobChunk", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(8000)");
+
+                    b.Property<Guid>("EFLargeBlobId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EFLargeBlobId");
+
+                    b.ToTable("EFLargeBlobChunks");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
@@ -829,6 +920,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Core.Entities.Database.File", b =>
                 {
+                    b.HasOne("Core.Entities.Database.Summary", null)
+                        .WithMany("Files")
+                        .HasForeignKey("OwnerId");
+
                     b.HasOne("Core.Entities.Database.User", "UploadedBy")
                         .WithMany()
                         .HasForeignKey("UploadedById")
@@ -995,11 +1090,26 @@ namespace Persistence.Migrations
                         .WithMany("Reports")
                         .HasForeignKey("SubjectId");
 
+                    b.HasOne("Core.Entities.Database.Summary", null)
+                        .WithMany("Reports")
+                        .HasForeignKey("SummaryId");
+
                     b.HasOne("Core.Entities.Database.UserSession", null)
                         .WithMany("Reports")
                         .HasForeignKey("UserSessionId");
 
                     b.Navigation("CreatedBy");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.Summary", b =>
+                {
+                    b.HasOne("Core.Entities.Database.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.User", b =>
@@ -1020,6 +1130,17 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Trauni.EntityFramework.LargeBlobs.Models.EFLargeBlobChunk", b =>
+                {
+                    b.HasOne("Trauni.EntityFramework.LargeBlobs.Models.EFLargeBlob", "EFLargeBlob")
+                        .WithMany()
+                        .HasForeignKey("EFLargeBlobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EFLargeBlob");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.Assignment", b =>
@@ -1104,6 +1225,13 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Entities.Database.Subject", b =>
                 {
                     b.Navigation("Assignments");
+
+                    b.Navigation("Reports");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.Summary", b =>
+                {
+                    b.Navigation("Files");
 
                     b.Navigation("Reports");
                 });

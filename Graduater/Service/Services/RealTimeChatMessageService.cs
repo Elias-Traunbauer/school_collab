@@ -25,7 +25,7 @@ namespace Service.Services
             {
                 return new ServiceResult("chatId", "Chat not found");
             }
-            var userIds = chat.ChatMembers!.Select(c => c.UserId).ToList();
+            var userIds = chat.ChatMembers!.Select(c => c.UserId).Distinct().ToList();
             List<Action<ChatMessage>> handlers = new();
             try
             {

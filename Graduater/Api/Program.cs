@@ -1,6 +1,7 @@
 using Api.Middlewares;
 using Core.Contracts;
 using Core.Contracts.Services;
+using Trauni.EntityFramework.LargeBlobs;
 using Microsoft.AspNetCore.Http.Json;
 using Persistence;
 using Ribbon.API.Middlewares;
@@ -43,6 +44,12 @@ namespace Api
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IChatService, ChatService>();
+            builder.Services.AddScoped<ISummaryService, SummaryService>();
+            builder.Services.AddScoped<ApplicationDbContext, ApplicationDbContext>((sp) =>
+            {
+                return new ApplicationDbContext(sp.GetRequiredService<ApiConfig>());
+            });
+            builder.Services.AddScoped<IEFLargeBlobService<ApplicationDbContext>, EFLargeBlobService<ApplicationDbContext>>();
 
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
@@ -64,10 +71,12 @@ namespace Api
             app.UseHsts();
             //app.UseHttpsRedirection();
 
+            app.UseCustomExceptionHandling();
+
             app.UseUserAuthentication();
             app.UseUserAuthorization();
 
-            app.UseRateLimiting();
+            //app.UseRateLimiting();
 
             app.MapControllers();
 

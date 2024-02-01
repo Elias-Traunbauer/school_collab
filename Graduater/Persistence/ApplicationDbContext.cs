@@ -1,10 +1,11 @@
 ﻿using Core.Entities.Database;
+using Trauni.EntityFramework.LargeBlobs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Persistence;
 
-public partial class ApplicationDbContext : DbContext
+public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
 {
     private readonly ApiConfig? _config;
 
@@ -17,13 +18,28 @@ public partial class ApplicationDbContext : DbContext
         {
             return;
         }
+        Console.WriteLine("Using default configuration");
+        // display path
+        Console.WriteLine(Environment.CurrentDirectory);
         var builder = new ConfigurationBuilder()
                         .SetBasePath(Environment.CurrentDirectory).AddJsonFile
                         ("appsettings.json", optional: false, reloadOnChange: false);
+        System.Console.WriteLine("building config");
+        try {
         var cfg = builder.Build();
+        System.Console.WriteLine(cfg.GetDebugView());
         ApiConfig config = new();
         cfg.Bind("ApiConfig", config);
+        Console.WriteLine($"Database Connection String: {config.DatabaseConnectionString}");
         _config = config;
+
+        }
+        catch (Exception ex) {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
+            throw;
+        }
+
     }
 
     public ApplicationDbContext(ApiConfig config) : base()
@@ -66,6 +82,8 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<UserSession> UserSession { get; set; }
 
     public virtual DbSet<AssignmentFile> AssignmentFiles { get; set; }
+
+    public virtual DbSet<Summary> Summaries { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

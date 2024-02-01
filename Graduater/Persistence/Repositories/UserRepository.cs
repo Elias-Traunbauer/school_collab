@@ -87,7 +87,8 @@ namespace Persistence.Repositories
 
         public async Task<ICollection<IUser>> SearchUserAsync(string username)
         {
-            return await _context.Users.Where(s => s.Username.ToLower().Contains(username.ToLower())).Cast<IUser>().ToListAsync();
+            var tmp = await _context.Users.Where(s => s.Username.ToLower().Contains(username.ToLower())).Cast<IUser>().ToListAsync();
+            return tmp;
         }
     }
 }

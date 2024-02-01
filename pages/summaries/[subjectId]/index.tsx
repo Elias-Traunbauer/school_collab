@@ -7,6 +7,7 @@ import Subject from "../../../models/Subject";
 import { useEffect, useState } from "react";
 import Summary from "../../../models/Summary";
 import {getSummariesBySubjectId} from "../../../services/Summary.service";
+import { getSubjectById } from "../../../services/Subject.service";
 
 //slug is the subject
 export default function SummaryCollection() {
@@ -18,22 +19,29 @@ export default function SummaryCollection() {
 
     useEffect(() => {
         async function fetchData() {
-            const subjectIdAsNumber = parseInt(subjectId as string);
+            const subjectIdAsNumber = parseInt(router.query.subjectId as string);
             if(isNaN(subjectIdAsNumber)) {
+                console.log("SUBJECT ID IS NOT A NUMBER");
                 return;
             }
-            const tmpSummaries = await getSummariesBySubjectId(subjectIdAsNumber);
-            setPosts(tmpSummaries);
+            const tmpSubject = await getSubjectById(subjectIdAsNumber);
+            console.log("SUBJECT", tmpSubject);
+            await setSubject(tmpSubject);
+            getSummariesBySubjectId(subjectIdAsNumber).then((summaries) => {
+                setPosts(summaries);
+                console.log("SUMMARIES", summaries);
+            });
+            
         }
         fetchData();
-    }, []);
+    }, [router.query.subjectId]);
     
     function goBack() {
         router.push('/summaries');
     }
 
     function handleNewSumary() {
-        router.push(`/summaries/${subject}/newSummary`);
+        router.push(`/summaries/${subjectId}/newSummary`);
     }
 
     return (
@@ -48,7 +56,7 @@ export default function SummaryCollection() {
             
             {
                 posts&&posts.map&&posts.map((post, i) => {
-                    return <SummaryPostCard key={i}></SummaryPostCard>
+                    return <SummaryPostCard post={post} key={post.id}></SummaryPostCard>
                 })
             }
         </div>

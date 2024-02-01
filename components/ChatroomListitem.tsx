@@ -1,24 +1,43 @@
-import React from 'react';
+import React, { use, useEffect } from 'react';
 import styles from '../styles/ChatroomListitem.module.scss';
 import Image from 'next/image';
 import ChatMessage from '../models/ChatMessage';
+import { getMessages, readChat } from '../services/Chat.service';
 export default function ChatroomListitem({
     key,
     id,
     name,
     profile,
-    lastMessage,
-    unreadMessages,
     onClick,
   }: {
     key:number,
     id: number;
     name: string;
     profile?: string;
-    lastMessage: ChatMessage;
-    unreadMessages: ChatMessage[];
     onClick?: () => void;
   }) {
+
+    const [lastMessage, setLastMessage] = React.useState<ChatMessage>();
+    const [unread, setUnread] = React.useState<boolean>();
+
+    async function fetchData() {
+        const messages = await getMessages(id, 0, 1);
+        if(messages&&messages.length > 0){
+            setLastMessage(messages[0]);
+            if(messages[0].read === false){
+                setUnread(true);
+            }
+            else{
+                setUnread(false);
+            }
+        }
+        
+    }
+
+    useEffect(() => {
+        fetchData();
+    },[]);
+
     const defaultProfile = 'person.svg';
 
         function unsetActive(){
@@ -33,6 +52,7 @@ export default function ChatroomListitem({
                 return '';
             }
 
+            date = new Date(date);
             const today = new Date();
             const yesterday = new Date(today);
             yesterday.setDate(yesterday.getDate() - 1);
@@ -45,9 +65,27 @@ export default function ChatroomListitem({
             }
         }
 
-        function handleClick(e){
+        function PrintChatName() {
+            if (!name) {
+              return <></>;
+            }
+            //first two letters of the name
+            if (name.length > 1)
+              return name.substring(0, 2).toUpperCase();
+            else
+              return name.toUpperCase();
+          }
+
+        async function handleClick(e){
+
+            const lastMessage = await getMessages(id, 0, 1);
+            console.log("Lastmessage",lastMessage);
+            if(lastMessage&&lastMessage.length > 0)
+            readChat(id,lastMessage[0].id)
+
             unsetActive();
             onClick();
+            setUnread(false);
             const container = document.getElementById('container_'+id);
             container.classList.add(styles.active);
         }
@@ -57,15 +95,17 @@ export default function ChatroomListitem({
         return (
             <div  className={styles.wrapper} onClick={(e)=>handleClick(e)}>
                 <div id={'container_'+id}>
-                    <Image className={profile === defaultProfile&& styles.defaultProfile } width={30} height={30} src={'/'+profile} alt="profile"></Image>
+                    <div className={styles.profilePic}>
+                        <p>{PrintChatName()}</p>
+                    </div>
                     <div className={styles.body}>
                         <p>{name}</p>
                         <p>{lastMessage&&lastMessage.content}</p>
                     </div>
                     <div className={styles.info}>
                         {
-                            unreadMessages&&unreadMessages.length > 0 ?
-                            <p className={styles.unreadMessages}>{unreadMessages.length > 300?'>300':unreadMessages.length}</p>
+                            unread ?
+                            <p className={styles.unreadMessages}>!</p>
                             :
                             <p className={styles.date}>{getDate(lastMessage&&lastMessage.created)}</p>
                         }

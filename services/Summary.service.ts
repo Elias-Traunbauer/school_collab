@@ -1,24 +1,7 @@
 import Summary from "../models/Summary";
+import SummaryPostDTO from "../models/SummaryPostDTO";
 
-const url = '/api/Assignment';
-
-export async function getAllSummaries(): Promise<Summary[]>{
-  try {
-    const response = await fetch(url+'/related', {
-      method: 'GET'
-    });
-    if (response.status != 200) {
-      throw response;
-    }
-    
-    const data = await response.json();
-    
-    return data;
-  } catch (error) {
-    
-    throw error;
-  }
-} 
+const url = '/api/Summary';
 
 export async function getSummaryById(id: number): Promise<Summary>{
   if(isNaN(id)){
@@ -40,7 +23,7 @@ export async function getSummaryById(id: number): Promise<Summary>{
   }
 }
 
-export async function createSummary(summary: Summary){
+export async function createSummary(summary: SummaryPostDTO){
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -52,15 +35,7 @@ export async function createSummary(summary: Summary){
 
     if (response.status === 200) {
       
-      const contentType = response.headers.get('content-type');
-      if (contentType) {
-        const data = await response.json();
-
-        if (data.status != 200) {
-          throw data;
-        }
-        
-      }
+      return response.json();
     } else {
       throw response;
     }
@@ -71,7 +46,7 @@ export async function createSummary(summary: Summary){
 
 export async function getSummariesBySubjectId(subjectId:number){
   try {
-    const response = await fetch(url+'/subject/'+subjectId, {
+    const response = await fetch(url+'/BySubject/'+subjectId, {
       method: 'GET'
     });
     if (response.status != 200) {

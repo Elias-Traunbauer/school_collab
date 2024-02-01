@@ -4,7 +4,7 @@ import AssignmentCard from '../../../components/AssignmentCard';
 import Image from 'next/image';
 import { useRouter } from 'next/router'
 import Assignment from '../../../models/Assignment';
-import {getAllAssignments} from '../../../services/Assignment.service';
+import {getAssignmentBySubjectId} from '../../../services/Assignment.service';
 import UserContext from '../../../components/UserContext'
 import { get } from 'http';
 import Group from '../../../models/Group';
@@ -26,8 +26,6 @@ export default function Assignments() {
         async function fetchDataAsync() {
             // check if subjectId is a number
 
-            console.log("subjectId", subjectId);
-
             if(!subjectId && isNaN(parseInt(subjectId as string))){
                 return;
             }
@@ -36,7 +34,7 @@ export default function Assignments() {
             const tmpSubject = await getSubjectById(subjectIdToNumber);
             console.log("SUBJECT", tmpSubject);
             setSubject(tmpSubject);
-            getAllAssignments().then((res) => {
+            getAssignmentBySubjectId(subjectIdToNumber).then((res) => {
                 
                 /* filter assignments by subjectId
                 res = res.filter((assignment) => {
@@ -91,6 +89,10 @@ export default function Assignments() {
         router.push("/assignments/");
     }
 
+    useEffect(() => {
+        console.log("SUB",subject);
+    }, [subject]);
+
     return (
         <div className={styles.assignmentcontainer}>
             <div className={styles.assignmentheader}>
@@ -113,7 +115,7 @@ export default function Assignments() {
                     }
                 </div>
                
-                <button onClick={() => router.push(subject.id+"/create")}>Create</button>
+                <button onClick={() => router.push(subjectId+"/create")}>Create</button>
             </div>
             <div className={styles.assignmentCardsContainer}>
             {

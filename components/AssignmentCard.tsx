@@ -12,8 +12,6 @@ export default function AssignmentCard({ assignment }: { assignment: Assignment 
     const [assignmentState, setAssignment] = useState(assignment);
     const subject = router.query.subjectId;
 
-    
-
     return (
         <div className={styles.assignmentcontainer} >
             <div className={styles.assignmentcard} onClick={() => router.push(`/assignments/${subject}/${assignment.id}`)}>

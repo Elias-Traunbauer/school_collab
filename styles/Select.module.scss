@@ -5,14 +5,18 @@
     transition: all .3s;
 }
 
-.item{
-    padding: .2em;
-    border-radius: .3em;
-    cursor: pointer;
-    transition: .3s;
+.select{
+    width: 100%;
+    font-size: large;
+    outline: none;
     background-color: var(--background_1);
-
-    &:hover{
-        background-color: var(--background_2);
+    border-radius: .3em;
+    padding: .3em;
+    cursor: pointer;
+    &>*{
+        cursor: pointer;
+    }
+    &>option{
+        background-color: var(--background_1);
     }
 }
