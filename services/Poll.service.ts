@@ -72,6 +72,9 @@ export async function executeVote(pollOptionId:number):Promise<void>{
 }
 
 export async function updatePoll(poll:Poll):Promise<void>{
+
+    console.log("POLL OPTION ID",poll);
+
     try{
         await fetch(url, {
             method: 'PUT',

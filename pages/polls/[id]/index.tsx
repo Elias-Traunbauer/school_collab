@@ -53,30 +53,34 @@ export default function PollDetail() {
 
         getPollById(pollIdAsNumber).then((res) => {
             setPoll(res);
-        });
-
-        if (poll&&poll.due < new Date()) {
-            loadChart();
-            setVoted(true);
-        }
-
-        haveIVoted(pollIdAsNumber).then((res) => {
-            console.log("HAVE I VOTED:", res);
-            if (res != -1) {
-                
-                setVoted(true);
+            setEditedDate(new Date(res.due));
+            if (poll&&poll.due < new Date()) {
                 loadChart();
-                const selectedOption = document.getElementById('option_' + res);
-                selectedOption.classList.add(styles.active);
-                console.log("SEL",selectedOption);
+                setVoted(true);
             }
-            else {
-                setVoted(false);
-            }
+    
+            haveIVoted(pollIdAsNumber).then((res) => {
+                console.log("HAVE I VOTED:", res);
+                if (res != -1) {
+                    
+                    setVoted(true);
+                    loadChart();
+                    const selectedOption = document.getElementById('option_' + res);
+                    if (!selectedOption) {
+                        return;
+                    }
+                    selectedOption.classList.add(styles.active);
+                    console.log("SEL",selectedOption);
+                }
+                else {
+                    setVoted(false);
+                }
+            });
         });
-
         // mby ein Service der alle paar sekunden das Voting updated und dann die Daten neu lädt
     }, [pollId]);
+
+
 
     async function loadChart(){
         if (!chartRef.current) {
@@ -85,6 +89,9 @@ export default function PollDetail() {
             return;
         }
 
+        if (chartRef.current) {
+            return;
+        }
         const ctx = chartRef.current.getContext('2d');
         const result:Poll = await getPollById(poll.id);
         console.log("RES:",result);
@@ -209,20 +216,18 @@ export default function PollDetail() {
         const newOption :PollOption = {
             name: '',
             pollId: poll.id,
+            id: null,
             votes: 0,
-            id: 0,
             version: ''
         }
         poll.pollOptions.push(newOption);
         setPoll({...poll});
-
-        updatePoll(poll);
     }
 
     function saveEdit() {
         const titleInput = document.getElementById('pollTitleInput') as HTMLInputElement;
         const options = document.querySelectorAll<HTMLInputElement>('.' + styles.optionsEditContainer + ' div input');
-        const validOptions = [];
+        const validOptions:PollOption[] = [];
         let isValid = true;
 
         if (titleInput.value.length < 1) {
@@ -232,10 +237,30 @@ export default function PollDetail() {
 
         // at least 2 options should be available
         let valid = 0;
+        console.log("OPTIONS:",options);
         options.forEach((option) => {
+            console.log("OPTION:",option);
             if (option.value.length > 0) {
                 valid++;
-                validOptions.push(option.value);
+                const optionId = option.id.split('_')[1];
+                const optionIdAsNumber = parseInt(optionId);
+                if (isNaN(optionIdAsNumber)) {
+                    //if optionId is null, then it is a new option
+                    const newOption :PollOption = {
+                        name: option.value,
+                        pollId: poll.id,
+                        id: null,
+                        votes: 0,
+                        version: ''
+                    }
+                    validOptions.push(newOption);
+                    return;
+                }
+                //poll option where option
+                const pollOption = poll.pollOptions.find((option) => option.id == optionIdAsNumber);
+                console.log("POLL OPTION:",pollOption);
+                pollOption.name = option.value;
+                validOptions.push(pollOption);
             }
         });
         if (valid < 2) {
@@ -257,6 +282,8 @@ export default function PollDetail() {
         else{
             poll.due = editedDate;
         }
+        console.log("DUE:",poll.due);
+        console.log("validOptions:",validOptions);
         poll.pollOptions = validOptions;
         poll.title = titleInput.value;
         //TODO: update Poll
@@ -264,6 +291,10 @@ export default function PollDetail() {
         setEditMode(false);
         updatePoll(poll);
     }
+
+    useEffect(() => {
+        console.log("EDITED DATE:",editedDate);
+    }, [editedDate]);
 
     function edit() {
         setBackupPoll({...poll});
@@ -330,7 +361,7 @@ export default function PollDetail() {
                             :
                             <div className={styles.dateContainer}>
                                 <div>
-                                    <Datepicker dateParam={poll&&poll.due} inputChanged={changeDate} ></Datepicker>
+                                    <Datepicker dateParam={editedDate} inputChanged={changeDate} ></Datepicker>
                                 </div>
                                 <span>
                                     <input onChange={changeEndDateCheckbox} type='checkbox' id='checkbox' defaultChecked={isNoEndDate}></input>
@@ -378,7 +409,7 @@ export default function PollDetail() {
                                 })
                             }
                             <div>
-                                <button id='voteButton' disabled={!selected&&voted} onClick={vote}>{voted ? "Abgestimmt" : "Abstimmen"}</button>
+                                <button id='voteButton' disabled={!selected||voted} onClick={vote}>{voted ? "Abgestimmt" : "Abstimmen"}</button>
                             </div>
                         </div>
                         </div>
@@ -389,7 +420,7 @@ export default function PollDetail() {
                                 poll&&poll.pollOptions.map((option, index) => {
                                     return (
                                         <div key={"option_" + index}>
-                                            <input onInput={removeInvalidationStyle} type="text" defaultValue={option.name}></input>
+                                            <input id={'optionInput_'+option.id} onInput={removeInvalidationStyle} type="text" defaultValue={option.name}></input>
                                             {
                                                 poll.pollOptions.length > 2 &&
                                                 <button onClick={()=>deleteOption(index)}>X</button>
