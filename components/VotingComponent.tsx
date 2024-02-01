@@ -17,10 +17,6 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
             setScore(score+2);
             setVoteState(1);
             vote(1);
-            const container = document.getElementById("voting_Containter_"+itemkey);
-            const downvote = container.querySelector(`.${styles.downvote}`) as HTMLInputElement;
-            if(downvote)
-            downvote.checked = false;
         }
         else if(voteState === 1){
             setScore(score-1);
@@ -45,10 +41,6 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
             setScore(score-2);
             setVoteState(-1);
             vote(-1);
-            const container = document.getElementById("voting_Containter_"+itemkey);
-            const upvote = container.querySelector(`.${styles.upvote}`) as HTMLInputElement;
-            if(upvote)
-            upvote.checked = false;
         }
     }
 
@@ -59,10 +51,10 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
             if(!isNaN(res))
             setVoteState(res)
         })
-    });
+    },[]);
 
     useEffect(()=>{
-        console.log(voteState);
+        console.log("VOTESTATECHANGE",voteState);
     },[voteState]);
 
     function preventdefault(e){
@@ -78,10 +70,10 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
                 <p >{score}</p>
                 <div>
                     <div className={styles.vote}>
-                        <input onClick={(e)=>preventdefault(e)} onChange={(e)=>handleUpvote(e)} type="checkbox" className={styles.upvote}></input>
+                        <input checked={voteState==1} onClick={(e)=>preventdefault(e)} onChange={(e)=>handleUpvote(e)} type="checkbox" className={styles.upvote}></input>
                     </div>
                     <div className={styles.vote}>
-                        <input onClick={(e)=>preventdefault(e)} onChange={handleDownvote} type="checkbox" className={styles.downvote}></input>
+                        <input checked={voteState==-1} onClick={(e)=>preventdefault(e)} onChange={handleDownvote} type="checkbox" className={styles.downvote}></input>
                     </div>
                 </div>
                 

@@ -124,6 +124,7 @@ export async function executeVote(param:SummaryVoteDTO){
 }
 
 export async function HaveVoted(id:number): Promise<number>{
+  return 1;
   try {
     const response = await fetch(url+'/'+id+'/IfIHaveVoted', {
       method: 'GET'
