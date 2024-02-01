@@ -82,11 +82,13 @@ export default function PollDetail() {
             if (i >= colors.length) {
                 const randomColor = Math.floor(Math.random() * 16777215).toString(16);
                 tmpBackgroundColors.push('#' + randomColor);
-                tmpBorderColors.push('#' + randomColor);
+                tmpBorderColors.push('#FFFFFF');
+                //tmpBorderColors.push('#' + randomColor);
             }
             else {
                 tmpBackgroundColors.push(colors[i]);
-                tmpBorderColors.push(colors[i]);
+                tmpBorderColors.push('#FFFFFF');
+                //tmpBorderColors.push(colors[i]);
             }
         }
 

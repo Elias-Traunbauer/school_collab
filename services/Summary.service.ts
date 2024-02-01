@@ -1,6 +1,7 @@
 import SummaryVoteDTO from "../models/SumaryVoteDTO";
 import Summary from "../models/Summary";
 import SummaryPostDTO from "../models/SummaryPostDTO";
+import SummaryPutDTO from "../models/SummaryPutDTO";
 
 const url = '/api/Summary';
 
@@ -64,14 +65,22 @@ export async function getSummariesBySubjectId(subjectId:number){
 
 }
 
-export async function updateSummary(summary:Summary){
+export async function updateSummary(summary:Summary|SummaryPutDTO){
+
+  const dto : SummaryPutDTO = {
+    title: summary.title,
+    description: summary.description,
+    content: summary.content,
+    subjectId: summary.subjectId
+  }
+
   try {
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(summary)
+      body: JSON.stringify(dto)
     });
 
     if (response.status === 200) {
