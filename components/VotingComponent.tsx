@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import styles from "../styles/VotingComponent.module.scss";
 import { useState } from "react";
-export default function VotingComponent({ itemkey, withScore = false, votingId = 1 }) {
+export default function VotingComponent({ itemkey, withScore = false, vote}:{itemkey:number,withScore?:boolean,vote?:Function}) {
 
     const[score,setScore] = useState(5);
     const[voteState,setVoteState] = useState(0);
@@ -23,6 +23,7 @@ export default function VotingComponent({ itemkey, withScore = false, votingId =
             setScore(score-1);
             setVoteState(0);
         }
+        vote();
     }
 
     function handleDownvote(){
@@ -41,6 +42,7 @@ export default function VotingComponent({ itemkey, withScore = false, votingId =
             if(upvote)
             upvote.checked = false;
         }
+        vote();
     }
 
     function preventdefault(e){

@@ -31,7 +31,7 @@ export default function Chatroom({
   const [description, setDescription] = useState(chatParam && chatParam.description);
   const [loadNewMessages, setLoadNewMessages] = useState(false);
   const [chat, setChat] = useState<Chat>(chatParam);
-  const [descriptionbackup, setDescriptionbackup] = useState(chatParam && chatParam.description);
+  const [descriptionbackup, setDescriptionBackup] = useState(chatParam && chatParam.description);
 
   useEffect(() => {
     console.log("CHATROOM", chatParam);
@@ -41,6 +41,9 @@ export default function Chatroom({
       }
 
       setName(chatParam.name && chatParam.name);
+      setDescription(chatParam.description && chatParam.description);
+      setBackUpName(chatParam.name && chatParam.name);
+      setDescriptionBackup(chatParam.description && chatParam.description);
 
       getMessages(chatParam.id).then((firstMessages) => {
         chatParam.chatMessages = firstMessages;
@@ -256,7 +259,7 @@ export default function Chatroom({
     console.log("changeNameEditMode", nameEdit);
     if (!nameEdit) {
       setBackUpName(chat.name);
-      setDescriptionbackup(chat.description);
+      setDescriptionBackup(chat.description);
     }
     setNameEdit(!nameEdit);
   }

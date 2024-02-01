@@ -10,7 +10,7 @@ import Summary from '../../../../models/Summary';
 import { getSummaryById , updateSummary} from '../../../../services/Summary.service';
 import Subject from '../../../../models/Subject';
 import { getSubjectById } from '../../../../services/Subject.service';
-import { deleteFilesByIds, downloadFileById, getFileById, getFileNameById, getFileNamesByIds, getFilesByIds, postFiles } from '../../../../services/File.service';
+import { deleteFilesByIds, downloadFileById, getFileById , getFileInfosById, getFilesByIds, postFiles } from '../../../../services/File.service';
 import FileObject from '../../../../models/File';
 import UserContext from '../../../../components/UserContext';
 import Image from 'next/image';
@@ -54,8 +54,8 @@ export default function SummaryDetail(){
 
         const tmpFileDisplayObjects: FileDisplayObject[] = [];
         for (const iterator of tmpSummary.files) {
-            const tmpFileName = await getFileNameById(iterator);
-            tmpFileDisplayObjects.push({id: iterator, name: tmpFileName});
+            const tmpFileInfo = await getFileInfosById(iterator);
+            tmpFileDisplayObjects.push({id: iterator, name: tmpFileInfo.name});
         }
         setFiles(tmpFileDisplayObjects);
     }
@@ -63,7 +63,6 @@ export default function SummaryDetail(){
     function handleAcceptedFiles(files: string[]) {
         console.log(files);
     }
-
     useEffect(() => {
         console.log("summary",summary);
         setDescription(summary&&summary.description);
@@ -78,8 +77,8 @@ export default function SummaryDetail(){
 
             for (const fileId of res) {
                 try{
-                    const tmpFileName = await getFileNameById(fileId);
-                    tmpFiles.push({id: fileId, name: tmpFileName});
+                    const tmpFileInfo = await getFileInfosById(fileId);
+                    tmpFiles.push({id: fileId, name: tmpFileInfo.name});
                 }
                 catch(err){
                     console.log("GETFILENAMEERROR",err);
@@ -178,7 +177,7 @@ export default function SummaryDetail(){
                         }
                         
                         <div>
-                            <VotingComponent votingId={summary&&summary.id} withScore={true} itemkey={0}></VotingComponent>
+                            <VotingComponent withScore={true} itemkey={summary&&summary.id}></VotingComponent>
                         </div> 
                     </div>
             </div>

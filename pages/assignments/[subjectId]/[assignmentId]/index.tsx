@@ -12,7 +12,7 @@ import Subject from "../../../../models/Subject";
 import UserContext from '../../../../components/UserContext'
 import Datepicker from "../../../../components/Datepicker";
 import { getAssignmentById, updateAssignment } from '../../../../services/Assignment.service';
-import { deleteFilesByIds, getFileNameById, getFilesByIds, postFiles } from "../../../../services/File.service";
+import { deleteFilesByIds, getFileInfosById, getFilesByIds, postFiles } from "../../../../services/File.service";
 import FileObject from "../../../../models/File";
 import FileDisplayObject from "../../../../models/FileDisplayObject";
 
@@ -65,8 +65,8 @@ export default function AssignmentEdit() {
       setFilesAdded([...filesAdded, ...tmpFiles]);
       for (const iterator of tmpFiles) {
         try {
-          const tmpFileName = await getFileNameById(iterator);
-          tmpFileObjects.push({ id: iterator, name: tmpFileName });
+          const tmpFileInfo = await getFileInfosById(iterator);
+          tmpFileObjects.push({ id: iterator, name: tmpFileInfo.name });
         }
         catch (err) {
           console.log("GETFILENAMEERROR", err);
@@ -87,8 +87,8 @@ export default function AssignmentEdit() {
       setFilesAdded([...filesAdded, ...tmpFiles]);
       for (const iterator of tmpFiles) {
         try {
-          const tmpFileName = await getFileNameById(iterator);
-          tmpFileObjects.push({ id: iterator, name: tmpFileName });
+          const tmpFileInfo = await getFileInfosById(iterator);
+          tmpFileObjects.push({ id: iterator, name: tmpFileInfo.name });
         }
         catch (err) {
           console.log("GETFILENAMEERROR", err);
@@ -200,8 +200,8 @@ export default function AssignmentEdit() {
     //TODO: restore files
     const restoredFiles: FileDisplayObject[] = [];
     for (const iterator of fileIds) {
-      const tmpFileName = await getFileNameById(iterator);
-      restoredFiles.push({ id: iterator, name: tmpFileName });
+      const tmpFileInfo = await getFileInfosById(iterator);
+      restoredFiles.push({ id: iterator, name: tmpFileInfo.name });
     }
 
     if(isInstruction){

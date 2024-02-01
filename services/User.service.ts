@@ -36,7 +36,7 @@ export async function registerUser(user: UserRegisterDTO): Promise<any> {
     
 }
 
-export async function getUser(): Promise<any> {
+export async function getUser(): Promise<User> {
     try{
         const response = await fetch(url, {
             method: 'GET'
@@ -153,6 +153,22 @@ export async function searchUser(query:string){
             throw data;
         }
         return data.value;
+    }
+    catch(error){
+        throw error;
+    }
+}
+
+export async function getUserById(id:number):Promise<User>{
+    try{
+        const response = await fetch(url+'/'+id,{
+            method: 'GET'
+        });
+        if(response.status != 200){
+            throw response;
+        }
+        const data = await response.json();
+        return data;
     }
     catch(error){
         throw error;

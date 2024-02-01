@@ -12,4 +12,5 @@ export default interface Summary {
     id: number;
     version: string;
     reports: User[];
+    votes: number;
 }
