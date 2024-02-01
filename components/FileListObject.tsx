@@ -3,8 +3,8 @@ import styles from "../styles/FileListObject.module.scss";
 import Image from "next/image";
 import { getFileById } from "../services/File.service";
 import FileObject from "../models/File";
+import FileDisplayObject from "../models/FileDisplayObject";
 export default function FileListObject({
-  itemKey,
   deleteFunction,
   downloadFunction,
   downloadabel = false,
@@ -12,21 +12,13 @@ export default function FileListObject({
   file,
 }: {
   downloadabel?: boolean;
-  itemKey: number;
   downloadFunction?: (key: number) => void | null;
   deleteFunction?: (key: number) => void | null;
   asCard?: boolean;
-  file: FileObject;
+  file: FileDisplayObject;
 }) {
-  const [displayFile, setDisplayFile] = useState<File>();
-
-  useEffect(() => {
-    async function fetchData() {
-      const tmpFile = await getFileById(file.id);
-      setDisplayFile(tmpFile);
-    }
-    fetchData();
-  }, []);
+  const [displayFile, setDisplayFile] = useState<FileDisplayObject>(file);
+  console.log("FILEPARAM",file);
 
   function GetFilename(file) {
     let maxLen = 50;
@@ -40,7 +32,7 @@ export default function FileListObject({
   }
 
   function uploadItem(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    downloadFunction(itemKey);
+    downloadFunction(displayFile.id);
     
     // get child element
     const element = e.target as HTMLElement;
@@ -56,7 +48,7 @@ export default function FileListObject({
     setTimeout(() => {
       element.classList.remove(styles.deleteAnimation);
     }, 200);
-    deleteFunction(itemKey);
+    deleteFunction(displayFile.id);
   }
   return (
     <>

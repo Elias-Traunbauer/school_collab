@@ -22,6 +22,7 @@ export async function getChats(): Promise<Chat[]>{
 }
 
 export async function readChat(chatId:number,MessageId:number){
+    console.log("READCHAT",chatId,MessageId);
     try{
         const response = await fetch(url+'/Read',{
             method: 'POST',
@@ -33,7 +34,9 @@ export async function readChat(chatId:number,MessageId:number){
         if(response.status != 200){
             throw response;
         }
+        console.log("READCHATAFTER",response);
         const data = await response.json();
+        
         return data.value;
     }
     catch(error){
@@ -52,7 +55,6 @@ export async function getMessages(chatId:number,start?:number,count?:number): Pr
             throw response;
         }
         const data = await response.json();
-        console.log("GETMESSAGES",data.value);
         return data.value;
     }
     catch(error){

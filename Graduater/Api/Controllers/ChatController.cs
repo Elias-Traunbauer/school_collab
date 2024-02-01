@@ -107,6 +107,7 @@ namespace Api.Controllers
             {
                 if (cancellationToken.IsCancellationRequested || HttpContext.RequestAborted.IsCancellationRequested)
                 {
+                    await realTimeChatMessageService.UnsubscribeFromMessages(user.Id);
                     return;
                 }
                 await resp.WriteAsync($"data: " + JsonConvert.SerializeObject(new

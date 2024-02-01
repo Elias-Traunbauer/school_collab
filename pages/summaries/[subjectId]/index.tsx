@@ -19,18 +19,22 @@ export default function SummaryCollection() {
 
     useEffect(() => {
         async function fetchData() {
-            const subjectIdAsNumber = parseInt(subjectId as string);
+            const subjectIdAsNumber = parseInt(router.query.subjectId as string);
             if(isNaN(subjectIdAsNumber)) {
+                console.log("SUBJECT ID IS NOT A NUMBER");
                 return;
             }
             const tmpSubject = await getSubjectById(subjectIdAsNumber);
             console.log("SUBJECT", tmpSubject);
-            setSubject(tmpSubject);
-            const tmpSummaries = await getSummariesBySubjectId(subjectIdAsNumber);
-            setPosts(tmpSummaries);
+            await setSubject(tmpSubject);
+            getSummariesBySubjectId(subjectIdAsNumber).then((summaries) => {
+                setPosts(summaries);
+                console.log("SUMMARIES", summaries);
+            });
+            
         }
         fetchData();
-    }, []);
+    }, [router.query.subjectId]);
     
     function goBack() {
         router.push('/summaries');
@@ -52,7 +56,7 @@ export default function SummaryCollection() {
             
             {
                 posts&&posts.map&&posts.map((post, i) => {
-                    return <SummaryPostCard key={i}></SummaryPostCard>
+                    return <SummaryPostCard post={post} key={post.id}></SummaryPostCard>
                 })
             }
         </div>

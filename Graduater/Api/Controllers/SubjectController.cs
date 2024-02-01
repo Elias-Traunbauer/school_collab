@@ -67,5 +67,16 @@ namespace Api.Controllers
             }
             return Ok(result);
         }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllSubjects([FromServices] ISubjectService subjectService)
+        {
+            var result = await subjectService.GetAllSubjectsAsync();
+            if (result.Status != 200)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result.Value);
+        }
     }
 }

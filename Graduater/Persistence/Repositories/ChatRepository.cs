@@ -58,7 +58,7 @@ namespace Persistence.Repositories
 
         public async Task<IEnumerable<ChatMessage>> GetMessages(int chatId, int count = 10, int start = 0)
         {
-            var messages = _context.ChatMessages.Where(m => m.ChatId == chatId).Skip(start).Take(count);
+            var messages = _context.ChatMessages.Where(m => m.ChatId == chatId).OrderByDescending(x => x.Created).Skip(start).Take(count);
             return messages;
         }
 

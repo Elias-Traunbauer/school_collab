@@ -191,6 +191,7 @@ export default function DisplayChat() {
         });
         setChats(tmpChats);
         setDisplayChats(tmpChats);
+
     }
 
 
@@ -209,7 +210,6 @@ export default function DisplayChat() {
                     </div>
                     <div className={styles.searchContainer}>
                         <input id='chatSearchInput' onInput={hanldeSearch} type="text" placeholder="Search" />
-                        <Image src='/search.svg' width='20' height='20' alt='search'></Image>
                     </div>
                 </div>
                 <div className={styles.navbarBody}>
@@ -220,8 +220,6 @@ export default function DisplayChat() {
                                     key={index}
                                     id={chat.id}
                                     name={chat.name}
-                                    lastMessage={GetLastMessage(chat.chatMessages)}
-                                    unreadMessages={GetUnreadMessages(chat.chatMessages)}
                                     onClick={() => setSelectedChat(chat)}
                                 ></ChatroomListitem>
                             )

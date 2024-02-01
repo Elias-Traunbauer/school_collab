@@ -18,13 +18,28 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
         {
             return;
         }
+        Console.WriteLine("Using default configuration");
+        // display path
+        Console.WriteLine(Environment.CurrentDirectory);
         var builder = new ConfigurationBuilder()
                         .SetBasePath(Environment.CurrentDirectory).AddJsonFile
                         ("appsettings.json", optional: false, reloadOnChange: false);
+        System.Console.WriteLine("building config");
+        try {
         var cfg = builder.Build();
+        System.Console.WriteLine(cfg.GetDebugView());
         ApiConfig config = new();
         cfg.Bind("ApiConfig", config);
+        Console.WriteLine($"Database Connection String: {config.DatabaseConnectionString}");
         _config = config;
+
+        }
+        catch (Exception ex) {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
+            throw;
+        }
+
     }
 
     public ApplicationDbContext(ApiConfig config) : base()

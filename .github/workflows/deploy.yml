@@ -2,9 +2,9 @@ name: "Deploy"
 
 on:
   push:
-      branches:
-            - master
-      
+    branches:
+      - master
+
 jobs:
   build:
     name: "Deploy project on live-dev server"
@@ -13,43 +13,18 @@ jobs:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/staging.key
-          chmod 600 ~/.ssh/staging.key
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
           cat >>~/.ssh/config <<END
-          Host staging
-            HostName $SSH_HOST
-            User $SSH_USER
-            IdentityFile ~/.ssh/staging.key
+          Host deployment_server
+            HostName ${{ secrets.SSH_SERVER }}
+            User ${{ secrets.SSH_USERNAME }}
+            IdentityFile ~/.ssh/deploy_key
             StrictHostKeyChecking no
           END
-        env:
-          SSH_USER: github
-          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_HOST: 194.13.82.207
 
       - name: Check SSH Connection
-        run: ssh staging 'echo "It works!"'
+        run: ssh deployment_server 'echo "SSH connection successful"'
 
-      - name: Pull project code
-        run: ssh staging 'sudo git -C ./school_collab reset --hard | sudo git -C ./school_collab pull'
-
-      - name: Set build time for web display
-        run: ssh staging 'npm --prefix ./school_collab run update_build_date'
-
-      - name: Deploy next-project
-        run: ssh staging 'npm --prefix ./school_collab i & npm --prefix ./school_collab run deploy'
-        
-      - name: Create PHP API folder 
-        run: ssh staging 'mkdir ./school_collab/out/api'
-        
-      - name: Copy PHP files
-        run: ssh staging 'cp -a ./school_collab/api ./school_collab/out'
-        
-      - name: Copy all deployed files to www directory
-        run: ssh staging 'sudo cp -a ./school_collab/out/ /var/www'
-        
-      - name: Delete previous deploy files
-        run: ssh staging 'sudo rm -r -d /var/www/school_collab'
-        
-      - name: Rename www directory
-        run: ssh staging 'sudo mv /var/www/out/ /var/www/school_collab'
+      - name: Deploy script
+        run: ssh deployment_server 'bash ~/school_collab/deploy_script.sh'
