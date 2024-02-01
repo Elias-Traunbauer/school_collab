@@ -10,7 +10,8 @@ import Poll from '../../../models/Poll';
 import PollOption from '../../../models/PollOption';
 import User from '../../../models/User';
 import { getUser } from '../../../services/User.service';
-import { getPollById } from '../../../services/Poll.service';
+import { executeVote, getPollById, updatePoll } from '../../../services/Poll.service';
+import { exec } from 'child_process';
 
 export default function PollDetail() {
 
@@ -34,6 +35,7 @@ export default function PollDetail() {
     const [isNoEndDate, setIsNoEndDate] = useState<boolean>();
     const [ownUser, setOwnUser] = useState<User>();
     const pollId = router.query.id;
+    const [selectedOption, setSelectedOption] = useState<number>();
 
 
     useEffect(() => {
@@ -128,11 +130,12 @@ export default function PollDetail() {
         });
     }
 
-    function setActive(e) {
+    function setActive(e,option:PollOption) {
         if (e.target.classList.contains(styles.active)) {
             console.log('remove active');
             e.target.classList.remove(styles.active);
             setSelected(false);
+            setSelectedOption(null);
         } else {
             const options = document.querySelectorAll('.' + styles.container + ' div:last-child button');
             options.forEach((option) => {
@@ -140,6 +143,7 @@ export default function PollDetail() {
             });
             e.target.classList.add(styles.active);
             setSelected(true);
+            setSelectedOption(option.id);
         }
     }
 
@@ -163,12 +167,16 @@ export default function PollDetail() {
         voteButton.setAttribute('disabled', 'true');
         const chart = document.getElementById('Chart');
 
+        //TODO: send vote to backend
+        if(selectedOption){
+            executeVote(selectedOption);
+        }
         //delay scroll to bottom
         setTimeout(() => {
             chart.scrollIntoView({ behavior: 'smooth' });
         }, 100);
 
-        //TODO: send vote to backend
+        
 
     }
 
@@ -191,6 +199,8 @@ export default function PollDetail() {
         }
         poll.pollOptions.push(newOption);
         setPoll({...poll});
+
+        updatePoll(poll);
     }
 
     function saveEdit() {
@@ -236,6 +246,7 @@ export default function PollDetail() {
         //TODO: update Poll
         setPoll({...poll});
         setEditMode(false);
+        updatePoll(poll);
     }
 
     function edit() {
@@ -344,7 +355,7 @@ export default function PollDetail() {
 
                     poll&&poll.pollOptions.map((option, index) => {
                                     return (
-                                        <button onClick={!voted ? setActive : () => { }} key={"option_" + index}>
+                                        <button onClick={!voted ? (e)=>setActive(e,option) : () => { }} key={"option_" + option.id}>
                                             <p>{option.name}</p>
                                         </button>
                                     )

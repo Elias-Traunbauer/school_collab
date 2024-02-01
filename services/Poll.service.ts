@@ -42,36 +42,6 @@ export async function createPoll(poll:PollPostDTO){
 }
 
 export async function getPollById(id:number):Promise<Poll>{
-    //MOCK
-    const option1:PollOption = {
-        name: "Ja",
-        pollId: 1,
-        votes: 5,
-        id: 1,
-        version: ""
-    }
-    const option2:PollOption = {
-        name: "Nein",
-        pollId: 1,
-        votes: 3,
-        id: 2,
-        version: ""
-    }
-
-    const p:Poll = {
-        creatorUserId: 1,
-        dateCreated: new Date(),
-        description: "# Hallo",
-        due: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
-        isAnonymous: false,
-        title: "Poll1",
-        id: 1,
-        version: "",
-        pollOptions: [option1,option2]
-    }
-
-    return p;
-//REAL
     try{
         const response = await fetch(`${url}/${id}`, {
             method: 'GET'
@@ -86,5 +56,31 @@ export async function getPollById(id:number):Promise<Poll>{
     }catch(error){
         throw error;
     }
+}
 
+export async function executeVote(pollOptionId:number):Promise<void>{
+
+    console.log("POLL OPTION ID",pollOptionId);
+
+    try{
+        await fetch(`${url}/vote/${pollOptionId}`, {
+            method: 'POST'
+        });
+    }catch(error){
+        throw error;
+    }
+}
+
+export async function updatePoll(poll:Poll):Promise<void>{
+    try{
+        await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify(poll)
+        });
+    }catch(error){
+        throw error;
+    }
 }
