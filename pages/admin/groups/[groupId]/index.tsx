@@ -10,6 +10,7 @@ export default function GroupDetails() {
     const router = useRouter();
     const [group, setGroup] = useState<Group>(null);
     const [editMode, setEditMode] = useState<boolean>(false);
+    const [isAddUser, setIsAddUser] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchDataAsync() {
@@ -46,12 +47,24 @@ export default function GroupDetails() {
                                 </button>
                             </div>
                             
-                            <input defaultValue={group.description} className={!editMode ? styles.editInput : ""}></input>
+                            <textarea defaultValue={group.description} className={!editMode ? styles.editInput : ""}></textarea>
 
                             <div>
                                 <h2>Users ({group.groupUsers.length})</h2>
-                                <button className="btn-secondary" onClick={addUser}>+ Hinzufügen</button>
+
+                                {false &&
+                                <button className="btn-secondary" onClick={() => setIsAddUser(true)} disabled={!editMode}>+ Hinzufügen</button>
+                                }
                             </div>
+
+                            {false && 
+                                <dialog className={styles.addUser}>
+                                    <div>
+                                        <h2>Users ({group.groupUsers.length})</h2>
+                                        <button className="btn-secondary" onClick={addUser}>+ Hinzufügen</button>
+                                    </div>
+                                </dialog>  
+                            }
                             
 
                             <div>
@@ -66,10 +79,13 @@ export default function GroupDetails() {
                                         <Image width={30} height={30} src={'/person.svg'} alt={''}></Image>
                                         <p>{user.user.firstName} {user.user.lastName}</p>
                                         <p>{user.user.email}</p>
-                                        <button className="btn-primary" onClick={() => removeUser(user.userId)}>x</button>
+                                        {editMode &&
+                                            <button className="btn-primary" onClick={() => removeUser(user.userId)}>x</button>
+                                        }
+                                        
                                     </div>
                                 ))}
-                            </div>   
+                            </div> 
                         </div>
                     )}
             </div>

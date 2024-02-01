@@ -3,6 +3,7 @@ import Group from "../../../models/Group";
 import { getAllGroups } from "../../../services/Group.service";
 import styles from '../../../styles/Group.module.scss';
 import { useRouter } from "next/router";
+import AdminNavbar from "../../../components/AdminNavbar";
 
 export default function Groups() {
     const router = useRouter();
