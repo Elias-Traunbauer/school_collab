@@ -114,7 +114,7 @@ export default function SummaryDetail(){
 
     function handleExit() {
         updateSummary(summary).then((res) => {
-            router.push(`/summaries/${subject}`);
+            router.push(`/summaries/${subjectId}`);
         });
     }
 
@@ -136,7 +136,6 @@ export default function SummaryDetail(){
             setBackupSummary({...summary});
             setSummary({...summary});
              */
-
             loadSummary();
             setEditMode(false);
         }).catch((err) => {

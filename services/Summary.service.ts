@@ -109,6 +109,7 @@ export async function executeVote(param:SummaryVoteDTO){
   const dto = {
     value: param.vote
   }
+  console.log("VOTEDTO",dto);
 
   try {
     const response = await fetch(url+'/'+param.summaryId+'/vote', {
@@ -124,7 +125,6 @@ export async function executeVote(param:SummaryVoteDTO){
 }
 
 export async function HaveVoted(id:number): Promise<number>{
-  return 1;
   try {
     const response = await fetch(url+'/'+id+'/IfIHaveVoted', {
       method: 'GET'

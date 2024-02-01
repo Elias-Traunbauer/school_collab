@@ -3,10 +3,12 @@ import React, { use, useEffect } from "react";
 import styles from "../styles/VotingComponent.module.scss";
 import { useState } from "react";
 import { HaveVoted } from "../services/Summary.service";
+import { useRouter } from "next/router";
 export default function VotingComponent({ itemkey, withScore = false, vote}:{itemkey:number,withScore?:boolean,vote?:Function}) {
 
     const[score,setScore] = useState(5);
     const[voteState,setVoteState] = useState<number>(0);
+    const router = useRouter();
 
     function handleUpvote(e){
         if(voteState === 0){
@@ -51,7 +53,16 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
             if(!isNaN(res))
             setVoteState(res)
         })
-    },[]);
+    },[router]);
+
+    useEffect(()=>{
+        console.log("STARTSTATE:", voteState, "ITEMKEY:",itemkey);
+        HaveVoted(itemkey).then((res)=>{
+            console.log("RES:",res);
+            if(!isNaN(res))
+            setVoteState(res)
+        })
+    },[itemkey]);
 
     useEffect(()=>{
         console.log("VOTESTATECHANGE",voteState);
