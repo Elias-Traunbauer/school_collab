@@ -6,7 +6,7 @@ import { HaveVoted } from "../services/Summary.service";
 export default function VotingComponent({ itemkey, withScore = false, vote}:{itemkey:number,withScore?:boolean,vote?:Function}) {
 
     const[score,setScore] = useState(5);
-    const[voteState,setVoteState] = useState(0);
+    const[voteState,setVoteState] = useState<number>(0);
 
     function handleUpvote(e){
         if(voteState === 0){
@@ -27,12 +27,13 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
             setVoteState(0);
             vote(0);
         }
-        
     }
 
     function handleDownvote(){
+        console.log("DOWNVOTE");
         if(voteState === 0){
             setScore(score-1);
+            console.log("DOWNVOTE 0");
             setVoteState(-1);
             vote(-1);
         }else if(voteState === -1){
@@ -52,10 +53,18 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
     }
 
     useEffect(()=>{
-        HaveVoted(itemkey).then((res)=>{
+        console.log("STARTSTATE:", voteState, "ITEMKEY:",itemkey);
+        /**
+         * HaveVoted(itemkey).then((res)=>{
+            if(!isNaN(res))
             setVoteState(res)
         })
+         */
     },[]);
+
+    useEffect(()=>{
+        console.log(voteState);
+    },[voteState]);
 
     function preventdefault(e){
         e.stopPropagation();

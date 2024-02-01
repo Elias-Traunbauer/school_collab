@@ -102,7 +102,7 @@ export default function SummaryCollection() {
             
             {
                 posts&&posts.map&&posts.map((post, i) => {
-                    return <SummaryPostCard vote={handleVote} post={post} key={post.id}></SummaryPostCard>
+                    return <SummaryPostCard voteFunc={handleVote} post={post} key={post.id}></SummaryPostCard>
                 })
             }
         </div>

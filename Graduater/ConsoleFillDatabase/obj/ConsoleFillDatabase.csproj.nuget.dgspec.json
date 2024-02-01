@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj": {}
+    "C:\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj": {}
   },
   "projects": {
-    "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj": {
+    "C:\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj",
+        "projectUniqueName": "C:\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj",
         "projectName": "ConsoleFillDatabase",
-        "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj",
-        "packagesPath": "C:\\Users\\trauni\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\ConsoleFillDatabase\\obj\\",
+        "projectPath": "C:\\school_collab\\Graduater\\ConsoleFillDatabase\\ConsoleFillDatabase.csproj",
+        "packagesPath": "C:\\Users\\Elias\\.nuget\\packages\\",
+        "outputPath": "C:\\school_collab\\Graduater\\ConsoleFillDatabase\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Elias\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,11 +28,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
-                "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
+              "C:\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
+                "projectPath": "C:\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
               },
-              "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Service\\Service.csproj": {
-                "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Service\\Service.csproj"
+              "C:\\school_collab\\Graduater\\Service\\Service.csproj": {
+                "projectPath": "C:\\school_collab\\Graduater\\Service\\Service.csproj"
               }
             }
           }
@@ -62,21 +62,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj": {
+    "C:\\school_collab\\Graduater\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\school_collab\\Graduater\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\trauni\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\obj\\",
+        "projectPath": "C:\\school_collab\\Graduater\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\Elias\\.nuget\\packages\\",
+        "outputPath": "C:\\school_collab\\Graduater\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Elias\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -151,21 +151,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
+    "C:\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
       "version": "1.0.1",
       "restore": {
-        "projectUniqueName": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj",
+        "projectUniqueName": "C:\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj",
         "projectName": "Trauni.EntityFramework.LargeBlobs",
-        "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj",
-        "packagesPath": "C:\\Users\\trauni\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\obj\\",
+        "projectPath": "C:\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj",
+        "packagesPath": "C:\\Users\\Elias\\.nuget\\packages\\",
+        "outputPath": "C:\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Elias\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -216,21 +216,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
+    "C:\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "C:\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
-        "packagesPath": "C:\\Users\\trauni\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Persistence\\obj\\",
+        "projectPath": "C:\\school_collab\\Graduater\\Persistence\\Persistence.csproj",
+        "packagesPath": "C:\\Users\\Elias\\.nuget\\packages\\",
+        "outputPath": "C:\\school_collab\\Graduater\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Elias\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -244,11 +244,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj": {
-                "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj"
+              "C:\\school_collab\\Graduater\\Core\\Core.csproj": {
+                "projectPath": "C:\\school_collab\\Graduater\\Core\\Core.csproj"
               },
-              "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
-                "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj"
+              "C:\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
+                "projectPath": "C:\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj"
               }
             }
           }
@@ -328,21 +328,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Service\\Service.csproj": {
+    "C:\\school_collab\\Graduater\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Service\\Service.csproj",
+        "projectUniqueName": "C:\\school_collab\\Graduater\\Service\\Service.csproj",
         "projectName": "Service",
-        "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Service\\Service.csproj",
-        "packagesPath": "C:\\Users\\trauni\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Service\\obj\\",
+        "projectPath": "C:\\school_collab\\Graduater\\Service\\Service.csproj",
+        "packagesPath": "C:\\Users\\Elias\\.nuget\\packages\\",
+        "outputPath": "C:\\school_collab\\Graduater\\Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\trauni\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Elias\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -356,14 +356,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj": {
-                "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Core\\Core.csproj"
+              "C:\\school_collab\\Graduater\\Core\\Core.csproj": {
+                "projectPath": "C:\\school_collab\\Graduater\\Core\\Core.csproj"
               },
-              "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
-                "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj"
+              "C:\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
+                "projectPath": "C:\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj"
               },
-              "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
-                "projectPath": "C:\\Users\\trauni\\Source\\Repos\\Elias-Traunbauer\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
+              "C:\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
+                "projectPath": "C:\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
               }
             }
           }
@@ -403,7 +403,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

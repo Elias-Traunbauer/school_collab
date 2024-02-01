@@ -35,9 +35,10 @@ export default function SummaryDetail(){
 
     useEffect(() => {
         loadSummary();
-    }, [router]);
+    }, []);
 
     async function loadSummary(){
+        console.log("LOADSUMMARY");
         const subjectIdAsNumber = parseInt(subjectId as string);
         if(isNaN(subjectIdAsNumber)) {
             return;
@@ -53,12 +54,15 @@ export default function SummaryDetail(){
         setSummary(tmpSummary);
         setBackupSummary(tmpSummary);
 
-        const tmpFileDisplayObjects: FileDisplayObject[] = [];
-        for (const iterator of tmpSummary.files) {
-            const tmpFileInfo = await getFileInfosById(iterator);
-            tmpFileDisplayObjects.push({id: iterator, name: tmpFileInfo.name});
+        if(tmpSummary.files&&tmpSummary.files.length > 0){
+            const tmpFileDisplayObjects: FileDisplayObject[] = [];
+            for (const iterator of tmpSummary.files) {
+                const tmpFileInfo = await getFileInfosById(iterator);
+                tmpFileDisplayObjects.push({id: iterator, name: tmpFileInfo.name});
+            }
+            setFiles(tmpFileDisplayObjects);
         }
-        setFiles(tmpFileDisplayObjects);
+       
     }
 
     function handleAcceptedFiles(files: string[]) {
@@ -124,16 +128,18 @@ export default function SummaryDetail(){
             fileIds.push(file.id);
         });
         summary.files = fileIds;
-
-        console.log("SAVESUMMARY",summary);
+        summary.subjectId = parseInt(subjectId as string);
 
         updateSummary(summary).then((res) => {
             /**
-             * setEditMode(false);
+             *             setEditMode(false);
             setBackupSummary({...summary});
             setSummary({...summary});
              */
+
             loadSummary();
+            setEditMode(false);
+        }).catch((err) => {
             setEditMode(false);
         });
 
@@ -209,6 +215,7 @@ export default function SummaryDetail(){
                             files&&files.length > 0 &&
                             <button>
                                 <Image width={20} height={20} src={'/download.svg'} alt={'download'} ></Image>
+                                All
                             </button>
                         }
                         
