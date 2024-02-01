@@ -1,7 +1,6 @@
 import FileBackend from "./FileBackend";
 
-export default interface AssignmentPutDTO {
-    id: number,
+export default interface AssignmentPostDTO{
     title: string,
     description: string,
     content: string,

@@ -49,8 +49,6 @@ export default function AssignmentEdit() {
       setAssignmentBackup(res);
       setDueDate(res.due);
       setContent(res.content);
-      console.log("RES:", res);
-       
         
         if (res.files&&res.files.length > 0) {
           const tmpFiles: FileDisplayObject[] = [];
