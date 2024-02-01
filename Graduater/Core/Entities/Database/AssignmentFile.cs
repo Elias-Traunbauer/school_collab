@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities.Database
 {
-    public class AssignmentFile
+    public class AssignmentFile : DatabaseEntity
     {
         public int Id { get; set; }
 
