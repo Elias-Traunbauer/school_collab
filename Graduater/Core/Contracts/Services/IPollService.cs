@@ -12,6 +12,7 @@ namespace Core.Contracts.Services
     {
         public Task<int> CreateAsync(PollCreatePayload model, int userId);
         Task<List<Poll>> GetAllAsync();
+        Task<int> IfIHaveVotedAsync(int pollId, int userId);
         Task<int> VoteAsync(int pollOptionId, int userId);
     }
 }

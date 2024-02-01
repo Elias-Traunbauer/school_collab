@@ -33,13 +33,25 @@ namespace Api.Controllers
             return Ok(res);
         }
 
-        [HttpGet("vote/{id}")]
+        [HttpPost("vote/{id}")]
         public async Task<IActionResult> Vote([FromRoute] int id, [FromServices] IPollService service)
         {
             var user = HttpContext.GetUserInfo().User!;
             int newId = await service.VoteAsync(id, user.Id);
 
             return Ok();
+        }
+
+        [HttpGet("{id}/IfIHaveVoted")]
+        public async Task<IActionResult> IfIHaveVoted([FromRoute] int id, [FromServices] IPollService summaryService)
+        {
+            var user = HttpContext.GetUserInfo().User!;
+            int result = await summaryService.IfIHaveVotedAsync(id, user.Id);
+
+            return Ok(new
+            {
+                Value = result
+            });
         }
     }
 }

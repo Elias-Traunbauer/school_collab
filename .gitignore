@@ -15,7 +15,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-
+.vs
 bin/
 
 obj/
@@ -424,3 +424,8 @@ Service.csproj.AssemblyReference.cache
 Graduater/Core/obj/Debug/net6.0/Core.GeneratedMSBuildEditorConfig.editorconfig
 
 .vs
+/Graduater/.vs/Graduater/v17/.suo
+/Graduater/Core/obj/Debug/net6.0/Core.assets.cache
+/Graduater/Core/obj/Debug/net6.0/Core.dll
+/Graduater/Core/obj/Debug/net6.0/Core.GeneratedMSBuildEditorConfig.editorconfig
+/Graduater/Core/obj/Debug/net6.0/Core.pdb
