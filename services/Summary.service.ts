@@ -68,6 +68,7 @@ export async function getSummariesBySubjectId(subjectId:number){
 export async function updateSummary(summary:Summary|SummaryPutDTO){
 
   const dto : SummaryPutDTO = {
+    id: summary.id,
     title: summary.title,
     description: summary.description,
     content: summary.content,
@@ -75,7 +76,7 @@ export async function updateSummary(summary:Summary|SummaryPutDTO){
     files: summary.files
   }
 
-  console.log("SUMMARYDTO",dto);
+  console.log("SUMMARYDTO",JSON.stringify(dto));
 
   try {
     const response = await fetch(url, {

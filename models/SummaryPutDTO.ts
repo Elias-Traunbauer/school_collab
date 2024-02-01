@@ -1,4 +1,5 @@
 export default interface SummaryPutDTO {
+    id: number,
     title: string,
     description: string,
     content: string,
