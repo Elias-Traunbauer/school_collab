@@ -105,7 +105,7 @@ namespace Service.Services
         {
             SummaryVote? userVote = await _unitOfWork.GenericRepository.Query<SummaryVote>().Where(x => x.SummaryId == summaryId && x.UserId == userId).FirstOrDefaultAsync();
 
-            if (userVote != null)
+            if (userVote == null)
             {
                 return 0;
             }
