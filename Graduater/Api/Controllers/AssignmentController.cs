@@ -83,22 +83,21 @@ namespace Api.Controllers
         [HttpPut]
         [EndpointPermission(Core.Entities.Database.UserPermission.View)]
         [RateLimit(20)]
-        public async Task<IActionResult> UpdateAssignment([FromServices] IAssignmentService assignmentService)
+        public async Task<IActionResult> UpdateAssignment([FromBody] Assignment assignment, [FromServices] IAssignmentService assignmentService)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = HttpContext.GetUserInfo().User!;
-            var result = await assignmentService.GetAssignmentsForUserAsync(user.Id);
+            var result = await assignmentService.UpdateAssignmentAsync(assignment);
 
             if (result.Status != 200)
             {
                 return Ok(result);
             }
 
-            return Ok(result.Value);
+            return Ok(result);
         }
 
         [HttpDelete("{assignmentId}")]
