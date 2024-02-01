@@ -35,7 +35,7 @@ export default function SummaryDetail(){
 
     useEffect(() => {
         loadSummary();
-    }, []);
+    }, [router]);
 
     async function loadSummary(){
         console.log("LOADSUMMARY");
