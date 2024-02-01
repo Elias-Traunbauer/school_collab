@@ -49,6 +49,32 @@ namespace Service.Services
             return await _unitOfWork.GenericRepository.Query<Poll>().ToListAsync();
         }
 
+        public async Task<int> IfIHaveVotedAsync(int pollId, int userId)
+        { 
+            Poll? poll = await _unitOfWork.GenericRepository.GetAsync<Poll>(pollId);
+
+            if (poll == null)
+            {
+                throw new Exception("Poll not found");
+            }
+
+            PollOption? pollOption = await _unitOfWork.GenericRepository.Query<PollOption>().Where(x => x.PollId == pollId).FirstOrDefaultAsync();
+
+            if (pollOption == null)
+            {
+                throw new Exception("Poll option not found");
+            }
+
+            PollVote? pollVote = await _unitOfWork.GenericRepository.Query<PollVote>().Where(x => x.PollOptionId == pollOption.Id && x.UserId == userId).FirstOrDefaultAsync();
+
+            if (pollVote == null)
+            {
+                return -1;
+            }
+
+            return pollVote.PollOptionId;
+        }
+
         public async Task<Poll> ReadAsync(int id)
         {
             Poll? poll = await _unitOfWork.GenericRepository.GetAsync<Poll>(id);
