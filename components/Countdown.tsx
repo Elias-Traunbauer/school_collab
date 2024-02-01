@@ -19,13 +19,13 @@ export default function Countdown({ date }: { date: Date }) {
     var time = useRef(0);
 
     useEffect(() => {
+        date = new Date(date);
         time.current = Math.floor((date.getTime() - new Date().getTime()) / 1000);
     });
 
     const [datetime, setDateTime] = useState("0 Tage 0 Stunden 0 Minuten 0 Sekunden");
 
     useEffect(() => {
-
         if (Math.floor(time.current) > 0) {
             time.current -= 1;
             setDateTime(formatDate(time.current));
@@ -39,7 +39,7 @@ export default function Countdown({ date }: { date: Date }) {
             }
         }, 1000);
         return () => clearInterval(i);
-    }, []);
+    });
 
     return <p>{datetime}</p>;
 }

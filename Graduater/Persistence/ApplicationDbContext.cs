@@ -47,6 +47,10 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
         _config = config;
     }
 
+    public virtual DbSet<SummaryVote> Votes { get; set; }
+
+    public virtual DbSet<PollVote> PollVotes { get; set; }
+
     public virtual DbSet<Assignment> Assignments { get; set; }
 
     public virtual DbSet<Chat> Chats { get; set; }
@@ -85,6 +89,8 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
 
     public virtual DbSet<Summary> Summaries { get; set; }
 
+    public virtual DbSet<SummaryFile> SummaryFiles { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (_config?.DatabaseConnectionString == null)
@@ -97,10 +103,6 @@ public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Assignment>()
-            .HasMany(e => e.Files);
-        modelBuilder.Entity<Assignment>()
-            .HasMany(e => e.Instructions);
         base.OnModelCreating(modelBuilder);
     }
 }

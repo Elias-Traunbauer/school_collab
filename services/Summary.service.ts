@@ -1,5 +1,7 @@
+import SummaryVoteDTO from "../models/SumaryVoteDTO";
 import Summary from "../models/Summary";
 import SummaryPostDTO from "../models/SummaryPostDTO";
+import SummaryPutDTO from "../models/SummaryPutDTO";
 
 const url = '/api/Summary';
 
@@ -63,14 +65,26 @@ export async function getSummariesBySubjectId(subjectId:number){
 
 }
 
-export async function updateSummary(summary:Summary){
+export async function updateSummary(summary:Summary|SummaryPutDTO){
+
+  const dto : SummaryPutDTO = {
+    id: summary.id,
+    title: summary.title,
+    description: summary.description,
+    content: summary.content,
+    subjectId: summary.subjectId,
+    files: summary.files
+  }
+
+  console.log("SUMMARYDTO",JSON.stringify(dto));
+
   try {
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(summary)
+      body: JSON.stringify(dto)
     });
 
     if (response.status === 200) {
@@ -88,6 +102,42 @@ export async function updateSummary(summary:Summary){
       throw response;
     }
   } catch (error) {
+    throw error;
+  }
+}
+
+export async function executeVote(param:SummaryVoteDTO){
+  const dto = {
+    value: param.vote
+  }
+  console.log("VOTEDTO",dto);
+
+  try {
+    const response = await fetch(url+'/'+param.summaryId+'/vote', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dto)
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function HaveVoted(id:number): Promise<number>{
+  try {
+    const response = await fetch(url+'/'+id+'/IfIHaveVoted', {
+      method: 'GET'
+    });
+    if (response.status === 401) {
+      throw response;
+    }
+    const data = await response.json();
+    
+    return data.value;
+  } catch (error) {
+    
     throw error;
   }
 }

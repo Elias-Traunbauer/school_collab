@@ -1,7 +1,7 @@
 
-import { error } from "console";
 import Assignment from "../models/Assignment";
 import AssignmentDTO from "../models/AssignmentDTO";
+import AssignmentPutDTO from "../models/AssignmentPUTDTO";
 
 const url = '/api/Assignment';
 
@@ -75,14 +75,27 @@ export async function createAssignment(assignment: AssignmentDTO){
   }
 }
 
-export async function updateAssignment(assignment: AssignmentDTO){
+export async function updateAssignment(assignment: Assignment|AssignmentPutDTO){
+  const dto:AssignmentPutDTO = {
+    id: assignment.id,
+    title: assignment.title,
+    description: assignment.description,
+    content:  assignment.content,
+    subjectId: assignment.subjectId,
+    due: assignment.due,
+    groupId: assignment.groupId,
+    files: assignment.files,
+    instructions: assignment.instructions
+  }
+
+  console.log("UPDAERES",JSON.stringify(dto));
   try {
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(assignment)
+      body: JSON.stringify(dto)
     });
 
     if (response.status === 200) {

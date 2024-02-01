@@ -32,7 +32,7 @@ export default function SummaryList({title,link}: {title: string, link: string,}
   function handleSearch(e) {
     const searchValue = e.target.value;
     const filteredSubjects = subjects.filter((subject) => {
-      return subject.name.toLowerCase().includes(searchValue.toLowerCase());
+      return subject.name.toLowerCase().includes(searchValue.toLowerCase()) || subject.shortName.toLowerCase().includes(searchValue.toLowerCase());
     });
     setDisplayedSubjects(filteredSubjects);
   }

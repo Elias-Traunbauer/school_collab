@@ -2,12 +2,29 @@ import { CSSProperties, use, useEffect, useState } from 'react';
 import styles from '../styles/PollCard.module.scss'
 import { useRouter } from 'next/router';
 import Poll from '../models/Poll';
+import { getUser, getUserById } from '../services/User.service';
+import User from '../models/User';
 export default function PollCard({key,poll}: {key:any,poll: Poll}){
     const backgroundcolor = 'var(--background_1)';
+    const [creatorUser, setCreatorUser] = useState<User>();
+
+    useEffect(() => {
+        if(!poll){
+            return;
+        }
+        console.log("PARAM",poll);
+        getUserById(poll.creatorUserId).then((res) => {
+            setCreatorUser(res);
+        });
+    },[poll]);
 
     const router = useRouter();
 
     function displayDate(){
+        if(!poll){
+            return '';
+        }
+
         const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember']
 
         if(!poll.due){
@@ -42,16 +59,16 @@ export default function PollCard({key,poll}: {key:any,poll: Poll}){
     }
 
     return(
-        <div onClick={openDetail} style={{ '--cardColor': backgroundcolor } as CSSProperties} className={`${styles.container} ${new Date(poll.due) < new Date()&&styles.disabled}`}>
+        <div onClick={openDetail} style={{ '--cardColor': backgroundcolor } as CSSProperties} className={`${styles.container} ${new Date(poll&&poll.due&&poll.due) < new Date()&&styles.disabled}`}>
             <div>
-                <p>erstellt von <span>{poll.CreatorUser.username}</span></p>
+                <p>erstellt von <span>{creatorUser&&creatorUser.username}</span></p>
             </div>
             <div>
-                <h2>{poll.title}</h2>
+                <h2>{poll&&poll.title}</h2>
             </div>
             <div>
                 <div>
-                <p>{poll.description}</p>
+                <p>{poll&&poll.description}</p>
                 </div>
             </div>
 
