@@ -118,14 +118,6 @@ export async function executeVote(param:SummaryVoteDTO){
       },
       body: JSON.stringify(dto)
     });
-
-    if (response.status === 200) {
-      
-      const data = await response.json();
-      return data.value;
-    } else {
-      throw response;
-    }
   } catch (error) {
     throw error;
   }

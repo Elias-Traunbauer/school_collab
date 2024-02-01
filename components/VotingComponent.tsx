@@ -54,13 +54,12 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
 
     useEffect(()=>{
         console.log("STARTSTATE:", voteState, "ITEMKEY:",itemkey);
-        /**
-         * HaveVoted(itemkey).then((res)=>{
+        HaveVoted(itemkey).then((res)=>{
+            console.log("RES:",res);
             if(!isNaN(res))
             setVoteState(res)
         })
-         */
-    },[]);
+    });
 
     useEffect(()=>{
         console.log(voteState);
