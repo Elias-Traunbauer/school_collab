@@ -1,8 +1,9 @@
 import Image from "next/image";
-import React from "react";
+import React, { use, useEffect } from "react";
 import styles from "../styles/VotingComponent.module.scss";
 import { useState } from "react";
-export default function VotingComponent({ itemkey, withScore = false, votingId = 1 }) {
+import { HaveVoted } from "../services/Summary.service";
+export default function VotingComponent({ itemkey, withScore = false, vote}:{itemkey:number,withScore?:boolean,vote?:Function}) {
 
     const[score,setScore] = useState(5);
     const[voteState,setVoteState] = useState(0);
@@ -11,9 +12,11 @@ export default function VotingComponent({ itemkey, withScore = false, votingId =
         if(voteState === 0){
             setScore(score+1);
             setVoteState(1);
+            vote(1);
         }else if(voteState === -1){
             setScore(score+2);
             setVoteState(1);
+            vote(1);
             const container = document.getElementById("voting_Containter_"+itemkey);
             const downvote = container.querySelector(`.${styles.downvote}`) as HTMLInputElement;
             if(downvote)
@@ -22,26 +25,37 @@ export default function VotingComponent({ itemkey, withScore = false, votingId =
         else if(voteState === 1){
             setScore(score-1);
             setVoteState(0);
+            vote(0);
         }
+        
     }
 
     function handleDownvote(){
         if(voteState === 0){
             setScore(score-1);
             setVoteState(-1);
+            vote(-1);
         }else if(voteState === -1){
             setScore(score+1);
             setVoteState(0);
+            vote(0);
         }
         else if(voteState === 1){
             setScore(score-2);
             setVoteState(-1);
+            vote(-1);
             const container = document.getElementById("voting_Containter_"+itemkey);
             const upvote = container.querySelector(`.${styles.upvote}`) as HTMLInputElement;
             if(upvote)
             upvote.checked = false;
         }
     }
+
+    useEffect(()=>{
+        HaveVoted(itemkey).then((res)=>{
+            setVoteState(res)
+        })
+    },[]);
 
     function preventdefault(e){
         e.stopPropagation();

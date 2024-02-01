@@ -127,8 +127,20 @@ export default function DisplayChat() {
         return unreadMessages;
     }
 
+    function clearCreationInputFields(){
+        const newChatName = document.getElementById('newChatName') as HTMLInputElement;
+        const newChatDescription = document.getElementById('newChatDescription') as HTMLTextAreaElement;
+        const memberSearchInput = document.getElementById('memberSearchInput') as HTMLInputElement;
+        newChatName.value = '';
+        newChatDescription.value = '';
+        memberSearchInput.value = '';
+        setNewChatMembers([]);
+        setDisplayMembers([]);
+    }
+
     function handleCancelCreateNewChat() {
         const newChatDialog = document.getElementById('newChatDialog') as HTMLDialogElement;
+        clearCreationInputFields();
         newChatDialog.close();
     }
 
@@ -149,11 +161,10 @@ export default function DisplayChat() {
         };
         createNewChat(newChat).then((res) => {
             getChatsAsync();
+            clearCreationInputFields();
+            const newChatDialog = document.getElementById('newChatDialog') as HTMLDialogElement;
+            newChatDialog.close();
         });
-
-
-        const newChatDialog = document.getElementById('newChatDialog') as HTMLDialogElement;
-        newChatDialog.close();
     }
 
     function handleChangeNewMembers(add: boolean, user: User) {
@@ -235,7 +246,7 @@ export default function DisplayChat() {
                     <h2>Neuer Chat</h2>
                     <input id='newChatName' type="text" placeholder="Chatname" />
                     <textarea id='newChatDescription' placeholder="Beschreibung"></textarea>
-                    <input onChange={handleSearchMembers} className={styles.memberSearchbar} type="text" placeholder="Mitglieder Suchen" />
+                    <input id='memberSearchInput' onChange={handleSearchMembers} className={styles.memberSearchbar} type="text" placeholder="Mitglieder Suchen" />
 
                         <div className={styles.memberlist}>
                             {

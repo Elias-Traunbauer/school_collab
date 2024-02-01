@@ -105,9 +105,12 @@ export default function ChatroomListitem({
                     <div className={styles.info}>
                         {
                             unread ?
-                            <p className={styles.unreadMessages}>!</p>
+                            <p className={styles.unreadMessages}></p>
                             :
+                            lastMessage?
                             <p className={styles.date}>{getDate(lastMessage&&lastMessage.created)}</p>
+                            :
+                            <p className={styles.date}>created</p>
                         }
                         
                     </div>

@@ -19,6 +19,7 @@ export default function NewSubject({returnPath}: {returnPath: string}) {
         createSubject(dto).then((res:string) => {
             finishLoading();
             setTimeout(() => {
+                console.log(res);
                 router.push(returnPath+"/"+res);
             }, 300);
         })

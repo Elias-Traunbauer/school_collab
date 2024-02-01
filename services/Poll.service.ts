@@ -1,8 +1,34 @@
 import Poll from "../models/Poll";
+import PollOption from "../models/PollOption";
 import PollPostDTO from "../models/PollPostDTO";
 
 const url = '/api/Poll';
 export async function getPolls():Promise<Poll[]> {
+//MOCK
+    const p1:Poll = {
+        creatorUserId: 1,
+        dateCreated: new Date(),
+        description: "",
+        due: new Date(),
+        isAnonymous: false,
+        title: "Poll1",
+        id: 1,
+        version: ""
+    }
+    const p2:Poll = {
+        creatorUserId: 1,
+        dateCreated: new Date(),
+        description: "",
+        due: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+        isAnonymous: false,
+        title: "Poll1",
+        id: 2,
+        version: ""
+    }
+
+    return [p1,p2];
+
+//REAL
     try{
         const response = await fetch(url, {
             method: 'GET'
@@ -37,4 +63,52 @@ export async function createPoll(poll:PollPostDTO){
     }catch(error){
         throw error;
     }
+}
+
+export async function getPollById(id:number):Promise<Poll>{
+    //MOCK
+    const option1:PollOption = {
+        name: "Ja",
+        pollId: 1,
+        votes: 5,
+        id: 1,
+        version: ""
+    }
+    const option2:PollOption = {
+        name: "Nein",
+        pollId: 1,
+        votes: 3,
+        id: 2,
+        version: ""
+    }
+
+    const p:Poll = {
+        creatorUserId: 1,
+        dateCreated: new Date(),
+        description: "# Hallo",
+        due: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+        isAnonymous: false,
+        title: "Poll1",
+        id: 1,
+        version: "",
+        pollOptions: [option1,option2]
+    }
+
+    return p;
+//REAL
+    try{
+        const response = await fetch(`${url}/${id}`, {
+            method: 'GET'
+        });
+
+        if (response.status != 200) {
+            throw response;
+        }
+        const data = await response.json();
+          
+        return data;
+    }catch(error){
+        throw error;
+    }
+
 }

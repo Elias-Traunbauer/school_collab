@@ -6,32 +6,48 @@ import Wizard from "../../../components/Wizard";
 import Subject from "../../../models/Subject";
 import { useEffect, useState } from "react";
 import Summary from "../../../models/Summary";
-import {getSummariesBySubjectId} from "../../../services/Summary.service";
+import {executeVote, getSummariesBySubjectId} from "../../../services/Summary.service";
 import { getSubjectById } from "../../../services/Subject.service";
+import SummaryVoteDTO from "../../../models/SumaryVoteDTO";
 
 //slug is the subject
 export default function SummaryCollection() {
-    //const posts = [{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "Math"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"},{author:'Yannie',description: 'asddad', files: [{name : "suee"},{name : "suee"}], publishDate: new Date(),subject: "DBI"}];
+    // Lösung für name/user info die nd da is
+    const backgroundHexCodes = [
+        "#3F51B5", // Indigo - Contrast Ratio: 8.59 (AAA)
+        "#2196F3", // Blue - Contrast Ratio: 8.59 (AAA)
+        "#00BCD4", // Cyan - Contrast Ratio: 7.22 (AAA)
+        "#9C27B0", // Deep Purple - Contrast Ratio: 5.48 (AAA)
+        "#00ACC1", // Light Blue - Contrast Ratio: 7.39 (AAA)
+        "#4CAF50", // Green - Contrast Ratio: 5.72 (AAA)
+        "#673AB7", // Deep Purple 400 - Contrast Ratio: 5.53 (AAA)
+        "#4DB6AC", // Teal 400 - Contrast Ratio: 5.99 (AAA)
+        "#E64A19", // Dark Orange - Contrast Ratio: 5.75 (AAA)
+        "#5D4037", // Brown - Contrast Ratio: 10.03 (AAA) - Darker shade
+        "#455A64", // Blue Grey - Contrast Ratio: 7.19 (AAA) - Darker shade
+    ];
+
     const router = useRouter();
     const subjectId =  router.query.subjectId;
     const [subject, setSubject] = useState<Subject>();
     const [posts, setPosts] = useState<Summary[]>();
 
+    function getSubjectAsNumber():number|null{
+        const subjectIdAsNumber = parseInt(router.query.subjectId as string);
+        if(isNaN(subjectIdAsNumber)) {
+            console.log("SUBJECT ID IS NOT A NUMBER");
+            return null;
+        }
+        return subjectIdAsNumber;
+    }
+
     useEffect(() => {
         async function fetchData() {
-            const subjectIdAsNumber = parseInt(router.query.subjectId as string);
-            if(isNaN(subjectIdAsNumber)) {
-                console.log("SUBJECT ID IS NOT A NUMBER");
-                return;
-            }
+            const subjectIdAsNumber = getSubjectAsNumber()
             const tmpSubject = await getSubjectById(subjectIdAsNumber);
             console.log("SUBJECT", tmpSubject);
             await setSubject(tmpSubject);
-            getSummariesBySubjectId(subjectIdAsNumber).then((summaries) => {
-                setPosts(summaries);
-                console.log("SUMMARIES", summaries);
-            });
-            
+            await loadPosts();
         }
         fetchData();
     }, [router.query.subjectId]);
@@ -42,6 +58,36 @@ export default function SummaryCollection() {
 
     function handleNewSumary() {
         router.push(`/summaries/${subjectId}/newSummary`);
+    }
+
+    async function loadPosts(){
+        const subjectId = getSubjectAsNumber();
+        const summaries = await getSummariesBySubjectId(subjectId)
+        const sortedPosts = sortPosts(summaries);
+
+        setPosts(sortedPosts);
+    }
+
+    function sortPosts(posts): Summary[]{
+        if(posts){
+            posts.sort((a, b) => {
+                if(a.votes < b.votes){
+                    return 1;
+                }
+                else if(a.votes > b.votes){
+                    return -1;
+                }
+                else{
+                    return 0;
+                }
+            });
+        }
+        return posts;
+    }
+
+    async function handleVote(tmp: SummaryVoteDTO){
+        await executeVote(tmp);
+        loadPosts();
     }
 
     return (
@@ -56,7 +102,7 @@ export default function SummaryCollection() {
             
             {
                 posts&&posts.map&&posts.map((post, i) => {
-                    return <SummaryPostCard post={post} key={post.id}></SummaryPostCard>
+                    return <SummaryPostCard vote={handleVote} post={post} key={post.id}></SummaryPostCard>
                 })
             }
         </div>
