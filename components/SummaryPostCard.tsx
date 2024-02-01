@@ -6,7 +6,8 @@ import VotingComponent from './VotingComponent'
 import { Router, useRouter } from 'next/router'
 import Summary from '../models/Summary'
 import { getSummaryById } from '../services/Summary.service'
-export default function SummaryPostCard({ post , color,vote}: { post?: Summary, color?: string,vote?:Function}) {
+import SummaryVoteDTO from '../models/SumaryVoteDTO'
+export default function SummaryPostCard({ post , color,vote}: { post?: Summary, color?: string,vote?:any}) {
     const router = useRouter();
     const subject = router.query.subjectId;
 
@@ -14,8 +15,12 @@ export default function SummaryPostCard({ post , color,vote}: { post?: Summary, 
         router.push('/summaries/'+subject+'/'+post.id);
     }
 
-    function handleVote(){
-        vote(post.id);
+    function handleVote(vote:number){
+        const tmp : SummaryVoteDTO = {
+            summaryId: post.id,
+            vote: vote
+        }
+        this.vote(tmp);
     }
 
     return (

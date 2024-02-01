@@ -6,8 +6,9 @@ import Wizard from "../../../components/Wizard";
 import Subject from "../../../models/Subject";
 import { useEffect, useState } from "react";
 import Summary from "../../../models/Summary";
-import {getSummariesBySubjectId} from "../../../services/Summary.service";
+import {executeVote, getSummariesBySubjectId} from "../../../services/Summary.service";
 import { getSubjectById } from "../../../services/Subject.service";
+import SummaryVoteDTO from "../../../models/SumaryVoteDTO";
 
 //slug is the subject
 export default function SummaryCollection() {
@@ -84,7 +85,8 @@ export default function SummaryCollection() {
         return posts;
     }
 
-    function handleVote(){
+    async function handleVote(tmp: SummaryVoteDTO){
+        await executeVote(tmp);
         loadPosts();
     }
 

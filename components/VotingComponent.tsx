@@ -1,7 +1,8 @@
 import Image from "next/image";
-import React from "react";
+import React, { use, useEffect } from "react";
 import styles from "../styles/VotingComponent.module.scss";
 import { useState } from "react";
+import { HaveVoted } from "../services/Summary.service";
 export default function VotingComponent({ itemkey, withScore = false, vote}:{itemkey:number,withScore?:boolean,vote?:Function}) {
 
     const[score,setScore] = useState(5);
@@ -11,9 +12,11 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
         if(voteState === 0){
             setScore(score+1);
             setVoteState(1);
+            vote(1);
         }else if(voteState === -1){
             setScore(score+2);
             setVoteState(1);
+            vote(1);
             const container = document.getElementById("voting_Containter_"+itemkey);
             const downvote = container.querySelector(`.${styles.downvote}`) as HTMLInputElement;
             if(downvote)
@@ -22,28 +25,37 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
         else if(voteState === 1){
             setScore(score-1);
             setVoteState(0);
+            vote(0);
         }
-        vote();
+        
     }
 
     function handleDownvote(){
         if(voteState === 0){
             setScore(score-1);
             setVoteState(-1);
+            vote(-1);
         }else if(voteState === -1){
             setScore(score+1);
             setVoteState(0);
+            vote(0);
         }
         else if(voteState === 1){
             setScore(score-2);
             setVoteState(-1);
+            vote(-1);
             const container = document.getElementById("voting_Containter_"+itemkey);
             const upvote = container.querySelector(`.${styles.upvote}`) as HTMLInputElement;
             if(upvote)
             upvote.checked = false;
         }
-        vote();
     }
+
+    useEffect(()=>{
+        HaveVoted(itemkey).then((res)=>{
+            setVoteState(res)
+        })
+    },[]);
 
     function preventdefault(e){
         e.stopPropagation();

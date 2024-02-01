@@ -102,7 +102,7 @@ export async function updateSummary(summary:Summary|SummaryPutDTO){
   }
 }
 
-export async function vote(param:SummaryVoteDTO){
+export async function executeVote(param:SummaryVoteDTO){
   const dto = {
     value: param.vote
   }
@@ -124,6 +124,23 @@ export async function vote(param:SummaryVoteDTO){
       throw response;
     }
   } catch (error) {
+    throw error;
+  }
+}
+
+export async function HaveVoted(id:number): Promise<number>{
+  try {
+    const response = await fetch(url+'/'+id+'/IfIHaveVoted', {
+      method: 'GET'
+    });
+    if (response.status === 401) {
+      throw response;
+    }
+    const data = await response.json();
+    
+    return data.value;
+  } catch (error) {
+    
     throw error;
   }
 }

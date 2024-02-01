@@ -7,7 +7,7 @@ import FileUpload from '../../../../components/FileUpload';
 import FileListObject from '../../../../components/FileListObject';
 import { useRouter } from 'next/router';
 import Summary from '../../../../models/Summary';
-import { getSummaryById , updateSummary} from '../../../../services/Summary.service';
+import { executeVote, getSummaryById , updateSummary} from '../../../../services/Summary.service';
 import Subject from '../../../../models/Subject';
 import { getSubjectById } from '../../../../services/Subject.service';
 import { deleteFilesByIds, downloadFileById, getFileById , getFileInfosById, getFilesByIds, postFiles } from '../../../../services/File.service';
@@ -15,6 +15,7 @@ import FileObject from '../../../../models/File';
 import UserContext from '../../../../components/UserContext';
 import Image from 'next/image';
 import FileDisplayObject from '../../../../models/FileDisplayObject';
+import SummaryVoteDTO from '../../../../models/SumaryVoteDTO';
 
 export default function SummaryDetail(){
     const [editMode, setEditMode] = useState(false);
@@ -163,6 +164,14 @@ export default function SummaryDetail(){
         return `${day}.${month}.${year} ${hour}:${min}`;
     }
 
+    function handleVote(vote: number) {
+        const tmp: SummaryVoteDTO = {
+            summaryId: summary.id,
+            vote: vote
+        };
+        executeVote(tmp);
+    }
+
 
     return(
         <div className={styles.container}>
@@ -177,7 +186,7 @@ export default function SummaryDetail(){
                         }
                         
                         <div>
-                            <VotingComponent withScore={true} itemkey={summary&&summary.id}></VotingComponent>
+                            <VotingComponent vote={handleVote} withScore={true} itemkey={summary&&summary.id}></VotingComponent>
                         </div> 
                     </div>
             </div>
