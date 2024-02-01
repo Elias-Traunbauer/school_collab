@@ -84,3 +84,20 @@ export async function updatePoll(poll:Poll):Promise<void>{
         throw error;
     }
 }
+
+export async function haveIVoted(id:number):Promise<number>{
+    try{
+        const response = await fetch(`${url}/${id}/IfIHaveVoted`, {
+            method: 'GET'
+        });
+
+        if (response.status != 200) {
+            throw response;
+        }
+        const data = await response.json();
+          
+        return data.value;
+    }catch(error){
+        throw error;
+    }
+}

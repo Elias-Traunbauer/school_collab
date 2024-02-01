@@ -10,7 +10,7 @@ import Poll from '../../../models/Poll';
 import PollOption from '../../../models/PollOption';
 import User from '../../../models/User';
 import { getUser } from '../../../services/User.service';
-import { executeVote, getPollById, updatePoll } from '../../../services/Poll.service';
+import { executeVote, getPollById, haveIVoted, updatePoll } from '../../../services/Poll.service';
 import { exec } from 'child_process';
 
 export default function PollDetail() {
@@ -60,6 +60,21 @@ export default function PollDetail() {
             setVoted(true);
         }
 
+        haveIVoted(pollIdAsNumber).then((res) => {
+            console.log("HAVE I VOTED:", res);
+            if (res != -1) {
+                
+                setVoted(true);
+                loadChart();
+                const selectedOption = document.getElementById('option_' + res);
+                selectedOption.classList.add(styles.active);
+                console.log("SEL",selectedOption);
+            }
+            else {
+                setVoted(false);
+            }
+        });
+
         // mby ein Service der alle paar sekunden das Voting updated und dann die Daten neu lädt
     }, [pollId]);
 
@@ -72,12 +87,13 @@ export default function PollDetail() {
 
         const ctx = chartRef.current.getContext('2d');
         const result:Poll = await getPollById(poll.id);
-        console.log(result);
+        console.log("RES:",result);
         const tmpBackgroundColors = [];
         const tmpBorderColors = [];
         const tmpData = [];
         const tmpLabels = [];
-        for (let i = 0; i < poll.pollOptions.length; i++) {
+
+        for (let i = 0; i < result.pollOptions.length; i++) {
             tmpData.push(result.pollOptions[i].votes);
             tmpLabels.push(result.pollOptions[i].name);
         
@@ -355,7 +371,7 @@ export default function PollDetail() {
 
                     poll&&poll.pollOptions.map((option, index) => {
                                     return (
-                                        <button onClick={!voted ? (e)=>setActive(e,option) : () => { }} key={"option_" + option.id}>
+                                        <button id={"option_" + option.id} onClick={!voted ? (e)=>setActive(e,option) : () => { }} key={"option_" + option.id}>
                                             <p>{option.name}</p>
                                         </button>
                                     )
