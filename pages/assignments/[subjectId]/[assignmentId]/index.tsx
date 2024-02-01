@@ -44,14 +44,45 @@ export default function AssignmentEdit() {
         return;
       }
 
-      getAssignmentById(assignmentIdAsNumber).then((res) => {
-        setAssignment(res);
+      const res = await getAssignmentById(assignmentIdAsNumber);
+      setAssignment(res);
         setAssignmentBackup(res);
         setDueDate(res.due);
         setContent(res.content);
-      }).catch((err) => {
-        console.error(err);
-      });
+       
+        
+        if (res.files&&res.files.length > 0) {
+          const tmpFiles: FileDisplayObject[] = [];
+
+          for (const iterator of res.files) {
+            try {
+              const tmpFileInfo = await getFileInfosById(iterator);
+              tmpFiles.push({ id: iterator, name: tmpFileInfo.name });
+            }
+            catch (err) {
+              console.log("GETFILENAMEERROR", err);
+            }
+          }
+          setFiles(tmpFiles);
+        }
+
+        if(res.instructions&&res.instructions.length > 0){
+          const tmpInstructionFiles: FileDisplayObject[] = [];
+          
+          for (const iterator of res.instructions) {
+            try {
+              const tmpFileInfo = await getFileInfosById(iterator);
+              tmpInstructionFiles.push({ id: iterator, name: tmpFileInfo.name });
+            }
+            catch (err) {
+              console.log("GETFILENAMEERROR", err);
+            }
+          }
+  
+          setInstructionFiles(tmpInstructionFiles);
+        }
+        
+        
     }
 
     fetchDataAsync();

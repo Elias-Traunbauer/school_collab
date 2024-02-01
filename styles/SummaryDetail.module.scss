@@ -121,7 +121,6 @@
             }
 
             &>button{
-                width: 2em;
                 height: 2em;
                 border-radius: .3em;
                 background-color: var(--background_2);
@@ -132,7 +131,8 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding: .3em;
+                padding: .3em .5em;
+                gap: .3em;
 
                 &>img{
                     width: 100%;

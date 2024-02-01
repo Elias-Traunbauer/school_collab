@@ -71,8 +71,11 @@ export async function updateSummary(summary:Summary|SummaryPutDTO){
     title: summary.title,
     description: summary.description,
     content: summary.content,
-    subjectId: summary.subjectId
+    subjectId: summary.subjectId,
+    files: summary.files
   }
+
+  console.log("SUMMARYDTO",dto);
 
   try {
     const response = await fetch(url, {

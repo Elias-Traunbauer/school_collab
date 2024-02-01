@@ -7,7 +7,7 @@ import { Router, useRouter } from 'next/router'
 import Summary from '../models/Summary'
 import { getSummaryById } from '../services/Summary.service'
 import SummaryVoteDTO from '../models/SumaryVoteDTO'
-export default function SummaryPostCard({ post , color,vote}: { post?: Summary, color?: string,vote?:any}) {
+export default function SummaryPostCard({ post , color,voteFunc}: { post?: Summary, color?: string,voteFunc?:any}) {
     const router = useRouter();
     const subject = router.query.subjectId;
 
@@ -20,7 +20,7 @@ export default function SummaryPostCard({ post , color,vote}: { post?: Summary, 
             summaryId: post.id,
             vote: vote
         }
-        this.vote(tmp);
+        voteFunc(tmp);
     }
 
     return (
