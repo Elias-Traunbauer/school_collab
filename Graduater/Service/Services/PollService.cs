@@ -1,6 +1,7 @@
 ﻿using Core.Contracts;
 using Core.Contracts.Services;
 using Core.Entities.Database;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,8 @@ namespace Service.Services
             {
                 throw new Exception("Poll not found");
             }
+            List<PollOption> options = await _unitOfWork.GenericRepository.Query<PollOption>().Where(x => x.PollId == id).ToListAsync();
+            poll.PollOptions = options;
 
             return poll;
         }
