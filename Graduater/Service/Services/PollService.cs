@@ -62,7 +62,7 @@ namespace Service.Services
 
             if (pollOption == null)
             {
-                throw new Exception("Poll option not found");
+                return -1;
             }
 
             PollVote? pollVote = await _unitOfWork.GenericRepository.Query<PollVote>().Where(x => x.PollOptionId == pollOption.Id && x.UserId == userId).FirstOrDefaultAsync();
