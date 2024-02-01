@@ -113,6 +113,9 @@ export default function SummaryDetail(){
     }
 
     function handleExit() {
+        setFilesAdded([]);
+        deleteFilesByIds(filesToDelete);
+        setFilesToDelete([]);
         updateSummary(summary).then((res) => {
             router.push(`/summaries/${subjectId}`);
         });
@@ -145,7 +148,6 @@ export default function SummaryDetail(){
         setFilesAdded([]);
         deleteFilesByIds(filesToDelete);
         setFilesToDelete([]);
-        
     }
 
     function handleCancel() {

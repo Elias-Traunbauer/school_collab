@@ -1,5 +1,8 @@
+import { get } from "http";
+import BackendSummary from "../models/BackendSummary";
 import SummaryVoteDTO from "../models/SumaryVoteDTO";
 import Summary from "../models/Summary";
+import SummaryFileBackend from "../models/SummaryFileBackend";
 import SummaryPostDTO from "../models/SummaryPostDTO";
 import SummaryPutDTO from "../models/SummaryPutDTO";
 
@@ -16,9 +19,22 @@ export async function getSummaryById(id: number): Promise<Summary>{
     if (response.status === 401) {
       throw response;
     }
-    const data = await response.json();
+    const data = await response.json() as BackendSummary;
+
+    const res: Summary = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      content: data.content,
+      subjectId: data.subjectId,
+      files: data.files.map((file:SummaryFileBackend) => file.fileId),
+      votes: data.votes,
+      subject: data.subject,
+      version: data.version,
+      reports: []
+    }
     
-    return data;
+    return res;
   } catch (error) {
     
     throw error;
@@ -55,8 +71,45 @@ export async function getSummariesBySubjectId(subjectId:number){
       throw response;
     }
     
-    const data = await response.json();
+    const data : BackendSummary[]= await response.json();
+
+    const res: Summary[] = [];
+
+    for (const iterator of data) {
+      res.push({
+        id: iterator.id,
+        title: iterator.title,
+        description: iterator.description,
+        content: iterator.content,
+        subjectId: iterator.subjectId,
+        files: iterator.files.map((file:SummaryFileBackend) => file.fileId),
+        votes: iterator.votes,
+        subject: iterator.subject,
+        version: "",
+        reports: []
+      });
+    }
     
+    return res;
+  } catch (error) {
+    
+    throw error;
+  }
+
+}
+export async function getBackendSummaryById(id: number): Promise<BackendSummary>{
+  if(isNaN(id)){
+    return;
+  }
+  try {
+    const response = await fetch(url+'/'+id, {
+      method: 'GET'
+    });
+    if (response.status === 401) {
+      throw response;
+    }
+    const data = await response.json() as BackendSummary;
+
     return data;
   } catch (error) {
     
@@ -65,7 +118,23 @@ export async function getSummariesBySubjectId(subjectId:number){
 
 }
 
-export async function updateSummary(summary:Summary|SummaryPutDTO){
+export async function updateSummary(summary:Summary){
+
+  console.log("SUMMARYUPDATE",summary);
+
+  const tmpFiles: SummaryFileBackend[] = [];
+
+  //temporäre Lösung für traunis humbug
+  const tmpBackendSummary:BackendSummary = await getBackendSummaryById(summary.id);
+
+  for (const iterator of summary.files) {
+    const bogos = tmpBackendSummary.files.find((file:SummaryFileBackend) => file.fileId === iterator);
+    tmpFiles.push({
+      fileId: iterator,
+      summaryId: summary.id,
+      id: bogos?bogos.id:null,
+    })
+  }
 
   const dto : SummaryPutDTO = {
     id: summary.id,
@@ -73,7 +142,7 @@ export async function updateSummary(summary:Summary|SummaryPutDTO){
     description: summary.description,
     content: summary.content,
     subjectId: summary.subjectId,
-    files: summary.files
+    files: tmpFiles
   }
 
   console.log("SUMMARYDTO",JSON.stringify(dto));

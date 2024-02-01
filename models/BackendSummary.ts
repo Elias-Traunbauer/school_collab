@@ -1,15 +1,14 @@
-import FileObject from "./File";
 import Subject from "./Subject";
 import SummaryFileBackend from "./SummaryFileBackend";
 import User from "./User";
 
-export default interface Summary {
+export default interface BackendSummary {
     title: string;
     description: string;
     content: string;
     subjectId: number;
     subject: Subject;
-    files: number[];
+    files: SummaryFileBackend[];
     id: number;
     version: string;
     reports: User[];

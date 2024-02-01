@@ -28,10 +28,10 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
     }
 
     function handleDownvote(){
-        console.log("DOWNVOTE");
+        
         if(voteState === 0){
             setScore(score-1);
-            console.log("DOWNVOTE 0");
+            
             setVoteState(-1);
             vote(-1);
         }else if(voteState === -1){
@@ -47,25 +47,25 @@ export default function VotingComponent({ itemkey, withScore = false, vote}:{ite
     }
 
     useEffect(()=>{
-        console.log("STARTSTATE:", voteState, "ITEMKEY:",itemkey);
+        
         HaveVoted(itemkey).then((res)=>{
-            console.log("RES:",res);
+            
             if(!isNaN(res))
             setVoteState(res)
         })
     },[router]);
 
     useEffect(()=>{
-        console.log("STARTSTATE:", voteState, "ITEMKEY:",itemkey);
+        
         HaveVoted(itemkey).then((res)=>{
-            console.log("RES:",res);
+            
             if(!isNaN(res))
             setVoteState(res)
         })
     },[itemkey]);
 
     useEffect(()=>{
-        console.log("VOTESTATECHANGE",voteState);
+        
     },[voteState]);
 
     function preventdefault(e){
