@@ -46,9 +46,10 @@ export default function AssignmentEdit() {
 
       const res = await getAssignmentById(assignmentIdAsNumber);
       setAssignment(res);
-        setAssignmentBackup(res);
-        setDueDate(res.due);
-        setContent(res.content);
+      setAssignmentBackup(res);
+      setDueDate(res.due);
+      setContent(res.content);
+      console.log("RES:", res);
        
         
         if (res.files&&res.files.length > 0) {
@@ -87,6 +88,10 @@ export default function AssignmentEdit() {
 
     fetchDataAsync();
   }, []);
+
+  useEffect(() => {
+    console.log("CONTENT:",content);
+  }, [content,dueDate]);
 
 
   async function handleUploadFilesUpdate(list: any[]) {

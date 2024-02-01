@@ -7,6 +7,8 @@ import { createPoll } from "../../services/Poll.service";
 import Poll from "../../models/Poll";
 import PollPostDTO from "../../models/PollPostDTO";
 import WizardResult from "../../models/WizardResult";
+import PollOption from "../../models/PollOption";
+import PollOptionPostDTO from "../../models/PollOptionPostDTO";
 export default function PollCreate() {
   function nothing() {
     console.log("nothing");
@@ -22,24 +24,33 @@ export default function PollCreate() {
       new WizardField("Options", "list", {min:2,max:8,value:["Ja","Nein"]}, true),
     ],
   ];
-  function handleCallback(
+
+  async function handleCallback(
     result: WizardResult[],
     callbackLoadingText: Function,
     finishLoading: Function
   ) {
-    console.log(result);
+    console.log("RES:",result);
     callbackLoadingText("loading...");
+    const tmpPollOptions: PollOptionPostDTO[] = [];
 
-    const tmpPoll:PollPostDTO ={
-      dateCreated: new Date(),
-      description: result[1].value as string,
-      due: result[0].value as Date,
-      isAnonymous: false,
-      title: result[0].value as string,
-      pollOptions: result[2].value as string[],
+    for (const iterator of result[3].value as string[]) {
+      const tmpPollOption: PollOptionPostDTO = {
+        name: iterator,
+      }
+      tmpPollOptions.push(tmpPollOption);
     }
 
-    createPoll(tmpPoll)
+    const tmpPoll:PollPostDTO ={
+      description: result[1].value as string,
+      due: result[2].value as Date,
+      isAnonymous: false,
+      title: result[0].value as string,
+      pollOptions: tmpPollOptions,
+      creatorUserId: 0
+    }
+
+    await createPoll(tmpPoll)
 
     setTimeout(() => {
       callbackLoadingText("done");

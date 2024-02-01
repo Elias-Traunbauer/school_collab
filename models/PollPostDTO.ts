@@ -1,10 +1,11 @@
 import PollOption from "./PollOption";
+import PollOptionPostDTO from "./PollOptionPostDTO";
 
 export default interface PollPostDTO {
-    dateCreated: Date,
+    title: string,
     description: string,
+    creatorUserId: number,
     due: Date,
     isAnonymous: boolean,
-    title: string,
-    pollOptions: string[]
+    pollOptions: PollOptionPostDTO[]
 }

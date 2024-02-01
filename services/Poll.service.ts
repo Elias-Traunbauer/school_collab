@@ -4,33 +4,8 @@ import PollPostDTO from "../models/PollPostDTO";
 
 const url = '/api/Poll';
 export async function getPolls():Promise<Poll[]> {
-//MOCK
-    const p1:Poll = {
-        creatorUserId: 1,
-        dateCreated: new Date(),
-        description: "",
-        due: new Date(),
-        isAnonymous: false,
-        title: "Poll1",
-        id: 1,
-        version: ""
-    }
-    const p2:Poll = {
-        creatorUserId: 1,
-        dateCreated: new Date(),
-        description: "",
-        due: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
-        isAnonymous: false,
-        title: "Poll1",
-        id: 2,
-        version: ""
-    }
-
-    return [p1,p2];
-
-//REAL
     try{
-        const response = await fetch(url, {
+        const response = await fetch(url+"/all", {
             method: 'GET'
         });
 
@@ -46,6 +21,7 @@ export async function getPolls():Promise<Poll[]> {
 }
 
 export async function createPoll(poll:PollPostDTO){
+    console.log("NEWPOLL",poll);
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -58,7 +34,7 @@ export async function createPoll(poll:PollPostDTO){
         if (response.status != 200) {
             throw response;
         }
-          
+          console.log("RESPONSE",response);
         return response;
     }catch(error){
         throw error;

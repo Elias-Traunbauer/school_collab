@@ -109,6 +109,7 @@ export async function executeVote(param:SummaryVoteDTO){
   const dto = {
     value: param.vote
   }
+  console.log("VOTEDTO",dto);
 
   try {
     const response = await fetch(url+'/'+param.summaryId+'/vote', {
