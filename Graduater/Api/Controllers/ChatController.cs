@@ -105,6 +105,10 @@ namespace Api.Controllers
 
             await realTimeChatMessageService.SubscribeToMessages(user.Id, async (message) =>
             {
+                if (cancellationToken.IsCancellationRequested || HttpContext.RequestAborted.IsCancellationRequested)
+                {
+                    return;
+                }
                 await resp.WriteAsync($"data: " + JsonConvert.SerializeObject(new
                 {
                     message.User,
