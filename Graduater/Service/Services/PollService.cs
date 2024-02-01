@@ -44,6 +44,11 @@ namespace Service.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
+        public async Task<List<Poll>> GetAllAsync()
+        {
+            return await _unitOfWork.GenericRepository.Query<Poll>().ToListAsync();
+        }
+
         public async Task<Poll> ReadAsync(int id)
         {
             Poll? poll = await _unitOfWork.GenericRepository.GetAsync<Poll>(id);
@@ -53,6 +58,13 @@ namespace Service.Services
                 throw new Exception("Poll not found");
             }
             List<PollOption> options = await _unitOfWork.GenericRepository.Query<PollOption>().Where(x => x.PollId == id).ToListAsync();
+            
+            // fetch vote scores
+            foreach (PollOption option in options)
+            {
+                option.Votes = await _unitOfWork.GenericRepository.Query<PollVote>().Where(x => x.PollOptionId == option.Id).CountAsync();
+            }
+            
             poll.PollOptions = options;
 
             return poll;
@@ -62,6 +74,41 @@ namespace Service.Services
         {
             await _unitOfWork.GenericRepository.UpdateAsync(model);
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<int> VoteAsync(int pollOptionId, int userId)
+        {
+            PollOption? pollOption = await _unitOfWork.GenericRepository.GetAsync<PollOption>(pollOptionId);
+
+            if (pollOption == null)
+            {
+                throw new Exception("Poll option not found");
+            }
+
+            Poll? poll = await _unitOfWork.GenericRepository.GetAsync<Poll>(pollOption.PollId);
+
+            if (poll == null)
+            {
+                throw new Exception("Poll not found");
+            }
+
+            PollVote? pollVote = await _unitOfWork.GenericRepository.Query<PollVote>().Where(x => x.PollOptionId == pollOptionId && x.UserId == userId).FirstOrDefaultAsync();
+
+            if (pollVote != null)
+            {
+                throw new Exception("User has already voted");
+            }
+
+            pollVote = new PollVote
+            {
+                PollOptionId = pollOptionId,
+                UserId = userId
+            };
+
+            await _unitOfWork.GenericRepository.AddAsync(pollVote);
+            await _unitOfWork.SaveChangesAsync();
+
+            return pollOptionId;
         }
     }
 }

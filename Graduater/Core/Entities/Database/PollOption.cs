@@ -21,6 +21,7 @@ public class PollOptionUpdatePayload : IConvertible<PollOption>
     public int Id { get; set; }
     public int PollId { get; set; }
     public string Name { get; set; } = null!;
+    public Guid Version { get; set; }
 
     public PollOption Convert()
     {
@@ -28,6 +29,7 @@ public class PollOptionUpdatePayload : IConvertible<PollOption>
         {
             Id = Id,
             PollId = PollId,
+            Version = Version,
             Name = Name
         };
     }
@@ -35,14 +37,12 @@ public class PollOptionUpdatePayload : IConvertible<PollOption>
 
 public class PollOptionCreatePayload : IConvertible<PollOption>
 {
-    public int PollId { get; set; }
     public string Name { get; set; } = null!;
 
     public PollOption Convert()
     {
         return new PollOption
         {
-            PollId = PollId,
             Name = Name
         };
     }
