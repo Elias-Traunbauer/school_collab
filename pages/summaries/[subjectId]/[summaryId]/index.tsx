@@ -113,6 +113,9 @@ export default function SummaryDetail(){
     }
 
     function handleExit() {
+        setFilesAdded([]);
+        deleteFilesByIds(filesToDelete);
+        setFilesToDelete([]);
         updateSummary(summary).then((res) => {
             router.push(`/summaries/${subjectId}`);
         });
@@ -145,7 +148,6 @@ export default function SummaryDetail(){
         setFilesAdded([]);
         deleteFilesByIds(filesToDelete);
         setFilesToDelete([]);
-        
     }
 
     function handleCancel() {
@@ -191,7 +193,7 @@ export default function SummaryDetail(){
                         }
                         
                         <div>
-                            <VotingComponent vote={handleVote} withScore={true} itemkey={summary&&summary.id}></VotingComponent>
+                            <VotingComponent initialScore={summary&&summary.votes} vote={handleVote} withScore={true} itemkey={summary&&summary.id}></VotingComponent>
                         </div> 
                     </div>
             </div>
