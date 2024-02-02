@@ -31,6 +31,9 @@
               "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj": {
                 "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj"
               },
+              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
+                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj"
+              },
               "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
                 "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
               },
@@ -52,17 +55,11 @@
           "dependencies": {
             "GoogleAuthenticator": {
               "target": "Package",
-              "version": "[3.1.1, )"
-            },
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[7.0.5, )"
+              "version": "[3.2.0, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[10.0.3, )"
+              "version": "[13.0.1, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -132,6 +129,18 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.3.0, )"
+            },
+            "Microsoft.AspNet.WebApi.Core": {
+              "target": "Package",
+              "version": "[5.3.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.5, )"
@@ -143,6 +152,75 @@
             "MySql.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
+      "version": "1.0.1",
+      "restore": {
+        "projectUniqueName": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj",
+        "projectName": "Trauni.EntityFramework.LargeBlobs",
+        "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj",
+        "packagesPath": "C:\\Users\\lucaf\\.nuget\\packages\\",
+        "outputPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\lucaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.2.0, )"
             }
           },
           "imports": [
@@ -191,6 +269,9 @@
             "projectReferences": {
               "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj": {
                 "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj"
+              },
+              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
+                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj"
               }
             }
           }
@@ -248,6 +329,10 @@
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.2.0, )"
             }
           },
           "imports": [
@@ -296,6 +381,9 @@
             "projectReferences": {
               "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj": {
                 "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Core\\Core.csproj"
+              },
+              "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj": {
+                "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\EntityFramework.LargeBlobs\\EntityFramework.LargeBlobs.csproj"
               },
               "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj": {
                 "projectPath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Persistence\\Persistence.csproj"
