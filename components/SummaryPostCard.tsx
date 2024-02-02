@@ -34,7 +34,7 @@ export default function SummaryPostCard({ post , color,voteFunc}: { post?: Summa
                 </div>
             </div>
             <div className={styles.postFooter}>
-                <VotingComponent vote={handleVote} itemkey={post&&post.id} withScore={true}></VotingComponent>
+                <VotingComponent initialScore={post&&post.votes} vote={handleVote} itemkey={post&&post.id} withScore={true}></VotingComponent>
             </div>
         </div>
     )
