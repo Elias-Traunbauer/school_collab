@@ -15,4 +15,6 @@ C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Persistence\obj\Debug\n
 C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.pdb
 C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Persistence\obj\Debug\net6.0\Persistence.genruntimeconfig.cache
 C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Persistence\obj\Debug\net6.0\ref\Persistence.dll
+C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Persistence\bin\Debug\net6.0\EntityFramework.LargeBlobs.dll
+C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Persistence\bin\Debug\net6.0\EntityFramework.LargeBlobs.pdb
 C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Persistence\bin\Debug\net6.0\appsettings.json

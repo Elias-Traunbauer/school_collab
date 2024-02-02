@@ -17,4 +17,6 @@ C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service\obj\Debug\net6.
 C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service\obj\Debug\net6.0\Service.pdb
 C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service\obj\Debug\net6.0\Service.genruntimeconfig.cache
 C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service\obj\Debug\net6.0\ref\Service.dll
+C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service\bin\Debug\net6.0\EntityFramework.LargeBlobs.dll
+C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service\bin\Debug\net6.0\EntityFramework.LargeBlobs.pdb
 C:\schule\4BHIF\SYP\SchoolCollab\school_collab\Graduater\Service\bin\Debug\net6.0\appsettings.json

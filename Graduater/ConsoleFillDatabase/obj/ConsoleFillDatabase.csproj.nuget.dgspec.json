@@ -376,11 +376,11 @@
           "dependencies": {
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
-              "version": "[6.29.0, )"
+              "version": "[7.2.0, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[6.29.0, )"
+              "version": "[7.2.0, )"
             }
           },
           "imports": [

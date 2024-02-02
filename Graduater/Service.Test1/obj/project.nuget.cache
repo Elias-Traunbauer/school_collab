@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "XUF+S+dNzcMjsp6zG+nCO/pV7LZhivomJeZ7CmlgHBqYItOiWQac9gas0OsgMvxxZAK14cF4kx7AB2UyxsR8kQ==",
-  "success": false,
+  "dgSpecHash": "UGWj64d1Zb5Bpn4gayO43lfZrgaSAWAoYD5DklaLDlxkzUxoOyW8dW0FtQh+Iim6KIS4Q2PTJQup4Sz69+CP8w==",
+  "success": true,
   "projectFilePath": "C:\\schule\\4BHIF\\SYP\\SchoolCollab\\school_collab\\Graduater\\Service.Test1\\Service.Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lucaf\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
@@ -60,10 +60,10 @@
     "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.extensions.objectpool\\2.2.0\\microsoft.extensions.objectpool.2.2.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
-    "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.identitymodel.abstractions\\6.29.0\\microsoft.identitymodel.abstractions.6.29.0.nupkg.sha512",
-    "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.29.0\\microsoft.identitymodel.jsonwebtokens.6.29.0.nupkg.sha512",
-    "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.identitymodel.logging\\6.29.0\\microsoft.identitymodel.logging.6.29.0.nupkg.sha512",
-    "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.29.0\\microsoft.identitymodel.tokens.6.29.0.nupkg.sha512",
+    "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.identitymodel.abstractions\\7.2.0\\microsoft.identitymodel.abstractions.7.2.0.nupkg.sha512",
+    "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\7.2.0\\microsoft.identitymodel.jsonwebtokens.7.2.0.nupkg.sha512",
+    "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.identitymodel.logging\\7.2.0\\microsoft.identitymodel.logging.7.2.0.nupkg.sha512",
+    "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.2.0\\microsoft.identitymodel.tokens.7.2.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.net.http.headers\\2.2.0\\microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.net.test.sdk\\17.3.2\\microsoft.net.test.sdk.17.3.2.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
@@ -106,7 +106,7 @@
     "C:\\Users\\lucaf\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\system.dynamic.runtime\\4.0.11\\system.dynamic.runtime.4.0.11.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
-    "C:\\Users\\lucaf\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.29.0\\system.identitymodel.tokens.jwt.6.29.0.nupkg.sha512",
+    "C:\\Users\\lucaf\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.2.0\\system.identitymodel.tokens.jwt.7.2.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\system.io.filesystem\\4.0.1\\system.io.filesystem.4.0.1.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\system.io.filesystem.primitives\\4.0.1\\system.io.filesystem.primitives.4.0.1.nupkg.sha512",
@@ -131,7 +131,6 @@
     "C:\\Users\\lucaf\\.nuget\\packages\\system.runtime.interopservices.runtimeinformation\\4.0.0\\system.runtime.interopservices.runtimeinformation.4.0.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\system.runtime.loader\\4.3.0\\system.runtime.loader.4.3.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
-    "C:\\Users\\lucaf\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\system.security.cryptography.protecteddata\\4.7.0\\system.security.cryptography.protecteddata.4.7.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\system.security.permissions\\4.7.0\\system.security.permissions.4.7.0.nupkg.sha512",
     "C:\\Users\\lucaf\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
@@ -191,33 +190,6 @@
       "warningLevel": 1,
       "message": "Das Paket \"Microsoft.Web.Infrastructure 1.0.0\" wurde nicht mit dem Projektzielframework \"net6.0\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
       "libraryId": "Microsoft.Web.Infrastructure",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warnung als Fehler: Ein Downgrade des Pakets \"System.IdentityModel.Tokens.Jwt\" von 7.2.0 auf 6.29.0 wurde festgestellt. Verweisen Sie direkt aus dem Projekt auf das Paket, um eine andere Version auszuwählen. \r\n Service.Test -> Service -> Trauni.EntityFramework.LargeBlobs -> System.IdentityModel.Tokens.Jwt (>= 7.2.0) \r\n Service.Test -> Service -> System.IdentityModel.Tokens.Jwt (>= 6.29.0)",
-      "libraryId": "System.IdentityModel.Tokens.Jwt",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warnung als Fehler: Ein Downgrade des Pakets \"System.IdentityModel.Tokens.Jwt\" von 7.2.0 auf 6.29.0 wurde festgestellt. Verweisen Sie direkt aus dem Projekt auf das Paket, um eine andere Version auszuwählen. \r\n Service.Test -> Service -> Core -> System.IdentityModel.Tokens.Jwt (>= 7.2.0) \r\n Service.Test -> Service -> System.IdentityModel.Tokens.Jwt (>= 6.29.0)",
-      "libraryId": "System.IdentityModel.Tokens.Jwt",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warnung als Fehler: Ein Downgrade des Pakets \"System.IdentityModel.Tokens.Jwt\" von 7.2.0 auf 6.29.0 wurde festgestellt. Verweisen Sie direkt aus dem Projekt auf das Paket, um eine andere Version auszuwählen. \r\n Service.Test -> Service -> Persistence -> System.IdentityModel.Tokens.Jwt (>= 7.2.0) \r\n Service.Test -> Service -> System.IdentityModel.Tokens.Jwt (>= 6.29.0)",
-      "libraryId": "System.IdentityModel.Tokens.Jwt",
       "targetGraphs": [
         "net6.0"
       ]
