@@ -177,7 +177,7 @@ export default function PollDetail() {
         }
     }, [voted,editMode]);
 
-    function vote() {
+    async function vote() {
         setVoted(true);
         if(poll.due < new Date()){
             return;
@@ -189,7 +189,7 @@ export default function PollDetail() {
 
         //TODO: send vote to backend
         if(selectedOption){
-            executeVote(selectedOption);
+            await executeVote(selectedOption);
         }
         //delay scroll to bottom
         setTimeout(() => {
