@@ -1,21 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import styles from "../styles/MarkdownEditor.module.scss";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { text } from "stream/consumers";
 
-export default function MarkdownEditor({handleFromOutside = false,setText,isEditable = true, containerWidth = 50 , defaultText='# Hello'}: {handleFromOutside?:boolean,setText?:Function,isEditable?: boolean, containerWidth?: number, defaultText?: string}) {
+export default function MarkdownEditor({handleFromOutside = false,setText,isEditable = true, containerWidth = 50 , defaultText=''}: {handleFromOutside?:boolean,setText?:Function,isEditable?: boolean, containerWidth?: number, defaultText?: string}) {
     const [displayState, setDisplayState] = useState(false);
     const contentRef = useRef(null);
     const [mdText, setMdText] = useState(defaultText);
 
     useEffect(()=>{
+      console.log('defaultText',defaultText);
       setMdText(defaultText);
     },[defaultText])
 
     useEffect(()=>{
       highlight();
-      console.log('highlight');
+      //console.log('highlight');
     },[mdText])
 
     function highlight(){
@@ -23,7 +24,7 @@ export default function MarkdownEditor({handleFromOutside = false,setText,isEdit
       addCodeButtons();
     }
     function handleSetText(){
-      console.log('handleSetText');
+      //console.log('handleSetText');
       const textArea = document.getElementById('textArea') as HTMLTextAreaElement;
       if(handleFromOutside){
         setText(textArea.value);

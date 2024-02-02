@@ -2,16 +2,27 @@ import { useRouter } from "next/router";
 import Wizard from "../components/Wizard";
 import WizardField from "../models/WizardField";
 import styles from "../styles/Summary.module.scss";
+import WizardResult from "../models/WizardResult";
+import SubjectPostDTO from "../models/SubjectPostDTO";
+import { createSubject } from "../services/Subject.service";
 
 export default function NewSubject({returnPath}: {returnPath: string}) {
     const router = useRouter();
 
-    function finisheWizard(text,callbackLoadingText,finishLoading) {
-        //TODO: change Wizard and add subject properly, then redirect to returnPath/subjectId
-        setTimeout(() => {
+    function finisheWizard(text:WizardResult[],callbackLoadingText,finishLoading) {
+        //TODO: test if Backend is done
+        
+        const dto :SubjectPostDTO = {
+            name: text[0].value,
+            shortName: text[1].value
+        }
+        createSubject(dto).then((res:string) => {
             finishLoading();
-            alert(text);
-        }, 2000);
+            setTimeout(() => {
+                console.log(res);
+                router.push(returnPath+"/"+res);
+            }, 300);
+        })
     }
 
     return (

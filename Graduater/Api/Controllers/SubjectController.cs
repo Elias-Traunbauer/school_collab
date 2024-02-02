@@ -25,10 +25,16 @@ namespace Api.Controllers
                 );
         }
 
+        public record SubjectDTO(string Name, string ShortName);
+
         [HttpPost]
-        public async Task<IActionResult> CreateSubject([FromBody] Subject subject, [FromServices] ISubjectService subjectService)
+        public async Task<IActionResult> CreateSubject([FromBody] SubjectDTO subject, [FromServices] ISubjectService subjectService)
         {
-            var res = await subjectService.CreateSubjectAsync(subject);
+            var res = await subjectService.CreateSubjectAsync(new Subject()
+            {
+                Name = subject.Name,
+                ShortName = subject.ShortName
+            });
             if (res.Status != 200)
             {
                 return BadRequest(res);

@@ -9,11 +9,10 @@ namespace Core.Contracts.Entities
         string Description { get; set; }
         DateTime Due { get; set; }
         ICollection<Core.Entities.Database.AssignmentFile>? Files { get; set; }
-        ICollection<Core.Entities.Database.AssignmentFile>? Instructions { get; set; }
-        Group Group { get; set; }
+        Group? Group { get; set; }
         int GroupId { get; set; }
         DateTime Modified { get; set; }
-        Subject Subject { get; set; }
+        Subject? Subject { get; set; }
         int SubjectId { get; set; }
         string Title { get; set; }
         User? User { get; set; }

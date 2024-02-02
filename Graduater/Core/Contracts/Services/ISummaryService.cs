@@ -11,5 +11,7 @@ namespace Core.Contracts.Services
     public interface ISummaryService : IEZCRUDService<CreateSummaryRequest, Summary, int>
     {
         List<Summary>? GetBySubject(int id);
+        Task<int> IfIHaveVotedAsync(int summaryId, int userId);
+        Task VoteAsync(int summaryId, int userId, int value);
     }
 }

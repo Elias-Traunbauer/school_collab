@@ -17,7 +17,7 @@ export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, t
     }
 
     function handleInputChange(e) {
-        let files = e.target.files;
+        const files = e.target.files;
         showFile(files);
     }
 

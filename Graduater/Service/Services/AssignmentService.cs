@@ -5,6 +5,7 @@ using Core.Contracts.Repositories;
 using Core.Contracts.Services;
 using Core.Entities.Database;
 using Core.Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Mysqlx.Resultset;
 
 namespace Service.Services
@@ -46,7 +47,8 @@ namespace Service.Services
             {
                 return new ServiceResult<IAssignment>("Id", "Assignment not found");
             }
-
+            var assignmentFiles = await _unitOfWork.GenericRepository.Query<AssignmentFile>().Where(x => x.AssignmentId == id).ToListAsync();
+            assignment.Files = assignmentFiles;
             // return assignment
             return new ServiceResult<IAssignment>(assignment);
         }
@@ -90,6 +92,7 @@ namespace Service.Services
 
         public async Task<IServiceResult> UpdateAssignmentAsync(Assignment assignment)
         {
+            assignment.Modified = DateTime.UtcNow;
             // update assignment
             await _unitOfWork.AssignmentRepository.UpdateAssignmentAsync(assignment);
 

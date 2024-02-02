@@ -31,7 +31,7 @@ export default function Chatroom({
   const [description, setDescription] = useState(chatParam && chatParam.description);
   const [loadNewMessages, setLoadNewMessages] = useState(false);
   const [chat, setChat] = useState<Chat>(chatParam);
-  const [descriptionbackup, setDescriptionbackup] = useState(chatParam && chatParam.description);
+  const [descriptionbackup, setDescriptionBackup] = useState(chatParam && chatParam.description);
 
   useEffect(() => {
     console.log("CHATROOM", chatParam);
@@ -41,6 +41,9 @@ export default function Chatroom({
       }
 
       setName(chatParam.name && chatParam.name);
+      setDescription(chatParam.description && chatParam.description);
+      setBackUpName(chatParam.name && chatParam.name);
+      setDescriptionBackup(chatParam.description && chatParam.description);
 
       getMessages(chatParam.id).then((firstMessages) => {
         chatParam.chatMessages = firstMessages;
@@ -256,7 +259,7 @@ export default function Chatroom({
     console.log("changeNameEditMode", nameEdit);
     if (!nameEdit) {
       setBackUpName(chat.name);
-      setDescriptionbackup(chat.description);
+      setDescriptionBackup(chat.description);
     }
     setNameEdit(!nameEdit);
   }
@@ -278,26 +281,6 @@ export default function Chatroom({
     };
 
     changeNameEditMode();
-  }
-
-  function handleDragged() {
-    console.log("dragged");
-    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
-    chatBody.classList.add(styles.dragged);
-  }
-
-  function handleLeave() {
-    console.log("leave");
-    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
-    chatBody.classList.remove(styles.dragged);
-  }
-
-  function handleDropped(e) {
-    e.preventDefault();
-    console.log("droped " + e.dataTransfer.files);
-    const chatBody = document.getElementById("chatBody") as HTMLDivElement;
-    chatBody.classList.remove(styles.dragged);
-    const files = e.dataTransfer.files;
   }
 
   function handleScroll() {
@@ -323,8 +306,8 @@ export default function Chatroom({
           setLoadNewMessages(false);
           return;
         }
-        const tmpMessages = messages;
-        tmpMessages.push(...chat.chatMessages);
+        let tmpMessages = messages;
+        tmpMessages =  [...chat.chatMessages,...tmpMessages]
         chat.chatMessages = tmpMessages;
         setLoadNewMessages(true);
       });
@@ -342,15 +325,12 @@ export default function Chatroom({
 
   return (
     <div
-      onDragOver={handleDragged}
-      onDragLeave={handleLeave}
       className={styles.container}
     >
       <div className={styles.contentWrapper}>
         <div className={styles.contentContainer}>
           <div
             onScroll={handleScroll}
-            onDrop={(e) => handleDropped(e)}
             id="chatBody"
             className={styles.body}
           >
