@@ -46,7 +46,7 @@ export default function Chatroom({
       setDescriptionBackup(chatParam.description && chatParam.description);
 
       getMessages(chatParam.id).then((firstMessages) => {
-        chatParam.chatMessages = firstMessages;
+        chatParam.chatMessages = firstMessages.reverse();
         setChat(chatParam);
         console.log("FIRSTMESSAGES", chatParam.chatMessages);
         if (chatParam.chatMessages.length > 0)
@@ -306,8 +306,8 @@ export default function Chatroom({
           setLoadNewMessages(false);
           return;
         }
-        let tmpMessages = messages;
-        tmpMessages =  [...chat.chatMessages,...tmpMessages]
+        let tmpMessages = messages.reverse();
+        tmpMessages =  [...tmpMessages,...chat.chatMessages]
         chat.chatMessages = tmpMessages;
         setLoadNewMessages(true);
       });
