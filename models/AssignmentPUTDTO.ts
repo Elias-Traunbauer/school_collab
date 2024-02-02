@@ -9,4 +9,5 @@ export default interface AssignmentPutDTO {
     due: Date,
     groupId: number,
     files: FileBackend[],
+    userId: number  
 }

@@ -164,6 +164,7 @@ export async function updateAssignment(assignment: Assignment){
     due: assignment.due,
     groupId: assignment.groupId,
     files: tmpFiles,
+    userId: assignment.userId,
   }
 
   console.log("UPDAERES",JSON.stringify(dto));

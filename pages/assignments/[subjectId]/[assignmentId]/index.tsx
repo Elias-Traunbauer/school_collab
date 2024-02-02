@@ -85,7 +85,7 @@ export default function AssignmentEdit() {
     }
 
     fetchDataAsync();
-  }, []);
+  }, [router.query]);
 
   useEffect(() => {
     console.log("CONTENT:",content);

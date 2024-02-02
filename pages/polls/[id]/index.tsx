@@ -89,9 +89,6 @@ export default function PollDetail() {
             return;
         }
 
-        if (chartRef.current) {
-            return;
-        }
         const ctx = chartRef.current.getContext('2d');
         const result:Poll = await getPollById(poll.id);
         console.log("RES:",result);
@@ -143,9 +140,9 @@ export default function PollDetail() {
             }
         };
         //Error: Canvas is already in use. Chart with ID '2' must be destroyed before the canvas with ID 'Chart' can be reused.
-        if(Chart.getChart(chartRef.current)){
-            Chart.getChart(chartRef.current).destroy();
-        }
+       if(Chart.getChart(chartRef.current)){
+    Chart.getChart(chartRef.current).destroy();
+    }
         const chart = new Chart(ctx, {
             type: 'pie',
             data: data,
@@ -376,7 +373,9 @@ export default function PollDetail() {
             <div>
                 <div>
                     {
-                        <MarkdownEditor defaultText={poll&&poll.description} containerWidth={100} isEditable={editMode}></MarkdownEditor>
+                        <MarkdownEditor setText={(x) => {
+                            setPoll({...poll, description: x});
+                        }} defaultText={poll&&poll.description} containerWidth={100} isEditable={editMode} handleFromOutside={true}></MarkdownEditor>
                     }
 
                 </div>

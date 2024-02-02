@@ -4,11 +4,15 @@ import styles from "../styles/VotingComponent.module.scss";
 import { useState } from "react";
 import { HaveVoted } from "../services/Summary.service";
 import { useRouter } from "next/router";
-export default function VotingComponent({ itemkey, withScore = false, vote}:{itemkey:number,withScore?:boolean,vote?:Function}) {
+export default function VotingComponent({ itemkey, withScore = false, vote, initialScore}:{itemkey:number,withScore?:boolean,vote?:Function, initialScore:number}) {
 
-    const[score,setScore] = useState(5);
+    const[score,setScore] = useState(initialScore?initialScore:0);
     const[voteState,setVoteState] = useState<number>(0);
     const router = useRouter();
+
+    useEffect(()=>{
+        setScore(initialScore);
+    }, [initialScore]);
 
     function handleUpvote(e){
         if(voteState === 0){

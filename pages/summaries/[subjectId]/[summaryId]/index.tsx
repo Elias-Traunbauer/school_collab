@@ -193,7 +193,7 @@ export default function SummaryDetail(){
                         }
                         
                         <div>
-                            <VotingComponent vote={handleVote} withScore={true} itemkey={summary&&summary.id}></VotingComponent>
+                            <VotingComponent initialScore={summary&&summary.votes} vote={handleVote} withScore={true} itemkey={summary&&summary.id}></VotingComponent>
                         </div> 
                     </div>
             </div>
