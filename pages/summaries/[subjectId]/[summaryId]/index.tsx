@@ -7,14 +7,15 @@ import FileUpload from '../../../../components/FileUpload';
 import FileListObject from '../../../../components/FileListObject';
 import { useRouter } from 'next/router';
 import Summary from '../../../../models/Summary';
-import { getSummaryById , updateSummary} from '../../../../services/Summary.service';
+import { executeVote, getSummaryById , updateSummary} from '../../../../services/Summary.service';
 import Subject from '../../../../models/Subject';
 import { getSubjectById } from '../../../../services/Subject.service';
-import { deleteFilesByIds, downloadFileById, getFileById, getFileNameById, getFileNamesByIds, getFilesByIds, postFiles } from '../../../../services/File.service';
+import { deleteFilesByIds, downloadFileById, getFileById , getFileInfosById, getFilesByIds, postFiles } from '../../../../services/File.service';
 import FileObject from '../../../../models/File';
 import UserContext from '../../../../components/UserContext';
 import Image from 'next/image';
 import FileDisplayObject from '../../../../models/FileDisplayObject';
+import SummaryVoteDTO from '../../../../models/SumaryVoteDTO';
 
 export default function SummaryDetail(){
     const [editMode, setEditMode] = useState(false);
@@ -37,6 +38,7 @@ export default function SummaryDetail(){
     }, [router]);
 
     async function loadSummary(){
+        console.log("LOADSUMMARY");
         const subjectIdAsNumber = parseInt(subjectId as string);
         if(isNaN(subjectIdAsNumber)) {
             return;
@@ -52,18 +54,20 @@ export default function SummaryDetail(){
         setSummary(tmpSummary);
         setBackupSummary(tmpSummary);
 
-        const tmpFileDisplayObjects: FileDisplayObject[] = [];
-        for (const iterator of tmpSummary.files) {
-            const tmpFileName = await getFileNameById(iterator);
-            tmpFileDisplayObjects.push({id: iterator, name: tmpFileName});
+        if(tmpSummary.files&&tmpSummary.files.length > 0){
+            const tmpFileDisplayObjects: FileDisplayObject[] = [];
+            for (const iterator of tmpSummary.files) {
+                const tmpFileInfo = await getFileInfosById(iterator);
+                tmpFileDisplayObjects.push({id: iterator, name: tmpFileInfo.name});
+            }
+            setFiles(tmpFileDisplayObjects);
         }
-        setFiles(tmpFileDisplayObjects);
+       
     }
 
     function handleAcceptedFiles(files: string[]) {
         console.log(files);
     }
-
     useEffect(() => {
         console.log("summary",summary);
         setDescription(summary&&summary.description);
@@ -78,8 +82,8 @@ export default function SummaryDetail(){
 
             for (const fileId of res) {
                 try{
-                    const tmpFileName = await getFileNameById(fileId);
-                    tmpFiles.push({id: fileId, name: tmpFileName});
+                    const tmpFileInfo = await getFileInfosById(fileId);
+                    tmpFiles.push({id: fileId, name: tmpFileInfo.name});
                 }
                 catch(err){
                     console.log("GETFILENAMEERROR",err);
@@ -109,8 +113,11 @@ export default function SummaryDetail(){
     }
 
     function handleExit() {
+        setFilesAdded([]);
+        deleteFilesByIds(filesToDelete);
+        setFilesToDelete([]);
         updateSummary(summary).then((res) => {
-            router.push(`/summaries/${subject}`);
+            router.push(`/summaries/${subjectId}`);
         });
     }
 
@@ -124,23 +131,23 @@ export default function SummaryDetail(){
             fileIds.push(file.id);
         });
         summary.files = fileIds;
-
-        console.log("SAVESUMMARY",summary);
+        summary.subjectId = parseInt(subjectId as string);
 
         updateSummary(summary).then((res) => {
             /**
-             * setEditMode(false);
+             *             setEditMode(false);
             setBackupSummary({...summary});
             setSummary({...summary});
              */
             loadSummary();
+            setEditMode(false);
+        }).catch((err) => {
             setEditMode(false);
         });
 
         setFilesAdded([]);
         deleteFilesByIds(filesToDelete);
         setFilesToDelete([]);
-        
     }
 
     function handleCancel() {
@@ -164,6 +171,14 @@ export default function SummaryDetail(){
         return `${day}.${month}.${year} ${hour}:${min}`;
     }
 
+    function handleVote(vote: number) {
+        const tmp: SummaryVoteDTO = {
+            summaryId: summary.id,
+            vote: vote
+        };
+        executeVote(tmp);
+    }
+
 
     return(
         <div className={styles.container}>
@@ -178,7 +193,7 @@ export default function SummaryDetail(){
                         }
                         
                         <div>
-                            <VotingComponent votingId={summary&&summary.id} withScore={true} itemkey={0}></VotingComponent>
+                            <VotingComponent initialScore={summary&&summary.votes} vote={handleVote} withScore={true} itemkey={summary&&summary.id}></VotingComponent>
                         </div> 
                     </div>
             </div>
@@ -201,6 +216,7 @@ export default function SummaryDetail(){
                             files&&files.length > 0 &&
                             <button>
                                 <Image width={20} height={20} src={'/download.svg'} alt={'download'} ></Image>
+                                All
                             </button>
                         }
                         

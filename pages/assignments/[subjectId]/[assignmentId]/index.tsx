@@ -12,7 +12,7 @@ import Subject from "../../../../models/Subject";
 import UserContext from '../../../../components/UserContext'
 import Datepicker from "../../../../components/Datepicker";
 import { getAssignmentById, updateAssignment } from '../../../../services/Assignment.service';
-import { deleteFilesByIds, getFileNameById, getFilesByIds, postFiles } from "../../../../services/File.service";
+import { deleteFilesByIds, getFileInfosById, getFilesByIds, postFiles } from "../../../../services/File.service";
 import FileObject from "../../../../models/File";
 import FileDisplayObject from "../../../../models/FileDisplayObject";
 
@@ -44,18 +44,52 @@ export default function AssignmentEdit() {
         return;
       }
 
-      getAssignmentById(assignmentIdAsNumber).then((res) => {
-        setAssignment(res);
-        setAssignmentBackup(res);
-        setDueDate(res.due);
-        setContent(res.content);
-      }).catch((err) => {
-        console.error(err);
-      });
+      const res = await getAssignmentById(assignmentIdAsNumber);
+      setAssignment(res);
+      setAssignmentBackup(res);
+      setDueDate(res.due);
+      setContent(res.content);
+        
+        if (res.files&&res.files.length > 0) {
+          const tmpFiles: FileDisplayObject[] = [];
+
+          for (const iterator of res.files) {
+            try {
+              const tmpFileInfo = await getFileInfosById(iterator);
+              tmpFiles.push({ id: iterator, name: tmpFileInfo.name });
+            }
+            catch (err) {
+              console.log("GETFILENAMEERROR", err);
+            }
+          }
+          setFiles(tmpFiles);
+        }
+
+        if(res.instructions&&res.instructions.length > 0){
+          const tmpInstructionFiles: FileDisplayObject[] = [];
+          
+          for (const iterator of res.instructions) {
+            try {
+              const tmpFileInfo = await getFileInfosById(iterator);
+              tmpInstructionFiles.push({ id: iterator, name: tmpFileInfo.name });
+            }
+            catch (err) {
+              console.log("GETFILENAMEERROR", err);
+            }
+          }
+  
+          setInstructionFiles(tmpInstructionFiles);
+        }
+        
+        
     }
 
     fetchDataAsync();
-  }, []);
+  }, [router.query]);
+
+  useEffect(() => {
+    console.log("CONTENT:",content);
+  }, [content,dueDate]);
 
 
   async function handleUploadFilesUpdate(list: any[]) {
@@ -65,8 +99,8 @@ export default function AssignmentEdit() {
       setFilesAdded([...filesAdded, ...tmpFiles]);
       for (const iterator of tmpFiles) {
         try {
-          const tmpFileName = await getFileNameById(iterator);
-          tmpFileObjects.push({ id: iterator, name: tmpFileName });
+          const tmpFileInfo = await getFileInfosById(iterator);
+          tmpFileObjects.push({ id: iterator, name: tmpFileInfo.name });
         }
         catch (err) {
           console.log("GETFILENAMEERROR", err);
@@ -87,8 +121,8 @@ export default function AssignmentEdit() {
       setFilesAdded([...filesAdded, ...tmpFiles]);
       for (const iterator of tmpFiles) {
         try {
-          const tmpFileName = await getFileNameById(iterator);
-          tmpFileObjects.push({ id: iterator, name: tmpFileName });
+          const tmpFileInfo = await getFileInfosById(iterator);
+          tmpFileObjects.push({ id: iterator, name: tmpFileInfo.name });
         }
         catch (err) {
           console.log("GETFILENAMEERROR", err);
@@ -132,8 +166,10 @@ export default function AssignmentEdit() {
     setEdditMode(true);
   }
 
+
   async function handleSaveEdit() {
     const textarea = document.getElementById("textArea") as HTMLTextAreaElement;
+    const descriptionInput = document.getElementById("descriptionInput") as HTMLInputElement;
     const fileIds = files.map((file) => file.id);
     const instructionFileIds = instructionFiles.map((file) => file.id);
 
@@ -141,14 +177,20 @@ export default function AssignmentEdit() {
     setFilesToDelete([]);
     setFilesAdded([]);
 
-    setAssignment({
-      ...assignment,
-      content: textarea.value,
-      due: dueDate,
-      title: (document.getElementById("titleInput") as HTMLInputElement).value,
-      files: fileIds,
-      instructions: instructionFileIds,
-    });
+    console.log("SAVE",dueDate);
+
+    const tmpAssignment:Assignment = {
+        ...assignment,
+        content: textarea.value,
+        due: dueDate,
+        title: (document.getElementById("titleInput") as HTMLInputElement).value,
+        files: fileIds,
+        instructions: instructionFileIds,
+        description: descriptionInput.value
+      }
+
+    setAssignment(tmpAssignment);
+    await updateAssignment(tmpAssignment);
     setEdditMode(false);
   }
 
@@ -192,8 +234,8 @@ export default function AssignmentEdit() {
     //TODO: restore files
     const restoredFiles: FileDisplayObject[] = [];
     for (const iterator of fileIds) {
-      const tmpFileName = await getFileNameById(iterator);
-      restoredFiles.push({ id: iterator, name: tmpFileName });
+      const tmpFileInfo = await getFileInfosById(iterator);
+      restoredFiles.push({ id: iterator, name: tmpFileInfo.name });
     }
 
     if(isInstruction){
@@ -250,7 +292,7 @@ export default function AssignmentEdit() {
                 <Datepicker dateParam={new Date(assignment.due)} inputChanged={handleDateChange}></Datepicker>
                 :
                 assignment && assignment.due > new Date() ?
-                  <Countdown date={assignment.due}></Countdown>
+                  <Countdown date={dueDate}></Countdown>
                   :
                   <p>Abgelaufen</p>
             }

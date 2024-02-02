@@ -1,4 +1,5 @@
 import Subject from "../models/Subject";
+import SubjectPostDTO from "../models/SubjectPostDTO";
 import { getAllAssignments } from "../services/Assignment.service";
 
 const url = "/api/Subject"
@@ -48,4 +49,22 @@ export async function getSubjectById(id: number): Promise<Subject>{
    catch(error){
         throw error;
    }
+}
+
+export async function createSubject(subject: SubjectPostDTO):Promise<string>{
+     try{
+          const response = await fetch(url,{
+               method: 'POST',
+               headers: {'Content-Type': 'application/json'},
+               body: JSON.stringify(subject)
+          });
+          if(response.status != 200){
+               throw response;
+          }
+          const data = await response.json();
+          return data.id;
+     }
+     catch(error){
+          throw error;
+     }
 }

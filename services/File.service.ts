@@ -1,4 +1,5 @@
 import FileObject from "../models/File";
+import FileInfo from "../models/FileInfo";
 
 const url = '/api/File';
 export async function postFiles(files : File[]):Promise<number[]> {
@@ -98,10 +99,9 @@ export async function getSingleFileById(id:number):Promise<FileObject>{
   }
 }
 
-export async function getFileNameById(id:number){
-/*
+export async function getFileInfosById(id:number):Promise<FileInfo>{
   try{
-    const response = await fetch(url+'/'+id+'/name', {
+    const response = await fetch(url+'/'+id+'/info', {
         method: 'GET'
     });
 
@@ -110,26 +110,18 @@ export async function getFileNameById(id:number){
     }
     const data = await response.json();
       
-    return data;
+    return data.value as FileInfo;
 }
 catch(error){
     throw error;
 }
-*/
-
-  return "MockedFileName"+id+".png"
 }
 
-export async function getFileNamesByIds(ids:number[]){
-  const res:string[] = [];
+export async function getFileInfosByIds(ids:number[]):Promise<FileInfo[]>{
+  const res:FileInfo[] = [];
   for (const iterator of ids) {
-    try{
-      const filename = await getFileNameById(iterator)
-      res.push(filename);
-    }
-    catch(error){
-      throw error;
-    }
+    const tmp = await getFileInfosById(iterator);
+    res.push(tmp);
   }
   return res;
 }

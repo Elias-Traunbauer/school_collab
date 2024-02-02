@@ -1,5 +1,6 @@
 import FileObject from "./File";
 import Subject from "./Subject";
+import SummaryFileBackend from "./SummaryFileBackend";
 import User from "./User";
 
 export default interface Summary {
@@ -12,4 +13,5 @@ export default interface Summary {
     id: number;
     version: string;
     reports: User[];
+    votes: number;
 }

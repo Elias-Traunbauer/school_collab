@@ -7,4 +7,9 @@
         public Task UpdateAsync(Object model);
         public Task DeleteAsync(Id id);
     }
+
+    public interface IConvertible<Object>
+    {
+        public Object Convert();
+    }
 }
