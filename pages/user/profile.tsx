@@ -15,7 +15,7 @@ export default function Profile() {
     });
     
     const router = useRouter();
-    const [links, setLinks] = useState([["github", "www.github.com"], ["google", "www.google.com"], ["yahoo", "www.yahoo.com"], ["bing", "www.bing.com"]]);
+    const [links, setLinks] = useState([["github", "www.github.com"], ["google", "www.google.com"], ["yahoo", "www.yahoo.com"], ["microsoft", "www.microsoft.com"]]);
     const [addLink, setAddLink] = useState(false);
     const [twoFactorAuth, setTwoFactorAuth] = useState(false);	
 
@@ -75,7 +75,7 @@ export default function Profile() {
         <>
             <div className={styles.container}>
                 <div className={styles.picContainer}>
-                    <Image id="profilePic" src={"/jpg.svg"} alt="cancel" width={150} height={150} onClick={openFileExplorer}/>
+                    <Image id="profilePic" src={"/schönemann.png"} alt="cancel" width={150} height={150} onClick={openFileExplorer}/>
                     <input id="upload" type="file" hidden onChange={handleInputChange}></input>
                 </div>
 
@@ -133,7 +133,7 @@ export default function Profile() {
                     {links.map((link, index) => {
                         return (
                             <div className={styles.linkContainer} key={index}>
-                                <Image src={"/jpg.svg"} width={20} height={20} alt="cancel"></Image>
+                                <Image src={"/" + link[0] + ".svg"} width={20} height={20} alt="cancel"></Image>
                                 <Link href={"https://" + link[1]} target="blank">{link[0]}</Link>
                                 <button className="btn-primary" onClick={() => removeLink(link)} disabled={addLink}>X</button>
                             </div>

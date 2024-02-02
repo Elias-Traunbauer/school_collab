@@ -1,0 +1,143 @@
+.container{
+    display: flex; 
+    flex-direction: row;
+    gap: 2rem;
+    width: 80%;
+    margin: 1rem;
+    padding: 1rem 2rem;
+    align-items: left;
+    justify-content: left;
+    border-radius: 1rem;
+
+    & > div:first-child{
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        width: 100%;
+        background-color: var(--background_1);
+        border-radius: .5rem;
+
+        & > textarea{
+            background-color: var(--background_2);
+            padding: .5rem;
+            border-radius: .5rem;
+            border: none;
+            outline: none;
+            width: 100%;
+            overflow-y: visible;
+            resize:vertical;
+            color: white;
+            font-size: 1rem;
+        }
+
+        & > div:not(:last-child){
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            & > h2{
+                margin: .7rem 0;
+                padding: .5rem .2rem .2rem .5rem;
+            }
+
+
+
+            & > button{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+
+                &:hover{
+                    border-radius: .2rem;
+                    filter: brightness(1.2);
+                    
+                }
+            }
+
+            & > input{
+                background-color: var(--background_2);
+                border-radius: .5rem;
+                padding: .5rem .2rem .2rem .5rem;
+                border: none;
+                outline: none;
+                width: 50%;
+                color: white;
+                font-size: 2rem;
+                font-weight: bold;
+            }
+        }
+
+        & > div:last-child{
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+
+            & > div{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: .5rem .5rem .5rem 0;
+                gap: 6%;
+                border-radius: .3rem;
+                background-color: var(--background_2);
+
+                & > img{
+                    width: 6%;
+                    padding: 0;
+                }
+
+                & > p{
+                    width: 35%;
+                }
+
+                & > button{
+                    justify-self: flex-end;
+                    width: 6%;
+                    padding: .8rem;
+                }
+            }
+
+            & > div:first-child{
+                background-color: var(--color_main);
+            }
+        }
+    }
+}
+
+.editInput{
+    pointer-events: none;
+    background-color: var(--background_1) !important;
+
+}
+
+.editButton{
+    border-radius: .5rem;
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--background_4);
+
+    &:hover{
+        border-radius: .5rem !important;
+        background-color: var(--background_4) !important;
+        filter: brightness(1.2) !important;
+    }   
+}
+
+.addUser{
+    position: absolute;
+    top: 25%;
+    left: 33%;
+    width: 33%;
+    height: 50%;
+    background-color: var(--background_4);
+    border-radius: .5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: center;
+}

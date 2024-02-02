@@ -63,6 +63,7 @@ export default function PollCard({key,poll}: {key:any,poll: Poll}){
             <div>
                 <p>erstellt von <span>{creatorUser&&creatorUser.username}</span></p>
             </div>
+            
             <div>
                 <h2>{poll&&poll.title}</h2>
             </div>
