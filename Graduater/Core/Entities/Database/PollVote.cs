@@ -12,8 +12,5 @@ namespace Core.Entities.Database
         public PollOption PollOption { get; set; } = null!;
 
         public int UserId { get; set; }
-        public User User { get; set; } = null!;
-
-        public int Value { get; set; }
-    }
+        public User User { get; set; } = null!;    }
 }
