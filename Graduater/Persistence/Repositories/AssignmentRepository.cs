@@ -42,13 +42,7 @@ namespace Persistence.Repositories
 
         public async Task<bool> UpdateAssignmentAsync(Assignment assignment)
         {
-            if (assignment == null) throw new ArgumentNullException(nameof(assignment));
-            Assignment? assignmentToUpdate = (Assignment?)await GetAssignmentByIdAsync(assignment.Id);
-            if (assignmentToUpdate == null) return false;
-            assignmentToUpdate.Title = assignment.Title;
-            assignmentToUpdate.Description = assignment.Description;
-            assignmentToUpdate.Due = assignment.Due;
-            assignmentToUpdate.GroupId = assignment.GroupId;
+            _context.Update(assignment);
             return true;
         }
 

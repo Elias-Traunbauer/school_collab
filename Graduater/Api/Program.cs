@@ -45,6 +45,7 @@ namespace Api
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IChatService, ChatService>();
             builder.Services.AddScoped<ISummaryService, SummaryService>();
+            builder.Services.AddScoped<IPollService, PollService>();
             builder.Services.AddScoped<ApplicationDbContext, ApplicationDbContext>((sp) =>
             {
                 return new ApplicationDbContext(sp.GetRequiredService<ApiConfig>());

@@ -6,59 +6,129 @@ import { ChartData, ChartOptions } from 'chart.js';
 import Chart from 'chart.js/auto';
 import { useRouter } from 'next/router';
 import Datepicker from '../../../components/Datepicker';
+import Poll from '../../../models/Poll';
+import PollOption from '../../../models/PollOption';
+import User from '../../../models/User';
+import { getUser } from '../../../services/User.service';
+import { executeVote, getPollById, haveIVoted, updatePoll } from '../../../services/Poll.service';
+import { exec } from 'child_process';
 
 export default function PollDetail() {
-    const mockPoll = {
-        votingId: 1,
-        title: 'Poll Title',
-        description: 'Poll Description',
-        end: new Date('2024-07-20T00:00:00'),
-        votingOptions: [" dolor sit amet.", "it amet.", "Maybe", "I don't know"],
-        user: 'Yannie'
-    }
 
-    const [poll, setPoll] = useState(mockPoll);
+
+    const colors :string[]=[
+        //20 hex colors for a pie chart
+        '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
+        '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+        '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+        '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC'
+    ] 
+
+    const [poll, setPoll] = useState<Poll>();
     const chartRef = useRef(null);
     const router = useRouter();
-
-
-
-    const mockUser = {
-        name: 'Yannie',
-    }
     const [selected, setSelected] = useState(false);
     const [voted, setVoted] = useState(false);
     const [editMode, setEditMode] = useState(false);
-    const [backupPoll, setBackupPoll] = useState(mockPoll);
+    const [backupPoll, setBackupPoll] = useState<Poll>();
     const [editedDate, setEditedDate] = useState(new Date());
-    const [isNoEndDate, setIsNoEndDate] = useState(mockPoll.end === null);
+    const [isNoEndDate, setIsNoEndDate] = useState<boolean>();
+    const [ownUser, setOwnUser] = useState<User>();
+    const pollId = router.query.id;
+    const [selectedOption, setSelectedOption] = useState<number>();
+
 
     useEffect(() => {
+
+        getUser().then((res) => {
+            setOwnUser(res);
+        });
+        
+        const pollIdAsNumber = parseInt(pollId as string);
+        if (isNaN(pollIdAsNumber)) {
+            return;
+        }
+
+        console.log("PARAM", pollIdAsNumber);
+
+        getPollById(pollIdAsNumber).then((res) => {
+            setPoll(res);
+            setEditedDate(new Date(res.due));
+            if (poll&&poll.due < new Date()) {
+                loadChart();
+                setVoted(true);
+            }
+    
+            haveIVoted(pollIdAsNumber).then((res) => {
+                console.log("HAVE I VOTED:", res);
+                if (res != -1) {
+                    
+                    setVoted(true);
+                    loadChart();
+                    const selectedOption = document.getElementById('option_' + res);
+                    if (!selectedOption) {
+                        return;
+                    }
+                    selectedOption.classList.add(styles.active);
+                    console.log("SEL",selectedOption);
+                }
+                else {
+                    setVoted(false);
+                }
+            });
+        });
+        // mby ein Service der alle paar sekunden das Voting updated und dann die Daten neu lädt
+    }, [pollId]);
+
+
+
+    async function loadChart(){
         if (!chartRef.current) {
+            chartRef.current = document.getElementById('Chart');
+            console.log('no chart ref');
+            return;
+        }
+
+        if (chartRef.current) {
             return;
         }
         const ctx = chartRef.current.getContext('2d');
+        const result:Poll = await getPollById(poll.id);
+        console.log("RES:",result);
+        const tmpBackgroundColors = [];
+        const tmpBorderColors = [];
+        const tmpData = [];
+        const tmpLabels = [];
+
+        for (let i = 0; i < result.pollOptions.length; i++) {
+            tmpData.push(result.pollOptions[i].votes);
+            tmpLabels.push(result.pollOptions[i].name);
+        
+            if (i >= colors.length) {
+                const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+                tmpBackgroundColors.push('#' + randomColor);
+                tmpBorderColors.push('#FFFFFF');
+                //tmpBorderColors.push('#' + randomColor);
+            }
+            else {
+                tmpBackgroundColors.push(colors[i]);
+                tmpBorderColors.push('#FFFFFF');
+                //tmpBorderColors.push(colors[i]);
+            }
+        }
 
         const data: ChartData = {
-            labels: poll.votingOptions,
+            labels: tmpLabels,
             datasets: [{
                 label: 'Votes',
-                data: [12, 19, 3, 5],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(54, 162, 235, 0.5)',
-                    'rgba(255, 206, 86, 0.5)',
-                    'rgba(75, 192, 192, 0.5)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgb(75, 192, 192)'
-                ],
+                data: tmpData,
+                backgroundColor: tmpBackgroundColors,
+                borderColor: tmpBorderColors,
                 borderWidth: 1
             }]
         };
+
+        console.log(data);
         const options: ChartOptions = {
             responsive: true,
             maintainAspectRatio: false,
@@ -72,25 +142,23 @@ export default function PollDetail() {
                 }
             }
         };
+        //Error: Canvas is already in use. Chart with ID '2' must be destroyed before the canvas with ID 'Chart' can be reused.
+        if(Chart.getChart(chartRef.current)){
+            Chart.getChart(chartRef.current).destroy();
+        }
         const chart = new Chart(ctx, {
             type: 'pie',
             data: data,
             options: options
         });
+    }
 
-        return () => {
-            chart.destroy();
-        }
-
-
-        // mby ein Service der alle paar sekunden das Voting updated und dann die Daten neu lädt
-    }, [poll.votingOptions, voted]);
-
-    function setActive(e) {
+    function setActive(e,option:PollOption) {
         if (e.target.classList.contains(styles.active)) {
             console.log('remove active');
             e.target.classList.remove(styles.active);
             setSelected(false);
+            setSelectedOption(null);
         } else {
             const options = document.querySelectorAll('.' + styles.container + ' div:last-child button');
             options.forEach((option) => {
@@ -98,6 +166,7 @@ export default function PollDetail() {
             });
             e.target.classList.add(styles.active);
             setSelected(true);
+            setSelectedOption(option.id);
         }
     }
 
@@ -105,9 +174,15 @@ export default function PollDetail() {
         e.target.classList.remove(styles.invalid);
     }
 
+    useEffect(() => {
+        if (voted) {
+            loadChart();
+        }
+    }, [voted,editMode]);
+
     function vote() {
         setVoted(true);
-        if(poll.end < new Date()){
+        if(poll.due < new Date()){
             return;
         }
 
@@ -115,12 +190,16 @@ export default function PollDetail() {
         voteButton.setAttribute('disabled', 'true');
         const chart = document.getElementById('Chart');
 
+        //TODO: send vote to backend
+        if(selectedOption){
+            executeVote(selectedOption);
+        }
         //delay scroll to bottom
         setTimeout(() => {
             chart.scrollIntoView({ behavior: 'smooth' });
         }, 100);
 
-        //TODO: send vote to backend
+        
 
     }
 
@@ -129,18 +208,26 @@ export default function PollDetail() {
     }
 
     function deleteOption(index:number) {
-        poll.votingOptions.splice(index, 1);
+        poll.pollOptions.splice(index, 1);
         setPoll({...poll});
     }
     function addOption() {
-        poll.votingOptions.push('');
+        //Trauni:Endpoint für neue Optionen
+        const newOption :PollOption = {
+            name: '',
+            pollId: poll.id,
+            id: null,
+            votes: 0,
+            version: ''
+        }
+        poll.pollOptions.push(newOption);
         setPoll({...poll});
     }
 
     function saveEdit() {
         const titleInput = document.getElementById('pollTitleInput') as HTMLInputElement;
         const options = document.querySelectorAll<HTMLInputElement>('.' + styles.optionsEditContainer + ' div input');
-        const validOptions = [];
+        const validOptions:PollOption[] = [];
         let isValid = true;
 
         if (titleInput.value.length < 1) {
@@ -150,10 +237,30 @@ export default function PollDetail() {
 
         // at least 2 options should be available
         let valid = 0;
+        console.log("OPTIONS:",options);
         options.forEach((option) => {
+            console.log("OPTION:",option);
             if (option.value.length > 0) {
                 valid++;
-                validOptions.push(option.value);
+                const optionId = option.id.split('_')[1];
+                const optionIdAsNumber = parseInt(optionId);
+                if (isNaN(optionIdAsNumber)) {
+                    //if optionId is null, then it is a new option
+                    const newOption :PollOption = {
+                        name: option.value,
+                        pollId: poll.id,
+                        id: null,
+                        votes: 0,
+                        version: ''
+                    }
+                    validOptions.push(newOption);
+                    return;
+                }
+                //poll option where option
+                const pollOption = poll.pollOptions.find((option) => option.id == optionIdAsNumber);
+                console.log("POLL OPTION:",pollOption);
+                pollOption.name = option.value;
+                validOptions.push(pollOption);
             }
         });
         if (valid < 2) {
@@ -170,16 +277,24 @@ export default function PollDetail() {
         }
 
         if(isNoEndDate){
-            poll.end = null;
+            poll.due = null;
         }
         else{
-            poll.end = editedDate;
+            poll.due = editedDate;
         }
-        poll.votingOptions = validOptions;
+        console.log("DUE:",poll.due);
+        console.log("validOptions:",validOptions);
+        poll.pollOptions = validOptions;
         poll.title = titleInput.value;
+        //TODO: update Poll
         setPoll({...poll});
         setEditMode(false);
+        updatePoll(poll);
     }
+
+    useEffect(() => {
+        console.log("EDITED DATE:",editedDate);
+    }, [editedDate]);
 
     function edit() {
         setBackupPoll({...poll});
@@ -187,13 +302,13 @@ export default function PollDetail() {
     }
 
     function cancelEdit() {
-        if(backupPoll.end === null){
+        if(backupPoll.due === null){
             setIsNoEndDate(true);
         }
         else{
             setIsNoEndDate(false);
         }
-        setEditedDate(backupPoll.end);
+        setEditedDate(backupPoll.due);
         setPoll({...backupPoll});
         setEditMode(false);
     }
@@ -208,16 +323,6 @@ export default function PollDetail() {
 
         //TODO: delete poll in backend
     }
-
-    useEffect(() => {
-        if (poll.end < new Date()) {
-            setVoted(true);
-        }
-
-
-        //passt schon so :D
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
     
     function changeEndDateCheckbox(){
         setIsNoEndDate(!isNoEndDate);
@@ -234,7 +339,7 @@ export default function PollDetail() {
                     editMode ?
                         <input id='pollTitleInput' type="text" defaultValue={poll.title}></input>
                         :
-                        <h1>{poll.title}</h1>
+                        <h1>{poll&&poll.title}</h1>
                 }
 
             </div>
@@ -243,20 +348,20 @@ export default function PollDetail() {
                 <div>
                     {
                         !editMode ?
-                            poll.end == null ?
+                        poll&&poll.due == null ?
                             ""
                             :
-                            poll.end < new Date() ?
+                            poll&&poll.due < new Date() ?
                                 <p>Abstimmung beendet!</p>
                                 :
                                 <>
                                     <p>Endet in &nbsp;</p>
-                                    <Countdown date={poll.end}></Countdown>
+                                    <Countdown date={poll&&poll.due}></Countdown>
                                 </>
                             :
                             <div className={styles.dateContainer}>
                                 <div>
-                                    <Datepicker dateParam={poll.end} inputChanged={changeDate} ></Datepicker>
+                                    <Datepicker dateParam={editedDate} inputChanged={changeDate} ></Datepicker>
                                 </div>
                                 <span>
                                     <input onChange={changeEndDateCheckbox} type='checkbox' id='checkbox' defaultChecked={isNoEndDate}></input>
@@ -271,7 +376,7 @@ export default function PollDetail() {
             <div>
                 <div>
                     {
-                        <MarkdownEditor containerWidth={100} isEditable={editMode}></MarkdownEditor>
+                        <MarkdownEditor defaultText={poll&&poll.description} containerWidth={100} isEditable={editMode}></MarkdownEditor>
                     }
 
                 </div>
@@ -295,16 +400,16 @@ export default function PollDetail() {
                         <div>
                             {
 
-                                poll.votingOptions.sort((a, b) => a.length - b.length).map((option, index) => {
+                    poll&&poll.pollOptions.map((option, index) => {
                                     return (
-                                        <button onClick={!voted ? setActive : () => { }} key={"option_" + index}>
-                                            <p>{option}</p>
+                                        <button id={"option_" + option.id} onClick={!voted ? (e)=>setActive(e,option) : () => { }} key={"option_" + option.id}>
+                                            <p>{option.name}</p>
                                         </button>
                                     )
                                 })
                             }
                             <div>
-                                <button id='voteButton' disabled={!selected} onClick={vote}>{voted ? "Abgestimmt" : "Abstimmen"}</button>
+                                <button id='voteButton' disabled={!selected||voted} onClick={vote}>{voted ? "Abgestimmt" : "Abstimmen"}</button>
                             </div>
                         </div>
                         </div>
@@ -312,12 +417,12 @@ export default function PollDetail() {
                         <div className={styles.optionsEditContainer}>
                             <div>
                             {
-                                poll.votingOptions.map((option, index) => {
+                                poll&&poll.pollOptions.map((option, index) => {
                                     return (
                                         <div key={"option_" + index}>
-                                            <input onInput={removeInvalidationStyle} type="text" defaultValue={option}></input>
+                                            <input id={'optionInput_'+option.id} onInput={removeInvalidationStyle} type="text" defaultValue={option.name}></input>
                                             {
-                                                poll.votingOptions.length > 2 &&
+                                                poll.pollOptions.length > 2 &&
                                                 <button onClick={()=>deleteOption(index)}>X</button>
                                             }
                                             
@@ -330,10 +435,8 @@ export default function PollDetail() {
                         </div>
                 }
 
-                
                 {
-                    poll.user == mockUser.name &&
-                
+                     poll&&ownUser&&poll.creatorUserId == ownUser.id && 
                         editMode ?
                         <div className={styles.buttonArray}>
                             <div>

@@ -79,17 +79,19 @@ namespace Persistence.Migrations
                     b.Property<int>("AssignmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AssignmentIdInstruction")
-                        .HasColumnType("int");
-
                     b.Property<int>("FileId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Instruction")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AssignmentId");
-
-                    b.HasIndex("AssignmentIdInstruction");
 
                     b.HasIndex("FileId");
 
@@ -262,8 +264,6 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
-
                     b.HasIndex("UploadedById");
 
                     b.ToTable("Files");
@@ -420,6 +420,34 @@ namespace Persistence.Migrations
                     b.ToTable("PollOptions");
                 });
 
+            modelBuilder.Entity("Core.Entities.Database.PollVote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("PollOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PollOptionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PollVotes");
+                });
+
             modelBuilder.Entity("Core.Entities.Database.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -482,6 +510,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("AssignmentFileId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("AssignmentId")
                         .HasColumnType("int");
 
@@ -521,6 +552,9 @@ namespace Persistence.Migrations
                     b.Property<int?>("PollOptionId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PollVoteId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PostCommentId")
                         .HasColumnType("int");
 
@@ -538,7 +572,13 @@ namespace Persistence.Migrations
                     b.Property<int?>("SubjectId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SummaryFileId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SummaryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SummaryVoteId")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
@@ -551,6 +591,8 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssignmentFileId");
 
                     b.HasIndex("AssignmentId");
 
@@ -576,13 +618,19 @@ namespace Persistence.Migrations
 
                     b.HasIndex("PollOptionId");
 
+                    b.HasIndex("PollVoteId");
+
                     b.HasIndex("PostCommentId");
 
                     b.HasIndex("PostId");
 
                     b.HasIndex("SubjectId");
 
+                    b.HasIndex("SummaryFileId");
+
                     b.HasIndex("SummaryId");
+
+                    b.HasIndex("SummaryVoteId");
 
                     b.HasIndex("UserSessionId");
 
@@ -642,6 +690,65 @@ namespace Persistence.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("Summaries");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.SummaryFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("FileId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Instruction")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SummaryId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("SummaryFiles");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.SummaryVote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("SummaryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SummaryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.User", b =>
@@ -843,12 +950,6 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.Database.Assignment", null)
-                        .WithMany("Instructions")
-                        .HasForeignKey("AssignmentIdInstruction")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Core.Entities.Database.File", "File")
                         .WithMany()
                         .HasForeignKey("FileId")
@@ -920,10 +1021,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Core.Entities.Database.File", b =>
                 {
-                    b.HasOne("Core.Entities.Database.Summary", null)
-                        .WithMany("Files")
-                        .HasForeignKey("OwnerId");
-
                     b.HasOne("Core.Entities.Database.User", "UploadedBy")
                         .WithMany()
                         .HasForeignKey("UploadedById")
@@ -996,6 +1093,25 @@ namespace Persistence.Migrations
                     b.Navigation("Poll");
                 });
 
+            modelBuilder.Entity("Core.Entities.Database.PollVote", b =>
+                {
+                    b.HasOne("Core.Entities.Database.PollOption", "PollOption")
+                        .WithMany()
+                        .HasForeignKey("PollOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Database.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PollOption");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Core.Entities.Database.Post", b =>
                 {
                     b.HasOne("Core.Entities.Database.User", "User")
@@ -1028,6 +1144,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Core.Entities.Database.Report", b =>
                 {
+                    b.HasOne("Core.Entities.Database.AssignmentFile", null)
+                        .WithMany("Reports")
+                        .HasForeignKey("AssignmentFileId");
+
                     b.HasOne("Core.Entities.Database.Assignment", null)
                         .WithMany("Reports")
                         .HasForeignKey("AssignmentId");
@@ -1078,6 +1198,10 @@ namespace Persistence.Migrations
                         .WithMany("Reports")
                         .HasForeignKey("PollOptionId");
 
+                    b.HasOne("Core.Entities.Database.PollVote", null)
+                        .WithMany("Reports")
+                        .HasForeignKey("PollVoteId");
+
                     b.HasOne("Core.Entities.Database.PostComment", null)
                         .WithMany("Reports")
                         .HasForeignKey("PostCommentId");
@@ -1090,9 +1214,17 @@ namespace Persistence.Migrations
                         .WithMany("Reports")
                         .HasForeignKey("SubjectId");
 
+                    b.HasOne("Core.Entities.Database.SummaryFile", null)
+                        .WithMany("Reports")
+                        .HasForeignKey("SummaryFileId");
+
                     b.HasOne("Core.Entities.Database.Summary", null)
                         .WithMany("Reports")
                         .HasForeignKey("SummaryId");
+
+                    b.HasOne("Core.Entities.Database.SummaryVote", null)
+                        .WithMany("Reports")
+                        .HasForeignKey("SummaryVoteId");
 
                     b.HasOne("Core.Entities.Database.UserSession", null)
                         .WithMany("Reports")
@@ -1110,6 +1242,40 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.SummaryFile", b =>
+                {
+                    b.HasOne("Core.Entities.Database.File", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Database.Summary", null)
+                        .WithMany("Files")
+                        .HasForeignKey("OwnerId");
+
+                    b.Navigation("File");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.SummaryVote", b =>
+                {
+                    b.HasOne("Core.Entities.Database.Summary", "Summary")
+                        .WithMany()
+                        .HasForeignKey("SummaryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Database.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Summary");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Entities.Database.User", b =>
@@ -1147,8 +1313,11 @@ namespace Persistence.Migrations
                 {
                     b.Navigation("Files");
 
-                    b.Navigation("Instructions");
+                    b.Navigation("Reports");
+                });
 
+            modelBuilder.Entity("Core.Entities.Database.AssignmentFile", b =>
+                {
                     b.Navigation("Reports");
                 });
 
@@ -1210,6 +1379,11 @@ namespace Persistence.Migrations
                     b.Navigation("Reports");
                 });
 
+            modelBuilder.Entity("Core.Entities.Database.PollVote", b =>
+                {
+                    b.Navigation("Reports");
+                });
+
             modelBuilder.Entity("Core.Entities.Database.Post", b =>
                 {
                     b.Navigation("PostComments");
@@ -1233,6 +1407,16 @@ namespace Persistence.Migrations
                 {
                     b.Navigation("Files");
 
+                    b.Navigation("Reports");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.SummaryFile", b =>
+                {
+                    b.Navigation("Reports");
+                });
+
+            modelBuilder.Entity("Core.Entities.Database.SummaryVote", b =>
+                {
                     b.Navigation("Reports");
                 });
 

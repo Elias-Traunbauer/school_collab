@@ -1,26 +1,30 @@
-name: Deploy to Server
+name: "Deploy"
 
 on:
   push:
     branches:
-      - master  # Set this to the branch that triggers deployment
+      - master
 
 jobs:
-  deploy:
+  build:
+    name: "Deploy project on live-dev server"
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          cat >>~/.ssh/config <<END
+          Host deployment_server
+            HostName ${{ secrets.SSH_SERVER }}
+            User ${{ secrets.SSH_USERNAME }}
+            IdentityFile ~/.ssh/deploy_key
+            StrictHostKeyChecking no
+          END
 
-    - name: Set up SSH key
-      uses: webfactory/ssh-agent@v0.5.2
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Check SSH Connection
+        run: ssh deployment_server 'echo "SSH connection successful"'
 
-    - name: SSH and Deploy
-      env:
-        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-        SSH_SERVER: ${{ secrets.SSH_SERVER }}
-      run: |
-        ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$SSH_SERVER 'bash -s' < deploy_script.sh
+      - name: Deploy script
+        run: ssh deployment_server 'bash ~/school_collab/deploy_script.sh'
