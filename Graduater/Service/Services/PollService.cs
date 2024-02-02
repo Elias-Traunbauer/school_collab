@@ -58,21 +58,16 @@ namespace Service.Services
                 throw new Exception("Poll not found");
             }
 
-            PollOption? pollOption = await _unitOfWork.GenericRepository.Query<PollOption>().Where(x => x.PollId == pollId).FirstOrDefaultAsync();
-
-            if (pollOption == null)
-            {
-                return -1;
-            }
-
-            PollVote? pollVote = await _unitOfWork.GenericRepository.Query<PollVote>().Where(x => x.PollOptionId == pollOption.Id && x.UserId == userId).FirstOrDefaultAsync();
+            PollVote? pollVote = await _unitOfWork.GenericRepository.Query<PollVote>().Include(x => x.PollOption).Where(x => x.PollOption.PollId == pollId && x.UserId == userId).FirstOrDefaultAsync();
 
             if (pollVote == null)
             {
                 return -1;
             }
 
-            return pollVote.PollOptionId;
+            PollOption pollOption = pollVote.PollOption;
+
+            return pollOption.Id;
         }
 
         public async Task<Poll> ReadAsync(int id)
@@ -128,7 +123,7 @@ namespace Service.Services
             pollVote = new PollVote
             {
                 PollOptionId = pollOptionId,
-                UserId = userId
+                UserId = userId,
             };
 
             await _unitOfWork.GenericRepository.AddAsync(pollVote);
