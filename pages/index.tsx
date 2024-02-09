@@ -1,47 +1,53 @@
 "use client";
 
-import Link from 'next/link'
-import style from '../styles/Index.module.scss'
-import Countdown from '../components/Countdown'
-import UserContext from '../components/UserContext'
-import { useContext, useState } from 'react'
+import Link from "next/link";
+import styles from "../styles/Index.module.scss";
+import Countdown from "../components/Countdown";
+import UserContext from "../components/UserContext";
+import { useContext, useEffect, useState } from "react";
+import Assignment from "../models/Assignment";
+import AssignmentDashboardItem from "../components/AssignmentDashboardItem";
+import { getAssignmentsPreview } from "../services/Assignment.service";
 
-const Home = () => {
-
-  const [state, setState] = useState("");
-
+export default function Home() {
   const context = useContext(UserContext);
-  console.log("context",context);
+
+  const [assignments, setAssignments] = useState<Assignment[]>();
+
+  useEffect(() => {
+    async function fetchAssignments() {
+      const assignments = await getAssignmentsPreview();
+      setAssignments(assignments);
+    }
+    fetchAssignments();
+  }, [context]);
 
   return (
-    <div className="container">
-      <h1 className="special" style={{ fontSize: 3 + 'em' }}>
-        Welcome to graduater {context.userContext.id != -1&&context.userContext.username} !
-      </h1>
-      <h2>Useful links:</h2>
-      <Link href="/user/login">Login</Link>
-      <Link href="/user/profile">Profile</Link>
-      <Link className="special" href="/preview">Component Preview</Link>
-      <Link href="/about">About</Link>
-      <button onClick={() => {
-        fetch('/api/User/TwoFactorAuthentication', {
-          method: "POST",
-          body: JSON.stringify({
-            password: "Geheimnis123"
-          }),
-          headers: {
-            "Content-Type": "application/json"
+    <div className={styles.container}>
+      <div className={styles.contentLeft}>
+        <div className={styles.assignmentContainer}>
+          <h2>Assignments</h2>
+          <div>
+          {
+            //TODO: Add loading
+            assignments ? (
+              assignments.map((assignment) => {
+                return (
+                  <AssignmentDashboardItem
+                    key={assignment.id}
+                    assignment={assignment}
+                  ></AssignmentDashboardItem>
+                );
+              })
+            ) : (
+              <p>Loading...</p>
+            )
           }
-        }).then(async x => {
-          let json = await x.json();
-          console.log(json);
-          setState(json.qrCode);
-        })
-      }}>Hello</button>
-      <img src={state} alt="crazy" width={300} height={300}></img>
+          </div>
+          
+        </div>
+      </div>
+      <div className={styles.contentRight}></div>
     </div>
-    
-  )
+  );
 }
-
-export default Home

@@ -15,7 +15,7 @@ export default function Assignments() {
     const context = useContext(UserContext);
 
     const [assignmentData, setAssignmentData] = useState<Assignment[]>([]);
-    const [displayAssignments, setDisplayAssignments] = useState<Assignment[]>([]);
+    const [displayAssignments, setDisplayAssignments] = useState<Assignment[]>();
     const router = useRouter();
     const [searched, setSearched] = useState(false);
     const [searchValue, setSearchValue] = useState('');
@@ -119,9 +119,14 @@ export default function Assignments() {
             </div>
             <div className={styles.assignmentCardsContainer}>
             {
+                displayAssignments?
                 displayAssignments.map((element, i) => {
                     return <AssignmentCard key={element.id} assignment={element}></AssignmentCard>
                 })
+                :
+                <div className={styles.loadingContainer}>
+                    <div className='loader'></div>
+                </div>
             }
             </div>
         </div>

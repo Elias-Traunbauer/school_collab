@@ -9,8 +9,8 @@ export default function PollList(){
 
     const router = useRouter();
     
-    const [polls, setPolls] = useState<Poll[]>([]);
-    const [displayPolls, setDisplayPolls] = useState<Poll[]>([]);
+    const [polls, setPolls] = useState<Poll[]>();
+    const [displayPolls, setDisplayPolls] = useState<Poll[]>();
     const [searched, setSearched] = useState<boolean>(false);
 
     useEffect(() => {
@@ -84,7 +84,13 @@ export default function PollList(){
         }
     }
 
-
+    if(!displayPolls)
+        return (
+            <div className={styles.loadingContainer}>
+                <div className='loader'></div>
+            </div>
+        );
+    else
     return(
         <div className={styles.container}>
             <div>

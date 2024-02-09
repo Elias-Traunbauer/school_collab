@@ -8,7 +8,7 @@ import Subject from "../models/Subject";
 
 export default function SummaryList({title,link}: {title: string, link: string,}) {
   const [subjects,setSubjects] = useState<Subject[]>([]);
-  const [displayedSubjects, setDisplayedSubjects] = useState<Subject[]>([]);
+  const [displayedSubjects, setDisplayedSubjects] = useState<Subject[]>();
   const router = useRouter();
 
   useEffect(() => {
@@ -55,15 +55,26 @@ export default function SummaryList({title,link}: {title: string, link: string,}
     </div>
     
     <div className={styles.subjectContainer}>
+
+    {
+      displayedSubjects ?
       <div>
-          {
-          displayedSubjects.map((subject, i) => {
-            return (
-              <SubjectItem link={link} subject={subject} key={subject.id}></SubjectItem>
-            )
-          })
-        }
-      </div>
+      {
+      displayedSubjects.map((subject, i) => {
+        return (
+          <SubjectItem link={link} subject={subject} key={subject.id}></SubjectItem>
+        )
+      })
+    }
+  </div>
+  :
+  <div className={styles.loadingContainer}>
+    <div className="loader">
+  </div>
+  </div>
+
+    }
+
     
               
     </div>

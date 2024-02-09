@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import styles from '../styles/Assignment.module.scss';
 import Image from 'next/image';
 
-export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, title, edittmode = false, fileExtentions = [] })
+export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, title, edittmode = false, fileExtentions = [], loading = false }: {loading?:boolean, handleFilesUpdated: (files: File[]) => void, handleAcceptedFiles: (files: string[]) => void, title?: string, edittmode?: boolean, fileExtentions?: string[]})
 {
     const [acceptedFilextentions, setAcceptedFilextentions] = useState(fileExtentions);
 
@@ -83,6 +83,22 @@ export default function FileUpload ({ handleFilesUpdated, handleAcceptedFiles, t
         document.getElementById('fileExtentionInput').focus();
     }
 
+    if(loading)
+    return (
+        <div className={styles.uploadfieldcontainer}>
+            <div className={styles.wrapper}>
+                <div className={styles.headerContainer}>
+                    <h1>{title ? title : "File Upload"}</h1>
+                </div>
+                <div className={styles.loadingInput}>
+                    <div className='loader'>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+    );
+    else
     return (
         <>
             <div className={styles.uploadfieldcontainer}>

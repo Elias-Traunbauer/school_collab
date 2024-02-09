@@ -101,9 +101,17 @@ export default function SummaryCollection() {
             </button>
             
             {
-                posts&&posts.map&&posts.map((post, i) => {
+                posts? 
+                posts.map&&posts.map((post, i) => {
                     return <SummaryPostCard voteFunc={handleVote} post={post} key={post.id}></SummaryPostCard>
                 })
+                :
+                <div className={styles.loadingContainer}>
+<div className="loader">
+
+</div>
+                </div>
+                
             }
         </div>
     )

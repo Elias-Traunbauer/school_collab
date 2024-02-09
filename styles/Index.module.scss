@@ -1,0 +1,103 @@
+.container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    min-height: 80vh;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+.contentLeft{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+.contentRight{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.assignmentContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    background-color: var(--background_1);
+    border-radius: .5em;
+
+    &>div{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0.5em 1.3em 1em 1.3em;
+        gap: 1em;
+    }
+}
+
+.assignmentDashboardItemContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: var(--background_1_dark);
+    border-radius: .5em;
+
+    &>label{
+        padding-right: .5em;
+    }
+}
+
+.assignmentTextContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1em;
+    gap: 0.5em;
+    width: 80%;
+
+    &>div:first-child{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5em;
+        width: 3em;
+        height: 3em;
+        background-color: red;
+        border-radius: .5em;
+    }
+
+    &>div:last-child{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 0.5em;
+        width: 80%;
+
+
+        &>h4{
+            margin: 0;
+        }
+
+        &>label{
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+    }
+}

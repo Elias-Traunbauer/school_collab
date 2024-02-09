@@ -49,3 +49,12 @@
         padding: .5em 0;
     }
 }
+
+.loadingContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    height: 30vh;
+}

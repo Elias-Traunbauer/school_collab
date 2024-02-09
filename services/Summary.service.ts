@@ -27,7 +27,7 @@ export async function getSummaryById(id: number): Promise<Summary>{
       description: data.description,
       content: data.content,
       subjectId: data.subjectId,
-      files: data.files.map((file:SummaryFileBackend) => file.fileId),
+      files: data.files&&data.files.map((file:SummaryFileBackend) => file.fileId),
       votes: data.votes,
       subject: data.subject,
       version: data.version,
