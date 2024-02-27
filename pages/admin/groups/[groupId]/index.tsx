@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import Group from "../../../../models/Group";
 import { useRouter } from "next/router";
 import { getGroupById } from "../../../../services/Group.service";
 import styles from "../../../../styles/GroupDetails.module.scss";
+import { searchUser } from "../../../../services/User.service";
+import User from "../../../../models/User";
+import ChatmemberListItem from "../../../../components/ChatmemberListItem";
 
 
 export default function GroupDetails() {
@@ -11,6 +14,8 @@ export default function GroupDetails() {
     const [group, setGroup] = useState<Group>(null);
     const [editMode, setEditMode] = useState<boolean>(false);
     const [isAddUser, setIsAddUser] = useState<boolean>(false);
+    const [displayMembers, setDisplayMembers] = useState<User[]>([]);
+    const [newGroupMembers, setNewGroupMembers] = useState<User[]>([]);
 
     useEffect(() => {
         async function fetchDataAsync() {
@@ -35,6 +40,27 @@ export default function GroupDetails() {
         console.log('addUser');
     }
 
+    function handleSearchMembers(e:ChangeEvent){
+        const inputElement = e.target as HTMLInputElement;
+        const targetName = inputElement.value;
+
+       searchUser(targetName).then((res) => {
+            console.log(res);
+            setDisplayMembers(res);
+       });
+    }
+
+    function handleChangeNewMembers(add: boolean, user: User) {
+        console.log(add, user);
+        if (add) {
+            setNewGroupMembers([...newGroupMembers, user]);
+        }
+        else {
+            const tmpMembers = newGroupMembers.filter(member => member.id !== user.id);
+            setNewGroupMembers(tmpMembers);
+        }
+    }
+
     return (
         <>
             <div className={styles.container}>
@@ -52,18 +78,28 @@ export default function GroupDetails() {
                             <div>
                                 <h2>Users ({group.groupUsers.length})</h2>
 
-                                {false &&
+                                {editMode &&
                                 <button className="btn-secondary" onClick={() => setIsAddUser(true)} disabled={!editMode}>+ Hinzufügen</button>
                                 }
                             </div>
 
-                            {false && 
+                            {isAddUser && 
                                 <dialog className={styles.addUser}>
                                     <div>
-                                        <h2>Users ({group.groupUsers.length})</h2>
-                                        <button className="btn-secondary" onClick={addUser}>+ Hinzufügen</button>
+                                        <input id='memberSearchInput' onChange={handleSearchMembers} className={styles.memberSearchbar} type="text" placeholder="Mitglieder Suchen" />
+
+                                            <div className={styles.memberlist}>
+                                                {
+                                                    displayMembers && displayMembers.map &&displayMembers.map((member, index) => {
+                                                        return (
+                                                            <ChatmemberListItem key={member.id} member={member} onChange={handleChangeNewMembers}></ChatmemberListItem>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+
                                     </div>
-                                </dialog>  
+                                </dialog> 
                             }
                             
 
