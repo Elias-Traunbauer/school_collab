@@ -7,97 +7,220 @@
     min-height: 80vh;
     padding-top: 2em;
     padding-bottom: 2em;
-}
-.contentLeft{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    height: 100%;
-}
-.contentRight{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    height: 100%;
+    flex-wrap: wrap;
+    gap: 2em;
+    width: 70%;
 }
 
-.assignmentContainer{
+.indexContainer{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 75%;
-    background-color: var(--background_1);
-    border-radius: .5em;
-
-    &>div{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        padding: 0.5em 1.3em 1em 1.3em;
-        gap: 1em;
-    }
-}
-
-.assignmentDashboardItemContainer{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
-    background-color: var(--background_1_dark);
-    border-radius: .5em;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 80vh;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
 
-    &>label{
-        padding-right: .5em;
+
+.card{
+    width: 20em;
+    height: 13em;
+    background-color: var(--background_1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: .5em;
+    transition: transform .2s linear;
+
+    &:hover{
+        transform: scale(1.05);
     }
 }
 
-.assignmentTextContainer{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 1em;
-    gap: 0.5em;
-    width: 80%;
+.assignment{
+    //#828282
+    position: relative;
+    background-image: url("/assignment_icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s ease-in-out;
+    animation: backgroundAnimation 0.3s ease-in-out forwards;
 
-    &>div:first-child{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5em;
-        width: 3em;
-        height: 3em;
-        background-color: red;
-        border-radius: .5em;
+    &:hover{
+        animation: none;
+        background-image: none;
     }
 
-    &>div:last-child{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 0.5em;
-        width: 80%;
+    &::after,&::before{
+        background-image: url("/assignment_icon.svg");
+        background-repeat: no-repeat;
+        content:'';
+        background-position: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        
+        transform: translate(0, 0) rotate(0deg);
+        transition: all .3s ease-out;
+    }
+
+    &:hover::after{
+        opacity: 0.5;
+        
+        transform: translate(-25%, 0) rotate(-20deg) scale(0.8);
+    }
+
+    &:hover::before{
+        opacity: 0.5;
+        
+        transform: translate(25%, 0) rotate(20deg) scale(0.8);
+    }
+}
+
+.summary{
+    //#828282
+    background-image: url("/graduate_icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s ease-in-out;
+    animation: backgroundAnimation 0.3s ease-in-out forwards;
+    position: relative;
+
+    &:hover{
+        animation: none;
+        background-image: none;
+    }
+
+    &::after,&::before{
+        background-image: url("/graduate_icon.svg");
+        background-repeat: no-repeat;
+        content:'';
+        background-position: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        
+        transform: translate(0, 0) rotate(0deg);
+        transition: all .3s ease-out;
+    }
+
+    &:hover::after{
+        opacity: 0.5;
+        
+        transform: translate(-25%, 0) rotate(-20deg) scale(0.8);
+    }
+
+    &:hover::before{
+        opacity: 0.5;
+        
+        transform: translate(25%, 0) rotate(20deg) scale(0.8);
+    }
+}
+
+.chat{
+    //#828282
+    background-image: url("/chat_icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s ease-in-out;
+    animation: backgroundAnimation 0.3s ease-in-out forwards;
+    position: relative;
+
+    &:hover{
+        animation: none;
+        background-image: none;
+    }
+
+    &::after,&::before{
+        background-image: url("/chat_icon.svg");
+        background-repeat: no-repeat;
+        content:'';
+        background-position: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        
+        transform: translate(0, 0) rotate(0deg);
+        transition: all .3s ease-out;
+    }
+
+    &:hover::after{
+        opacity: 0.5;
+        
+        transform: translate(-25%, 0) rotate(-20deg) scale(0.8);
+    }
+
+    &:hover::before{
+        opacity: 0.5;
+        
+        transform: translate(25%, 0) rotate(20deg) scale(0.8);
+    }
+}
+
+.polls{
+    //#828282
+    background-image: url("/poll_icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s ease-in-out;
+    animation: backgroundAnimation 0.3s ease-in-out forwards;
+    position: relative;
+
+    &:hover{
+        animation: none;
+        background-image: none;
+    }
+
+    &::after,&::before{
+        background-image: url("/poll_icon.svg");
+        background-repeat: no-repeat;
+        content:'';
+        background-position: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        
+        transform: translate(0, 0) rotate(0deg);
+        transition: all .3s ease-out;
+    }
+
+    &:hover::after{
+        opacity: 0.5;
+        
+        transform: translate(-25%, 0) rotate(-20deg) scale(0.8);
+    }
+
+    &:hover::before{
+        opacity: 0.5;
+        
+        transform: translate(25%, 0) rotate(20deg) scale(0.8);
+    }
+}
 
 
-        &>h4{
-            margin: 0;
-        }
+@keyframes backgroundAnimation {
+    0% {
+        background-image: none;
+    }
 
-        &>label{
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            width: 100%;
-        }
+    99% {
+        background-image: none;
+    }
+
+    100% {
+
+    }
+}
+
+.indexAssignmentheader{
+    &>div:first-child{
+        margin-bottom: 2em !important;
     }
 }

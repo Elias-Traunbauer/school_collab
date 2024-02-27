@@ -10,6 +10,7 @@ import { get } from 'http';
 import Group from '../../../models/Group';
 import Subject from '../../../models/Subject';
 import { getSubjectById } from '../../../services/Subject.service';
+import AssignmentCardLoading from '../../../components/AssigmentCard_Loading';
 
 export default function Assignments() {
     const context = useContext(UserContext);
@@ -124,9 +125,9 @@ export default function Assignments() {
                     return <AssignmentCard key={element.id} assignment={element}></AssignmentCard>
                 })
                 :
-                <div className={styles.loadingContainer}>
-                    <div className='loader'></div>
-                </div>
+                Array(3).fill(0).map((_, i) => {
+                    return <AssignmentCardLoading key={i}></AssignmentCardLoading>
+                })
             }
             </div>
         </div>

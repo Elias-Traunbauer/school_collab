@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Poll from '../../models/Poll';
 import { getPolls } from '../../services/Poll.service';
+import PollCardLoading from '../../components/PollCard_loading';
 export default function PollList(){
-
     const router = useRouter();
     
     const [polls, setPolls] = useState<Poll[]>();
@@ -84,13 +84,6 @@ export default function PollList(){
         }
     }
 
-    if(!displayPolls)
-        return (
-            <div className={styles.loadingContainer}>
-                <div className='loader'></div>
-            </div>
-        );
-    else
     return(
         <div className={styles.container}>
             <div>
@@ -113,9 +106,14 @@ export default function PollList(){
                         Umfrage Erstellen
                 </button>
             </div>
-            {displayPolls&&displayPolls.map((poll) => {
+            {displayPolls?
+            displayPolls.map((poll) => {
                 return <PollCard key={poll.id} poll={poll}></PollCard>
             })
+            :
+                Array(5).fill(0).map((_, i) => {
+                    return <PollCardLoading key={i}></PollCardLoading>
+                })
             }
 
         </div>

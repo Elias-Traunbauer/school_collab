@@ -220,7 +220,9 @@
         }   
         width: 80%;
         &>h3{
-            margin-top: .3em;
+            font-size: larger;
+            margin-top: .2em;
+            margin-bottom: .8em;
         }
         &>p{
             display: block;
@@ -229,6 +231,11 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             width: 100%;
+        }
+        &>label{
+            font-size: small;
+            opacity: .5 !important;
+            margin-bottom: 0;
         }
     }
     
@@ -297,4 +304,38 @@
     height: 100%;
     gap: 1em;
     height: 40vh;
+}
+
+.loading_skeleton {
+    background: linear-gradient(to left, var(--background_4) 0%, var(--background_2) 50%, var(--background_4) 100%);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    background-size: 200% 100%;
+    animation: loadingSkeleton 1.5s infinite linear;
+  }
+  
+  @keyframes loadingSkeleton {
+    0% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
+.loadingPostImage{
+    width: 3em !important;
+    height: 3em;
+    border-radius: 10em;
+    margin-right: 1rem;
+}
+
+.loadingTitle{
+    width: 30%;
+    height: 1.18em;
+}
+
+.loadingDescription{
+    height: 1.21em;
 }
