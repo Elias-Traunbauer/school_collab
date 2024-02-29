@@ -1,10 +1,11 @@
 ﻿using Core.Entities.Database;
+using Trauni.EntityFramework.LargeBlobs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Persistence;
 
-public partial class ApplicationDbContext : DbContext
+public partial class ApplicationDbContext : EFLargeBlobApplicationDbContext
 {
     private readonly ApiConfig? _config;
 
@@ -17,19 +18,38 @@ public partial class ApplicationDbContext : DbContext
         {
             return;
         }
+        Console.WriteLine("Using default configuration");
+        // display path
+        Console.WriteLine(Environment.CurrentDirectory);
         var builder = new ConfigurationBuilder()
                         .SetBasePath(Environment.CurrentDirectory).AddJsonFile
                         ("appsettings.json", optional: false, reloadOnChange: false);
+        System.Console.WriteLine("building config");
+        try {
         var cfg = builder.Build();
+        System.Console.WriteLine(cfg.GetDebugView());
         ApiConfig config = new();
         cfg.Bind("ApiConfig", config);
+        Console.WriteLine($"Database Connection String: {config.DatabaseConnectionString}");
         _config = config;
+
+        }
+        catch (Exception ex) {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
+            throw;
+        }
+
     }
 
     public ApplicationDbContext(ApiConfig config) : base()
     {
         _config = config;
     }
+
+    public virtual DbSet<SummaryVote> Votes { get; set; }
+
+    public virtual DbSet<PollVote> PollVotes { get; set; }
 
     public virtual DbSet<Assignment> Assignments { get; set; }
 
@@ -67,6 +87,10 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<AssignmentFile> AssignmentFiles { get; set; }
 
+    public virtual DbSet<Summary> Summaries { get; set; }
+
+    public virtual DbSet<SummaryFile> SummaryFiles { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (_config?.DatabaseConnectionString == null)
@@ -79,10 +103,6 @@ public partial class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Assignment>()
-            .HasMany(e => e.Files);
-        modelBuilder.Entity<Assignment>()
-            .HasMany(e => e.Instructions);
         base.OnModelCreating(modelBuilder);
     }
 }

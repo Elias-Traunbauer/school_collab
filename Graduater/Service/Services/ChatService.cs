@@ -25,6 +25,11 @@ namespace Service.Services
 
         public async Task<IServiceResult<List<object>>> AddMessageMetadata(List<ChatMessage> messages, int userId)
         {
+            if (messages.Count() <= 0)
+            {
+                return new ServiceResult<List<object>>(new List<object>());
+            }
+
             int lastMessageId = await unitOfWork.ChatRepository.GetLastReadMessageId(messages.First().ChatId, userId);
 
             var result = messages.Select(x => new

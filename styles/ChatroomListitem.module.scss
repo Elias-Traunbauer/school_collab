@@ -100,7 +100,7 @@
                 opacity: .5;
                 margin: 0;
                 font-size: smaller;
-                padding: .2em 0;
+                padding: .2em;
 
                 @media screen and (max-width: 800px) {
                     display: none;
@@ -108,6 +108,8 @@
             }
 
             & > .unreadMessages{
+                width: 1.3em;
+                height: 1.3em;
                 margin: 0;
                 font-size: smaller;
                 padding: .2em .3em;
@@ -133,4 +135,15 @@
 .defaultProfile{
     background-color: var(--color_main);
   padding: 0.3em;
+}
+
+.profilePic{
+    width: 2.8em;
+    height: 2.8em;
+    margin: .5em;
+    border-radius: .5em;
+    background-color: var(--color_main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

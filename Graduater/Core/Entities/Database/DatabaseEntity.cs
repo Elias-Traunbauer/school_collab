@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities.Database
 {
@@ -10,6 +11,7 @@ namespace Core.Entities.Database
         [ConcurrencyCheck]
         public Guid Version { get; set; }
 
+        [ScaffoldColumn(false)]
         public virtual ICollection<Report>? Reports { get; set; }
     }
 }

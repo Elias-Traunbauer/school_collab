@@ -23,5 +23,6 @@ namespace Core.Contracts.Entities
         string Username { get; set; }
         ICollection<UserSession>? Sessions { get; set; }
         bool RequestedTwoFactorAuthentication { get; set; }
+        string Unique2FAKey { get; set; }
     }
 }

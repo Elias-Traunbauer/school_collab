@@ -216,6 +216,7 @@ namespace ConsoleFillDatabase
             {
                 await userService.VerifyEmailAsync(await uow.GetVerificationTokenAsync(user.Id));
             }
+
         }
     }
 }

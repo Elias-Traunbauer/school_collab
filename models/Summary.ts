@@ -1,13 +1,17 @@
 import FileObject from "./File";
 import Subject from "./Subject";
+import SummaryFileBackend from "./SummaryFileBackend";
 import User from "./User";
 
 export default interface Summary {
-    id: number;
     title: string;
-    descritpion: string;
-    files?: FileObject[];
-    publishdate: Date;
+    description: string;
+    content: string;
+    subjectId: number;
     subject: Subject;
-    author: User;
+    files: number[];
+    id: number;
+    version: string;
+    reports: User[];
+    votes: number;
 }

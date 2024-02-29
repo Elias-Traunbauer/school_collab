@@ -30,5 +30,13 @@ namespace Api.Controllers
                 Text = "Hello " + id
             });
         }
+
+        [HttpPost("bogos")]
+        [RateLimitAttribute(maxRequestsPerMinute: 6, rateLimitMode: RateLimitMode.SlidingTimeWindow)]
+        [NoAuthenticationRequired]
+        public async Task<IActionResult> BogosBinted([FromQuery] string binted)
+        {
+            return Ok("Photos printed");
+        }
     }
 }

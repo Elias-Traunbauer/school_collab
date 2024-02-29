@@ -9,6 +9,7 @@ import WizardResult from '../models/WizardResult';
 import { useRouter } from 'next/router';
 import WizardListComponent from './WizardListComponent';
 import WizardSelect from './WizardSelect';
+import SelectItem from '../models/SelectItem';
 
 export default function Wizard({ returnPath = '/', callback, contentData = [[new WizardField('checkBox', 'checkBox', { value: true, text: 'asdasdasdasd' }, true), new WizardField('select', 'select', [{ value: 1, displayText: '1' }, { value: 1, displayText: '2' }, { value: 1, displayText: '3' }], true)], [new WizardField('date', 'date', new Date(), true)]], title = "Wizard", containerWidth = 50 }: { returnPath?: string, callback: Function, contentData?: WizardField[][], title: string, containerWidth?: number }) {
     let inputList: HTMLInputElement[] = [];
@@ -243,10 +244,8 @@ export default function Wizard({ returnPath = '/', callback, contentData = [[new
                                         <p><span>{item.required && '* '}</span>{item.value.text}</p>
                                     </div>
                                 :
-                                item.type == 'groupSelect' ?
-                                <WizardSelect selectType='group' required={item.required} onChange={checkFormFilled} formIndex={formIndex}></WizardSelect>
-                                : item.type == 'select' ?
-                                        <WizardSelect field={item} onChange={checkFormFilled} formIndex={formIndex}></WizardSelect>
+                                item.type == 'select' ?
+                                <WizardSelect formIndex={formIndex} items={item.value} required={item.required} onChangeFunc={checkFormFilled}></WizardSelect>
                                         : <input onInput={() => {
                                             checkFormFilled(formIndex)
                                         }} type={item.type} name={item.name} defaultValue={item.value} required={item.required} />

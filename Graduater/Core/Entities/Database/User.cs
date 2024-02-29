@@ -55,6 +55,8 @@ public class User : DatabaseEntity, IUser
     public bool RequestedTwoFactorAuthentication { get; set; }
 
     public virtual ICollection<UserSession>? Sessions { get; set; }
+
+    public string Unique2FAKey { get; set; }
 }
 
 [Flags]

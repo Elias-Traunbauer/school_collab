@@ -16,6 +16,7 @@ export default function PollList(){
     useEffect(() => {
         async function fetchData() {
             getPolls().then((res) => {
+                res = sortPolls(res);
                 console.log("POLLS" + res);
                 setPolls(res);
                 setDisplayPolls(res);
@@ -23,7 +24,32 @@ export default function PollList(){
             
         }
         fetchData();
-    },[]);
+    },[router]);
+
+    function sortPolls(polls: Poll[]): Poll[]{
+        //sort by due date and then by title
+        polls.sort((a, b) => {
+            if (a.due > b.due) {
+                return -1;
+            }
+            else if (a.due < b.due) {
+                return 1;
+            }
+            else {
+                if (a.title > b.title) {
+                    return -1;
+                }
+                else if (a.title < b.title) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            }
+        });
+
+        return polls;
+    }
 
     function addNewPoll(){
         router.push('/polls/create');
@@ -81,7 +107,7 @@ export default function PollList(){
                         Umfrage Erstellen
                 </button>
             </div>
-            {displayPolls.map((poll) => {
+            {displayPolls&&displayPolls.map((poll) => {
                 return <PollCard key={poll.id} poll={poll}></PollCard>
             })
             }

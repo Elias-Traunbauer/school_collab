@@ -204,7 +204,6 @@
     border-radius: .5em;
     padding: .7em  .7em  .2em .7em;
     background-color: var(--background_1);
-    min-height: 10em;
 }
 
 .post:hover{
@@ -215,28 +214,24 @@
 .postHeader{
     display: flex;
     align-items: flex-start;
-
-    &> div >div:first-child{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: .5em;
-
+    &>div{
+        @media screen and (max-width: 530px){
+            width: 60%;
+        }   
+        width: 80%;
+        &>h3{
+            margin-top: .3em;
+        }
         &>p{
+            display: block;
+            overflow: hidden;
             margin: 0;
-            font-size: 1.1em;
-
-            &:hover{
-                text-decoration: underline;
-                cursor: pointer;
-            }
-        };
-
-        &>span{
-            font-size: .8em;
-            opacity: .7;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
         }
     }
+    
 }
 .postHeader img{
     width: 3em;

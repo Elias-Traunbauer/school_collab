@@ -23,6 +23,10 @@ namespace Service.Test.Mocks
 
         public IChatRepository ChatRepository => throw new NotImplementedException();
 
+        public ISummaryRepository SummaryRepository => throw new NotImplementedException();
+
+        public IGenericRepository<int> GenericRepository => throw new NotImplementedException();
+
         public UnitOfWorkForTests()
         {
             _appDbContext = new ApplicationDbContextForTesting();

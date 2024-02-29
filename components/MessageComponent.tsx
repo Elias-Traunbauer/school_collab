@@ -33,6 +33,7 @@ export default function MessageComponent({
   }, []);
 
   function DisplayDate() {
+    message.created = new Date(message.created);
     const hour = message.created.getHours().toString().padStart(2, "0");
     const minute = message.created.getMinutes().toString().padStart(2, "0");
     return `${hour}:${minute}`;

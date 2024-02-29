@@ -55,6 +55,12 @@ export default function Datepicker({ id, inputChanged, title = 'date', dateParam
         inputChanged(tmpDate);
         setDate(tmpDate);
         calc(tmpDate);
+        
+    }
+
+    function closeDatepicker(){
+        const popupBtn = document.getElementById('pickerPopup') as HTMLButtonElement;
+        popupBtn.click();
     }
 
     function PrintDateTime(tmpDate) {
@@ -230,7 +236,7 @@ export default function Datepicker({ id, inputChanged, title = 'date', dateParam
 
         if (datepickerContainer.classList.contains(styles.hidden)) {
             datepickerContainer.classList.remove(styles.hidden);
-            datepickerContainer.scrollIntoView({ behavior: 'smooth' });
+            //datepickerContainer.scrollIntoView({ behavior: 'smooth' });
         }
         else {
             datepickerContainer.classList.add(styles.hidden);
