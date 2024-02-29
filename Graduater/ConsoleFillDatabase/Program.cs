@@ -2,6 +2,7 @@
 using Core.Contracts.Models;
 using Core.Contracts.Services;
 using Core.Entities.Database;
+using Mysqlx.Crud;
 using Persistence;
 using Service.Services;
 
@@ -47,48 +48,57 @@ namespace ConsoleFillDatabase
             {
                 new AssignmentPostPayload
                 {
-                    Title = "Assignment 1",
-                    Description = "This is the first assignment",
-                    Content = "Assignment content goes here",
+                    Title = "Hausübung Statistik",
+                    Description = "Beschreibende Statistik: bei der Wasserversorgung, Klettern und Erneuerbare Energien geht es um arithmetishces Mittel, Ausreißer, Kreisdiagramm und Säulendiagramm\r\n\r\n",
+                    Content = "Bitte hier Ihre Lösung hochladen",
                     Due = DateTime.Now.AddDays(7),
                     GroupId = 1,
                     SubjectId = 1
                 },
                 new AssignmentPostPayload
                 {
-                    Title = "Assignment 2",
-                    Description = "This is the second assignment",
-                    Content = "Assignment content goes here",
+                    Title = "Hausübung Komplexe Zahlen",
+                    Description = "Sieh dir selbstständig das Thema komplexe Zahlen aus der zweite Klasse an! Ab Buch Seite 184 - 209",
+                    Content = "Bitte hier Ihre Lösung hochladen",
                     Due = DateTime.Now.AddDays(14),
-                    GroupId = 2,
+                    GroupId = 1,
                     SubjectId = 1
                 },
                 new AssignmentPostPayload
                 {
-                    Title = "Assignment 3",
-                    Description = "This is the third assignment",
-                    Content = "Assignment content goes here",
+                    Title = "Hausübung Lasttest",
+                    Description = "Führen Sie einen Lasttest einer Webapplikation durch.",
+                    Content = "Bitte hier Ihre Lösung hochladen",
                     Due = DateTime.Now.AddDays(10),
                     GroupId = 1,
                     SubjectId = 2
                 },
                 new AssignmentPostPayload
                 {
-                    Title = "Assignment 4",
-                    Description = "This is the fourth assignment",
-                    Content = "Assignment content goes here",
+                    Title = "Hausübung JmsWebsocket",
+                    Description = "Erstellen Sie eine Anwendung, die Aktienkurse mittels einer Queue an eine Webapplikation sendet. Die Webapplikation soll einen Websocket Endpoint bereitstellen, über den ein Webbrowser die Kurse in Echtzeit anzeigt.",
+                    Content = "Bitte hier Ihre Lösung hochladen",
                     Due = DateTime.Now.AddDays(5),
-                    GroupId = 2,
+                    GroupId = 1,
                     SubjectId = 2
                 },
                 new AssignmentPostPayload
                 {
-                    Title = "Assignment 5",
-                    Description = "This is the fifth assignment",
-                    Content = "Assignment content goes here",
+                    Title = "Hausübung 1",
+                    Description = "Bericht über die Metadaten, Kurzbeschreibung der Daten, ausformulierte Fragestellung",
+                    Content = "Bitte hier Ihre Lösung hochladen",
                     Due = DateTime.Now.AddDays(3),
                     GroupId = 1,
-                    SubjectId = 1
+                    SubjectId = 3
+                },
+                new AssignmentPostPayload
+                {
+                    Title = "Hausübung 2",
+                    Description = "Data Ware House Modell(PDF)",
+                    Content = "Bitte hier Ihre Lösung hochladen",
+                    Due = DateTime.Now.AddDays(3),
+                    GroupId = 1,
+                    SubjectId = 3
                 }
             };
 
@@ -105,25 +115,65 @@ namespace ConsoleFillDatabase
             {
                 new Group
                 {
-                    Name = "Group 1",
-                    Description = "This is the first group",
+                    Name = "5BHIF",
+                    Description = "Die Klasse der 5BHIF",
                     CreatorUserId = 1,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
                 },
                 new Group
                 {
-                    Name = "Group 2",
-                    Description = "This is the second group",
+                    Name = "5AHIF",
+                    Description = "Die Klasse der 5AHIF",
                     CreatorUserId = 2,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
                 },
                 new Group
                 {
-                    Name = "Group 3",
-                    Description = "This is the third group",
+                    Name = "5CHIF",
+                    Description = "Die Klasse der 5CHIF",
                     CreatorUserId = 3,
+                    CreatorUser = null, // Set the creator user as needed
+                    GroupUsers = null // Set the group users as needed
+                },
+                new Group
+                {
+                    Name = "5AHITM",
+                    Description = "Die Klasse der 5AHITM",
+                    CreatorUserId = 4,
+                    CreatorUser = null, // Set the creator user as needed
+                    GroupUsers = null // Set the group users as needed
+                },
+                new Group
+                {
+                    Name = "5BHITM",
+                    Description = "Die Klasse der 5BHITM",
+                    CreatorUserId = 5,
+                    CreatorUser = null, // Set the creator user as needed
+                    GroupUsers = null // Set the group users as needed
+                },
+                new Group
+                {
+                    Name = "5CHITM",
+                    Description = "Die Klasse der 5CHITM",
+                    CreatorUserId = 5,
+                    CreatorUser = null, // Set the creator user as needed
+                    GroupUsers = null // Set the group users as needed
+                },
+                new Group
+                {
+                    Name = "4AHIF",
+                    Description = "Die Klasse der 4AHIF",
+                    CreatorUserId = 5,
+                    CreatorUser = null, // Set the creator user as needed
+                    GroupUsers = null // Set the group users as needed
+                },
+                new Group
+                {
+                    Name = "4BHIF",
+                    Description = "Die Klasse der 4BHIF",
+                    CreatorUserId = 5,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
                 }
@@ -139,18 +189,53 @@ namespace ConsoleFillDatabase
             Subject subject1 = new Subject
             {
                     Id = 1,
-                    Name = "Subject 1",
-                    ShortName = "Sub1"
+                    Name = "Angewandte Mathematik",
+                    ShortName = "AM"
             };
 
             Subject subject2 = new Subject
             {
                 Id = 2,
-                Name = "Subject 2",
-                ShortName = "Sub2",
+                Name = "Netzwerksysteme und Verteilte Systeme",
+                ShortName = "NVSV",
             };
 
-            List<Subject> subjects = new List<Subject> { subject1, subject2 };
+            Subject subject3 = new Subject
+            {
+                Id = 3,
+                Name = "Datenbanken und Informationssysteme",
+                ShortName = "DBI",
+            };
+
+            Subject subject4 = new Subject
+            {
+                Id = 4,
+                Name = "Betriebswirtschaft und Management",
+                ShortName = "BWM",
+            };
+
+            Subject subject5 = new Subject
+            {
+                Id = 5,
+                Name = "Systemplanung und Projektentwicklung",
+                ShortName = "Syp",
+            };
+
+            Subject subject6 = new Subject
+            {
+                Id = 6,
+                Name = "Programmieren und Software Enineering",
+                ShortName = "POSE",
+            };
+
+            Subject subject7 = new Subject
+            {
+                Id = 7,
+                Name = "Deutsch",
+                ShortName = "D",
+            };
+
+            List<Subject> subjects = new List<Subject> { subject1, subject2, subject3, subject4, subject5, subject6, subject7 };
 
             uow._context.Subjects.AddRange(subjects);
         }
@@ -161,46 +246,46 @@ namespace ConsoleFillDatabase
                 {
                     new UserRegisterPayload
                     {
-                        Username = "user1",
+                        Username = "lfuchsjaeger",
+                        Firstname = "Luca",
+                        Lastname = "Fuchsjäger",
+                        Email = "l.fuchsjaeger@icloud.com",
+                        Password = "Geheimnis123",
+                        RepeatedPassword = "Geheimnis123"
+                    },
+                    new UserRegisterPayload
+                    {
+                        Username = "erausch",
+                        Firstname = "Elias",
+                        Lastname = "Rausch",
+                        Email = "e.rausch@icloud.com",
+                        Password = "Geheimnis123",
+                        RepeatedPassword = "Geheimnis123"
+                    },
+                    new UserRegisterPayload
+                    {
+                        Username = "etraunbauer",
+                        Firstname = "Elias",
+                        Lastname = "Traunbauer",
+                        Email = "e.traunbauer@gmail.com",
+                        Password = "Geheimnis123",
+                        RepeatedPassword = "Geheimnis123"
+                    },
+                    new UserRegisterPayload
+                    {
+                        Username = "mmustermann",
+                        Firstname = "Max",
+                        Lastname = "Mustermann",
+                        Email = "m.mustermann@gmail.com",
+                        Password = "Geheimnis123",
+                        RepeatedPassword = "Geheimnis123"
+                    },
+                    new UserRegisterPayload
+                    {
+                        Username = "jdoe",
                         Firstname = "John",
                         Lastname = "Doe",
-                        Email = "user1@example.com",
-                        Password = "Geheimnis123",
-                        RepeatedPassword = "Geheimnis123"
-                    },
-                    new UserRegisterPayload
-                    {
-                        Username = "user2",
-                        Firstname = "Jane",
-                        Lastname = "Smith",
-                        Email = "user2@example.com",
-                        Password = "Geheimnis123",
-                        RepeatedPassword = "Geheimnis123"
-                    },
-                    new UserRegisterPayload
-                    {
-                        Username = "user3",
-                        Firstname = "David",
-                        Lastname = "Johnson",
-                        Email = "user3@example.com",
-                        Password = "Geheimnis123",
-                        RepeatedPassword = "Geheimnis123"
-                    },
-                    new UserRegisterPayload
-                    {
-                        Username = "user4",
-                        Firstname = "Sarah",
-                        Lastname = "Davis",
-                        Email = "user4@example.com",
-                        Password = "Geheimnis123",
-                        RepeatedPassword = "Geheimnis123"
-                    },
-                    new UserRegisterPayload
-                    {
-                        Username = "user5",
-                        Firstname = "Emily",
-                        Lastname = "Wilson",
-                        Email = "user5@example.com",
+                        Email = "j.doe@gmx.com",
                         Password = "Geheimnis123",
                         RepeatedPassword = "Geheimnis123"
                     }
