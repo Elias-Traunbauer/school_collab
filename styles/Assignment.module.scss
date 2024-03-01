@@ -21,6 +21,11 @@
   cursor: pointer;
 }
 
+.assignmentcard_loading:hover{
+  cursor: wait !important;
+  filter: brightness(1) !important;
+}
+
 .editcontainer{
   width: 100%;
   display: flex;
@@ -355,9 +360,31 @@
   display: flex;
 }
 
+.loadingInput {
+  cursor: pointer;
+  margin: 1em 0;
+  border-radius: .5em;
+  height: 10em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding-top: 4em;
+  padding-bottom: 5em;
+  &> label {
+    color: rgb(255, 255, 255);
+    opacity: 0.5;
+  }
+}
+
 .fileinput > label {
   color: rgb(255, 255, 255);
   opacity: 0.5;
+}
+
+.headSpacer {
+  width: 100%;
+  height: 2.8em;
+  padding: 0.5em 0.5em 0.5em 0;
 }
 
 .uploadfieldcontainer {
@@ -1206,4 +1233,65 @@
 
 .disabledBtn{
   filter: brightness(0.5) !important;
+}
+
+.loadingContainer{
+  width: 100%;
+  height: 33vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.fullLoadingContainer{
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.loadingSubject{
+  width: 100px;
+  height: 1.209em;
+}
+
+.loadingTitle{
+  width: 50%;
+  height: 1.209em;
+}
+
+.loadingDescription{
+  width: 100%;
+  height: 1.209em;
+  margin: 1.209em 0;
+}
+
+.loadingCounter{
+  width: 200px;
+  height: 1.209em;
+  margin-left: auto;
+  margin-right: 1em;
+}
+
+.loading_skeleton {
+  background: linear-gradient(to left, var(--background_4) 0%, var(--background_2) 50%, var(--background_4) 100%);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  background-size: 200% 100%;
+  animation: loadingSkeleton 1.5s infinite linear;
+}
+
+@keyframes loadingSkeleton {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
 }

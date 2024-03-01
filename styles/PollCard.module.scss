@@ -93,3 +93,39 @@
         scale: 1 !important;
     }
 }
+
+.loading_skeleton {
+    background: linear-gradient(to left, var(--background_4) 0%, var(--background_2) 50%, var(--background_4) 100%);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    background-size: 200% 100%;
+    animation: loadingSkeleton 1.5s infinite linear;
+  }
+  
+  @keyframes loadingSkeleton {
+    0% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
+.loadingParagraph{
+    height: 1.23em;
+    width: 20%;
+}
+
+.loadingDescription{
+    width: 100%;
+}
+
+.loadingTitle{
+    width: 50%;
+    height: 1.195em;
+}
+
+.loadingCountdown{
+    width: 30%;
+}

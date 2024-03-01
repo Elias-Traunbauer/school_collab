@@ -10,12 +10,13 @@ import { get } from 'http';
 import Group from '../../../models/Group';
 import Subject from '../../../models/Subject';
 import { getSubjectById } from '../../../services/Subject.service';
+import AssignmentCardLoading from '../../../components/AssigmentCard_Loading';
 
 export default function Assignments() {
     const context = useContext(UserContext);
 
     const [assignmentData, setAssignmentData] = useState<Assignment[]>([]);
-    const [displayAssignments, setDisplayAssignments] = useState<Assignment[]>([]);
+    const [displayAssignments, setDisplayAssignments] = useState<Assignment[]>();
     const router = useRouter();
     const [searched, setSearched] = useState(false);
     const [searchValue, setSearchValue] = useState('');
@@ -119,8 +120,13 @@ export default function Assignments() {
             </div>
             <div className={styles.assignmentCardsContainer}>
             {
+                displayAssignments?
                 displayAssignments.map((element, i) => {
                     return <AssignmentCard key={element.id} assignment={element}></AssignmentCard>
+                })
+                :
+                Array(3).fill(0).map((_, i) => {
+                    return <AssignmentCardLoading key={i}></AssignmentCardLoading>
                 })
             }
             </div>

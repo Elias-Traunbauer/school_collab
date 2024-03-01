@@ -5,6 +5,7 @@ import AssignmentDTO from "../models/AssignmentDTO";
 import AssignmentPutDTO from "../models/AssignmentPUTDTO";
 import AssignmentPostDTO from "../models/AssignmentPostDTO";
 import FileBackend from "../models/FileBackend";
+import Subject from "../models/Subject";
 
 const url = '/api/Assignment';
 
@@ -209,4 +210,95 @@ export async function getAssignmentBySubjectId(subjectId:number): Promise<Assign
     
     throw error;
   }
+}
+
+export async function getAssignmentsPreview(){
+  const subject :Subject = {
+    name: "Sub1",
+    shortName: "SUB",
+    id: 0,
+    version: ""
+  }
+  const a1: Assignment = {
+    title: "Assignment 1",
+    description: "description",
+    content: "content",
+    created: new Date(),
+    modified: new Date(),
+    due: new Date(),
+    group: undefined,
+    subject: subject,
+    user: undefined,
+    userId: 1,
+    groupId: 1,
+    subjectId: 0,
+    id: 0,
+    version: ""
+  }
+  const a2: Assignment = {
+    title: "Assignment 2",
+    description: "description",
+    content: "content",
+    created: new Date(),
+    modified: new Date(),
+    due: new Date(),
+    group: undefined,
+    subject: subject,
+    user: undefined,
+    userId: 1,
+    groupId: 1,
+    subjectId: 0,
+    id: 0,
+    version: ""
+  }
+  const a3: Assignment = {
+    title: "Assignment 3",
+    description: "description",
+    content: "content",
+    created: new Date(),
+    modified: new Date(),
+    due: new Date(),
+    group: undefined,
+    subject: subject,
+    user: undefined,
+    userId: 1,
+    groupId: 1,
+    subjectId: 0,
+    id: 0,
+    version: ""
+  }
+  const a4: Assignment = {
+    title: "Assignment 4",
+    description: "description",
+    content: "content",
+    created: new Date(),
+    modified: new Date(),
+    due: new Date(),
+    group: undefined,
+    subject: subject,
+    user: undefined,
+    userId: 1,
+    groupId: 1,
+    subjectId: 0,
+    id: 0,
+    version: ""
+  }
+  const a5: Assignment = {
+    title: "Assignment 5",
+    description: "description",
+    content: "content",
+    created: new Date(),
+    modified: new Date(),
+    due: new Date(),
+    group: undefined,
+    subject: subject,
+    user: undefined,
+    userId: 1,
+    groupId: 1,
+    subjectId: 0,
+    id: 0,
+    version: ""
+  }
+
+  return [a1,a2,a3,a4,a5];
 }

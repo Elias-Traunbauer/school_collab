@@ -30,6 +30,7 @@ export default function SummaryDetail(){
     const [description, setDescription] = useState('');
     const [filesToDelete, setFilesToDelete] = useState<number[]>([]);
     const [filesAdded, setFilesAdded] = useState<number[]>([]);
+    const [fileLoading, setFileLoading] = useState(false);
 
     const context = useContext(UserContext);
 
@@ -76,7 +77,9 @@ export default function SummaryDetail(){
     async function handleFilesUpdated(updatedfiles: any[]) {
 
         try{
+            setFileLoading(true);
             const res = await postFiles(updatedfiles);
+            
             setFilesAdded([...filesAdded, ...res]);
             const tmpFiles:FileDisplayObject[] = [];
 
@@ -91,6 +94,7 @@ export default function SummaryDetail(){
             }
             
             setFiles([...files, ...tmpFiles]);
+            setFileLoading(false);
         }catch(err){
             console.log("POSTERROR",err);
         }
@@ -132,7 +136,9 @@ export default function SummaryDetail(){
         });
         summary.files = fileIds;
         summary.subjectId = parseInt(subjectId as string);
-
+        
+        const saveBtn = document.getElementById('btnSave') as HTMLButtonElement;
+        saveBtn.disabled = true;
         updateSummary(summary).then((res) => {
             /**
              *             setEditMode(false);
@@ -140,9 +146,11 @@ export default function SummaryDetail(){
             setSummary({...summary});
              */
             loadSummary();
+            saveBtn.disabled = false;
             setEditMode(false);
         }).catch((err) => {
             setEditMode(false);
+            saveBtn.disabled = false;
         });
 
         setFilesAdded([]);
@@ -179,92 +187,102 @@ export default function SummaryDetail(){
         executeVote(tmp);
     }
 
+    if(summary && subject)
 
-    return(
-        <div className={styles.container}>
-            <div className={styles.header}>
-                <input id='detail_edit' type='checkbox' onClick={()=>setEditMode(!editMode)} className={styles.edit}></input>
+        return(
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <input id='detail_edit' type='checkbox' onClick={()=>setEditMode(!editMode)} className={styles.edit}></input>
+                        <div>
+                            {
+                                editMode ?
+                                <input id='SumTitle' className={styles.title} defaultValue={summary&&summary.title}></input>
+                                :
+                                <h1>{summary&&summary.title}</h1>
+                            }
+                            
+                            <div>
+                                <VotingComponent initialScore={summary&&summary.votes} vote={handleVote} withScore={true} itemkey={summary&&summary.id}></VotingComponent>
+                            </div> 
+                        </div>
+                </div>
+                <div className={styles.MarkdownEditor}>
+                    <MarkdownEditor containerWidth={editMode?50:80} defaultText={description} isEditable={editMode}></MarkdownEditor>
+                </div>
+
+                {
+                    editMode &&
+                    <div className={styles.fileUpload}>
+                        <FileUpload loading={fileLoading} title={"Upload File"} handleAcceptedFiles={handleAcceptedFiles} handleFilesUpdated={handleFilesUpdated} ></FileUpload>
+                    </div>
+                }
+
+                <div className={styles.files}>
+                    <div>
+                        <div>
+                            <p>Files</p>
+                            {
+                                files&&files.length > 0 &&
+                                <button>
+                                    <Image width={20} height={20} src={'/download.svg'} alt={'download'} ></Image>
+                                    All
+                                </button>
+                            }
+                            
+                        </div>
+                    </div>
+                    
+                    <div>
+                    {
+                        files&&files.length > 0 ?
+                        files&&files.map((file, index) => {
+                            return(
+                                <FileListObject key={"FileItem_"+file.id} file={file} asCard={false}  downloadabel={!editMode} downloadFunction={(fileId)=>downloadFile(fileId)} deleteFunction={(fileId)=>deleteFileItem(fileId)}></FileListObject>
+                            );
+                        })
+                        :
+                        <div>
+                            <h2>No files</h2>
+                            {
+                                editMode &&
+                                <p>Drag and Drop to Upload Files</p>
+                            }
+                        </div>
+                    }
+                    </div>
+                    <div>
+                        <p>last updated <span>{printDate(fileUpdateDate)}</span></p>
+                    </div>
+                </div>
+                
+                <div className={styles.buttonArray}>
+                    
                     <div>
                         {
                             editMode ?
-                            <input id='SumTitle' className={styles.title} defaultValue={summary&&summary.title}></input>
-                            :
-                            <h1>{summary&&summary.title}</h1>
+                            <>
+                                <button onClick={handleCancel} className='btn btn-cancel'>Cancel</button>
+                                <button disabled={fileLoading} id='btnSave' onClick={handleSave} className='btn btn-primary'>Save</button>
+                            </>
+                            
+                        :
+                            <button onClick={handleExit} className='btn btn-primary'>Exit</button>
+                        
                         }
                         
-                        <div>
-                            <VotingComponent initialScore={summary&&summary.votes} vote={handleVote} withScore={true} itemkey={summary&&summary.id}></VotingComponent>
-                        </div> 
                     </div>
-            </div>
-            <div className={styles.MarkdownEditor}>
-                <MarkdownEditor containerWidth={editMode?50:80} defaultText={description} isEditable={editMode}></MarkdownEditor>
-            </div>
 
-            {
-                editMode &&
-                <div className={styles.fileUpload}>
-                    <FileUpload title={"Upload File"} handleAcceptedFiles={handleAcceptedFiles} handleFilesUpdated={handleFilesUpdated} ></FileUpload>
                 </div>
-            }
-
-            <div className={styles.files}>
-                <div>
-                    <div>
-                        <p>Files</p>
-                        {
-                            files&&files.length > 0 &&
-                            <button>
-                                <Image width={20} height={20} src={'/download.svg'} alt={'download'} ></Image>
-                                All
-                            </button>
-                        }
-                        
-                    </div>
-                </div>
-                
-                <div>
-                {
-                    files&&files.length > 0 ?
-                    files&&files.map((file, index) => {
-                        return(
-                            <FileListObject key={"FileItem_"+file.id} file={file} asCard={false}  downloadabel={!editMode} downloadFunction={(fileId)=>downloadFile(fileId)} deleteFunction={(fileId)=>deleteFileItem(fileId)}></FileListObject>
-                        );
-                    })
-                    :
-                    <div>
-                        <h2>No files</h2>
-                        {
-                            editMode &&
-                            <p>Drag and Drop to Upload Files</p>
-                        }
-                    </div>
-                }
-                </div>
-                <div>
-                    <p>last updated <span>{printDate(fileUpdateDate)}</span></p>
-                </div>
-            </div>
-            
-            <div className={styles.buttonArray}>
-                
-                <div>
-                    {
-                        editMode ?
-                        <>
-                            <button onClick={handleCancel} className='btn btn-cancel'>Cancel</button>
-                            <button onClick={handleSave} className='btn btn-primary'>Save</button>
-                        </>
-                        
-                    :
-                        <button onClick={handleExit} className='btn btn-primary'>Exit</button>
                     
-                    }
-                    
-                </div>
-
             </div>
-                
-        </div>
-    );
+        );
+
+    else
+
+        return(
+            <div className={styles.loadingContainer}>
+                <div className="loader">
+                </div>
+            </div>
+        );
 }

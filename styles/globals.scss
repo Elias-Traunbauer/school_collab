@@ -2,7 +2,7 @@
   --color_main: #5f2dbd;
   --color_main_dark: #5829af;
   --background: #151313;
-  --background_1_dark: #17191a;
+  --background_1_dark: #161717;
   --background_1: #1e1e1f;
   --background_2: #2a2b30;
   --background_3: #282a2e;
@@ -289,4 +289,23 @@ $animation-duration: .8s;
   justify-content: center;
   align-items: center;
   margin-bottom: 4em;
+}
+
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  border: 6px solid rgba(255, 255, 255, 0.1) !important;
+  border-top: 6px solid #fff !important;
+  border-radius: 50% !important;
+  width: 60px !important;
+  height: 60px !important;
+  animation: spin 1s linear infinite !important;
 }
