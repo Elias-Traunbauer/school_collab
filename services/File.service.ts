@@ -5,8 +5,13 @@ const url = '/api/File';
 export async function postFiles(files : File[]):Promise<number[]> {
     const res: number[] = [];
     for (const item of files) {
+      try {
         const tmpres = await postSingleFile(item);
         res.push(tmpres);
+      }
+      catch (error) {
+        throw error;
+      }
     }
     console.log("POSTRES",res);
     return res;
@@ -26,6 +31,7 @@ export async function postSingleFile(file:File): Promise<number>{
           body: formData
         });
         const data = await response.json();
+        console.log("DATA",data);
         return data.id;
       } catch (error) {
         
