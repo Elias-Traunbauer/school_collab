@@ -1,10 +1,11 @@
 .container {
   background-color: transparent;
   display: flex;
-  height: 2.5em;
+  align-items: center;
   z-index: 999;
 
-  & > a{
+  & > a:not(:first-child){
+    height: 2.5em;
     display: flex;
     justify-content: center;
     border-radius: .25em;
@@ -13,8 +14,21 @@
     align-items: center;
   }
 
-  & > a:hover{
+  & > a:not(:first-child):hover{
     background-color: var(--color_main);
+  }
+
+  & > a:first-child{
+    border-radius: 50%;
+    margin: .5em;
+    padding: .5em;
+    background-color: var(--color_main_dark);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-weight: 550;
+    font-size: 1.2em;
   }
 }
 

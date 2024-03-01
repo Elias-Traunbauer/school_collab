@@ -406,7 +406,7 @@ export default function AssignmentEdit() {
             >
               {
                 !edditMode ?
-                  "Spechern"
+                  "Speichern"
                   :
                   "Änderungen Speichern"
               }

@@ -19,6 +19,8 @@ namespace Persistence
         private GroupRepository? _groupRepository;
         private FileRepository? _fileRepository;
         private AssignmentRepository? _assignmentRepository;
+        private SummaryRepository? _summaryRepository;
+        private GenericRepository<int> _genericRepository;
 
         public UnitOfWorkFillDB()
         {
@@ -65,9 +67,23 @@ namespace Persistence
 
         public IChatRepository ChatRepository => throw new NotImplementedException();
 
-        public ISummaryRepository SummaryRepository => throw new NotImplementedException();
+        public ISummaryRepository SummaryRepository
+        {
+            get
+            {
+                _summaryRepository ??= new SummaryRepository(_context);
+                return _summaryRepository;
+            }
+        }
 
-        public IGenericRepository<int> GenericRepository => throw new NotImplementedException();
+        public IGenericRepository<int> GenericRepository
+        {
+            get
+            {
+                _genericRepository ??= new GenericRepository<int>(_context);
+                return _genericRepository;
+            }
+        }
 
         public async Task<bool> SaveChangesAsync()
         {
