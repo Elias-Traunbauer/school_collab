@@ -25,12 +25,14 @@ namespace ConsoleFillDatabase
                 UserService userService = new UserService(uow, jsonWebTokenService, passwordService, randomKeyService);
                 GroupService groupService = new GroupService(uow, config);
                 AssignmentService assignmentService = new AssignmentService(uow);
+                SummaryService summaryService = new SummaryService(uow);
 
                 InitSubjects(uow);
                 await uow.SaveChangesAsync();
                 await InitUsers(uow, userService);
                 await InitGroups(groupService);
                 await InitAssignments(assignmentService);
+                await InitSummaries(summaryService);
 
 
 
@@ -40,6 +42,49 @@ namespace ConsoleFillDatabase
             }
             Console.WriteLine("<Taste drücken>");
             Console.ReadKey();
+        }
+
+        private static async Task InitSummaries(SummaryService summaryService)
+        {
+            var summaries = new List<CreateSummaryRequest>
+            {
+                new CreateSummaryRequest
+                {
+                    Title = "Differentialgleichung",
+                    Description = "Zusammenfassung der Aufgabe 4 mit Erklärungen zur Differentialgleichung",
+                    Content = "Laden Sie hier die Zusammenfassung hoch!",
+                    SubjectId = 1
+                },
+
+                new CreateSummaryRequest
+                {
+                    Title = "Vektoren",
+                    Description = "Zusammenfassung der Aufgabe 2 mit Erklärungen zu Vektoren",
+                    Content = "Laden Sie hier die Zusammenfassung hoch!",
+                    SubjectId = 1
+                },
+
+                new CreateSummaryRequest
+                {
+                    Title = "JmsWebsocket",
+                    Description = "Zusammenfassung der Aufgabe 'JmsWebsocket' mit Erklärungen",
+                    Content = "Laden Sie hier die Zusammenfassung hoch!",
+                    SubjectId = 2
+                },
+
+                new CreateSummaryRequest
+                {
+                    Title = "Quarkus",
+                    Description = "Zusammenfassung der letzten Hausübung mit einer Anleitung zum Erstellen einer Quarkus Applikation",
+                    Content = "Laden Sie hier die Zusammenfassung hoch!",
+                    SubjectId = 2
+                },
+            };
+
+            foreach (var item in summaries)
+            {
+                await summaryService.CreateAsync(item);
+            }
         }
 
         private static async Task InitAssignments(AssignmentService assignmentService)
