@@ -3,8 +3,10 @@ import FileInfo from "../models/FileInfo";
 
 const url = '/api/File';
 export async function postFiles(files : File[]):Promise<number[]> {
+  console.log("FILESBACKEND",files);
     const res: number[] = [];
     for (const item of files) {
+      console.log("FILESBACKEND",item);
       try {
         const tmpres = await postSingleFile(item);
         res.push(tmpres);
@@ -22,6 +24,7 @@ export async function postSingleFile(file:File): Promise<number>{
 
   const formData = new FormData();
   formData.append('file', file);
+  console.log("FORMDATA",formData);
     try {
         const response = await fetch(url, {
           method: 'POST',

@@ -95,6 +95,7 @@ export default function AssignmentEdit() {
 
 
   async function handleUploadFilesUpdate(list: any[]) {
+    console.log("FILESADDED", list);
     try {
       setFileLoading(true);
       const tmpFiles: number[] = await postFiles(list);
@@ -121,12 +122,15 @@ export default function AssignmentEdit() {
   }
 
   async function handleInstructionFilesUpdate(list: File[]) {
+    
     try {
       setFileLoading(true);
       const tmpFiles: number[] = await postFiles(list);
       setFileLoading(false);
       const tmpFileObjects: FileDisplayObject[] = [];
       setFilesAdded([...filesAdded, ...tmpFiles]);
+      console.log("TMPFILES", tmpFiles);
+      
       for (const iterator of tmpFiles) {
         try {
           const tmpFileInfo = await getFileInfosById(iterator);
