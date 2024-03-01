@@ -255,4 +255,60 @@ namespace Core.Contracts.EZCRUD
             return Ok();
         }
     }
+
+    /// <summary>
+    /// EZCRUD is a system that enables the creation of CRUD endpoints with minimal code.
+    /// All you need to do is to create a controller that inherits from EZCRUDEnpoint.
+    /// In order to do that, you need to create a service that inherits from IEZCRUDService.
+    /// It is important to set the Properties DeleteIdSelector and ReadIdSelector to a function that selects the Id from the Delete and Read Payloads.
+    /// This overload allows you to specify the Delete and Read Payloads.
+    /// </summary>
+    /// <typeparam name="C">Object Creation Payload</typeparam>
+    /// <typeparam name="R">Object Read Payload</typeparam>
+    /// <typeparam name="D">Object Delete Payload</typeparam>
+    /// <typeparam name="Object">The Object to CRUD</typeparam>
+    /// <typeparam name="Id">The Type of Primary Key of the Object</typeparam>
+    /// <typeparam name="Service">Your EZCRUDService</typeparam>
+    [ApiController]
+    [Produces("application/json")]
+    [Consumes("application/json")]
+    public class EZCREnpoint<C, Object, Id, Service> : Controller where Id : IComparable where Service : IEZCRUDService<C, Object, Id>
+    {
+        [HttpGet("{id}")]
+        public virtual async Task<IActionResult> Get([FromRoute] Id id, [FromServices] Service service)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var result = await service.ReadAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> Create([FromBody] C model, [FromServices] Service service)
+        {
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var result = await service.CreateAsync(model);
+            if (result == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(new
+            {
+                Id = result
+            });
+        }
+    }
 }

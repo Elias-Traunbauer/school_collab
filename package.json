@@ -13,7 +13,9 @@
     "api-only-deploy": "xcopy /s api out\\api /Y"
   },
   "dependencies": {
+    "@files-ui/react": "^1.2.4",
     "axios": "^1.4.0",
+    "chainsaw-frontend": "^1.0.14",
     "chart.js": "^4.3.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
