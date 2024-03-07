@@ -294,7 +294,7 @@ export default function AssignmentEdit() {
                 assignment && assignment.due > new Date() ?
                   <Countdown date={dueDate}></Countdown>
                   :
-                  <p>Abgelaufen</p>
+                  <p>past due</p>
             }
           </div>
         </div>
@@ -396,9 +396,9 @@ export default function AssignmentEdit() {
             >
               {
                 !edditMode ?
-                  "Speichern"
+                  "Save"
                   :
-                  "Änderungen Speichern"
+                  "Save changes"
               }
             </button>
             <button
@@ -408,9 +408,9 @@ export default function AssignmentEdit() {
             >
               {
                 !edditMode ?
-                  "Abbrechen"
+                  "Cancel"
                   :
-                  "Änderungen Verwerfen"
+                  "Discard changes"
               }
             </button>
           </div>

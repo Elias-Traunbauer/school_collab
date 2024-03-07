@@ -25,14 +25,14 @@ export default function PollCard({key,poll}: {key:any,poll: Poll}){
             return '';
         }
 
-        const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember']
+        const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
 
         if(!poll.due){
-            return 'Kein Enddatum'
+            return 'No end date'
         }
 
         if(new Date(poll.due) < new Date()){
-            return 'abgelaufen';
+            return 'past due';
         }
 
         const date = new Date(poll.due);
@@ -43,15 +43,15 @@ export default function PollCard({key,poll}: {key:any,poll: Poll}){
         const minutes = ('0'+date.getMinutes()).slice(-2);
 
         if(year !== new Date().getFullYear()){
-            return `endet im ${months[month-1]} ${year}`;
+            return `ends in ${months[month-1]} ${year}`;
         }
 
         const today = new Date();
         if(today.getDate() == day && today.getMonth()+1 == month && today.getFullYear() == year){
-            return `endet um ${hours}:${minutes}`;
+            return `ends at ${hours}:${minutes}`;
         }
 
-        return `endet am ${day}.${month} um ${hours}:${minutes}`;
+        return `ends on ${day}.${month} at ${hours}:${minutes}`;
     }
 
     function openDetail(){
@@ -61,7 +61,7 @@ export default function PollCard({key,poll}: {key:any,poll: Poll}){
     return(
         <div onClick={openDetail} style={{ '--cardColor': backgroundcolor } as CSSProperties} className={`${styles.container} ${new Date(poll&&poll.due&&poll.due) < new Date()&&styles.disabled}`}>
             <div>
-                <p>erstellt von <span>{creatorUser&&creatorUser.username}</span></p>
+                <p>created by <span>{creatorUser&&creatorUser.username}</span></p>
             </div>
             
             <div>

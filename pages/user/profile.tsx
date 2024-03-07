@@ -13,6 +13,8 @@ export default function Profile() {
         lastName: "",
         email: "",
     });
+
+    const fields = ["Username", "Firstname", "Lastname", "E-mail"];
     
     const router = useRouter();
     const [links, setLinks] = useState([["github", "www.github.com"], ["google", "www.google.com"], ["yahoo", "www.yahoo.com"], ["microsoft", "www.microsoft.com"]]);
@@ -84,23 +86,23 @@ export default function Profile() {
                 {addLink && (
                     <div className={styles.wizard}>
                         <form onSubmit={handleSubmit}>
-                            <h1>Account hinzufügen</h1>
+                            <h1>Add account</h1>
 
                             <div className={styles.inputfield}>
-                                <label>Plattform*</label>
+                                <label>Website*</label>
                                 <p>z.B. GitHub</p>
-                                <input required type="text" placeholder="Plattform" />
+                                <input required type="text" placeholder="Website" />
                             </div>
 
                             <div className={styles.inputfield}>
-                                <label>Link zu Ihrem Account*</label>
-                                <p>z.B. www.github.com/username</p>
-                                <input required type="text" placeholder="Link zu Ihrem Account" />  
+                                <label>Link to your account*</label>
+                                <p>e.g. www.github.com/username</p>
+                                <input required type="text" placeholder="Link to your account" />  
                             </div>
 
                             <div className={styles.buttonContainer}>
-                                <button onClick={() => setAddLink(false)}>Abbrechen</button>
-                                <input type="submit" value={"Speichern"} ></input>
+                                <button onClick={() => setAddLink(false)}>Cancel</button>
+                                <input type="submit" value={"Save"} ></input>
                             </div>
                         </form>
                     </div>
@@ -113,7 +115,7 @@ export default function Profile() {
                             
                             return (
                                 <div key={index}>
-                                    <label>{Object.keys(user)[index]}</label>
+                                    <label>{fields[index]}</label>
                                     <p>{value}</p>
                                 </div>
                             )
@@ -123,8 +125,8 @@ export default function Profile() {
 
                     <div>
                         <div>
-                            <label>2 Faktor Authentifizierung</label>
-                            {twoFactorAuth ? <button className="btn-secondary">deaktivieren</button> : <button className="btn-primary" onClick={() => router.push("./newAuthentication")}>aktivieren</button>}
+                            <label>2 factor authentication</label>
+                            {twoFactorAuth ? <button className="btn-secondary">deactivate</button> : <button className="btn-primary" onClick={() => router.push("./newAuthentication")}>activate</button>}
                         </div>
                     </div>
                 </div>

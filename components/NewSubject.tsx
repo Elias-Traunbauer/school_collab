@@ -27,7 +27,7 @@ export default function NewSubject({returnPath}: {returnPath: string}) {
 
     return (
         <div className={styles.new}>
-            <Wizard returnPath={returnPath} containerWidth={50} contentData={[[new WizardField('Name','text','',true),new WizardField('Abkürzung','text','',false)]]} callback={finisheWizard} title={"New Subject"}></Wizard>
+            <Wizard returnPath={returnPath} containerWidth={50} contentData={[[new WizardField('Name','text','',true),new WizardField('Abbreviation','text','',false)]]} callback={finisheWizard} title={"New Subject"}></Wizard>
         </div>
     )
 }

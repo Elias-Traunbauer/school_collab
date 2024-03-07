@@ -16,12 +16,12 @@ export default function PollCreate() {
   const router = useRouter();
   const mockData = [
     [
-      new WizardField("Titel", "text", "", true),
-      new WizardField("Beschreibung", "text", "", false),
-      new WizardField("Ende", "date", new Date(), false),
+      new WizardField("Title", "text", "", true),
+      new WizardField("Description", "text", "", false),
+      new WizardField("End", "date", new Date(), false),
     ],
     [
-      new WizardField("Options", "list", {min:2,max:8,value:["Ja","Nein"]}, true),
+      new WizardField("Options", "list", {min:2,max:8,value:["Yes","No"]}, true),
     ],
   ];
 
@@ -76,7 +76,7 @@ export default function PollCreate() {
       <Wizard
       returnPath="/polls"
         callback={handleCallback}
-        title={"Umfrage Erstellen"}
+        title={"Create poll"}
         contentData={mockData}
       ></Wizard>
       <div className={styles.bottom}></div>

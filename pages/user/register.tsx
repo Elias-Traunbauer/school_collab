@@ -67,10 +67,10 @@ export default function Register() {
   return (
     <div className={`${styles.container} ${styles.register}`}>
       <form onSubmit={handleSubmit}>
-        <h1>Neuer Account</h1>
+        <h1>New account</h1>
 
         <div className={styles.inputfield}>
-          <label>UserName</label>
+          <label>Username</label>
           <input required type="text" placeholder="Username" />
           {error.Username &&
             error.Username.length > 0 &&
@@ -86,7 +86,7 @@ export default function Register() {
         <div className={styles.inputContainer}>
 
         <div className={styles.inputfield}>
-          <label>Vorname</label>
+          <label>Firstname</label>
           <input required type="text" placeholder="Robert" />
           {error.Firstname &&
             error.Firstname.length > 0 &&
@@ -100,7 +100,7 @@ export default function Register() {
         </div>
 
         <div className={styles.inputfield}>
-          <label>Nachname</label>
+          <label>Lastname</label>
           <input required type="text" placeholder="Stöttinger" />
           {error.Lastname &&
             error.Lastname.length > 0 &&
@@ -116,7 +116,7 @@ export default function Register() {
 
 
         <div className={styles.inputfield}>
-          <label>Email</label>
+          <label>E-mail</label>
           <input required type="email" placeholder="Email" />
           {error.Email &&
             error.Email.length > 0 &&
@@ -130,7 +130,7 @@ export default function Register() {
         </div>
 
         <div className={styles.inputfield}>
-          <label>Passwort</label>
+          <label>Password</label>
           <input required type="password" placeholder="Geheimnis123" />
           {error.Password &&
             error.Password.length > 0 &&
@@ -144,7 +144,7 @@ export default function Register() {
         </div>
 
         <div className={styles.inputfield}>
-          <label>Passwort wiederholen</label>
+          <label>Repeat password</label>
           <input required type="password" placeholder="Geheimnis123" />
           {error.RepeatedPassword &&
             error.RepeatedPassword.length > 0 &&
@@ -161,17 +161,17 @@ export default function Register() {
           <input type="checkbox" />
           <div>
             <label>
-              Ich stimme den <Link href={"/AGB"}>AGBs</Link> zu
+              I agree with the <Link href={"/AGB"}>Terms of service</Link>
             </label>
 
             {!agbAgreed && (
-              <p className={styles.errorMessage}>Akzeptieren Sie die AGBs</p>
+              <p className={styles.errorMessage}>Agree with the Terms of service</p>
             )}
           </div>
         </div>
 
         <div className={styles.buttonContainer}>
-        <input id="submitInput" type="submit" value={"registrieren"}></input>
+        <input id="submitInput" type="submit" value={"register"}></input>
           <div id="btnLoader" className="loadingObject hidden">
             <div className="btnLoader"></div>
           </div>
@@ -179,7 +179,7 @@ export default function Register() {
 
         <div className={styles.linkContainer}>
           <p>
-            Bereits einen Account? &nbsp;
+            Already an account? &nbsp;
             <Link href="/user/login">Login</Link>
           </p>
 

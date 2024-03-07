@@ -10,7 +10,7 @@ export default function NewSummary() {
 
     const router = useRouter();
     const subject = router.query.subjectId;
-    const data = [[new WizardField('Titel', 'text', '', true), new WizardField('Beschreibung', 'text', '', false)]];
+    const data = [[new WizardField('Title', 'text', '', true), new WizardField('Description', 'text', '', false)]];
 
     function finishWizard(text, callbackLoadingText, finishLoading) {
         const dto:SummaryPostDTO={

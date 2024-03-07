@@ -50,18 +50,18 @@ export default function GroupDetails() {
                             <textarea defaultValue={group.description} className={!editMode ? styles.editInput : ""}></textarea>
 
                             <div>
-                                <h2>Users ({group.groupUsers.length})</h2>
+                                <h2>User ({group.groupUsers.length})</h2>
 
                                 {false &&
-                                <button className="btn-secondary" onClick={() => setIsAddUser(true)} disabled={!editMode}>+ Hinzufügen</button>
+                                <button className="btn-secondary" onClick={() => setIsAddUser(true)} disabled={!editMode}>+ Add</button>
                                 }
                             </div>
 
                             {false && 
                                 <dialog className={styles.addUser}>
                                     <div>
-                                        <h2>Users ({group.groupUsers.length})</h2>
-                                        <button className="btn-secondary" onClick={addUser}>+ Hinzufügen</button>
+                                        <h2>User ({group.groupUsers.length})</h2>
+                                        <button className="btn-secondary" onClick={addUser}>+ Add</button>
                                     </div>
                                 </dialog>  
                             }

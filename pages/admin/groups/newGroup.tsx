@@ -28,7 +28,7 @@ export default function CreateGroup() {
 
     return (
         <div className={styles.container}>
-            <h1>Neue Gruppe erstellen</h1>
+            <h1>Create new group</h1>
             <div>
                 <form onSubmit={handleSubmit}>
                     <div>
@@ -37,13 +37,13 @@ export default function CreateGroup() {
                     </div>
                     
                     <div>
-                        <label>Beschreibung*</label>
+                        <label>Description*</label>
                         <input id="description" required></input>
                     </div>
 
                     <div>
-                        <button className="btn-cancel" type="button" onClick={() => router.push("/admin/groups")}>Zurück</button>
-                        <button className="btn-primary" type="submit">Speichern</button>
+                        <button className="btn-cancel" type="button" onClick={() => router.push("/admin/groups")}>Back</button>
+                        <button className="btn-primary" type="submit">Save</button>
                     </div>
                 </form>
             </div>

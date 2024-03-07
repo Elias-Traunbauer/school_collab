@@ -174,7 +174,7 @@ export default function MarkdownEditor({handleFromOutside = false,setText,isEdit
               <div className={styles.head}>
                 <div onClick={InsertHeading} className={`${styles.img}`}>
                   <div className={styles.imgHeading}></div>
-                  <span>Titel</span>
+                  <span>Title</span>
                 </div>
                 <div onClick={InsertCode} className={`${styles.img}`}>
                   <div className={styles.imgCode}></div>
@@ -190,11 +190,11 @@ export default function MarkdownEditor({handleFromOutside = false,setText,isEdit
                 </div>
                 <div onClick={InsertBold} className={`${styles.img}`}>
                   <div className={styles.imgBold}></div>
-                  <span>Fett</span>
+                  <span>Bold</span>
                 </div>
                 <div onClick={InsertItalic} className={`${styles.img}`}>
                   <div className={styles.imgItalic}></div>
-                  <span>Kursiv</span>
+                  <span>Cursive</span>
                 </div>
                 <div onClick={InsertBulletpoint} className={`${styles.img}`}>
                   <div className={styles.imgBulletpoint}></div>
@@ -202,7 +202,7 @@ export default function MarkdownEditor({handleFromOutside = false,setText,isEdit
                 </div>
                 <div onClick={InsertNumberdList} className={`${styles.img}`}>
                   <div  className={styles.imgNumb}></div>
-                  <span>Nummer</span>
+                  <span>Number</span>
                 </div>
                 <div className={`${styles.img}`}>
                     <input onClick={()=>setDisplayState(!displayState)} type="CheckBox"></input>
@@ -219,8 +219,8 @@ export default function MarkdownEditor({handleFromOutside = false,setText,isEdit
                   </div>
                   : displayState &&
                   <div ref={contentRef} className={styles.placeholder}>
-                    <h2>Kein Text!</h2>
-                    <p>schreiben Sie etwas in die Textbox</p>
+                    <h2>No text!</h2>
+                    <p>Write anything in the textbox</p>
                   </div>
                   
                 }
@@ -237,7 +237,7 @@ export default function MarkdownEditor({handleFromOutside = false,setText,isEdit
                   </div>
                   : 
                   <div ref={contentRef} className={styles.placeholder}>
-                    <h2>Kein Text!</h2>
+                    <h2>No text!</h2>
                   </div>
                   
                 }
