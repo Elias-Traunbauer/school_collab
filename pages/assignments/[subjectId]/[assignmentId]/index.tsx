@@ -35,6 +35,8 @@ export default function AssignmentEdit() {
   const [filesToDelete, setFilesToDelete] = useState<number[]>([]);
   const [filesAdded, setFilesAdded] = useState<number[]>([]);
 
+  const [fileLoading, setFileLoading] = useState(false);
+
 
   useEffect(() => {
     async function fetchDataAsync() {
@@ -94,7 +96,10 @@ export default function AssignmentEdit() {
 
   async function handleUploadFilesUpdate(list: any[]) {
     try {
+      setFileLoading(true);
       const tmpFiles: number[] = await postFiles(list);
+      console.log("TMPFILES", tmpFiles);
+      
       const tmpFileObjects: FileDisplayObject[] = [];
       setFilesAdded([...filesAdded, ...tmpFiles]);
       for (const iterator of tmpFiles) {
@@ -108,6 +113,7 @@ export default function AssignmentEdit() {
       }
 
       setFiles([...files, ...tmpFileObjects]);
+      setFileLoading(false);
     }
     catch (err) {
       console.error(err);
@@ -116,7 +122,9 @@ export default function AssignmentEdit() {
 
   async function handleInstructionFilesUpdate(list: File[]) {
     try {
+      setFileLoading(true);
       const tmpFiles: number[] = await postFiles(list);
+      setFileLoading(false);
       const tmpFileObjects: FileDisplayObject[] = [];
       setFilesAdded([...filesAdded, ...tmpFiles]);
       for (const iterator of tmpFiles) {
@@ -266,6 +274,7 @@ export default function AssignmentEdit() {
     //TODO: change this
   }
 
+  if(assignment)
   return (
     <>
       <div className={styles.editcontainer}>
@@ -346,6 +355,7 @@ export default function AssignmentEdit() {
 
 
         <FileUpload
+          loading={fileLoading}
           edittmode={edditMode}
           handleAcceptedFiles={(acceptedFiles) =>
             handleAcceptedFiles(acceptedFiles)
@@ -418,4 +428,13 @@ export default function AssignmentEdit() {
       </div>
     </>
   );
+  else
+  return (
+  <div className={styles.fullLoadingContainer}>
+    <div className="loader">
+
+    </div>
+  </div>
+);
+  
 }

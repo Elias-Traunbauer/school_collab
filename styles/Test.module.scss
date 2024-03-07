@@ -95,3 +95,13 @@
     color: rgb(150, 150, 150);
     padding: 0 0 0.5em 0.5em;
 }
+
+.flex{
+    width: 100%;
+    scale: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 1vw;
+}

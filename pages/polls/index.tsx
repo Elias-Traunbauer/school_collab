@@ -5,12 +5,12 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Poll from '../../models/Poll';
 import { getPolls } from '../../services/Poll.service';
+import PollCardLoading from '../../components/PollCard_loading';
 export default function PollList(){
-
     const router = useRouter();
     
-    const [polls, setPolls] = useState<Poll[]>([]);
-    const [displayPolls, setDisplayPolls] = useState<Poll[]>([]);
+    const [polls, setPolls] = useState<Poll[]>();
+    const [displayPolls, setDisplayPolls] = useState<Poll[]>();
     const [searched, setSearched] = useState<boolean>(false);
 
     useEffect(() => {
@@ -84,7 +84,6 @@ export default function PollList(){
         }
     }
 
-
     return(
         <div className={styles.container}>
             <div>
@@ -107,9 +106,14 @@ export default function PollList(){
                         Create poll
                 </button>
             </div>
-            {displayPolls&&displayPolls.map((poll) => {
+            {displayPolls?
+            displayPolls.map((poll) => {
                 return <PollCard key={poll.id} poll={poll}></PollCard>
             })
+            :
+                Array(5).fill(0).map((_, i) => {
+                    return <PollCardLoading key={i}></PollCardLoading>
+                })
             }
 
         </div>
