@@ -1,5 +1,5 @@
 export default function AGB() {
     return (
-        <h1>AGB</h1>
+        <h1>Terms of service</h1>
     );
 }

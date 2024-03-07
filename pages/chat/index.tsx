@@ -244,9 +244,9 @@ export default function DisplayChat() {
             <dialog id='newChatDialog' className={styles.newChatDialog}>
                 <div>
                     <h2>Neuer Chat</h2>
-                    <input id='newChatName' type="text" placeholder="Chatname" />
-                    <textarea id='newChatDescription' placeholder="Beschreibung"></textarea>
-                    <input id='memberSearchInput' onChange={handleSearchMembers} className={styles.memberSearchbar} type="text" placeholder="Mitglieder Suchen" />
+                    <input id='newChatName' type="text" placeholder="Chat name" />
+                    <textarea id='newChatDescription' placeholder="Description"></textarea>
+                    <input id='memberSearchInput' onChange={handleSearchMembers} className={styles.memberSearchbar} type="text" placeholder="Search members" />
 
                         <div className={styles.memberlist}>
                             {
@@ -260,8 +260,8 @@ export default function DisplayChat() {
 
 
                     <div className={styles.newChatDialogButtonArray}>
-                        <button className='btn btn-cancel' onClick={handleCancelCreateNewChat}>Abbrechen</button>
-                        <button className='btn btn-primary' onClick={handleCreateNewChat}>Erstellen</button>
+                        <button className='btn btn-cancel' onClick={handleCancelCreateNewChat}>Cancel</button>
+                        <button className='btn btn-primary' onClick={handleCreateNewChat}>Create</button>
                     </div>
                 </div>
 

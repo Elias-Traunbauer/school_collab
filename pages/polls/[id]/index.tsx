@@ -349,10 +349,10 @@ export default function PollDetail() {
                             ""
                             :
                             poll&&poll.due < new Date() ?
-                                <p>Abstimmung beendet!</p>
+                                <p>Poll endet!</p>
                                 :
                                 <>
-                                    <p>Endet in &nbsp;</p>
+                                    <p>Ends in &nbsp;</p>
                                     <Countdown date={poll&&poll.due}></Countdown>
                                 </>
                             :
@@ -362,7 +362,7 @@ export default function PollDetail() {
                                 </div>
                                 <span>
                                     <input onChange={changeEndDateCheckbox} type='checkbox' id='checkbox' defaultChecked={isNoEndDate}></input>
-                                    <label htmlFor='checkbox'>ohne Ende</label>
+                                    <label htmlFor='checkbox'>no end</label>
                                 </span>
                             </div>
                     }

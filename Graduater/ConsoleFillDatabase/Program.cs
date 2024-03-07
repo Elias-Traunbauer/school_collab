@@ -14,7 +14,7 @@ namespace ConsoleFillDatabase
         {
             using (UnitOfWorkFillDB uow = new UnitOfWorkFillDB())
             {
-                Console.WriteLine("Daten werden importiert....");
+                Console.WriteLine("Importing data....");
                 await uow.Init();
 
 
@@ -40,7 +40,7 @@ namespace ConsoleFillDatabase
 
                 Console.WriteLine("Done!");
             }
-            Console.WriteLine("<Taste drücken>");
+            Console.WriteLine("<Press key>");
             Console.ReadKey();
         }
 
@@ -50,33 +50,33 @@ namespace ConsoleFillDatabase
             {
                 new CreateSummaryRequest
                 {
-                    Title = "Differentialgleichung",
-                    Description = "Zusammenfassung der Aufgabe 4 mit Erklärungen zur Differentialgleichung",
-                    Content = "Laden Sie hier die Zusammenfassung hoch!",
+                    Title = "Differential equation",
+                    Description = "Summary of task 4 with explanations of the differential equation",
+                    Content = "Upload the summary here!",
                     SubjectId = 1
                 },
 
                 new CreateSummaryRequest
                 {
-                    Title = "Vektoren",
-                    Description = "Zusammenfassung der Aufgabe 2 mit Erklärungen zu Vektoren",
-                    Content = "Laden Sie hier die Zusammenfassung hoch!",
+                    Title = "Vectors",
+                    Description = "Summary of task 2 with explanations of vectors",
+                    Content = "Upload the summary here!",
                     SubjectId = 1
                 },
 
                 new CreateSummaryRequest
                 {
                     Title = "JmsWebsocket",
-                    Description = "Zusammenfassung der Aufgabe 'JmsWebsocket' mit Erklärungen",
-                    Content = "Laden Sie hier die Zusammenfassung hoch!",
+                    Description = "Summary of the JmsWebsocket task with explanations",
+                    Content = "Upload the summary here!",
                     SubjectId = 2
                 },
 
                 new CreateSummaryRequest
                 {
                     Title = "Quarkus",
-                    Description = "Zusammenfassung der letzten Hausübung mit einer Anleitung zum Erstellen einer Quarkus Applikation",
-                    Content = "Laden Sie hier die Zusammenfassung hoch!",
+                    Description = "Summary of the last homework exercise with instructions for creating a Quarkus application",
+                    Content = "Upload the summary here!",
                     SubjectId = 2
                 },
             };
@@ -93,54 +93,54 @@ namespace ConsoleFillDatabase
             {
                 new AssignmentPostPayload
                 {
-                    Title = "Hausübung Statistik",
-                    Description = "Beschreibende Statistik: bei der Wasserversorgung, Klettern und Erneuerbare Energien geht es um arithmetishces Mittel, Ausreißer, Kreisdiagramm und Säulendiagramm\r\n\r\n",
-                    Content = "Bitte hier Ihre Lösung hochladen",
+                    Title = "Statistics home exercise",
+                    Description = "Descriptive statistics: water supply, climbing and renewable energy are about arithmetical means, outliers, pie chart and column chart",
+                    Content = "Please upload your solution here",
                     Due = DateTime.Now.AddDays(7),
                     GroupId = 1,
                     SubjectId = 1
                 },
                 new AssignmentPostPayload
                 {
-                    Title = "Hausübung Komplexe Zahlen",
-                    Description = "Sieh dir selbstständig das Thema komplexe Zahlen aus der zweite Klasse an! Ab Buch Seite 184 - 209",
-                    Content = "Bitte hier Ihre Lösung hochladen",
+                    Title = "Home exercise complex numbers",
+                    Description = "Check out the complex numbers topic from second grade on your own! From book pages 184 - 209",
+                    Content = "Please upload your solution here",
                     Due = DateTime.Now.AddDays(14),
                     GroupId = 1,
                     SubjectId = 1
                 },
                 new AssignmentPostPayload
                 {
-                    Title = "Hausübung Lasttest",
-                    Description = "Führen Sie einen Lasttest einer Webapplikation durch.",
-                    Content = "Bitte hier Ihre Lösung hochladen",
+                    Title = "Home exercise load test",
+                    Description = "Carry out a load test of a web application.",
+                    Content = "Please upload your solution here",
                     Due = DateTime.Now.AddDays(10),
                     GroupId = 1,
                     SubjectId = 2
                 },
                 new AssignmentPostPayload
                 {
-                    Title = "Hausübung JmsWebsocket",
-                    Description = "Erstellen Sie eine Anwendung, die Aktienkurse mittels einer Queue an eine Webapplikation sendet. Die Webapplikation soll einen Websocket Endpoint bereitstellen, über den ein Webbrowser die Kurse in Echtzeit anzeigt.",
-                    Content = "Bitte hier Ihre Lösung hochladen",
+                    Title = "Home exercise JmsWebsocket",
+                    Description = "Create an application that sends stock prices to a web application using a queue. The web application is intended to provide a web socket endpoint through which a web browser displays the prices in real time.",
+                    Content = "Please upload your solution here",
                     Due = DateTime.Now.AddDays(5),
                     GroupId = 1,
                     SubjectId = 2
                 },
                 new AssignmentPostPayload
                 {
-                    Title = "Hausübung 1",
-                    Description = "Bericht über die Metadaten, Kurzbeschreibung der Daten, ausformulierte Fragestellung",
-                    Content = "Bitte hier Ihre Lösung hochladen",
+                    Title = "Home exercise 1",
+                    Description = "Report on the metadata, short description of the data, formulated question",
+                    Content = "Please upload your solution here",
                     Due = DateTime.Now.AddDays(3),
                     GroupId = 1,
                     SubjectId = 3
                 },
                 new AssignmentPostPayload
                 {
-                    Title = "Hausübung 2",
-                    Description = "Data Ware House Modell(PDF)",
-                    Content = "Bitte hier Ihre Lösung hochladen",
+                    Title = "Home exercise 2",
+                    Description = "Data Warehouse House Model (PDF)",
+                    Content = "Please upload your solution here",
                     Due = DateTime.Now.AddDays(3),
                     GroupId = 1,
                     SubjectId = 3
@@ -161,7 +161,7 @@ namespace ConsoleFillDatabase
                 new Group
                 {
                     Name = "5BHIF",
-                    Description = "Die Klasse der 5BHIF",
+                    Description = "The class 5BHIF",
                     CreatorUserId = 1,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
@@ -169,7 +169,7 @@ namespace ConsoleFillDatabase
                 new Group
                 {
                     Name = "5AHIF",
-                    Description = "Die Klasse der 5AHIF",
+                    Description = "The class 5AHIF",
                     CreatorUserId = 2,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
@@ -177,7 +177,7 @@ namespace ConsoleFillDatabase
                 new Group
                 {
                     Name = "5CHIF",
-                    Description = "Die Klasse der 5CHIF",
+                    Description = "The class 5CHIF",
                     CreatorUserId = 3,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
@@ -185,7 +185,7 @@ namespace ConsoleFillDatabase
                 new Group
                 {
                     Name = "5AHITM",
-                    Description = "Die Klasse der 5AHITM",
+                    Description = "The class 5AHITM",
                     CreatorUserId = 4,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
@@ -193,7 +193,7 @@ namespace ConsoleFillDatabase
                 new Group
                 {
                     Name = "5BHITM",
-                    Description = "Die Klasse der 5BHITM",
+                    Description = "The class 5BHITM",
                     CreatorUserId = 5,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
@@ -201,7 +201,7 @@ namespace ConsoleFillDatabase
                 new Group
                 {
                     Name = "5CHITM",
-                    Description = "Die Klasse der 5CHITM",
+                    Description = "The class 5CHITM",
                     CreatorUserId = 5,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
@@ -209,7 +209,7 @@ namespace ConsoleFillDatabase
                 new Group
                 {
                     Name = "4AHIF",
-                    Description = "Die Klasse der 4AHIF",
+                    Description = "The class 4AHIF",
                     CreatorUserId = 5,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
@@ -217,7 +217,7 @@ namespace ConsoleFillDatabase
                 new Group
                 {
                     Name = "4BHIF",
-                    Description = "Die Klasse der 4BHIF",
+                    Description = "The class 4BHIF",
                     CreatorUserId = 5,
                     CreatorUser = null, // Set the creator user as needed
                     GroupUsers = null // Set the group users as needed
@@ -234,49 +234,49 @@ namespace ConsoleFillDatabase
             Subject subject1 = new Subject
             {
                     Id = 1,
-                    Name = "Angewandte Mathematik",
+                    Name = "Mathematics",
                     ShortName = "AM"
             };
 
             Subject subject2 = new Subject
             {
                 Id = 2,
-                Name = "Netzwerksysteme und Verteilte Systeme",
+                Name = "Network systems and distributed systems",
                 ShortName = "NVSV",
             };
 
             Subject subject3 = new Subject
             {
                 Id = 3,
-                Name = "Datenbanken und Informationssysteme",
+                Name = "Databases and information systems",
                 ShortName = "DBI",
             };
 
             Subject subject4 = new Subject
             {
                 Id = 4,
-                Name = "Betriebswirtschaft und Management",
+                Name = "Business and Management",
                 ShortName = "BWM",
             };
 
             Subject subject5 = new Subject
             {
                 Id = 5,
-                Name = "Systemplanung und Projektentwicklung",
+                Name = "System planning and project development",
                 ShortName = "Syp",
             };
 
             Subject subject6 = new Subject
             {
                 Id = 6,
-                Name = "Programmieren und Software Enineering",
+                Name = "Programming and software engineering",
                 ShortName = "POSE",
             };
 
             Subject subject7 = new Subject
             {
                 Id = 7,
-                Name = "Deutsch",
+                Name = "German",
                 ShortName = "D",
             };
 

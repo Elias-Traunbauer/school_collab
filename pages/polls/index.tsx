@@ -87,11 +87,11 @@ export default function PollList(){
     return(
         <div className={styles.container}>
             <div>
-                <h1>Umfragen</h1>
+                <h1>Polls</h1>
             </div>
             <div>
                 <div>
-                    <input onKeyDown={handleKeydown} id='searchInput' type="text" placeholder="Suche..."></input>
+                    <input onKeyDown={handleKeydown} id='searchInput' type="text" placeholder="Search..."></input>
                     <button onClick={handleSearch}>
                         <Image src="/search.svg" alt="search" width={20} height={20}></Image>
                     </button>
@@ -103,7 +103,7 @@ export default function PollList(){
                     }
                 </div>
                 <button onClick={addNewPoll}>
-                        Umfrage Erstellen
+                        Create poll
                 </button>
             </div>
             {displayPolls?

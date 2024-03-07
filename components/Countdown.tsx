@@ -13,7 +13,7 @@ export default function Countdown({ date }: { date: Date }) {
         const mnts = Math.floor(seconds / 60);
         seconds -= mnts * 60;
 
-        return days + " Tage " + hrs + " Stunden " + mnts + " Minuten " + Math.floor(seconds) + " Sekunden";
+        return days + " day " + hrs + " hours " + mnts + " minutes " + Math.floor(seconds) + " seconds";
 
     }
     var time = useRef(0);
@@ -23,7 +23,7 @@ export default function Countdown({ date }: { date: Date }) {
         time.current = Math.floor((date.getTime() - new Date().getTime()) / 1000);
     });
 
-    const [datetime, setDateTime] = useState("0 Tage 0 Stunden 0 Minuten 0 Sekunden");
+    const [datetime, setDateTime] = useState("0 days 0 hours 0 minutes 0 seconds");
 
     useEffect(() => {
         if (Math.floor(time.current) > 0) {

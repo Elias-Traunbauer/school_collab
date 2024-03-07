@@ -38,11 +38,11 @@ export default function ReportComponent({ report,callback }: { report: Report,ca
       {expanded && (
         <div className={styles.componentBody}>
           <div>
-            <span>Erstellt:</span>
+            <span>Created:</span>
             <p>10.10.2023</p>
           </div>
           <div>
-            <span>Grund:</span>
+            <span>Reason:</span>
             <p>Schlechtes Benehmen</p>
           </div>
           <div className={styles.attachments}>
@@ -53,7 +53,7 @@ export default function ReportComponent({ report,callback }: { report: Report,ca
             </div>
           </div>
           <div className={styles.btnContainer}>
-            <button onClick={deleteReport} className="btn btn-primary">gelesen</button>
+            <button onClick={deleteReport} className="btn btn-primary">read</button>
           </div>
         </div>
       )}

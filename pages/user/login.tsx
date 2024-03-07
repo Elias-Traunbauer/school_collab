@@ -49,7 +49,7 @@ export default function Login() {
 
             btn.disabled = false;
             loader.classList.add("hidden");
-            btn.value = "anmelden";
+            btn.value = "login";
             
 
           });
@@ -83,11 +83,11 @@ export default function Login() {
         </div>
 
         <div className={styles.linkContainer}>
-            <Link href="/user/login">Passwort Vergessen?</Link>
+            <Link href="/user/login">Forgot your password?</Link>
         </div>
 
         <div className={styles.buttonContainer}>
-          <input id="submitInput" type="submit" value={"anmelden"}></input>
+          <input id="submitInput" type="submit" value={"login"}></input>
           <div id="btnLoader" className="loadingObject hidden">
             <div className="btnLoader"></div>
           </div>
@@ -95,8 +95,8 @@ export default function Login() {
 
         <div className={styles.linkContainer}>
           <p>
-            Keinen Account? &nbsp;
-            <Link href="/user/register">Registrieren</Link>
+            No account? &nbsp;
+            <Link href="/user/register">register</Link>
           </p>
         </div>
       </form>

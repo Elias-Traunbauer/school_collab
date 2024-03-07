@@ -115,7 +115,7 @@ export default function Users() {
           <div>
             <div>
               <h2>
-                Alle Benutzer <span>&#40;{userCount}&#41;</span>
+                All Users <span>&#40;{userCount}&#41;</span>
               </h2>
               <div>
                 <input
@@ -138,7 +138,7 @@ export default function Users() {
                 <tr>
                   <th></th>
                   <th>Name</th>
-                  <th>Rechte</th>
+                  <th>Rights</th>
                   <th></th>
                 </tr>
               </thead>
